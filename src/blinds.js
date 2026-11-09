@@ -8,7 +8,7 @@
  * Licentie: MIT
  */
 
-const GBC_VERSION = '1.1.0';
+const GBC_VERSION = '1.1.1';
 
 const GBC_PALETTE = ['#FFB899', '#B9A8FF', '#8FE3B8', '#8EC5FF', '#FFE08A', '#FF9FBF'];
 
@@ -376,13 +376,14 @@ const GBC_STYLE = `
   }
   .win.dragging .bubble { display: block; }
 
-  .info { display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 0; }
+  .info { display: flex; justify-content: space-between; align-items: flex-end; gap: 6px; min-width: 0; }
+  .meta { display: flex; flex-direction: column; min-width: 0; text-align: left; }
   .pct {
-    font-size: 26px; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums;
+    flex-shrink: 0; font-size: 24px; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums;
     color: var(--c); text-shadow: 0 0 calc(var(--gbc-glow, 22px) * 0.8) rgba(var(--rgb), 0.6);
   }
   .name { font-size: 13px; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
-  .status { font-size: 12px; font-weight: 600; opacity: 0.7; }
+  .status { font-size: 12px; font-weight: 600; opacity: 0.7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
   .stop {
     height: 46px; border-radius: 16px; font: inherit; font-size: 15px; font-weight: 800;
@@ -544,9 +545,11 @@ class GlowBlindsCard extends HTMLElement {
           <div class="bubble"></div>
         </div>
         <div class="info">
+          <div class="meta">
+            <span class="name"></span>
+            <span class="status"></span>
+          </div>
           <span class="pct">–</span>
-          <span class="name"></span>
-          <span class="status"></span>
         </div>
         <button class="stop" type="button" data-i="${i}">${ICON_STOP}<span>${t('stop')}</span></button>
       </div>`).join('');
