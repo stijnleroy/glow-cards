@@ -9,6 +9,7 @@ A family of glowing Home Assistant dashboard cards, installed together through H
 | **Glow Blinds Card** – roller blinds as vertical windows: drag, stop, live position and a sky that follows the weather. | ![](images/blinds.png) | [English](docs/blinds.md) · [Nederlands](docs/blinds.nl.md) |
 | **Glow Energy Card** – solar, battery and grid with advice you can see from across the room. | ![](images/energy.png) | [English](docs/energy.md) · [Nederlands](docs/energy.nl.md) |
 | **Glow Room Card** – a room tile that glows in the colour of its lights: tap toggles, double tap opens a popup with every light (on/off, brightness, warm/neutral/cool, colours). | ![](images/room.png) | [English](docs/room.md) · [Nederlands](docs/room.nl.md) |
+| **Glow Scene Card** – a scene button that glows while the scene is still active (the lights are still as the scene set them). | ![](images/scene.png) | [English](docs/scene.md) · [Nederlands](docs/scene.nl.md) |
 
 All cards share the same look, support six languages (English, Dutch, French, German, Spanish, Italian) and have a visual editor.
 
