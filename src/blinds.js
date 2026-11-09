@@ -277,16 +277,16 @@ const GBC_STYLE = `
     overflow: hidden;
     border-radius: var(--gbc-radius, 28px);
     padding: 18px;
-    color: #F3F1FA;
-    background: #15121F;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--glow-text, #F3F1FA);
+    background: var(--glow-card-background, #15121F);
+    border: 1px solid var(--glow-card-border, rgba(255, 255, 255, 0.08));
     box-sizing: border-box;
   }
   ha-card.theme-bg { background: var(--ha-card-background, var(--card-background-color)); color: var(--primary-text-color); }
   ha-card.theme-bg .blob { display: none; }
   .blob { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; }
-  .blob.a { left: -90px; top: -90px; width: 260px; height: 260px; background: #B9A8FF; opacity: 0.28; }
-  .blob.b { right: -100px; bottom: -110px; width: 280px; height: 280px; background: #FFB899; opacity: 0.22; }
+  .blob.a { left: -90px; top: -90px; width: 260px; height: 260px; background: #B9A8FF; opacity: calc(0.28 * var(--glow-blob, 1)); }
+  .blob.b { right: -100px; bottom: -110px; width: 280px; height: 280px; background: #FFB899; opacity: calc(0.22 * var(--glow-blob, 1)); }
   .wrap { position: relative; display: flex; flex-direction: column; gap: 16px; }
 
   .head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
@@ -296,7 +296,7 @@ const GBC_STYLE = `
   .head .btns { display: flex; gap: 8px; flex-shrink: 0; }
   .round {
     width: 44px; height: 44px; border-radius: 22px; padding: 0;
-    border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--glow-border, rgba(255, 255, 255, 0.12)); background: var(--glow-surface, rgba(255, 255, 255, 0.07));
     color: inherit; display: flex; align-items: center; justify-content: center; cursor: pointer;
   }
   .round:active { transform: scale(0.95); }
@@ -307,7 +307,7 @@ const GBC_STYLE = `
 
   .win {
     position: relative; padding: 0; overflow: hidden;
-    border-radius: 16px; border: 5px solid #2A2740; background: #0F1A33;
+    border-radius: 16px; border: 5px solid var(--glow-frame, #2A2740); background: #0F1A33;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
     touch-action: none; cursor: ns-resize; user-select: none; -webkit-user-select: none;
     outline: none; box-sizing: border-box;
@@ -333,7 +333,7 @@ const GBC_STYLE = `
   @keyframes gbc-drift { from { transform: translateX(-8px); } to { transform: translateX(8px); } }
   @keyframes gbc-flash { 0%, 90%, 100% { opacity: 0; } 92% { opacity: 1; } 93% { opacity: 0.2; } 95% { opacity: 0.9; } }
 
-  .bar { position: absolute; left: 0; right: 0; top: 50%; height: 4px; background: #2A2740; pointer-events: none; }
+  .bar { position: absolute; left: 0; right: 0; top: 50%; height: 4px; background: var(--glow-frame, #2A2740); pointer-events: none; }
   .fabric, .ghost {
     position: absolute; left: 0; right: 0; top: 0; pointer-events: none;
   }
@@ -366,7 +366,7 @@ const GBC_STYLE = `
   }
   .win.has-target .ghost, .win.has-target .gline { display: block; }
   .win.dragging .fabric, .win.dragging .rail { transition: none; }
-  .cassette { position: absolute; left: 0; right: 0; top: 0; height: 14px; background: #3A3654; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35); pointer-events: none; }
+  .cassette { position: absolute; left: 0; right: 0; top: 0; height: 14px; background: var(--glow-cassette, #3A3654); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35); pointer-events: none; }
   .bubble {
     position: absolute; left: 50%; transform: translateX(-50%);
     top: calc(14px + (100% - 14px) * var(--gclosed) - 40px);
@@ -380,7 +380,7 @@ const GBC_STYLE = `
   .meta { display: flex; flex-direction: column; min-width: 0; text-align: left; }
   .pct {
     flex-shrink: 0; font-size: 24px; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums;
-    color: var(--c); text-shadow: 0 0 calc(var(--gbc-glow, 22px) * 0.8) rgba(var(--rgb), 0.6);
+    color: color-mix(in srgb, var(--c), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); text-shadow: 0 0 calc(var(--gbc-glow, 22px) * 0.8) rgba(var(--rgb), 0.6);
   }
   .name { font-size: 13px; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
   .status { font-size: 12px; font-weight: 600; opacity: 0.7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

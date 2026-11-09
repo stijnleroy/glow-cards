@@ -11,6 +11,10 @@ Een familie van gloeiende dashboardkaarten voor Home Assistant, samen te install
 
 Alle kaarten delen dezelfde stijl, spreken zes talen (Nederlands, Engels, Frans, Duits, Spaans, Italiaans) en hebben een visuele editor.
 
+## Glow-thema
+
+De kaarten volgen de lichte en donkere versie van het bijpassende [Glow-thema](https://github.com/stijnleroy/glow-theme). Zonder dat thema houden ze hun eigen donkere stijl.
+
 ## Installeren via HACS
 
 1. Open **HACS** → drie puntjes rechtsboven → **Custom repositories**.

@@ -11,6 +11,10 @@ A family of glowing Home Assistant dashboard cards, installed together through H
 
 All cards share the same look, support six languages (English, Dutch, French, German, Spanish, Italian) and have a visual editor.
 
+## Glow Theme
+
+The cards follow the light and dark mode of the matching [Glow Theme](https://github.com/stijnleroy/glow-theme). Without that theme they keep their own dark look.
+
 ## Installation via HACS
 
 1. Open **HACS** → three dots top right → **Custom repositories**.

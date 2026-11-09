@@ -209,12 +209,12 @@ const GEC_STYLE = `
   :host { display: block; }
   ha-card {
     display: block; position: relative; overflow: hidden; box-sizing: border-box;
-    border-radius: 28px; padding: 16px; color: #F3F1FA; background: #15121F;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px; padding: 16px; color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
+    border: 1px solid var(--glow-card-border, rgba(255, 255, 255, 0.08));
   }
   .blob { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
-  .blob.a { left: -110px; top: -130px; width: 320px; height: 320px; background: #FFE08A; opacity: 0.14; }
-  .blob.b { right: -120px; bottom: -150px; width: 340px; height: 340px; background: #B9A8FF; opacity: 0.18; }
+  .blob.a { left: -110px; top: -130px; width: 320px; height: 320px; background: #FFE08A; opacity: calc(0.14 * var(--glow-blob, 1)); }
+  .blob.b { right: -120px; bottom: -150px; width: 340px; height: 340px; background: #B9A8FF; opacity: calc(0.18 * var(--glow-blob, 1)); }
   .wrap { position: relative; display: flex; gap: 14px; height: var(--gec-h, 218px); }
 
   /* advies */
@@ -229,12 +229,12 @@ const GEC_STYLE = `
   .adv-head { position: relative; display: flex; align-items: center; gap: 10px; }
   .adv-icon { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #1C1730; background: rgb(var(--a)); box-shadow: 0 0 var(--glow) rgba(var(--a), 0.8); flex-shrink: 0; }
   .adv-icon svg { width: 30px; height: 30px; }
-  .adv-tag { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; color: rgb(var(--a)); }
+  .adv-tag { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; color: color-mix(in srgb, rgb(var(--a)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
   .adv-title { position: relative; font-size: 28px; font-weight: 800; line-height: 1.05; letter-spacing: -0.01em; }
   .soc { position: relative; display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
   .soc-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 700; }
   .soc-row b { font-size: 20px; font-weight: 800; }
-  .soc-track { height: 14px; border-radius: 7px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+  .soc-track { height: 14px; border-radius: 7px; background: var(--glow-surface, rgba(255, 255, 255, 0.1)); overflow: hidden; }
   .soc-bar { height: 14px; border-radius: 7px; width: 0; background: rgb(var(--s)); box-shadow: 0 0 calc(var(--glow) * 0.7) rgba(var(--s), 0.8); transition: width 0.8s; }
   .soc-label { font-size: 12px; font-weight: 600; opacity: 0.75; }
 
@@ -245,7 +245,7 @@ const GEC_STYLE = `
   .node {
     position: absolute; width: 72px; height: 72px; box-sizing: border-box; border-radius: 50%;
     display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-    background: #1A1729; border: 2px solid rgba(var(--n), 0.3); cursor: pointer; transition: box-shadow 0.4s, border-color 0.4s;
+    background: var(--glow-node, #1A1729); border: 2px solid rgba(var(--n), 0.3); cursor: pointer; transition: box-shadow 0.4s, border-color 0.4s;
   }
   .node.on { border-color: rgba(var(--n), 0.9); box-shadow: 0 0 var(--glow) rgba(var(--n), 0.45); }
   .node svg { width: 20px; height: 20px; color: rgb(var(--n)); }
@@ -266,13 +266,13 @@ const GEC_STYLE = `
   .t-icon svg { width: 22px; height: 22px; }
   .t-icon ha-icon { --mdc-icon-size: 22px; }
   .t-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .t-label { font-size: 14px; font-weight: 800; color: rgb(var(--t)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .t-label { font-size: 14px; font-weight: 800; color: color-mix(in srgb, rgb(var(--t)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .t-value { font-size: 30px; font-weight: 800; line-height: 1.05; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .t-sub { font-size: 13px; font-weight: 600; opacity: 0.65; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
   .dots { display: flex; justify-content: center; gap: 2px; }
   .dots button { width: 26px; height: 22px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-  .dots span { display: block; height: 8px; width: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.25); transition: width 0.2s, background 0.2s; }
-  .dots button.on span { width: 20px; background: #F3F1FA; }
+  .dots span { display: block; height: 8px; width: 8px; border-radius: 4px; background: var(--glow-dot, rgba(255, 255, 255, 0.25)); transition: width 0.2s, background 0.2s; }
+  .dots button.on span { width: 20px; background: var(--glow-text, #F3F1FA); }
 
   /* smal (1 kolom): onder elkaar */
   .wrap.narrow { flex-direction: column; height: auto; }
@@ -464,7 +464,7 @@ class GlowEnergyCard extends HTMLElement {
     const n = tiles.length;
 
     const lines = Object.keys(GEC_PATHS).filter((k) => k !== 'gToB' && (c.battery || (k !== 'sToB' && k !== 'bToH')))
-      .map((k) => `<path d="${GEC_PATHS[k]}" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="3" stroke-linecap="round"/>`).join('');
+      .map((k) => `<path d="${GEC_PATHS[k]}" fill="none" style="stroke: var(--glow-line, rgba(255,255,255,0.10))" stroke-width="3" stroke-linecap="round"/>`).join('');
 
     const node = (key, icon, cls) => {
       const [x, y] = GEC_NODES[key];
