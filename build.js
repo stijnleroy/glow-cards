@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const version = fs.readFileSync(path.join(__dirname, 'VERSION'), 'utf8').trim();
-const cards = ['blinds.js', 'energy.js', 'room.js', 'scene.js'];
+const cards = ['blinds.js', 'energy.js', 'room.js', 'scene.js', 'navbar.js'];
 let out = `/*! Glow Cards v${version} – https://github.com/stijnleroy/glow-cards – MIT */\n`;
 for (const f of cards) {
   const src = fs.readFileSync(path.join(__dirname, 'src', f), 'utf8');
