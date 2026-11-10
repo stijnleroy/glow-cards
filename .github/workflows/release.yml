@@ -1,0 +1,28 @@
+# Maakt automatisch een GitHub-release zodra het versienummer in VERSION verandert.
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths: [VERSION]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Release aanmaken
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="$(tr -d '[:space:]' < VERSION)"
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            echo "Release $VERSION bestaat al."
+            exit 0
+          fi
+          NOTES="$(git log -1 --format=%B | sed '/^Co-Authored-By:/d;/^Claude-Session:/d')"
+          gh release create "$VERSION" --target "$GITHUB_SHA" --title "$VERSION" --notes "$NOTES"
