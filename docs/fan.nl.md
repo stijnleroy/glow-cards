@@ -8,7 +8,7 @@ Een ventilatortegel in de Glow-stijl, voor een ventilatie of ventilator die gewo
 
 - **Tik**: aan of uit. Als de ventilator aan staat, draait het icoon, gloeit de tegel en zie je sinds wanneer.
 - **Lang drukken**: de gewone details.
-- **Timerknoppen**: zet de ventilator aan voor een vaste tijd, standaard 15 min, 30 min en 1 u. De tegel telt af en daarna gaat de ventilator vanzelf uit. Tik nog eens op de actieve knop om te stoppen.
+- **Timerknoppen** (rechts in de tegel): zet de ventilator aan voor een vaste tijd, standaard 15 min, 30 min en 1 u. De tegel telt af en daarna gaat de ventilator vanzelf uit. Tik nog eens op de actieve knop om te stoppen.
 - **Andere**: kies zelf een tijd met − en +, of met een snelkeuze.
 
 Werkt met `fan`-, `switch`-, `light`- en `input_boolean`-entiteiten.
@@ -28,6 +28,7 @@ timer_entity: timer.ventilatie
 | `icon` | draaiende ventilator | Eigen icoon (draait dan niet). |
 | `timers` | `[15, 30, 60]` | Timerknoppen in minuten. Een lege lijst `[]` verbergt de timer. |
 | `custom` | `true` | Knop **Andere** voor een eigen tijd. |
+| `timer_position` | `inside` | `inside`: de timerknoppen in een blokje van 2 rijen rechts in de tegel, die zo even groot blijft als een kamertegel. `below`: een rij knoppen onder de tegel. |
 | `timer_entity` | – | Een timer-helper die het uitschakelen in Home Assistant regelt (aanbevolen, zie hieronder). |
 | `color` | mint | Gloedkleur, bv. `'#8EE3D6'`. |
 | `glow` | `15` | Sterkte van de gloed in pixels. |

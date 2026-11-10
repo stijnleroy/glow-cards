@@ -9,36 +9,42 @@ const GFAN_I18N = {
     off: 'Uit', on: 'Aan', on_since: 'Aan sinds {t}', left: 'Aan · nog {t}', unavailable: 'Niet beschikbaar', other: 'Andere', on_for: 'Aan voor', start: 'Starten', stop: 'Stoppen', min: '{n} min', h: '{h} u', hm: '{h} u {m}',
     err: 'Vul "entity" in (bv. een fan of switch).',
     l_entity: 'Ventilator (fan, switch, …)', l_name: 'Naam', l_icon: 'Icoon', l_timers: 'Timerknoppen (minuten, gescheiden door komma\'s; leeg = geen timer)', l_custom: 'Knop "Andere" voor een eigen tijd', l_timer_entity: 'Timer-helper (aanbevolen, zie uitleg)', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
+    l_timer_position: 'Plaats van de timerknoppen', pos_inside: 'In de tegel, rechts', pos_below: 'Onder de tegel',
     description: 'Ventilatortegel met gloed: tik schakelt, met timerknoppen en een eigen tijd.',
   },
   en: {
     off: 'Off', on: 'On', on_since: 'On since {t}', left: 'On · {t} left', unavailable: 'Unavailable', other: 'Other', on_for: 'On for', start: 'Start', stop: 'Stop', min: '{n} min', h: '{h} h', hm: '{h} h {m}',
     err: 'Fill in "entity" (e.g. a fan or switch).',
     l_entity: 'Fan (fan, switch, …)', l_name: 'Name', l_icon: 'Icon', l_timers: 'Timer buttons (minutes, comma separated; empty = no timer)', l_custom: '"Other" button for your own time', l_timer_entity: 'Timer helper (recommended, see docs)', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
+    l_timer_position: 'Position of the timer buttons', pos_inside: 'Inside the tile, on the right', pos_below: 'Below the tile',
     description: 'Glowing fan tile: tap toggles, with timer buttons and your own time.',
   },
   fr: {
     off: 'Arrêt', on: 'Marche', on_since: 'En marche depuis {t}', left: 'Marche · encore {t}', unavailable: 'Indisponible', other: 'Autre', on_for: 'En marche pendant', start: 'Démarrer', stop: 'Arrêter', min: '{n} min', h: '{h} h', hm: '{h} h {m}',
     err: 'Renseignez "entity" (p. ex. un ventilateur ou un interrupteur).',
     l_entity: 'Ventilateur (fan, switch, …)', l_name: 'Nom', l_icon: 'Icône', l_timers: 'Boutons minuterie (minutes, séparées par des virgules ; vide = pas de minuterie)', l_custom: 'Bouton « Autre » pour une durée libre', l_timer_entity: 'Minuteur (recommandé, voir la doc)', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
+    l_timer_position: 'Position des boutons minuterie', pos_inside: 'Dans la tuile, à droite', pos_below: 'Sous la tuile',
     description: 'Tuile de ventilateur lumineuse : un toucher allume, avec minuterie.',
   },
   de: {
     off: 'Aus', on: 'An', on_since: 'An seit {t}', left: 'An · noch {t}', unavailable: 'Nicht verfügbar', other: 'Andere', on_for: 'An für', start: 'Starten', stop: 'Stoppen', min: '{n} Min.', h: '{h} Std.', hm: '{h} Std. {m}',
     err: 'Gib "entity" an (z. B. einen Lüfter oder Schalter).',
     l_entity: 'Lüfter (fan, switch, …)', l_name: 'Name', l_icon: 'Symbol', l_timers: 'Timer-Tasten (Minuten, durch Kommas getrennt; leer = kein Timer)', l_custom: 'Taste „Andere“ für eine eigene Zeit', l_timer_entity: 'Timer-Helfer (empfohlen, siehe Doku)', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
+    l_timer_position: 'Position der Timer-Tasten', pos_inside: 'In der Kachel, rechts', pos_below: 'Unter der Kachel',
     description: 'Leuchtende Lüfterkachel: Tippen schaltet, mit Timer-Tasten und eigener Zeit.',
   },
   es: {
     off: 'Apagado', on: 'Encendido', on_since: 'Encendido desde las {t}', left: 'Encendido · quedan {t}', unavailable: 'No disponible', other: 'Otro', on_for: 'Encendido durante', start: 'Iniciar', stop: 'Parar', min: '{n} min', h: '{h} h', hm: '{h} h {m}',
     err: 'Indica "entity" (p. ej. un ventilador o interruptor).',
     l_entity: 'Ventilador (fan, switch, …)', l_name: 'Nombre', l_icon: 'Icono', l_timers: 'Botones de temporizador (minutos separados por comas; vacío = sin temporizador)', l_custom: 'Botón «Otro» para un tiempo propio', l_timer_entity: 'Temporizador auxiliar (recomendado, ver docs)', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
+    l_timer_position: 'Posición de los botones', pos_inside: 'Dentro del mosaico, a la derecha', pos_below: 'Debajo del mosaico',
     description: 'Mosaico de ventilador con brillo: un toque enciende, con temporizador.',
   },
   it: {
     off: 'Spento', on: 'Acceso', on_since: 'Acceso dalle {t}', left: 'Acceso · ancora {t}', unavailable: 'Non disponibile', other: 'Altro', on_for: 'Acceso per', start: 'Avvia', stop: 'Ferma', min: '{n} min', h: '{h} h', hm: '{h} h {m}',
     err: 'Indica "entity" (es. un ventilatore o interruttore).',
     l_entity: 'Ventilatore (fan, switch, …)', l_name: 'Nome', l_icon: 'Icona', l_timers: 'Pulsanti timer (minuti separati da virgole; vuoto = nessun timer)', l_custom: 'Pulsante «Altro» per un tempo a scelta', l_timer_entity: 'Timer helper (consigliato, vedi doc)', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
+    l_timer_position: 'Posizione dei pulsanti timer', pos_inside: 'Nel riquadro, a destra', pos_below: 'Sotto il riquadro',
     description: 'Riquadro ventilatore luminoso: un tocco accende, con timer.',
   },
 };
@@ -113,6 +119,12 @@ const GFAN_STYLE = `
     border: 1px solid ${GFAN_LINE}; background: var(--glow-card-background, #15121F); -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: background 0.3s, border-color 0.3s, box-shadow 0.3s; }
   .tb.sel { color: ${GFAN_INK('--c')}; border-color: rgba(var(--c), 0.6); background: linear-gradient(rgba(var(--c), 0.16), rgba(var(--c), 0.16)), var(--glow-card-background, #15121F); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.35); }
   .tb:active { transform: scale(0.97); }
+  /* timerknoppen in de tegel: een blokje van 2 rijen aan de rechterkant */
+  .timers.in { position: absolute; top: 12px; bottom: 12px; right: 12px; display: grid; grid-template-rows: repeat(2, minmax(0, 1fr)); grid-template-columns: repeat(var(--cols, 2), 66px); grid-auto-flow: row; gap: 6px; }
+  .timers.in .tb { height: auto; border-radius: 14px; font-size: 13px; padding: 0 4px; background: var(--glow-surface, rgba(255,255,255,0.07)); }
+  .timers.in .tb.sel { background: rgba(var(--c), 0.24); }
+  ha-card.in .txt { padding-right: var(--tw, 0px); }
+  ha-card.in:has(.timers:active) { transform: none; }
   @keyframes gfan-spin { to { transform: rotate(360deg); } }
 `;
 
@@ -172,8 +184,8 @@ class GlowFanCard extends HTMLElement {
   }
   get hass() { return this._hass; }
 
-  getCardSize() { return 3; }
-  getGridOptions() { return { columns: 6, rows: 'auto', min_columns: 3 }; }
+  getCardSize() { return this._config && this._config.timer_position === 'below' ? 3 : 2; }
+  getGridOptions() { return this._config && this._config.timer_position === 'below' ? { columns: 6, rows: 'auto', min_columns: 3 } : { columns: 6, rows: 2, min_columns: 4, min_rows: 2 }; }
 
   connectedCallback() {
     clearInterval(this._tick);
@@ -262,31 +274,34 @@ class GlowFanCard extends HTMLElement {
 
   _build() {
     const c = this._config;
+    const inside = c.timer_position !== 'below';
     const icon = c.icon ? `<ha-icon icon="${gfanEsc(c.icon)}"></ha-icon>` : `<span class="spin" style="display:block;width:30px;height:30px">${GFAN_FAN}</span>`;
     this.shadowRoot.innerHTML = `
       <style>${GFAN_STYLE}</style>
       <div class="wrap">
-        <ha-card>
+        <ha-card class="${inside ? 'in' : ''}">
           <div class="halo"></div>
           <div class="icon">${icon}</div>
           <div class="txt"><span class="name"></span><span class="state"></span></div>
+          ${inside ? '<div class="timers in"></div>' : ''}
         </ha-card>
-        <div class="timers"></div>
+        ${inside ? '' : '<div class="timers"></div>'}
       </div>`;
     this._card = this.shadowRoot.querySelector('ha-card');
     this._timers = this.shadowRoot.querySelector('.timers');
     let hold = null;
     let held = false;
-    this._card.addEventListener('pointerdown', () => {
+    this._card.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('.timers')) return;
       held = false;
       hold = setTimeout(() => { held = true; this.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: this._config.entity }, bubbles: true, composed: true })); }, 600);
     });
     const cancel = () => clearTimeout(hold);
     this._card.addEventListener('pointerleave', cancel);
     this._card.addEventListener('pointercancel', cancel);
-    this._card.addEventListener('pointerup', () => {
+    this._card.addEventListener('pointerup', (e) => {
       clearTimeout(hold);
-      if (held) return;
+      if (held || e.target.closest('.timers')) return;
       const s = this._hass.states[this._config.entity];
       if (!s || s.state === 'unavailable') return;
       if (s.state === 'on') this._stopTimer(true);
@@ -344,6 +359,11 @@ class GlowFanCard extends HTMLElement {
     if (html !== this._timersKey) {
       this._timersKey = html;
       this._timers.innerHTML = html;
+      // ruimte voor de knoppen vrijhouden naast de tekst
+      const n = this._timers.children.length;
+      const cols = Math.ceil(n / 2);
+      this._timers.style.setProperty('--cols', String(Math.max(1, cols)));
+      this._card.style.setProperty('--tw', n ? (cols * 66 + (cols - 1) * 6 + 8) + 'px' : '0px');
     }
   }
 
@@ -432,6 +452,7 @@ class GlowFanCardEditor extends HTMLElement {
         Object.keys(v).forEach((k) => { if (k !== 'timers' && (v[k] === '' || v[k] === null || v[k] === undefined || (Array.isArray(v[k]) && !v[k].length))) delete v[k]; });
         if (v.language === 'auto') delete v.language;
         if (v.custom === true) delete v.custom;
+        if (v.timer_position === 'inside') delete v.timer_position;
         this._config = { type: this._config.type, ...v };
         this.dispatchEvent(new CustomEvent('config-changed', { detail: { config: this._config }, bubbles: true, composed: true }));
       });
@@ -446,12 +467,13 @@ class GlowFanCardEditor extends HTMLElement {
       ] },
       { name: 'timers', selector: { text: {} } },
       { name: 'custom', selector: { boolean: {} } },
+      { name: 'timer_position', selector: { select: { mode: 'dropdown', options: [{ value: 'inside', label: t('pos_inside') }, { value: 'below', label: t('pos_below') }] } } },
       { name: 'timer_entity', selector: { entity: { domain: 'timer' } } },
       { name: 'glow', selector: { number: { min: 0, max: 40, step: 1, mode: 'slider', unit_of_measurement: 'px' } } },
       { name: 'language', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: t('lang_auto') }].concat(Object.keys(GFAN_LANG_NAMES).map((k) => ({ value: k, label: GFAN_LANG_NAMES[k] }))) } } },
     ];
     const timers = this._config.timers === undefined ? '15, 30, 60' : gfanList(this._config.timers).join(', ');
-    this._form.data = { glow: 15, custom: true, language: 'auto', ...this._config, timers };
+    this._form.data = { glow: 15, custom: true, timer_position: 'inside', language: 'auto', ...this._config, timers };
   }
 }
 
