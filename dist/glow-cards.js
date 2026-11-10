@@ -1,4 +1,4 @@
-/*! Glow Cards v1.5.0 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.5.1 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -2251,59 +2251,83 @@ if (!window.customCards.some((x) => x.type === 'glow-energy-card')) {
 /*
  * Glow Room Card
  * Een kamerkaart in de Glow-stijl: tik = licht aan/uit, dubbeltik = popup met
- * alle lampen van de kamer (aan/uit, helderheid, kleurtemperatuur en kleur).
+ * scènes, lampen (helderheid, kleurtemperatuur, kleur), rolluiken, schakelaars en klimaat.
  */
 
-const GRC_VERSION = '1.0.0';
+const GRC_VERSION = '1.1.0';
 
 const GRC_I18N = {
   nl: {
     off: 'Uit', all_on: 'Alles aan', n_on: '{n} van {t} aan', on_one: 'Aan', unavailable: 'Niet beschikbaar',
-    close: 'Sluiten', brightness: 'Helderheid', warm: 'Warm', neutral: 'Neutraal', cool: 'Koel', no_lights: 'Geen lampen gevonden voor deze kamer.',
-    all_on_btn: 'Alles aan', all_off_btn: 'Alles uit', err_entity: 'Vul "entity" (een lamp of lampgroep) of "area" in.',
-    l_entity: 'Lamp of lampgroep', l_name: 'Naam', l_icon: 'Icoon', l_area: 'Ruimte (voor de lampen in de popup)', l_lights: 'Lampen in de popup (leeg = automatisch)',
+    close: 'Sluiten', brightness: 'Helderheid', color_temp: 'Kleurtemperatuur', colour: 'Kleur', warm: 'Warm', neutral: 'Neutraal', cool: 'Koel',
+    nothing: 'Niets gevonden voor deze kamer.', all_on_btn: 'Alles aan', all_off_btn: 'Alles uit',
+    sec_climate: 'Klimaat', sec_scenes: 'Scènes', sec_lights: 'Lampen', sec_covers: 'Rolluiken', sec_switches: 'Schakelaars',
+    open: 'Open', closed: 'Dicht', opening: 'Gaat open', closing: 'Gaat dicht', c_open: 'Openen', c_stop: 'Stop', c_close: 'Sluiten',
+    err_entity: 'Vul "entity" (een lamp of lampgroep) of "area" in.',
+    l_entity: 'Lamp of lampgroep', l_name: 'Naam', l_icon: 'Icoon', l_area: 'Ruimte (voor de inhoud van de popup)',
     l_color: 'Kleur als de lampen geen kleur doorgeven', l_glow: 'Sterkte van de gloed', l_auto_close: 'Popup sluiten na (seconden, 0 = nooit)', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
-    description: 'Kamerkaart met gloed: tik schakelt het licht, dubbeltik opent een popup met alle lampen.',
+    popup: 'Inhoud van de popup', l_sections: 'Onderdelen', l_lights: 'Lampen (leeg = automatisch)', l_scenes: 'Scènes (leeg = uit de ruimte)', l_covers: 'Rolluiken (leeg = uit de ruimte)', l_switches: 'Schakelaars (leeg = uit de ruimte)', l_temperature: 'Temperatuur (leeg = uit de ruimte)', l_humidity: 'Vochtigheid (leeg = uit de ruimte)',
+    description: 'Kamerkaart met gloed: tik schakelt het licht, dubbeltik opent een popup met scènes, lampen, rolluiken en schakelaars.',
   },
   en: {
     off: 'Off', all_on: 'All on', n_on: '{n} of {t} on', on_one: 'On', unavailable: 'Unavailable',
-    close: 'Close', brightness: 'Brightness', warm: 'Warm', neutral: 'Neutral', cool: 'Cool', no_lights: 'No lights found for this room.',
-    all_on_btn: 'All on', all_off_btn: 'All off', err_entity: 'Fill in "entity" (a light or light group) or "area".',
-    l_entity: 'Light or light group', l_name: 'Name', l_icon: 'Icon', l_area: 'Area (for the lights in the popup)', l_lights: 'Lights in the popup (empty = automatic)',
+    close: 'Close', brightness: 'Brightness', color_temp: 'Colour temperature', colour: 'Colour', warm: 'Warm', neutral: 'Neutral', cool: 'Cool',
+    nothing: 'Nothing found for this room.', all_on_btn: 'All on', all_off_btn: 'All off',
+    sec_climate: 'Climate', sec_scenes: 'Scenes', sec_lights: 'Lights', sec_covers: 'Covers', sec_switches: 'Switches',
+    open: 'Open', closed: 'Closed', opening: 'Opening', closing: 'Closing', c_open: 'Open', c_stop: 'Stop', c_close: 'Close',
+    err_entity: 'Fill in "entity" (a light or light group) or "area".',
+    l_entity: 'Light or light group', l_name: 'Name', l_icon: 'Icon', l_area: 'Area (for the popup content)',
     l_color: 'Colour when the lights report none', l_glow: 'Glow strength', l_auto_close: 'Close popup after (seconds, 0 = never)', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
-    description: 'Glowing room card: tap toggles the lights, double tap opens a popup with every light.',
+    popup: 'Popup content', l_sections: 'Sections', l_lights: 'Lights (empty = automatic)', l_scenes: 'Scenes (empty = from the area)', l_covers: 'Covers (empty = from the area)', l_switches: 'Switches (empty = from the area)', l_temperature: 'Temperature (empty = from the area)', l_humidity: 'Humidity (empty = from the area)',
+    description: 'Glowing room card: tap toggles the lights, double tap opens a popup with scenes, lights, covers and switches.',
   },
   fr: {
     off: 'Éteint', all_on: 'Tout allumé', n_on: '{n} sur {t} allumées', on_one: 'Allumé', unavailable: 'Indisponible',
-    close: 'Fermer', brightness: 'Luminosité', warm: 'Chaud', neutral: 'Neutre', cool: 'Froid', no_lights: 'Aucune lampe trouvée pour cette pièce.',
-    all_on_btn: 'Tout allumer', all_off_btn: 'Tout éteindre', err_entity: 'Renseignez "entity" (une lampe ou un groupe) ou "area".',
-    l_entity: 'Lampe ou groupe', l_name: 'Nom', l_icon: 'Icône', l_area: 'Pièce (pour les lampes du popup)', l_lights: 'Lampes du popup (vide = automatique)',
+    close: 'Fermer', brightness: 'Luminosité', color_temp: 'Température de couleur', colour: 'Couleur', warm: 'Chaud', neutral: 'Neutre', cool: 'Froid',
+    nothing: 'Rien trouvé pour cette pièce.', all_on_btn: 'Tout allumer', all_off_btn: 'Tout éteindre',
+    sec_climate: 'Climat', sec_scenes: 'Scènes', sec_lights: 'Lampes', sec_covers: 'Volets', sec_switches: 'Interrupteurs',
+    open: 'Ouvert', closed: 'Fermé', opening: 'S\'ouvre', closing: 'Se ferme', c_open: 'Ouvrir', c_stop: 'Stop', c_close: 'Fermer',
+    err_entity: 'Renseignez "entity" (une lampe ou un groupe) ou "area".',
+    l_entity: 'Lampe ou groupe', l_name: 'Nom', l_icon: 'Icône', l_area: 'Pièce (pour le contenu du popup)',
     l_color: 'Couleur si les lampes n\'en indiquent pas', l_glow: 'Intensité de la lueur', l_auto_close: 'Fermer le popup après (secondes, 0 = jamais)', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
-    description: 'Carte de pièce lumineuse : un toucher allume, un double toucher ouvre toutes les lampes.',
+    popup: 'Contenu du popup', l_sections: 'Sections', l_lights: 'Lampes (vide = automatique)', l_scenes: 'Scènes (vide = de la pièce)', l_covers: 'Volets (vide = de la pièce)', l_switches: 'Interrupteurs (vide = de la pièce)', l_temperature: 'Température (vide = de la pièce)', l_humidity: 'Humidité (vide = de la pièce)',
+    description: 'Carte de pièce lumineuse : un toucher allume, un double toucher ouvre scènes, lampes, volets et interrupteurs.',
   },
   de: {
     off: 'Aus', all_on: 'Alle an', n_on: '{n} von {t} an', on_one: 'An', unavailable: 'Nicht verfügbar',
-    close: 'Schließen', brightness: 'Helligkeit', warm: 'Warm', neutral: 'Neutral', cool: 'Kalt', no_lights: 'Keine Lampen für diesen Raum gefunden.',
-    all_on_btn: 'Alle an', all_off_btn: 'Alle aus', err_entity: 'Gib "entity" (Lampe oder Lampengruppe) oder "area" an.',
-    l_entity: 'Lampe oder Lampengruppe', l_name: 'Name', l_icon: 'Symbol', l_area: 'Bereich (für die Lampen im Popup)', l_lights: 'Lampen im Popup (leer = automatisch)',
+    close: 'Schließen', brightness: 'Helligkeit', color_temp: 'Farbtemperatur', colour: 'Farbe', warm: 'Warm', neutral: 'Neutral', cool: 'Kalt',
+    nothing: 'Nichts für diesen Raum gefunden.', all_on_btn: 'Alle an', all_off_btn: 'Alle aus',
+    sec_climate: 'Klima', sec_scenes: 'Szenen', sec_lights: 'Lampen', sec_covers: 'Rollläden', sec_switches: 'Schalter',
+    open: 'Offen', closed: 'Zu', opening: 'Öffnet', closing: 'Schließt', c_open: 'Öffnen', c_stop: 'Stopp', c_close: 'Schließen',
+    err_entity: 'Gib "entity" (Lampe oder Lampengruppe) oder "area" an.',
+    l_entity: 'Lampe oder Lampengruppe', l_name: 'Name', l_icon: 'Symbol', l_area: 'Bereich (für den Popup-Inhalt)',
     l_color: 'Farbe, wenn die Lampen keine melden', l_glow: 'Leuchtstärke', l_auto_close: 'Popup schließen nach (Sekunden, 0 = nie)', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
-    description: 'Leuchtende Raumkarte: Tippen schaltet das Licht, Doppeltippen öffnet alle Lampen.',
+    popup: 'Popup-Inhalt', l_sections: 'Bereiche', l_lights: 'Lampen (leer = automatisch)', l_scenes: 'Szenen (leer = aus dem Bereich)', l_covers: 'Rollläden (leer = aus dem Bereich)', l_switches: 'Schalter (leer = aus dem Bereich)', l_temperature: 'Temperatur (leer = aus dem Bereich)', l_humidity: 'Luftfeuchte (leer = aus dem Bereich)',
+    description: 'Leuchtende Raumkarte: Tippen schaltet das Licht, Doppeltippen öffnet Szenen, Lampen, Rollläden und Schalter.',
   },
   es: {
     off: 'Apagado', all_on: 'Todo encendido', n_on: '{n} de {t} encendidas', on_one: 'Encendido', unavailable: 'No disponible',
-    close: 'Cerrar', brightness: 'Brillo', warm: 'Cálida', neutral: 'Neutra', cool: 'Fría', no_lights: 'No se encontraron luces para esta estancia.',
-    all_on_btn: 'Encender todo', all_off_btn: 'Apagar todo', err_entity: 'Indica "entity" (una luz o grupo) o "area".',
-    l_entity: 'Luz o grupo de luces', l_name: 'Nombre', l_icon: 'Icono', l_area: 'Estancia (para las luces del popup)', l_lights: 'Luces del popup (vacío = automático)',
+    close: 'Cerrar', brightness: 'Brillo', color_temp: 'Temperatura de color', colour: 'Color', warm: 'Cálida', neutral: 'Neutra', cool: 'Fría',
+    nothing: 'No se encontró nada para esta estancia.', all_on_btn: 'Encender todo', all_off_btn: 'Apagar todo',
+    sec_climate: 'Clima', sec_scenes: 'Escenas', sec_lights: 'Luces', sec_covers: 'Persianas', sec_switches: 'Interruptores',
+    open: 'Abierta', closed: 'Cerrada', opening: 'Abriendo', closing: 'Cerrando', c_open: 'Abrir', c_stop: 'Parar', c_close: 'Cerrar',
+    err_entity: 'Indica "entity" (una luz o grupo) o "area".',
+    l_entity: 'Luz o grupo de luces', l_name: 'Nombre', l_icon: 'Icono', l_area: 'Estancia (para el contenido del popup)',
     l_color: 'Color si las luces no indican ninguno', l_glow: 'Intensidad del brillo', l_auto_close: 'Cerrar el popup tras (segundos, 0 = nunca)', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
-    description: 'Tarjeta de estancia con brillo: un toque enciende, doble toque abre todas las luces.',
+    popup: 'Contenido del popup', l_sections: 'Secciones', l_lights: 'Luces (vacío = automático)', l_scenes: 'Escenas (vacío = de la estancia)', l_covers: 'Persianas (vacío = de la estancia)', l_switches: 'Interruptores (vacío = de la estancia)', l_temperature: 'Temperatura (vacío = de la estancia)', l_humidity: 'Humedad (vacío = de la estancia)',
+    description: 'Tarjeta de estancia con brillo: un toque enciende, doble toque abre escenas, luces, persianas e interruptores.',
   },
   it: {
     off: 'Spento', all_on: 'Tutto acceso', n_on: '{n} di {t} accese', on_one: 'Acceso', unavailable: 'Non disponibile',
-    close: 'Chiudi', brightness: 'Luminosità', warm: 'Calda', neutral: 'Neutra', cool: 'Fredda', no_lights: 'Nessuna luce trovata per questa stanza.',
-    all_on_btn: 'Accendi tutto', all_off_btn: 'Spegni tutto', err_entity: 'Indica "entity" (una luce o un gruppo) o "area".',
-    l_entity: 'Luce o gruppo di luci', l_name: 'Nome', l_icon: 'Icona', l_area: 'Stanza (per le luci nel popup)', l_lights: 'Luci nel popup (vuoto = automatico)',
+    close: 'Chiudi', brightness: 'Luminosità', color_temp: 'Temperatura colore', colour: 'Colore', warm: 'Calda', neutral: 'Neutra', cool: 'Fredda',
+    nothing: 'Niente trovato per questa stanza.', all_on_btn: 'Accendi tutto', all_off_btn: 'Spegni tutto',
+    sec_climate: 'Clima', sec_scenes: 'Scene', sec_lights: 'Luci', sec_covers: 'Tapparelle', sec_switches: 'Interruttori',
+    open: 'Aperta', closed: 'Chiusa', opening: 'In apertura', closing: 'In chiusura', c_open: 'Apri', c_stop: 'Stop', c_close: 'Chiudi',
+    err_entity: 'Indica "entity" (una luce o un gruppo) o "area".',
+    l_entity: 'Luce o gruppo di luci', l_name: 'Nome', l_icon: 'Icona', l_area: 'Stanza (per il contenuto del popup)',
     l_color: 'Colore se le luci non ne indicano', l_glow: 'Intensità del bagliore', l_auto_close: 'Chiudi il popup dopo (secondi, 0 = mai)', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
-    description: 'Scheda stanza luminosa: un tocco accende, doppio tocco apre tutte le luci.',
+    popup: 'Contenuto del popup', l_sections: 'Sezioni', l_lights: 'Luci (vuoto = automatico)', l_scenes: 'Scene (vuoto = dalla stanza)', l_covers: 'Tapparelle (vuoto = dalla stanza)', l_switches: 'Interruttori (vuoto = dalla stanza)', l_temperature: 'Temperatura (vuoto = dalla stanza)', l_humidity: 'Umidità (vuoto = dalla stanza)',
+    description: 'Scheda stanza luminosa: un tocco accende, doppio tocco apre scene, luci, tapparelle e interruttori.',
   },
 };
 const GRC_LANG_NAMES = { nl: 'Nederlands', en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', it: 'Italiano' };
@@ -2333,9 +2357,32 @@ function grcHexRgb(hex) {
 function grcSoft(rgb) {
   return rgb.map((c) => Math.round(c + (255 - c) * 0.35));
 }
+const grcClamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const grcLerp = (a, b, t) => a.map((x, i) => Math.round(x + (b[i] - x) * t));
+// kleurtemperatuur als pastelkleur: warm → neutraal → koel
+function grcCtRgb(k) {
+  const p = grcClamp((k - 2700) / (6500 - 2700), 0, 1);
+  const W = [255, 180, 107], N = [255, 241, 220], C = [207, 227, 255];
+  return p < 0.5 ? grcLerp(W, N, p * 2) : grcLerp(N, C, (p - 0.5) * 2);
+}
+// tint (0–360) als pastelkleur
+function grcHueRgb(h) {
+  const s = 0.9, l = 0.76;
+  const k = (n) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
+  return [f(0), f(8), f(4)].map((x) => Math.round(x * 255));
+}
 
 const GRC_BULB = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>';
 const GRC_X = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>';
+const GRC_SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const GRC_THERMO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/></svg>';
+const GRC_DROP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7l5.7 5.6a8 8 0 1 1-11.4 0z"/></svg>';
+const GRC_PALETTE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 4-4 4h-2a2 2 0 0 0-1 3.7A1.8 1.8 0 0 1 12 22z"/><circle cx="7.5" cy="11" r="1"/><circle cx="11" cy="7" r="1"/><circle cx="16" cy="8.5" r="1"/></svg>';
+const GRC_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>';
+const GRC_DOWN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+const GRC_STOP = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="3"/></svg>';
 
 /* ---------------- kaart ---------------- */
 
@@ -2374,6 +2421,9 @@ const GRC_STYLE = `
 
 /* ---------------- popup ---------------- */
 
+const GRC_INK = (v) => `color-mix(in srgb, rgb(var(${v})), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%))`;
+const GRC_TINT = (pct) => `color-mix(in srgb, var(--glow-text, #F3F1FA) ${pct}%, transparent)`;
+
 const GRC_POP_STYLE = `
   :host { all: initial; }
   .backdrop {
@@ -2385,68 +2435,104 @@ const GRC_POP_STYLE = `
   }
   .panel {
     position: relative; overflow: hidden; width: 100%; max-width: 680px; max-height: calc(100vh - 48px); box-sizing: border-box;
-    display: flex; flex-direction: column; gap: 16px; padding: 22px; border-radius: 30px;
+    display: flex; flex-direction: column; border-radius: 30px;
     color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
-    border: 1px solid rgba(var(--l), 0.45); box-shadow: 0 0 60px rgba(var(--l), 0.25), 0 30px 80px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(var(--l), 0.45); box-shadow: 0 0 60px rgba(var(--l), 0.22), 0 30px 80px rgba(0, 0, 0, 0.45);
     animation: grc-pop 0.25s cubic-bezier(.2, .9, .3, 1.2);
   }
-  .panel .halo { position: absolute; right: -80px; top: -100px; width: 280px; height: 280px; border-radius: 50%; background: rgb(var(--l)); opacity: 0.3; filter: blur(70px); pointer-events: none; }
-  .head { position: relative; display: flex; align-items: center; gap: 14px; }
-  .head .icon { width: 56px; height: 56px; border-radius: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; --mdc-icon-size: 30px; background: var(--glow-surface, rgba(255,255,255,0.07)); color: var(--glow-text, #F3F1FA); }
+  .panel > .halo { position: absolute; right: -80px; top: -100px; width: 280px; height: 280px; border-radius: 50%; background: rgb(var(--l)); opacity: 0.28; filter: blur(70px); pointer-events: none; }
+  button { font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+  .top { position: relative; padding: 22px 22px 12px; display: flex; flex-direction: column; gap: 14px; }
+  .head { display: flex; align-items: center; gap: 14px; }
+  .head .icon { width: 56px; height: 56px; border-radius: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; --mdc-icon-size: 30px; background: var(--glow-surface, rgba(255,255,255,0.07)); color: var(--glow-text, #F3F1FA); transition: background 0.4s, box-shadow 0.4s; }
   .head .icon.on { background: rgb(var(--l)); color: #1C1730; box-shadow: 0 0 var(--glow) rgba(var(--l), 0.8); }
   .head .icon svg { width: 28px; height: 28px; }
-  .head .t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-  .head h2 { margin: 0; font-size: 26px; font-weight: 800; line-height: 1.1; }
-  .head .sub { font-size: 14px; font-weight: 600; opacity: 0.7; }
-  button { font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .head .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  .head h2 { margin: 0; font-size: 26px; font-weight: 800; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; min-height: 26px; }
+  .sub { font-size: 14px; font-weight: 600; opacity: 0.7; margin-right: 4px; }
+  .cchip { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border-radius: 13px; box-sizing: border-box; font-size: 13px; font-weight: 800; background: rgba(var(--c), 0.14); color: ${GRC_INK('--c')}; border: 1px solid transparent; font-variant-numeric: tabular-nums; }
+  .cchip svg { width: 14px; height: 14px; }
+  .cchip.heat { border-color: rgba(var(--c), 0.5); box-shadow: 0 0 calc(var(--glow) * 0.6) rgba(var(--c), 0.45); }
   .round { width: 48px; height: 48px; border-radius: 24px; padding: 0; flex-shrink: 0; border: 1px solid var(--glow-border, rgba(255,255,255,0.12)); background: var(--glow-surface, rgba(255,255,255,0.07)); color: inherit; display: flex; align-items: center; justify-content: center; }
   .round svg { width: 20px; height: 20px; }
-  .bar { position: relative; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-  .pill { height: 44px; padding: 0 14px; border-radius: 22px; border: 1px solid var(--glow-border, rgba(255,255,255,0.12)); background: var(--glow-surface, rgba(255,255,255,0.07)); color: inherit; font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-  .pill .sw { width: 16px; height: 16px; border-radius: 8px; }
-  .chip { width: 38px; height: 38px; border-radius: 19px; padding: 0; flex-shrink: 0; border: 2px solid var(--glow-border, rgba(255,255,255,0.12)); }
-  .spacer { flex: 1; }
-  .list { position: relative; overflow-y: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 2px; }
-  .light {
-    position: relative; overflow: hidden; border-radius: 20px; padding: 12px; display: flex; flex-direction: column; gap: 10px;
-    background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid transparent; transition: background 0.3s, border-color 0.3s;
-  }
+
+  .scenes { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -22px; padding: 4px 22px 8px; }
+  .scenes::-webkit-scrollbar { display: none; }
+  .scenes:empty { display: none; }
+  .scene { height: 42px; padding: 0 16px; flex-shrink: 0; border-radius: 21px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: inherit; white-space: nowrap; border: 1px solid var(--glow-border, rgba(255,255,255,0.12)); background: var(--glow-surface, rgba(255,255,255,0.06)); transition: background 0.3s, border-color 0.3s, box-shadow 0.3s; }
+  .scene .dot { display: none; width: 8px; height: 8px; border-radius: 4px; background: rgb(var(--c)); box-shadow: 0 0 8px rgba(var(--c), 0.9); }
+  .scene.active { border-color: rgba(var(--c), 0.55); background: rgba(var(--c), 0.16); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.35); }
+  .scene.active .dot { display: block; }
+  .scene:active { transform: scale(0.97); }
+
+  .body { position: relative; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 14px 22px 22px; display: flex; flex-direction: column; gap: 18px; border-top: 1px solid var(--glow-line, rgba(255,255,255,0.07)); }
+  .sec { display: flex; flex-direction: column; gap: 10px; }
+  .sh { display: flex; justify-content: space-between; align-items: center; min-height: 32px; gap: 8px; }
+  .sh .lab { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
+  .sh .btns { display: flex; gap: 6px; }
+  .mini { height: 32px; padding: 0 12px; border-radius: 16px; border: 1px solid var(--glow-border, rgba(255,255,255,0.12)); background: var(--glow-surface, rgba(255,255,255,0.06)); color: inherit; font-size: 12px; font-weight: 800; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .tile { position: relative; min-width: 0; box-sizing: border-box; border-radius: 18px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; background: var(--glow-surface, rgba(255,255,255,0.05)); border: 1px solid transparent; transition: background 0.3s, border-color 0.3s; }
+  .tile.unavailable { opacity: 0.45; }
   .light.on { background: rgba(var(--c), 0.14); border-color: rgba(var(--c), 0.45); }
-  .light.unavailable { opacity: 0.45; }
-  .lrow { display: flex; align-items: center; gap: 10px; }
-  .lbtn { width: 40px; height: 40px; border-radius: 20px; padding: 0; flex-shrink: 0; border: 0; display: flex; align-items: center; justify-content: center; background: var(--glow-surface, rgba(255,255,255,0.08)); color: var(--glow-text, #F3F1FA); }
-  .lbtn svg { width: 20px; height: 20px; }
+  .lbtn { width: 38px; height: 38px; border-radius: 19px; padding: 0; flex-shrink: 0; border: 0; display: flex; align-items: center; justify-content: center; background: ${GRC_TINT(9)}; color: var(--glow-text, #F3F1FA); transition: background 0.3s, box-shadow 0.3s; }
+  .lbtn svg { width: 18px; height: 18px; }
   .light.on .lbtn { background: rgb(var(--c)); color: #1C1730; box-shadow: 0 0 calc(var(--glow) * 0.8) rgba(var(--c), 0.8); }
-  .lname { flex: 1; min-width: 0; font-size: 15px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .lpct { font-size: 14px; font-weight: 800; opacity: 0.8; font-variant-numeric: tabular-nums; }
-  .slider { position: relative; height: 34px; border-radius: 17px; background: var(--glow-surface, rgba(255,255,255,0.08)); overflow: hidden; touch-action: none; cursor: ew-resize; }
-  .slider .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 17px; background: rgba(var(--c), 0.85); box-shadow: 0 0 calc(var(--glow) * 0.6) rgba(var(--c), 0.6); }
-  .slider.off .fill { background: var(--glow-border, rgba(255,255,255,0.15)); box-shadow: none; }
-  .slider.nodim { display: none; }
-  .room-slider { flex: 1; min-width: 180px; height: 44px; border-radius: 22px; }
-  .room-slider .fill { border-radius: 22px; }
-  .room-slider .lab { position: absolute; left: 16px; top: 0; bottom: 0; display: flex; align-items: center; font-size: 14px; font-weight: 800; pointer-events: none; color: var(--glow-text, #F3F1FA); }
+  .lmain { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  .lrow { display: flex; align-items: center; gap: 6px; min-height: 22px; }
+  .lname { flex: 1; min-width: 0; font-size: 14px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+  .lpct { font-size: 13px; font-weight: 800; opacity: 0.75; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .cover .lpct { opacity: 1; color: ${GRC_INK('--c')}; }
+  .lctl { display: flex; align-items: center; gap: 4px; }
+  .track { position: relative; flex: 1; min-width: 40px; height: 32px; display: flex; align-items: center; touch-action: none; cursor: pointer; margin-right: 4px; }
+  .rail { position: relative; width: 100%; height: 14px; border-radius: 7px; background: ${GRC_TINT(9)}; }
+  .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 7px; background: rgb(var(--c)); box-shadow: 0 0 calc(var(--glow) * 0.5) rgba(var(--c), 0.6); }
+  .knob { display: none; position: absolute; top: 50%; left: 0; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 9px; background: #FFFFFF; box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.4); }
+  .track.ct .rail { background: linear-gradient(90deg, #FFB46B, #FFF1DC, #CFE3FF); }
+  .track.col .rail { background: linear-gradient(90deg, hsl(0, 90%, 76%), hsl(60, 90%, 76%), hsl(120, 90%, 76%), hsl(180, 90%, 76%), hsl(240, 90%, 76%), hsl(300, 90%, 76%), hsl(360, 90%, 76%)); }
+  .track.ct .fill, .track.col .fill { display: none; }
+  .track.ct .knob, .track.col .knob { display: block; }
+  .mode { width: 30px; height: 30px; border-radius: 15px; padding: 0; flex-shrink: 0; border: 0; display: flex; align-items: center; justify-content: center; background: transparent; color: inherit; opacity: 0.55; }
+  .mode.sel { background: ${GRC_TINT(16)}; opacity: 1; }
+  .mode svg { width: 14px; height: 14px; }
+  .cbtn { width: 34px; height: 34px; border-radius: 12px; padding: 0; flex-shrink: 0; border: 0; display: flex; align-items: center; justify-content: center; background: ${GRC_TINT(9)}; color: inherit; }
+  .cbtn svg { width: 16px; height: 16px; }
+  .cbtn:active { background: rgba(var(--c), 0.35); }
+  .gap { flex: 1; }
+
+  .sw { height: 52px; padding: 0 14px; border-radius: 18px; color: inherit; text-align: left; font-size: 14px; font-weight: 800; }
+  .sw .dot { width: 12px; height: 12px; border-radius: 6px; flex-shrink: 0; background: ${GRC_TINT(18)}; transition: background 0.3s, box-shadow 0.3s; }
+  .sw .n { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sw.on { background: rgba(var(--c), 0.14); border-color: rgba(var(--c), 0.45); }
+  .sw.on .dot { background: rgb(var(--c)); box-shadow: 0 0 10px rgba(var(--c), 0.9); }
+
   .empty { opacity: 0.7; font-weight: 600; padding: 12px 4px; }
-  @media (max-width: 520px) { .list { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: minmax(0, 1fr); } .grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @keyframes grc-fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes grc-pop { from { opacity: 0; transform: scale(0.94) translateY(10px); } to { opacity: 1; transform: none; } }
 `;
 
-const GRC_PRESETS = [
-  { k: 'warm', kelvin: 2700, css: '#FFC58A' },
-  { k: 'neutral', kelvin: 4000, css: '#FFF1DC' },
-  { k: 'cool', kelvin: 6000, css: '#DDEBFF' },
-];
-const GRC_COLORS = ['#FFB899', '#FFE08A', '#8FE3B8', '#8EC5FF', '#B9A8FF', '#FF9FBF'];
+// vaste warme gloed van de popup; alleen de tegels kleuren mee met hun lamp
+const GRC_WARM = [255, 184, 153];
+const GRC_PALETTE = [[255, 184, 153], [185, 168, 255], [142, 197, 255], [143, 227, 184], [255, 224, 138], [255, 159, 191]];
+const GRC_SECTIONS = ['climate', 'scenes', 'lights', 'covers', 'switches'];
+const GRC_COLOR_MODES = ['hs', 'xy', 'rgb', 'rgbw', 'rgbww'];
+// gedeelde cache van opgeslagen scènes (zelfde vraag als de Glow Scene Card)
+const GRC_SCENE_CFG = (window.__glowSceneCfg = window.__glowSceneCfg || new Map());
 
 // variabelen die de popup van het thema moet overnemen (de popup hangt in <body>)
-const GRC_THEME_VARS = ['--glow-card-background', '--glow-card-border', '--glow-text', '--glow-surface', '--glow-border', '--glow-ink-amount', '--paper-font-body1_-_font-family'];
+const GRC_THEME_VARS = ['--glow-card-background', '--glow-card-border', '--glow-text', '--glow-surface', '--glow-border', '--glow-line', '--glow-ink-amount', '--paper-font-body1_-_font-family'];
 
 class GlowRoomCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
     this._built = false;
+    this._modes = {};
   }
 
   static getConfigElement() { return document.createElement('glow-room-card-editor'); }
@@ -2462,6 +2548,7 @@ class GlowRoomCard extends HTMLElement {
     if (!config || (!config.entity && !config.area)) throw new Error(grcT(lang, 'err_entity'));
     this._config = { glow: 22, auto_close: 30, color: '#FFD27A', ...config };
     this._built = false;
+    this._bodyKey = null;
     if (this._hass) { this._build(); this._update(); }
   }
 
@@ -2484,7 +2571,45 @@ class GlowRoomCard extends HTMLElement {
   _lang() { return grcLang(this._hass, this._config && this._config.language); }
   _t(k, v) { return grcT(this._lang(), k, v); }
 
-  /* ---- welke lampen horen bij de kamer ---- */
+  /* ---- wat hoort bij de kamer ---- */
+
+  _area() { return this._config.area || this._areaOf(this._config.entity); }
+
+  _areaOfEnt(ent) {
+    if (!ent) return null;
+    return ent.area_id || (ent.device_id && this._hass.devices && this._hass.devices[ent.device_id] && this._hass.devices[ent.device_id].area_id) || null;
+  }
+
+  _areaOf(entity) {
+    return this._areaOfEnt(entity && this._hass.entities && this._hass.entities[entity]);
+  }
+
+  // zichtbare entiteiten van deze domeinen in de ruimte, op naam gesorteerd
+  _inArea(domains, filter) {
+    const area = this._area();
+    const st = this._hass.states;
+    if (!area || !this._hass.entities) return [];
+    const name = (e) => (st[e].attributes.friendly_name || e).toLowerCase();
+    return Object.values(this._hass.entities)
+      .filter((ent) => {
+        const id = ent.entity_id;
+        if (!domains.includes(id.split('.')[0]) || ent.hidden || ent.entity_category || !st[id]) return false;
+        return this._areaOfEnt(ent) === area && (!filter || filter(st[id]));
+      })
+      .map((ent) => ent.entity_id)
+      .sort((a, b) => name(a).localeCompare(name(b)));
+  }
+
+  _list(key, domains) {
+    const v = this._config[key];
+    if (Array.isArray(v) && v.length) return v.filter((e) => this._hass.states[e]);
+    return this._inArea(domains);
+  }
+
+  _sections() {
+    const s = this._config.sections;
+    return Array.isArray(s) && s.length ? s : GRC_SECTIONS;
+  }
 
   _lights() {
     const c = this._config;
@@ -2501,13 +2626,12 @@ class GlowRoomCard extends HTMLElement {
     if (c.entity) add(c.entity, 0);
     // geen leden (bv. een Hue-ruimte)? dan de lampen uit dezelfde ruimte nemen
     if (!out.length || c.area) {
-      const area = c.area || this._areaOf(c.entity);
+      const area = this._area();
       if (area && this._hass.entities) {
         Object.values(this._hass.entities).forEach((ent) => {
           const id = ent.entity_id;
           if (!id.startsWith('light.') || id === c.entity || ent.hidden || ent.entity_category) return;
-          const a = ent.area_id || (ent.device_id && this._hass.devices && this._hass.devices[ent.device_id] && this._hass.devices[ent.device_id].area_id);
-          if (a !== area || !st[id]) return;
+          if (this._areaOfEnt(ent) !== area || !st[id]) return;
           if (Array.isArray(st[id].attributes.entity_id) || Array.isArray(st[id].attributes.group_entities) || st[id].attributes.is_hue_group) return; // geen groepen
           if (!out.includes(id)) out.push(id);
         });
@@ -2516,15 +2640,43 @@ class GlowRoomCard extends HTMLElement {
     return out;
   }
 
-  _areaOf(entity) {
-    const ent = entity && this._hass.entities && this._hass.entities[entity];
-    if (!ent) return null;
-    return ent.area_id || (ent.device_id && this._hass.devices && this._hass.devices[ent.device_id] && this._hass.devices[ent.device_id].area_id) || null;
+  _climate() {
+    const c = this._config;
+    const st = this._hass.states;
+    const num = (e) => e && st[e] && !isNaN(parseFloat(st[e].state));
+    const byClass = (cls) => this._inArea(['sensor'], (s) => s.attributes.device_class === cls && !isNaN(parseFloat(s.state)))[0];
+    const thermostat = this._inArea(['climate'])[0];
+    const th = thermostat && st[thermostat];
+    let temp = num(c.temperature) ? parseFloat(st[c.temperature].state) : null;
+    if (temp === null && !c.temperature) {
+      const s = byClass('temperature');
+      if (s) temp = parseFloat(st[s].state);
+      else if (th && typeof th.attributes.current_temperature === 'number') temp = th.attributes.current_temperature;
+    }
+    let hum = num(c.humidity) ? parseFloat(st[c.humidity].state) : null;
+    if (hum === null && !c.humidity) {
+      const s = byClass('humidity');
+      if (s) hum = parseFloat(st[s].state);
+      else if (th && typeof th.attributes.current_humidity === 'number') hum = th.attributes.current_humidity;
+    }
+    return { temp, hum, heating: !!(th && th.attributes.hvac_action === 'heating') };
+  }
+
+  _lightModes(s) {
+    const m = (s && s.attributes.supported_color_modes) || [];
+    const out = [];
+    if (m.some((x) => x !== 'onoff')) out.push('bri');
+    if (m.includes('color_temp')) out.push('ct');
+    if (m.some((x) => GRC_COLOR_MODES.includes(x))) out.push('col');
+    return out;
   }
 
   _colorOf(s) {
-    const a = s && s.attributes;
-    if (a && Array.isArray(a.rgb_color)) return grcSoft(a.rgb_color);
+    const a = s && s.state === 'on' && s.attributes;
+    if (a) {
+      if (a.color_mode === 'color_temp' && a.color_temp_kelvin) return grcCtRgb(a.color_temp_kelvin);
+      if (Array.isArray(a.rgb_color)) return grcSoft(a.rgb_color);
+    }
     return grcHexRgb(this._config.color);
   }
 
@@ -2635,37 +2787,30 @@ class GlowRoomCard extends HTMLElement {
     GRC_THEME_VARS.forEach((v) => { const val = cs.getPropertyValue(v); if (val) host.style.setProperty(v, val.trim()); });
     host.style.setProperty('--glow', (parseInt(this._config.glow, 10) || 0) + 'px');
     const c = this._config;
-    const t = (k, v) => this._t(k, v);
     const icon = c.icon ? `<ha-icon icon="${grcEsc(c.icon)}"></ha-icon>` : GRC_BULB;
 
     root.innerHTML = `
       <style>${GRC_POP_STYLE}</style>
       <div class="backdrop">
-        <div class="panel" role="dialog" aria-modal="true">
+        <div class="panel" role="dialog" aria-modal="true" style="--l:${GRC_WARM.join(', ')}">
           <div class="halo"></div>
-          <div class="head">
-            <div class="icon">${icon}</div>
-            <div class="t"><h2></h2><span class="sub"></span></div>
-            <button class="round close" type="button" aria-label="${grcEsc(t('close'))}">${GRC_X}</button>
+          <div class="top">
+            <div class="head">
+              <div class="icon">${icon}</div>
+              <div class="t"><h2></h2><div class="meta"><span class="sub"></span><span class="chips"></span></div></div>
+              <button class="round close" type="button" aria-label="${grcEsc(this._t('close'))}">${GRC_X}</button>
+            </div>
+            <div class="scenes"></div>
           </div>
-          <div class="bar">
-            <button class="pill all-on" type="button">${grcEsc(t('all_on_btn'))}</button>
-            <button class="pill all-off" type="button">${grcEsc(t('all_off_btn'))}</button>
-            <div class="slider room-slider" data-room="1"><div class="fill"></div><span class="lab">${grcEsc(t('brightness'))}</span></div>
-          </div>
-          <div class="bar">
-            ${GRC_PRESETS.map((p) => `<button class="pill preset" type="button" data-kelvin="${p.kelvin}"><span class="sw" style="background:${p.css}"></span>${grcEsc(t(p.k))}</button>`).join('')}
-            <span class="spacer"></span>
-            ${GRC_COLORS.map((col) => `<button class="chip color" type="button" data-color="${col}" style="background:${col}" aria-label="${col}"></button>`).join('')}
-          </div>
-          <div class="list"></div>
+          <div class="body"></div>
         </div>
       </div>`;
 
     document.body.appendChild(host);
     this._pop = host;
     this._popRoot = root;
-    this._listKey = null;
+    this._bodyKey = null;
+    this._chipKey = null;
 
     const close = () => this._closePopup();
     root.querySelector('.backdrop').addEventListener('pointerdown', (e) => { if (e.target.classList.contains('backdrop')) close(); });
@@ -2673,27 +2818,7 @@ class GlowRoomCard extends HTMLElement {
     this._onKey = (e) => { if (e.key === 'Escape') close(); };
     document.addEventListener('keydown', this._onKey);
     root.querySelector('.panel').addEventListener('pointerdown', () => this._resetAutoClose());
-
-    const roomTarget = () => (c.entity ? { entity_id: c.entity } : { entity_id: this._lights() });
-    root.querySelector('.all-on').addEventListener('click', () => this._call('turn_on', roomTarget()));
-    root.querySelector('.all-off').addEventListener('click', () => this._call('turn_off', roomTarget()));
-    root.querySelectorAll('.preset').forEach((b) => b.addEventListener('click', () => {
-      const on = this._lights().filter((e) => this._hass.states[e].state === 'on');
-      this._call('turn_on', { entity_id: on.length ? on : this._lights(), color_temp_kelvin: parseInt(b.dataset.kelvin, 10) });
-    }));
-    root.querySelectorAll('.color').forEach((b) => b.addEventListener('click', () => {
-      const on = this._lights().filter((e) => this._hass.states[e].state === 'on');
-      const targets = (on.length ? on : this._lights()).filter((e) => {
-        const modes = this._hass.states[e].attributes.supported_color_modes || [];
-        return modes.some((m) => ['hs', 'xy', 'rgb', 'rgbw', 'rgbww'].includes(m));
-      });
-      if (targets.length) this._call('turn_on', { entity_id: targets, rgb_color: grcHexRgb(b.dataset.color) });
-    }));
-    this._bindSlider(root.querySelector('.room-slider'), (pct) => {
-      const lights = this._lights();
-      if (pct <= 0) this._call('turn_off', { entity_id: lights });
-      else this._call('turn_on', { entity_id: lights, brightness_pct: pct });
-    });
+    root.querySelector('.body').addEventListener('scroll', () => this._resetAutoClose(), { passive: true });
 
     this._updatePopup();
     this._resetAutoClose();
@@ -2714,36 +2839,304 @@ class GlowRoomCard extends HTMLElement {
   }
 
   // horizontale schuifregelaar; stuurt pas bij loslaten (zuinig voor Zigbee)
-  _bindSlider(el, onSet) {
-    const fill = el.querySelector('.fill');
+  _bindTrack(track, onMove, onSet) {
     const pctOf = (e) => {
-      const r = el.getBoundingClientRect();
-      return Math.round(Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * 100);
+      const r = track.getBoundingClientRect();
+      return Math.round(grcClamp((e.clientX - r.left) / r.width, 0, 1) * 100);
     };
     let active = false;
-    el.addEventListener('pointerdown', (e) => {
+    track.addEventListener('pointerdown', (e) => {
       active = true;
-      el._dragging = true;
-      try { el.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
-      fill.style.width = pctOf(e) + '%';
+      track._dragging = true;
+      try { track.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+      onMove(pctOf(e));
       e.stopPropagation();
       this._resetAutoClose();
     });
-    el.addEventListener('pointermove', (e) => {
-      if (!active) return;
-      const p = pctOf(e);
-      fill.style.width = p + '%';
-      const lab = el.closest('.light') && el.closest('.light').querySelector('.lpct');
-      if (lab) lab.textContent = p + '%';
-    });
+    track.addEventListener('pointermove', (e) => { if (active) onMove(pctOf(e)); });
     const end = (e, apply) => {
       if (!active) return;
       active = false;
-      el._dragging = false;
-      if (apply) onSet(pctOf(e));
+      track._dragging = false;
+      if (apply) {
+        // even de nieuwe stand vasthouden tot Home Assistant hem bevestigt
+        track._hold = Date.now() + 1500;
+        onSet(pctOf(e));
+      } else this._updatePopup();
     };
-    el.addEventListener('pointerup', (e) => end(e, true));
-    el.addEventListener('pointercancel', (e) => end(e, false));
+    track.addEventListener('pointerup', (e) => end(e, true));
+    track.addEventListener('pointercancel', (e) => end(e, false));
+  }
+
+  _busy(track) { return track && (track._dragging || Date.now() < (track._hold || 0)); }
+
+  /* ---- scènes: welke klopt er nu ---- */
+
+  _sceneCfg(s) {
+    const id = s.attributes.id;
+    if (!id) return null;
+    const cfg = GRC_SCENE_CFG.get(id);
+    if (cfg === undefined) {
+      GRC_SCENE_CFG.set(id, 'loading');
+      this._hass.callApi('GET', 'config/scene/config/' + encodeURIComponent(id))
+        .then((r) => GRC_SCENE_CFG.set(id, r && r.entities ? r : null))
+        .catch(() => GRC_SCENE_CFG.set(id, null))
+        .finally(() => { if (this._pop) this._updatePopup(); });
+      return null;
+    }
+    return cfg === 'loading' ? null : cfg;
+  }
+
+  _activeScene(ids) {
+    const st = this._hass.states;
+    const tol = 10 * 2.55;
+    let best = null;
+    let bestT = -1;
+    ids.forEach((id) => {
+      const s = st[id];
+      if (!s) return;
+      const t = Date.parse(s.state) || 0;
+      const cfg = this._sceneCfg(s);
+      let match;
+      if (cfg) {
+        const ents = cfg.entities;
+        const keys = Object.keys(ents);
+        match = keys.some((k) => st[k]) && keys.every((k) => {
+          const want = ents[k];
+          const cur = st[k];
+          if (!cur) return true;
+          const ws = typeof want === 'string' ? want : want.state;
+          if (ws && cur.state !== ws) return false;
+          if (ws === 'on' && k.startsWith('light.') && typeof want.brightness === 'number' && typeof cur.attributes.brightness === 'number'
+            && Math.abs(want.brightness - cur.attributes.brightness) > tol) return false;
+          return true;
+        });
+      } else {
+        // geen opgeslagen scène: de laatst gestarte, zolang haar lampen niet meer veranderden
+        const members = s.attributes.entity_id || [];
+        match = t > 0 && members.every((m) => !st[m] || Date.parse(st[m].last_changed) <= t + 5000);
+      }
+      if (match && t > bestT) { best = id; bestT = t; }
+    });
+    return best;
+  }
+
+  _sceneColor(id, i) {
+    const s = this._hass.states[id];
+    const cfg = s && this._sceneCfg(s);
+    if (cfg) {
+      const cols = Object.values(cfg.entities).filter((e) => e && e.state === 'on' && Array.isArray(e.rgb_color)).map((e) => e.rgb_color);
+      if (cols.length) return grcSoft([0, 1, 2].map((k) => Math.round(cols.reduce((a, c) => a + c[k], 0) / cols.length)));
+    }
+    return GRC_PALETTE[i % GRC_PALETTE.length];
+  }
+
+  /* ---- popup opbouwen en bijwerken ---- */
+
+  _content() {
+    const secs = this._sections();
+    const has = (s) => secs.includes(s);
+    return {
+      secs,
+      climate: has('climate'),
+      scenes: has('scenes') ? this._list('scenes', ['scene']) : [],
+      lights: has('lights') ? this._lights() : [],
+      covers: has('covers') ? this._list('covers', ['cover']) : [],
+      switches: has('switches') ? this._list('switches', ['switch', 'fan', 'input_boolean']) : [],
+    };
+  }
+
+  _buildBody(ct) {
+    const root = this._popRoot;
+    const st = this._hass.states;
+    const t = (k) => grcEsc(this._t(k));
+
+    // scènes bovenaan
+    const scenes = root.querySelector('.scenes');
+    scenes.innerHTML = ct.scenes.map((e, i) => `<button class="scene" type="button" data-e="${grcEsc(e)}" style="--c:${this._sceneColor(e, i).join(', ')}"><span class="dot"></span><span class="sn"></span></button>`).join('');
+    scenes.querySelectorAll('.scene').forEach((b) => b.addEventListener('click', () => {
+      this._resetAutoClose();
+      this._hass.callService('scene', 'turn_on', { entity_id: b.dataset.e });
+    }));
+
+    const lightTile = (e) => {
+      const modes = this._lightModes(st[e]);
+      const ctl = modes.length ? `
+        <div class="lctl">
+          <div class="track"><div class="rail"><div class="fill"></div><div class="knob"></div></div></div>
+          ${modes.length > 1 ? modes.map((m) => `<button class="mode" type="button" data-m="${m}" aria-label="${t({ bri: 'brightness', ct: 'color_temp', col: 'colour' }[m])}">${{ bri: GRC_SUN, ct: GRC_THERMO, col: GRC_PALETTE_ICON }[m]}</button>`).join('') : ''}
+        </div>` : '';
+      return `
+        <div class="tile light" data-e="${grcEsc(e)}">
+          <button class="lbtn" type="button">${GRC_BULB}</button>
+          <div class="lmain">
+            <div class="lrow"><span class="lname"></span><span class="lpct"></span></div>
+            ${ctl}
+          </div>
+        </div>`;
+    };
+    const coverTile = (e, i) => {
+      const f = st[e].attributes.supported_features || 0;
+      const btn = (bit, a, ic) => (f & bit ? `<button class="cbtn" type="button" data-a="${a}" aria-label="${t('c_' + a)}">${ic}</button>` : '');
+      return `
+        <div class="tile cover" data-e="${grcEsc(e)}" style="--c:${GRC_PALETTE[i % GRC_PALETTE.length].join(', ')}">
+          <div class="lmain">
+            <div class="lrow"><span class="lname"></span><span class="lpct"></span></div>
+            <div class="lctl">
+              ${f & 4 ? '<div class="track"><div class="rail"><div class="fill"></div></div></div>' : '<span class="gap"></span>'}
+              ${btn(1, 'open', GRC_UP)}${btn(8, 'stop', GRC_STOP)}${btn(2, 'close', GRC_DOWN)}
+            </div>
+          </div>
+        </div>`;
+    };
+    const switchTile = (e, i) => `<button class="tile sw" type="button" data-e="${grcEsc(e)}" style="--c:${GRC_PALETTE[(i + 1) % GRC_PALETTE.length].join(', ')}"><span class="dot"></span><span class="n"></span></button>`;
+
+    const parts = [];
+    ct.secs.forEach((s) => {
+      if (s === 'lights' && ct.lights.length) {
+        parts.push(`<div class="sec"><div class="sh"><span class="lab">${t('sec_lights')}</span><span class="btns"><button class="mini all-on" type="button">${t('all_on_btn')}</button><button class="mini all-off" type="button">${t('all_off_btn')}</button></span></div><div class="grid">${ct.lights.map(lightTile).join('')}</div></div>`);
+      }
+      if (s === 'covers' && ct.covers.length) {
+        parts.push(`<div class="sec"><div class="sh"><span class="lab">${t('sec_covers')}</span></div><div class="grid">${ct.covers.map(coverTile).join('')}</div></div>`);
+      }
+      if (s === 'switches' && ct.switches.length) {
+        parts.push(`<div class="sec"><div class="sh"><span class="lab">${t('sec_switches')}</span></div><div class="grid three">${ct.switches.map(switchTile).join('')}</div></div>`);
+      }
+    });
+    const body = root.querySelector('.body');
+    body.innerHTML = parts.join('') || (ct.scenes.length ? '' : `<div class="empty">${t('nothing')}</div>`);
+    body.style.display = body.innerHTML ? '' : 'none';
+
+    // lampen
+    const roomTarget = () => (this._config.entity ? { entity_id: this._config.entity } : { entity_id: this._lights() });
+    const allOn = body.querySelector('.all-on');
+    if (allOn) {
+      allOn.addEventListener('click', () => this._call('turn_on', roomTarget()));
+      body.querySelector('.all-off').addEventListener('click', () => this._call('turn_off', roomTarget()));
+    }
+    body.querySelectorAll('.light').forEach((el) => {
+      const e = el.dataset.e;
+      el.querySelector('.lbtn').addEventListener('click', () => { this._resetAutoClose(); this._call('toggle', { entity_id: e }); });
+      el.querySelector('.lname').addEventListener('click', () => { this._closePopup(); this._moreInfo(e); });
+      el.querySelectorAll('.mode').forEach((b) => b.addEventListener('click', () => {
+        this._modes[e] = b.dataset.m;
+        const tr = el.querySelector('.track');
+        if (tr) tr._hold = 0;
+        this._resetAutoClose();
+        this._refreshLight(el);
+      }));
+      const track = el.querySelector('.track');
+      if (!track) return;
+      this._bindTrack(track,
+        (p) => this._previewLight(el, p),
+        (p) => {
+          const s = this._hass.states[e];
+          const m = this._modeOf(e, s);
+          if (m === 'ct') this._call('turn_on', { entity_id: e, color_temp_kelvin: this._kelvinAt(s, p) });
+          else if (m === 'col') this._call('turn_on', { entity_id: e, hs_color: [Math.round(p * 3.6) % 360, 100] });
+          else if (p <= 0) this._call('turn_off', { entity_id: e });
+          else this._call('turn_on', { entity_id: e, brightness_pct: p });
+        });
+    });
+
+    // rolluiken
+    body.querySelectorAll('.cover').forEach((el) => {
+      const e = el.dataset.e;
+      el.querySelector('.lname').addEventListener('click', () => { this._closePopup(); this._moreInfo(e); });
+      el.querySelectorAll('.cbtn').forEach((b) => b.addEventListener('click', () => {
+        this._resetAutoClose();
+        this._hass.callService('cover', b.dataset.a + '_cover', { entity_id: e });
+      }));
+      const track = el.querySelector('.track');
+      if (track) {
+        this._bindTrack(track,
+          (p) => { track.querySelector('.fill').style.width = p + '%'; el.querySelector('.lpct').textContent = this._coverLabel(p); },
+          (p) => this._hass.callService('cover', 'set_cover_position', { entity_id: e, position: p }));
+      }
+    });
+
+    // schakelaars
+    body.querySelectorAll('.sw').forEach((el) => el.addEventListener('click', () => {
+      this._resetAutoClose();
+      this._hass.callService('homeassistant', 'toggle', { entity_id: el.dataset.e });
+    }));
+  }
+
+  _modeOf(e, s) {
+    const modes = this._lightModes(s);
+    return modes.includes(this._modes[e]) ? this._modes[e] : (modes[0] || 'bri');
+  }
+
+  _kelvinRange(s) {
+    const a = (s && s.attributes) || {};
+    const min = a.min_color_temp_kelvin || 2000;
+    const max = a.max_color_temp_kelvin || 6500;
+    return [min, Math.max(max, min + 1)];
+  }
+
+  _kelvinAt(s, p) {
+    const [min, max] = this._kelvinRange(s);
+    return Math.round(min + (max - min) * p / 100);
+  }
+
+  _ctLabel(k) { return this._t(k < 3300 ? 'warm' : k < 4800 ? 'neutral' : 'cool'); }
+
+  _coverLabel(p) { return p >= 100 ? this._t('open') : p <= 0 ? this._t('closed') : p + '%'; }
+
+  // live voorvertoning tijdens het slepen
+  _previewLight(el, p) {
+    const e = el.dataset.e;
+    const s = this._hass.states[e];
+    const m = this._modeOf(e, s);
+    const lab = el.querySelector('.lpct');
+    if (m === 'bri') {
+      el.querySelector('.fill').style.width = p + '%';
+      lab.textContent = p <= 0 ? this._t('off') : p + '%';
+      return;
+    }
+    el.querySelector('.knob').style.left = p + '%';
+    const k = this._kelvinAt(s, p);
+    const rgb = m === 'ct' ? grcCtRgb(k) : grcHueRgb(p * 3.6);
+    el.style.setProperty('--c', rgb.join(', '));
+    el.classList.add('on');
+    lab.textContent = m === 'ct' ? this._ctLabel(k) : this._t('colour');
+  }
+
+  _refreshLight(el) {
+    const e = el.dataset.e;
+    const s = this._hass.states[e];
+    if (!s) return;
+    const a = s.attributes;
+    const isOn = s.state === 'on';
+    const m = this._modeOf(e, s);
+    const track = el.querySelector('.track');
+    el.querySelectorAll('.mode').forEach((b) => b.classList.toggle('sel', b.dataset.m === m));
+    el.querySelector('.lname').textContent = a.friendly_name || e;
+    el.classList.toggle('unavailable', s.state === 'unavailable');
+    if (track) {
+      track.classList.toggle('ct', m === 'ct');
+      track.classList.toggle('col', m === 'col');
+    }
+    if (this._busy(track)) return;
+    el.style.setProperty('--c', this._colorOf(s).join(', '));
+    el.classList.toggle('on', isOn);
+    const bri = isOn ? (a.brightness ? Math.round(a.brightness / 2.55) : 100) : 0;
+    let label = s.state === 'unavailable' ? '–' : (isOn ? bri + '%' : this._t('off'));
+    if (track) {
+      track.querySelector('.fill').style.width = bri + '%';
+      let pos = 0;
+      if (m === 'ct') {
+        const [min, max] = this._kelvinRange(s);
+        const k = a.color_temp_kelvin || Math.round((min + max) / 2);
+        pos = grcClamp((k - min) / (max - min) * 100, 0, 100);
+        if (isOn && a.color_mode === 'color_temp') label = this._ctLabel(k);
+      } else if (m === 'col') {
+        pos = Array.isArray(a.hs_color) ? a.hs_color[0] / 3.6 : 0;
+        if (isOn && GRC_COLOR_MODES.includes(a.color_mode)) label = this._t('colour');
+      }
+      track.querySelector('.knob').style.left = pos + '%';
+    }
+    el.querySelector('.lpct').textContent = label;
   }
 
   _updatePopup() {
@@ -2751,67 +3144,74 @@ class GlowRoomCard extends HTMLElement {
     if (!root || !this._hass) return;
     const c = this._config;
     const st = this._hass.states;
+    const ct = this._content();
+
+    // opnieuw opbouwen als de samenstelling wijzigt
+    const key = JSON.stringify([ct.secs, ct.scenes, ct.lights.map((e) => e + ':' + this._lightModes(st[e]).join('')), ct.covers.map((e) => e + ':' + (st[e].attributes.supported_features || 0)), ct.switches, this._lang()]);
+    if (key !== this._bodyKey) {
+      this._bodyKey = key;
+      this._buildBody(ct);
+    }
+
+    // kop
+    const main = c.entity && st[c.entity];
     const lights = this._lights();
     const on = lights.filter((e) => st[e].state === 'on');
-    const main = c.entity && st[c.entity];
-    const rgb = this._colorOf((main && main.state === 'on' && main) || (on[0] && st[on[0]]));
-    const panel = root.querySelector('.panel');
-    panel.style.setProperty('--l', rgb.join(', '));
-    root.querySelector('.head .icon').classList.toggle('on', on.length > 0);
+    root.querySelector('.head .icon').classList.toggle('on', on.length > 0 || !!(main && main.state === 'on'));
     root.querySelector('h2').textContent = c.name || (main && main.attributes.friendly_name) || c.area || '';
-    root.querySelector('.sub').textContent = on.length === 0 ? this._t('off') : (lights.length > 1 ? this._t('n_on', { n: on.length, t: lights.length }) : this._t('on_one'));
+    root.querySelector('.sub').textContent = !lights.length ? '' : on.length === 0 ? this._t('off') : (lights.length > 1 ? this._t('n_on', { n: on.length, t: lights.length }) : this._t('on_one'));
 
-    // gemiddelde helderheid voor de kamerregelaar
-    const rs = root.querySelector('.room-slider');
-    rs.style.setProperty('--c', rgb.join(', '));
-    if (!rs._dragging) {
-      const bris = on.map((e) => st[e].attributes.brightness || 0).filter((b) => b > 0);
-      const avg = bris.length ? Math.round(bris.reduce((a, b) => a + b, 0) / bris.length / 2.55) : 0;
-      rs.querySelector('.fill').style.width = avg + '%';
+    // klimaat
+    let chips = '';
+    if (ct.climate) {
+      const cl = this._climate();
+      const fmt = (v, d) => v.toLocaleString(this._lang(), { minimumFractionDigits: d, maximumFractionDigits: d });
+      if (cl.temp !== null) chips += `<span class="cchip${cl.heating ? ' heat' : ''}" style="--c:255, 184, 153">${GRC_THERMO}${fmt(cl.temp, 1)}°</span>`;
+      if (cl.hum !== null) chips += `<span class="cchip" style="--c:142, 197, 255">${GRC_DROP}${fmt(cl.hum, 0)}%</span>`;
+    }
+    if (chips !== this._chipKey) {
+      this._chipKey = chips;
+      root.querySelector('.chips').innerHTML = chips;
+      root.querySelector('.chips').style.display = chips ? 'contents' : 'none';
     }
 
-    // lijst met lampen (alleen opnieuw opbouwen als de samenstelling wijzigt)
-    const list = root.querySelector('.list');
-    const key = lights.join(',');
-    if (key !== this._listKey) {
-      this._listKey = key;
-      list.innerHTML = lights.length ? lights.map((e) => `
-        <div class="light" data-e="${grcEsc(e)}">
-          <div class="lrow">
-            <button class="lbtn" type="button">${GRC_BULB}</button>
-            <span class="lname"></span>
-            <span class="lpct"></span>
-          </div>
-          <div class="slider"><div class="fill"></div></div>
-        </div>`).join('') : `<div class="empty">${grcEsc(this._t('no_lights'))}</div>`;
-      list.querySelectorAll('.light').forEach((el) => {
-        const e = el.dataset.e;
-        el.querySelector('.lbtn').addEventListener('click', () => { this._resetAutoClose(); this._call('toggle', { entity_id: e }); });
-        el.querySelector('.lname').addEventListener('click', () => { this._closePopup(); this._moreInfo(e); });
-        this._bindSlider(el.querySelector('.slider'), (pct) => {
-          if (pct <= 0) this._call('turn_off', { entity_id: e });
-          else this._call('turn_on', { entity_id: e, brightness_pct: pct });
-        });
-      });
-    }
-    list.querySelectorAll('.light').forEach((el) => {
+    // scènes
+    const active = ct.scenes.length ? this._activeScene(ct.scenes) : null;
+    root.querySelectorAll('.scene').forEach((b) => {
+      const s = st[b.dataset.e];
+      b.querySelector('.sn').textContent = (s && s.attributes.friendly_name) || b.dataset.e;
+      b.classList.toggle('active', b.dataset.e === active);
+    });
+
+    // lampen
+    root.querySelectorAll('.light').forEach((el) => this._refreshLight(el));
+
+    // rolluiken
+    root.querySelectorAll('.cover').forEach((el) => {
       const s = st[el.dataset.e];
       if (!s) return;
-      const isOn = s.state === 'on';
-      const modes = s.attributes.supported_color_modes || [];
-      const dimmable = modes.some((m) => m !== 'onoff');
-      el.style.setProperty('--c', this._colorOf(isOn ? s : null).join(', '));
-      el.classList.toggle('on', isOn);
+      const a = s.attributes;
+      el.querySelector('.lname').textContent = a.friendly_name || el.dataset.e;
       el.classList.toggle('unavailable', s.state === 'unavailable');
-      el.querySelector('.lname').textContent = s.attributes.friendly_name || el.dataset.e;
-      const sl = el.querySelector('.slider');
-      sl.classList.toggle('off', !isOn);
-      sl.classList.toggle('nodim', !dimmable);
-      if (!sl._dragging) {
-        const pct = isOn ? (s.attributes.brightness ? Math.round(s.attributes.brightness / 2.55) : 100) : 0;
-        sl.querySelector('.fill').style.width = pct + '%';
-        el.querySelector('.lpct').textContent = s.state === 'unavailable' ? '–' : (isOn ? pct + '%' : this._t('off'));
-      }
+      const track = el.querySelector('.track');
+      if (this._busy(track)) return;
+      const pos = typeof a.current_position === 'number' ? a.current_position : (s.state === 'open' ? 100 : s.state === 'closed' ? 0 : null);
+      let label;
+      if (s.state === 'unavailable') label = '–';
+      else if (s.state === 'opening') label = this._t('opening');
+      else if (s.state === 'closing') label = this._t('closing');
+      else label = pos === null ? '' : this._coverLabel(pos);
+      el.querySelector('.lpct').textContent = label;
+      if (track) track.querySelector('.fill').style.width = (pos || 0) + '%';
+    });
+
+    // schakelaars
+    root.querySelectorAll('.sw').forEach((el) => {
+      const s = st[el.dataset.e];
+      if (!s) return;
+      el.querySelector('.n').textContent = s.attributes.friendly_name || el.dataset.e;
+      el.classList.toggle('on', s.state === 'on');
+      el.classList.toggle('unavailable', s.state === 'unavailable');
     });
   }
 }
@@ -2841,6 +3241,8 @@ class GlowRoomCardEditor extends HTMLElement {
         const v = { ...e.detail.value };
         Object.keys(v).forEach((k) => { if (v[k] === '' || v[k] === null || v[k] === undefined || (Array.isArray(v[k]) && !v[k].length)) delete v[k]; });
         if (v.language === 'auto') delete v.language;
+        // alle onderdelen aangevinkt = standaard, dan niet opslaan
+        if (Array.isArray(v.sections) && GRC_SECTIONS.every((s) => v.sections.includes(s))) delete v.sections;
         this._config = { type: this._config.type, ...v };
         this.dispatchEvent(new CustomEvent('config-changed', { detail: { config: this._config }, bubbles: true, composed: true }));
       });
@@ -2854,14 +3256,24 @@ class GlowRoomCardEditor extends HTMLElement {
         { name: 'icon', selector: { icon: {} } },
       ] },
       { name: 'area', selector: { area: {} } },
-      { name: 'lights', selector: { entity: { domain: 'light', multiple: true } } },
       { type: 'grid', name: '', schema: [
-        { name: 'glow', selector: { number: { min: 0, max: 60, step: 2, mode: 'slider', unit_of_measurement: 'px' } } },
+        { name: 'glow', selector: { number: { min: 0, max: 60, step: 1, mode: 'slider', unit_of_measurement: 'px' } } },
         { name: 'auto_close', selector: { number: { min: 0, max: 600, step: 5, mode: 'box', unit_of_measurement: 's' } } },
+      ] },
+      { type: 'expandable', name: '', flatten: true, title: t('popup'), schema: [
+        { name: 'sections', selector: { select: { multiple: true, mode: 'list', options: GRC_SECTIONS.map((s) => ({ value: s, label: t('sec_' + s) })) } } },
+        { name: 'scenes', selector: { entity: { domain: 'scene', multiple: true } } },
+        { name: 'lights', selector: { entity: { domain: 'light', multiple: true } } },
+        { name: 'covers', selector: { entity: { domain: 'cover', multiple: true } } },
+        { name: 'switches', selector: { entity: { domain: ['switch', 'fan', 'input_boolean', 'light'], multiple: true } } },
+        { type: 'grid', name: '', schema: [
+          { name: 'temperature', selector: { entity: { domain: 'sensor', device_class: 'temperature' } } },
+          { name: 'humidity', selector: { entity: { domain: 'sensor', device_class: 'humidity' } } },
+        ] },
       ] },
       { name: 'language', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: t('lang_auto') }].concat(Object.keys(GRC_LANG_NAMES).map((k) => ({ value: k, label: GRC_LANG_NAMES[k] }))) } } },
     ];
-    this._form.data = { glow: 22, auto_close: 30, language: 'auto', ...this._config };
+    this._form.data = { glow: 22, auto_close: 30, language: 'auto', sections: GRC_SECTIONS, ...this._config };
   }
 }
 
@@ -3555,4 +3967,4 @@ if (!window.customCards.some((x) => x.type === 'glow-navbar-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.5.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.5.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');

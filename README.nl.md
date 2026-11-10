@@ -8,7 +8,7 @@ Een familie van gloeiende dashboardkaarten voor Home Assistant, samen te install
 |---|---|---|
 | **Glow Blinds Card** – rolgordijnen als verticale ramen: slepen, stop, live positie en een lucht die het weer volgt. | ![](images/blinds.png) | [Nederlands](docs/blinds.nl.md) · [English](docs/blinds.md) |
 | **Glow Energy Card** – zon, batterij en net met een advies dat je van ver ziet. | ![](images/energy.png) | [Nederlands](docs/energy.nl.md) · [English](docs/energy.md) |
-| **Glow Room Card** – een kamertegel die gloeit in de kleur van de lampen: tik schakelt, dubbeltik opent een popup met alle lampen (aan/uit, helderheid, warm/neutraal/koel, kleuren). | ![](images/room.png) | [Nederlands](docs/room.nl.md) · [English](docs/room.md) |
+| **Glow Room Card** – een kamertegel die gloeit in de kleur van de lampen: tik schakelt, dubbeltik opent een popup met scènes, lampen (helderheid, kleurtemperatuur en kleur per lamp), rolluiken, schakelaars en klimaat. | ![](images/room.png) | [Nederlands](docs/room.nl.md) · [English](docs/room.md) |
 | **Glow Scene Card** – een scèneknop die gloeit zolang de scène nog actief is (de lampen staan nog zoals de scène ze zette). | ![](images/scene.png) | [Nederlands](docs/scene.nl.md) · [English](docs/scene.md) |
 | **Glow Navbar Card** – een navigatiebalk onderaan het scherm om van view te wisselen, met bolletjes voor verwarming, alarm of het aantal lampen aan. | ![](images/navbar.png) | [Nederlands](docs/navbar.nl.md) · [English](docs/navbar.md) |
 
