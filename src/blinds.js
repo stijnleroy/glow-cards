@@ -795,8 +795,8 @@ class GlowBlindsCard extends HTMLElement {
     const key = c.sky === false ? 'off|' + phase : weer + '|' + phase;
     if (key !== this._skyKey) {
       this._skyKey = key;
-      // zon/maan maar één keer: in het meest rechtse raam van de bovenste rij
-      const orbIdx = Math.min(this._cols(), c.blinds.length) - 1;
+      // zon/maan maar één keer: in het meest linkse raam
+      const orbIdx = 0;
       this.shadowRoot.querySelectorAll('.sky').forEach((s, i) => {
         s.innerHTML = c.sky === false
           ? gbcSkyHtml('helder', 'nacht').split('<span')[0]

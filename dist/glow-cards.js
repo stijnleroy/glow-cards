@@ -1,4 +1,4 @@
-/*! Glow Cards v1.9.2 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.9.3 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -799,8 +799,8 @@ class GlowBlindsCard extends HTMLElement {
     const key = c.sky === false ? 'off|' + phase : weer + '|' + phase;
     if (key !== this._skyKey) {
       this._skyKey = key;
-      // zon/maan maar één keer: in het meest rechtse raam van de bovenste rij
-      const orbIdx = Math.min(this._cols(), c.blinds.length) - 1;
+      // zon/maan maar één keer: in het meest linkse raam
+      const orbIdx = 0;
       this.shadowRoot.querySelectorAll('.sky').forEach((s, i) => {
         s.innerHTML = c.sky === false
           ? gbcSkyHtml('helder', 'nacht').split('<span')[0]
@@ -6199,4 +6199,4 @@ if (!window.customCards.some((x) => x.type === 'glow-garage-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.9.2 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.9.3 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
