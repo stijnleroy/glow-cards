@@ -84,6 +84,33 @@ const GNC_STYLE = `
 
 const GNC_VARS = ['--glow-card-background', '--glow-text', '--glow-surface', '--glow-border', '--glow-ink-amount', '--ha-card-border-radius', '--paper-font-body1_-_font-family', '--secondary-text-color'];
 
+const GNC_DEFAULTS = { max_items: 6, labels: 'always', style: 'floating', glow: 15, spacer: true };
+// sleutels die niets over de balk zelf zeggen
+const GNC_LAYOUT_KEYS = ['type', 'grid_options', 'view_layout', 'layout_options', 'visibility'];
+
+// de dashboardconfiguratie maar één keer ophalen, ook als er veel navigatiebalken zijn
+function gncDashConfig(hass, dash) {
+  const cache = (window.__glowNavbarDash = window.__glowNavbarDash || {});
+  const hit = cache[dash];
+  if (hit && Date.now() - hit.t < 10000) return hit.p;
+  const p = hass.callWS({ type: 'lovelace/config', url_path: dash === 'lovelace' ? null : dash });
+  cache[dash] = { t: Date.now(), p };
+  return p;
+}
+
+// de eerste navigatiebalk met eigen instellingen zoeken (ook in secties en stapels)
+function gncFindMaster(cfg) {
+  let found = null;
+  const walk = (node) => {
+    if (found || !node || typeof node !== 'object') return;
+    if (Array.isArray(node)) { node.forEach(walk); return; }
+    if (node.type === 'custom:glow-navbar-card' && Object.keys(node).some((k) => !GNC_LAYOUT_KEYS.includes(k))) { found = node; return; }
+    ['views', 'sections', 'cards', 'card', 'badges'].forEach((k) => { if (node[k]) walk(node[k]); });
+  };
+  walk(cfg && cfg.views);
+  return found;
+}
+
 class GlowNavbarCard extends HTMLElement {
   constructor() {
     super();
@@ -96,7 +123,10 @@ class GlowNavbarCard extends HTMLElement {
   static getStubConfig() { return {}; }
 
   setConfig(config) {
-    this._config = { max_items: 6, labels: 'always', style: 'floating', glow: 15, spacer: true, ...(config || {}) };
+    this._raw = config || {};
+    // een lege kaart neemt de instellingen over van de eerste ingestelde navigatiebalk in dit dashboard
+    this._inherit = !Object.keys(this._raw).some((k) => !GNC_LAYOUT_KEYS.includes(k));
+    this._config = { ...GNC_DEFAULTS, ...this._raw };
     this._views = null;
     this._render();
   }
@@ -146,8 +176,19 @@ class GlowNavbarCard extends HTMLElement {
     if (this._loading || !this._hass || !this._hass.callWS) return;
     this._loading = true;
     const dash = this._dashPath();
-    this._hass.callWS({ type: 'lovelace/config', url_path: dash === 'lovelace' ? null : dash })
+    gncDashConfig(this._hass, dash)
       .then((cfg) => {
+        if (this._inherit) {
+          const master = gncFindMaster(cfg);
+          if (master) {
+            const { type, ...rest } = master;
+            this._config = { ...GNC_DEFAULTS, ...rest };
+            if (Array.isArray(rest.views) && rest.views.length) {
+              this._views = rest.views.map((v, i) => ({ ...v, color: v.color || GNC_PALETTE[i % GNC_PALETTE.length] }));
+              return;
+            }
+          }
+        }
         this._views = (cfg.views || [])
           .map((v, i) => ({ v, i }))
           .filter(({ v }) => !v.subview && v.visible !== false)

@@ -8,6 +8,16 @@ A navigation bar at the bottom of the screen. Tap a view to go there; the active
 
 Add the card at the bottom of **every view** of the dashboard. The bar floats over the screen; the card itself only keeps some space free at the bottom so nothing is hidden behind it. Leave `views` out and the bar is filled automatically with the views of the dashboard.
 
+### Configure it only once
+
+Configure the bar fully on one view, e.g. the first. On every other view, add an empty card:
+
+```yaml
+type: custom:glow-navbar-card
+```
+
+An empty card automatically takes over the settings of the first configured navigation bar in the dashboard, so a change only has to be made in one place. If you do give a card its own settings, that card only uses its own settings.
+
 ```yaml
 type: custom:glow-navbar-card
 max_items: 6

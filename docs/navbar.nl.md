@@ -8,6 +8,16 @@ Een navigatiebalk onderaan het scherm. Tik op een view om erheen te gaan; de act
 
 Zet de kaart onderaan **elke view** van het dashboard. De balk zweeft over het scherm; de kaart zelf houdt onderaan alleen wat ruimte vrij zodat niets erachter verdwijnt. Laat je `views` weg, dan vult de balk zich vanzelf met de views van het dashboard.
 
+### Maar één keer instellen
+
+Stel de balk volledig in op één view, bv. de eerste. Zet op alle andere views een lege kaart:
+
+```yaml
+type: custom:glow-navbar-card
+```
+
+Een lege kaart neemt automatisch de instellingen over van de eerste navigatiebalk in het dashboard die wel ingesteld is. Een aanpassing doe je dan maar op één plek. Geef je een kaart toch eigen instellingen, dan gebruikt die kaart enkel haar eigen instellingen.
+
 ```yaml
 type: custom:glow-navbar-card
 max_items: 6
