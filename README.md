@@ -12,6 +12,7 @@ A family of glowing Home Assistant dashboard cards, installed together through H
 | **Glow Scene Card** – a scene button that glows while the scene is still active (the lights are still as the scene set them). | ![](images/scene.png) | [English](docs/scene.md) · [Nederlands](docs/scene.nl.md) |
 | **Glow Navbar Card** – a navigation bar at the bottom of the screen to switch views, with dots for heating, alarm or the number of lights on. | ![](images/navbar.png) | [English](docs/navbar.md) · [Nederlands](docs/navbar.nl.md) |
 | **Glow Welcome Card** – a welcome card without a background for the top of the dashboard: time, greeting, where everyone is, weather, the next waste collection and mail. | ![](images/welcome.png) | [English](docs/welcome.md) · [Nederlands](docs/welcome.nl.md) |
+| **Glow Security Card** – a large security card for Alarmo: an always-visible keypad, large mode buttons, and the openings and cameras you choose. | ![](images/security.png) | [English](docs/security.md) · [Nederlands](docs/security.nl.md) |
 
 All cards share the same look, support six languages (English, Dutch, French, German, Spanish, Italian) and have a visual editor.
 
