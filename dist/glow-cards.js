@@ -1,4 +1,4 @@
-/*! Glow Cards v1.11.1 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.12.0 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -8213,44 +8213,44 @@ if (!window.customCards.some((x) => x.type === 'glow-weather-card')) {
 const GUSE_I18N = {
   nl: {
     today: 'Vandaag', yesterday: 'Gisteren', week: 'Deze week', month: 'Deze maand', vs: '{d} t.o.v. gisteren', same: 'Zelfde als gisteren', days: 'Laatste {n} dagen', cost: 'Kosten', loading: 'Gegevens laden…', none: 'Nog geen statistieken voor deze meter.',
-    gas: 'Gas', water: 'Water', energy: 'Elektriciteit',
+    gas: 'Gas', water: 'Water', energy: 'Elektriciteit', imp: 'Afname', exp: 'Injectie', net: 'netto',
     err: 'Vul "meters" in met minstens één meter (gas, water, …).',
-    l_meters: 'Meters (totale meterstand, bv. gas, water en elektriciteit)', l_name: 'Titel', l_days: 'Aantal dagen in de grafiek', l_gas_price: 'Prijs gas per eenheid (€)', l_water_price: 'Prijs water per eenheid (€)', l_energy_price: 'Prijs elektriciteit per kWh (€)', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
+    l_meters: 'Meters (totale meterstand, bv. gas, water en elektriciteit)', l_name: 'Titel', l_days: 'Aantal dagen in de grafiek', l_gas_price: 'Prijs gas per eenheid (€)', l_water_price: 'Prijs water per eenheid (€)', l_energy_price: 'Prijs elektriciteit per kWh (€)', l_export_price: 'Vergoeding injectie per kWh (€)', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
     description: 'Verbruik van gas en water: vandaag, week, maand en een grafiek van de laatste dagen.',
   },
   en: {
     today: 'Today', yesterday: 'Yesterday', week: 'This week', month: 'This month', vs: '{d} vs yesterday', same: 'Same as yesterday', days: 'Last {n} days', cost: 'Cost', loading: 'Loading data…', none: 'No statistics for this meter yet.',
-    gas: 'Gas', water: 'Water', energy: 'Electricity',
+    gas: 'Gas', water: 'Water', energy: 'Electricity', imp: 'Import', exp: 'Export', net: 'net',
     err: 'Fill in "meters" with at least one meter (gas, water, …).',
-    l_meters: 'Meters (total meter reading, e.g. gas, water and electricity)', l_name: 'Title', l_days: 'Days in the chart', l_gas_price: 'Gas price per unit', l_water_price: 'Water price per unit', l_energy_price: 'Electricity price per kWh', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
+    l_meters: 'Meters (total meter reading, e.g. gas, water and electricity)', l_name: 'Title', l_days: 'Days in the chart', l_gas_price: 'Gas price per unit', l_water_price: 'Water price per unit', l_energy_price: 'Electricity price per kWh', l_export_price: 'Export compensation per kWh', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
     description: 'Gas and water usage: today, week, month and a chart of the last days.',
   },
   fr: {
     today: 'Aujourd\'hui', yesterday: 'Hier', week: 'Cette semaine', month: 'Ce mois', vs: '{d} par rapport à hier', same: 'Comme hier', days: '{n} derniers jours', cost: 'Coût', loading: 'Chargement…', none: 'Pas encore de statistiques pour ce compteur.',
-    gas: 'Gaz', water: 'Eau', energy: 'Électricité',
+    gas: 'Gaz', water: 'Eau', energy: 'Électricité', imp: 'Prélèvement', exp: 'Injection', net: 'net',
     err: 'Renseignez "meters" avec au moins un compteur.',
-    l_meters: 'Compteurs (index total, p. ex. gaz et eau)', l_name: 'Titre', l_days: 'Jours dans le graphique', l_gas_price: 'Prix du gaz par unité', l_water_price: 'Prix de l\'eau par unité', l_energy_price: 'Prix de l\'électricité par kWh', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
+    l_meters: 'Compteurs (index total, p. ex. gaz et eau)', l_name: 'Titre', l_days: 'Jours dans le graphique', l_gas_price: 'Prix du gaz par unité', l_water_price: 'Prix de l\'eau par unité', l_energy_price: 'Prix de l\'électricité par kWh', l_export_price: 'Rémunération de l\'injection par kWh', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
     description: 'Consommation de gaz et d\'eau : jour, semaine, mois et graphique.',
   },
   de: {
     today: 'Heute', yesterday: 'Gestern', week: 'Diese Woche', month: 'Dieser Monat', vs: '{d} gegenüber gestern', same: 'Wie gestern', days: 'Letzte {n} Tage', cost: 'Kosten', loading: 'Daten laden…', none: 'Noch keine Statistiken für diesen Zähler.',
-    gas: 'Gas', water: 'Wasser', energy: 'Strom',
+    gas: 'Gas', water: 'Wasser', energy: 'Strom', imp: 'Bezug', exp: 'Einspeisung', net: 'netto',
     err: 'Gib unter "meters" mindestens einen Zähler an.',
-    l_meters: 'Zähler (Gesamtstand, z. B. Gas und Wasser)', l_name: 'Titel', l_days: 'Tage im Diagramm', l_gas_price: 'Gaspreis pro Einheit', l_water_price: 'Wasserpreis pro Einheit', l_energy_price: 'Strompreis pro kWh', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
+    l_meters: 'Zähler (Gesamtstand, z. B. Gas und Wasser)', l_name: 'Titel', l_days: 'Tage im Diagramm', l_gas_price: 'Gaspreis pro Einheit', l_water_price: 'Wasserpreis pro Einheit', l_energy_price: 'Strompreis pro kWh', l_export_price: 'Einspeisevergütung pro kWh', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
     description: 'Gas- und Wasserverbrauch: heute, Woche, Monat und Diagramm.',
   },
   es: {
     today: 'Hoy', yesterday: 'Ayer', week: 'Esta semana', month: 'Este mes', vs: '{d} respecto a ayer', same: 'Igual que ayer', days: 'Últimos {n} días', cost: 'Coste', loading: 'Cargando datos…', none: 'Aún no hay estadísticas para este contador.',
-    gas: 'Gas', water: 'Agua', energy: 'Electricidad',
+    gas: 'Gas', water: 'Agua', energy: 'Electricidad', imp: 'Consumo de red', exp: 'Vertido', net: 'neto',
     err: 'Indica en "meters" al menos un contador.',
-    l_meters: 'Contadores (lectura total, p. ej. gas y agua)', l_name: 'Título', l_days: 'Días en el gráfico', l_gas_price: 'Precio del gas por unidad', l_water_price: 'Precio del agua por unidad', l_energy_price: 'Precio de la electricidad por kWh', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
+    l_meters: 'Contadores (lectura total, p. ej. gas y agua)', l_name: 'Título', l_days: 'Días en el gráfico', l_gas_price: 'Precio del gas por unidad', l_water_price: 'Precio del agua por unidad', l_energy_price: 'Precio de la electricidad por kWh', l_export_price: 'Compensación por vertido por kWh', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
     description: 'Consumo de gas y agua: hoy, semana, mes y gráfico.',
   },
   it: {
     today: 'Oggi', yesterday: 'Ieri', week: 'Questa settimana', month: 'Questo mese', vs: '{d} rispetto a ieri', same: 'Come ieri', days: 'Ultimi {n} giorni', cost: 'Costo', loading: 'Caricamento…', none: 'Ancora nessuna statistica per questo contatore.',
-    gas: 'Gas', water: 'Acqua', energy: 'Elettricità',
+    gas: 'Gas', water: 'Acqua', energy: 'Elettricità', imp: 'Prelievo', exp: 'Immissione', net: 'netto',
     err: 'Indica in "meters" almeno un contatore.',
-    l_meters: 'Contatori (lettura totale, es. gas e acqua)', l_name: 'Titolo', l_days: 'Giorni nel grafico', l_gas_price: 'Prezzo del gas per unità', l_water_price: 'Prezzo dell\'acqua per unità', l_energy_price: 'Prezzo dell\'elettricità per kWh', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
+    l_meters: 'Contatori (lettura totale, es. gas e acqua)', l_name: 'Titolo', l_days: 'Giorni nel grafico', l_gas_price: 'Prezzo del gas per unità', l_water_price: 'Prezzo dell\'acqua per unità', l_energy_price: 'Prezzo dell\'elettricità per kWh', l_export_price: 'Compenso per l\'immissione per kWh', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
     description: 'Consumi di gas e acqua: oggi, settimana, mese e grafico.',
   },
 };
@@ -8320,6 +8320,17 @@ const GUSE_STYLE = `
   .col .dn { font-size: 12px; font-weight: 800; opacity: 0.6; }
   .col.today .dn { opacity: 1; color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
   .avg { position: absolute; left: 0; right: 0; border-top: 2px dashed rgba(var(--c), 0.45); pointer-events: none; }
+  .big .xp, .tile .x { font-weight: 800; white-space: nowrap; color: color-mix(in srgb, rgb(var(--x)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .big .xp { font-size: 13px; }
+  .tile .x { font-size: 13px; }
+  .tile .e.gain { color: color-mix(in srgb, rgb(var(--x)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .pair { width: 100%; max-width: 52px; display: flex; align-items: flex-end; justify-content: center; gap: 3px; }
+  .pair .bar { flex: 1; }
+  .pair .bar.x { background: linear-gradient(180deg, rgba(var(--x), 0.75), rgba(var(--x), 0.35)); }
+  .col.today .pair .bar.x { background: rgb(var(--x)); box-shadow: 0 0 var(--glow) rgba(var(--x), 0.6); }
+  .legend { display: inline-flex; gap: 12px; margin-left: 10px; text-transform: none; letter-spacing: 0; }
+  .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 5px; background: rgb(var(--c)); }
+  .legend i.x { background: rgb(var(--x)); }
   .msg { padding: 24px 8px; text-align: center; font-weight: 700; opacity: 0.6; }
   @container (max-width: 520px) {
     .top { grid-template-columns: minmax(0, 1fr); }
@@ -8362,7 +8373,9 @@ class GlowUsageCard extends HTMLElement {
   // een meter kan uit meerdere sensoren bestaan (bv. dag- en nachttarief), die worden opgeteld
   _ids(m) { return [].concat(m.entity).filter(Boolean); }
   _main(m) { return this._ids(m)[0]; }
-  _mkey(m) { return this._ids(m).join(','); }
+  _xids(m) { return [].concat(m.export || []).filter(Boolean); }
+  _mkey(m) { return this._ids(m).join(',') + (this._xids(m).length ? '|' + this._xids(m).join(',') : ''); }
+  _xprice(m) { const p = typeof m.export_price === 'number' ? m.export_price : this._config.export_price; return typeof p === 'number' ? p : parseFloat(p) || 0; }
 
   _kind(m) {
     const s = this._hass.states[this._main(m)];
@@ -8402,14 +8415,14 @@ class GlowUsageCard extends HTMLElement {
     const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const from = new Date(dayStart.getTime() - (Math.max(n, 8) - 1) * 86400000);
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-    const ids = [...new Set([].concat(...this._meters.map((m) => this._ids(m))))];
+    const ids = [...new Set([].concat(...this._meters.map((m) => this._ids(m).concat(this._xids(m)))))];
     const ws = (period, start) => this._hass.callWS({ type: 'recorder/statistics_during_period', start_time: start.toISOString(), statistic_ids: ids, period, types: ['change'] });
     Promise.all([ws('day', from < monthStart ? from : monthStart), ws('month', monthStart)])
       .then(([days, months]) => {
-        this._meters.forEach((m) => {
+        const agg = (list) => {
           const sum = new Map();
           let month = null;
-          this._ids(m).forEach((id) => {
+          list.forEach((id) => {
             (days[id] || []).forEach((r) => {
               const t = typeof r.start === 'number' ? r.start : Date.parse(r.start);
               sum.set(t, (sum.get(t) || 0) + (r.change || 0));
@@ -8417,8 +8430,12 @@ class GlowUsageCard extends HTMLElement {
             const mc = ((months[id] || [])[0] || {}).change;
             if (typeof mc === 'number') month = (month || 0) + mc;
           });
-          const list = [...sum.entries()].sort((a, b) => a[0] - b[0]).map(([t, v]) => ({ t, v }));
-          this._data[this._mkey(m)] = { days: list, month };
+          return { days: [...sum.entries()].sort((a, b) => a[0] - b[0]).map(([t, v]) => ({ t, v })), month };
+        };
+        this._meters.forEach((m) => {
+          const d = agg(this._ids(m));
+          if (this._xids(m).length) d.x = agg(this._xids(m));
+          this._data[this._mkey(m)] = d;
         });
       })
       .catch(() => { this._meters.forEach((m) => { const k = this._mkey(m); this._data[k] = this._data[k] || { days: [], month: null, error: true }; }); })
@@ -8470,52 +8487,69 @@ class GlowUsageCard extends HTMLElement {
     } else {
       const now = new Date();
       const d0 = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-      const byDay = new Map(data.days.map((x) => [new Date(new Date(x.t).getFullYear(), new Date(x.t).getMonth(), new Date(x.t).getDate()).getTime(), x.v]));
+      const dayMap = (list) => new Map(list.map((x) => [new Date(new Date(x.t).getFullYear(), new Date(x.t).getMonth(), new Date(x.t).getDate()).getTime(), x.v]));
+      const byDay = dayMap(data.days);
       const val = (t) => byDay.get(t) || 0;
+      const X = data.x;
+      const xDay = X ? dayMap(X.days) : null;
+      const xval = (t) => (xDay && xDay.get(t)) || 0;
+      const XC = '143, 227, 184';
+      this._card.style.setProperty('--x', XC);
       const today = val(d0);
       const yest = val(d0 - 86400000);
       // week vanaf maandag
       const dow = (now.getDay() + 6) % 7;
       let week = 0;
       for (let i = 0; i <= dow; i++) week += val(d0 - i * 86400000);
-      const month = data.month !== null ? data.month : [...byDay.entries()].filter(([t]) => t >= new Date(now.getFullYear(), now.getMonth(), 1).getTime()).reduce((a, [, v]) => a + v, 0);
+      const mStart = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+      const month = data.month !== null ? data.month : [...byDay.entries()].filter(([t]) => t >= mStart).reduce((a, [, v]) => a + v, 0);
+      let xw = 0;
+      for (let i = 0; i <= dow; i++) xw += xval(d0 - i * 86400000);
+      const xs = X ? { today: xval(d0), yest: xval(d0 - 86400000), week: xw, month: X.month !== null ? X.month : [...xDay.entries()].filter(([t]) => t >= mStart).reduce((a, [, v]) => a + v, 0) } : null;
       const diff = today - yest;
       const up = diff > 0;
       const q = Math.abs(diff) < 1e-9 ? '201, 196, 221' : up ? '255, 184, 153' : '143, 227, 184';
       const cmp = Math.abs(diff) < 1e-9 ? this._t('same') : this._t('vs', { d: (up ? '▲ +' : '▼ −') + this._fmt(Math.abs(diff), m) + ' ' + unit });
       const price = this._price(m);
-      const money = (v) => (price ? `<span class="e">${guseEsc(this._money(v * price))}</span>` : '');
+      const xprice = X ? this._xprice(m) : 0;
+      const money = (v, xv) => {
+        if (!price && !xprice) return '';
+        const net = v * (price || 0) - (xv || 0) * xprice;
+        return `<span class="e${net < 0 ? ' gain' : ''}">${net < 0 ? '+ ' : ''}${guseEsc(this._money(Math.abs(net)))}${X ? ' ' + guseEsc(this._t('net')) : ''}</span>`;
+      };
+      const xline = (v, cls) => (X ? `<span class="${cls}">↑ ${guseEsc(this._fmt(v, m))} ${guseEsc(unit)}</span>` : '');
       html += `
         <div class="top">
           <div class="big">
             <span class="ic">${GUSE_SVG(GUSE_KIND[kind].icon)}</span>
             <span class="tx">
-              <span class="l">${guseEsc(this._t('today'))}</span>
+              <span class="l">${guseEsc(this._t('today'))}${X ? ' · ' + guseEsc(this._t('imp')) : ''}</span>
               <span class="v">${guseEsc(this._fmt(today, m))}<small>${guseEsc(unit)}</small></span>
               <span class="cmp" style="--q:${q}">${guseEsc(cmp)}</span>
+              ${X ? `<span class="xp">↑ ${guseEsc(this._t('exp'))} ${guseEsc(this._fmt(xs.today, m))} ${guseEsc(unit)}</span>` : ''}
             </span>
           </div>
           <div class="tiles">
-            <div class="tile"><span class="l">${guseEsc(this._t('yesterday'))}</span><span class="v">${guseEsc(this._fmt(yest, m))} ${guseEsc(unit)}</span>${money(yest)}</div>
-            <div class="tile"><span class="l">${guseEsc(this._t('week'))}</span><span class="v">${guseEsc(this._fmt(week, m))} ${guseEsc(unit)}</span>${money(week)}</div>
-            <div class="tile"><span class="l">${guseEsc(this._t('month'))}</span><span class="v">${guseEsc(this._fmt(month, m))} ${guseEsc(unit)}</span>${money(month)}</div>
+            <div class="tile"><span class="l">${guseEsc(this._t('yesterday'))}</span><span class="v">${guseEsc(this._fmt(yest, m))} ${guseEsc(unit)}</span>${xline(xs && xs.yest, 'x')}${money(yest, xs && xs.yest)}</div>
+            <div class="tile"><span class="l">${guseEsc(this._t('week'))}</span><span class="v">${guseEsc(this._fmt(week, m))} ${guseEsc(unit)}</span>${xline(xs && xs.week, 'x')}${money(week, xs && xs.week)}</div>
+            <div class="tile"><span class="l">${guseEsc(this._t('month'))}</span><span class="v">${guseEsc(this._fmt(month, m))} ${guseEsc(unit)}</span>${xline(xs && xs.month, 'x')}${money(month, xs && xs.month)}</div>
           </div>
         </div>`;
       // staafjes
       const n = Math.max(3, Math.min(31, parseInt(c.days, 10) || 7));
       const cols = [];
-      for (let i = n - 1; i >= 0; i--) cols.push({ t: d0 - i * 86400000, v: val(d0 - i * 86400000) });
-      const max = Math.max(...cols.map((x) => x.v), 1e-9);
+      for (let i = n - 1; i >= 0; i--) cols.push({ t: d0 - i * 86400000, v: val(d0 - i * 86400000), x: xval(d0 - i * 86400000) });
+      const max = Math.max(...cols.map((x) => Math.max(x.v, X ? x.x : 0)), 1e-9);
       const past = cols.slice(0, -1).filter((x) => x.v > 0);
       const avg = past.length ? past.reduce((a, x) => a + x.v, 0) / past.length : 0;
       const peak = cols.reduce((a, x, i) => (x.v > cols[a].v ? i : a), 0);
       const H = 140 - 18 - 22;
-      html += `<div class="chart"><span class="title">${guseEsc(this._t('days', { n }))}</span><div class="bars">
+      html += `<div class="chart"><span class="title">${guseEsc(this._t('days', { n }))}${X ? `<span class="legend"><span><i></i>${guseEsc(this._t('imp'))}</span><span><i class="x"></i>${guseEsc(this._t('exp'))}</span></span>` : ''}</span><div class="bars">
         ${avg ? `<span class="avg" style="bottom:${(22 + avg / max * H).toFixed(1)}px"></span>` : ''}
         ${cols.map((x, i) => {
           let dn;
           try { dn = new Date(x.t).toLocaleDateString(this._loc(), n > 10 ? { day: 'numeric' } : { weekday: 'short' }); } catch (e) { dn = ''; }
-          return `<div class="col${i === cols.length - 1 ? ' today' : ''}${i === peak ? ' peak' : ''}"><span class="val">${guseEsc(this._fmt(x.v, m))}</span><span class="bar" style="height:${Math.max(4, x.v / max * H).toFixed(1)}px"></span><span class="dn">${guseEsc(dn.replace('.', ''))}</span></div>`;
+          return `<div class="col${i === cols.length - 1 ? ' today' : ''}${i === peak ? ' peak' : ''}"><span class="val">${guseEsc(this._fmt(x.v, m))}</span>${X ? `<span class="pair"><span class="bar" style="height:${Math.max(4, x.v / max * H).toFixed(1)}px"></span><span class="bar x" style="height:${Math.max(4, x.x / max * H).toFixed(1)}px"></span></span>` : `<span class="bar" style="height:${Math.max(4, x.v / max * H).toFixed(1)}px"></span>`}<span class="dn">${guseEsc(dn.replace('.', ''))}</span></div>`;
         }).join('')}
       </div></div>`;
     }
@@ -8556,6 +8590,7 @@ class GlowUsageCardEditor extends HTMLElement {
         { name: 'gas_price', selector: { number: { min: 0, max: 20, step: 0.0001, mode: 'box' } } },
         { name: 'water_price', selector: { number: { min: 0, max: 20, step: 0.0001, mode: 'box' } } },
         { name: 'energy_price', selector: { number: { min: 0, max: 20, step: 0.0001, mode: 'box' } } },
+        { name: 'export_price', selector: { number: { min: 0, max: 20, step: 0.0001, mode: 'box' } } },
       ] },
       { name: 'days', selector: { number: { min: 3, max: 31, step: 1, mode: 'box' } } },
       { name: 'glow', selector: { number: { min: 0, max: 40, step: 1, mode: 'slider', unit_of_measurement: 'px' } } },
@@ -8574,4 +8609,4 @@ if (!window.customCards.some((x) => x.type === 'glow-usage-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.11.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.12.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
