@@ -16,6 +16,10 @@ Een familie van gloeiende dashboardkaarten voor Home Assistant, samen te install
 | **Glow Fan Card** – een ventilatortegel: tik schakelt, met timerknoppen en een eigen tijd. | ![](images/fan.png) | [Nederlands](docs/fan.nl.md) · [English](docs/fan.md) |
 | **Glow Garage Card** – een garagepoorttegel: toont open of dicht, bedienen met een bevestigingstik. | ![](images/garage.png) | [Nederlands](docs/garage.nl.md) · [English](docs/garage.md) |
 | **Glow Thermostat Card** – een thermostaat met draaiknop en een weekschema (comfort en spaarstand) dat in Home Assistant zelf draait. | ![](images/thermostat.png) | [Nederlands](docs/thermostat.nl.md) · [English](docs/thermostat.md) |
+| **Glow Salt Card** – het zoutniveau van de waterontharder: een vat dat leegloopt, een waarschuwing om bij te vullen en een schatting wanneer het op is. | ![](images/salt.png) | [Nederlands](docs/salt.nl.md) · [English](docs/salt.md) |
+| **Glow Media Card** – wat er speelt, met de hoes, een gloed in de kleur van de hoes, bediening, volume en wisselen tussen spelers. | ![](images/media.png) | [Nederlands](docs/media.nl.md) · [English](docs/media.md) |
+| **Glow Weather Card** – het weer met een lucht die het weer volgt, een zonneboog, details, een temperatuurcurve per uur en dagbalken. | ![](images/weather.png) | [Nederlands](docs/weather.nl.md) · [English](docs/weather.md) |
+| **Glow Usage Card** – verbruik van gas en water: vandaag, gisteren, week en maand, met staafjes en kosten. | ![](images/usage.png) | [Nederlands](docs/usage.nl.md) · [English](docs/usage.md) |
 
 Alle kaarten delen dezelfde stijl, spreken zes talen (Nederlands, Engels, Frans, Duits, Spaans, Italiaans) en hebben een visuele editor.
 

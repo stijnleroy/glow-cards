@@ -1,4 +1,4 @@
-/*! Glow Cards v1.10.1 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.11.0 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -7038,4 +7038,1525 @@ if (!window.customCards.some((x) => x.type === 'glow-thermostat-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.10.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+/* ---- salt.js ---- */
+{
+/*
+ * Glow Salt Card
+ * Het zoutniveau van de waterontharder: een vat met zout dat leegloopt,
+ * een waarschuwing om bij te vullen en een schatting wanneer het op is.
+ */
+
+const GSALT_I18N = {
+  nl: {
+    name: 'Zout', ok: 'Voldoende zout', low: 'Bijvullen', empty: 'Bijna leeg, vul bij', unavailable: 'Niet beschikbaar',
+    days_left: 'Nog ongeveer {n} dagen', day_left: 'Nog ongeveer 1 dag', weeks_left: 'Nog ongeveer {n} weken', refilled: 'Bijgevuld op {d}',
+    err: 'Vul "entity" in met de zoutsensor.',
+    l_entity: 'Zoutsensor (% of afstand)', l_name: 'Naam', l_low: 'Waarschuwen onder (%)', l_empty_distance: 'Afstand als het vat leeg is (cm)', l_full_distance: 'Afstand als het vat vol is (cm)', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
+    description: 'Zoutniveau van de waterontharder met waarschuwing en schatting wanneer het op is.',
+  },
+  en: {
+    name: 'Salt', ok: 'Enough salt', low: 'Refill', empty: 'Almost empty, refill', unavailable: 'Unavailable',
+    days_left: 'About {n} days left', day_left: 'About 1 day left', weeks_left: 'About {n} weeks left', refilled: 'Refilled on {d}',
+    err: 'Fill in "entity" with the salt sensor.',
+    l_entity: 'Salt sensor (% or distance)', l_name: 'Name', l_low: 'Warn below (%)', l_empty_distance: 'Distance when empty (cm)', l_full_distance: 'Distance when full (cm)', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
+    description: 'Water softener salt level with a warning and an estimate of when it runs out.',
+  },
+  fr: {
+    name: 'Sel', ok: 'Assez de sel', low: 'À remplir', empty: 'Presque vide, remplissez', unavailable: 'Indisponible',
+    days_left: 'Encore environ {n} jours', day_left: 'Encore environ 1 jour', weeks_left: 'Encore environ {n} semaines', refilled: 'Rempli le {d}',
+    err: 'Renseignez "entity" avec le capteur de sel.',
+    l_entity: 'Capteur de sel (% ou distance)', l_name: 'Nom', l_low: 'Alerter sous (%)', l_empty_distance: 'Distance à vide (cm)', l_full_distance: 'Distance à plein (cm)', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
+    description: 'Niveau de sel de l\'adoucisseur avec alerte et estimation.',
+  },
+  de: {
+    name: 'Salz', ok: 'Genug Salz', low: 'Nachfüllen', empty: 'Fast leer, nachfüllen', unavailable: 'Nicht verfügbar',
+    days_left: 'Noch etwa {n} Tage', day_left: 'Noch etwa 1 Tag', weeks_left: 'Noch etwa {n} Wochen', refilled: 'Nachgefüllt am {d}',
+    err: 'Gib unter "entity" den Salzsensor an.',
+    l_entity: 'Salzsensor (% oder Abstand)', l_name: 'Name', l_low: 'Warnen unter (%)', l_empty_distance: 'Abstand, wenn leer (cm)', l_full_distance: 'Abstand, wenn voll (cm)', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
+    description: 'Salzstand der Enthärtungsanlage mit Warnung und Schätzung.',
+  },
+  es: {
+    name: 'Sal', ok: 'Sal suficiente', low: 'Rellenar', empty: 'Casi vacío, rellena', unavailable: 'No disponible',
+    days_left: 'Quedan unos {n} días', day_left: 'Queda aproximadamente 1 día', weeks_left: 'Quedan unas {n} semanas', refilled: 'Rellenado el {d}',
+    err: 'Indica en "entity" el sensor de sal.',
+    l_entity: 'Sensor de sal (% o distancia)', l_name: 'Nombre', l_low: 'Avisar por debajo de (%)', l_empty_distance: 'Distancia vacío (cm)', l_full_distance: 'Distancia lleno (cm)', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
+    description: 'Nivel de sal del descalcificador con aviso y estimación.',
+  },
+  it: {
+    name: 'Sale', ok: 'Sale sufficiente', low: 'Da riempire', empty: 'Quasi vuoto, riempi', unavailable: 'Non disponibile',
+    days_left: 'Ancora circa {n} giorni', day_left: 'Ancora circa 1 giorno', weeks_left: 'Ancora circa {n} settimane', refilled: 'Riempito il {d}',
+    err: 'Indica in "entity" il sensore del sale.',
+    l_entity: 'Sensore sale (% o distanza)', l_name: 'Nome', l_low: 'Avvisa sotto (%)', l_empty_distance: 'Distanza a vuoto (cm)', l_full_distance: 'Distanza a pieno (cm)', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
+    description: 'Livello del sale dell\'addolcitore con avviso e stima.',
+  },
+};
+const GSALT_LANG_NAMES = { nl: 'Nederlands', en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', it: 'Italiano' };
+function gsaltLang(hass, wanted) {
+  let l = wanted && wanted !== 'auto' ? wanted : ((hass && ((hass.locale && hass.locale.language) || hass.language)) || (typeof navigator !== 'undefined' && navigator.language) || 'en');
+  l = String(l).toLowerCase().split(/[-_]/)[0];
+  return GSALT_I18N[l] ? l : 'en';
+}
+function gsaltT(lang, key, vars) {
+  let s = (GSALT_I18N[lang] && GSALT_I18N[lang][key]) || GSALT_I18N.en[key] || key;
+  if (vars) Object.keys(vars).forEach((k) => { s = s.split('{' + k + '}').join(vars[k]); });
+  return s;
+}
+
+const GSALT_OK = '142, 227, 214';
+const GSALT_LOW = '255, 184, 153';
+const GSALT_EMPTY = '255, 128, 140';
+
+const GSALT_STYLE = `
+  :host { display: block; height: 100%; }
+  ha-card {
+    position: relative; overflow: hidden; box-sizing: border-box; height: 100%; min-height: 112px; padding: 12px 16px 12px 12px;
+    border-radius: var(--ha-card-border-radius, 24px); cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+    color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
+    border: 1px solid var(--glow-card-border, rgba(255, 255, 255, 0.08));
+    display: flex; align-items: center; gap: 14px; transition: border-color 0.4s, box-shadow 0.4s;
+  }
+  ha-card.warn { border-color: rgba(var(--c), 0.55); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.35); background: linear-gradient(rgba(var(--c), 0.12), rgba(var(--c), 0.12)), var(--glow-card-background, #15121F); }
+  ha-card.unavailable { opacity: 0.5; }
+  .halo { position: absolute; right: -50px; top: -60px; width: 160px; height: 160px; border-radius: 50%; background: rgb(var(--c)); opacity: 0.12; filter: blur(46px); pointer-events: none; transition: opacity 0.5s, background 0.4s; }
+  ha-card.warn .halo { opacity: 0.4; }
+  .tank { position: relative; flex-shrink: 0; width: 64px; height: 88px; }
+  .tank svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .tank .body { fill: var(--glow-surface, rgba(255,255,255,0.07)); stroke: var(--glow-border, rgba(255,255,255,0.14)); stroke-width: 1.5; }
+  .tank .lid { fill: var(--glow-border, rgba(255,255,255,0.18)); }
+  .tank .salt { transition: y 0.8s ease, height 0.8s ease; }
+  .tank .line { stroke: rgb(var(--c)); stroke-width: 2.5; stroke-linecap: round; filter: drop-shadow(0 0 4px rgba(var(--c), 0.9)); transition: y1 0.8s ease, y2 0.8s ease; }
+  .txt { position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .name { font-size: 1.05rem; font-weight: 800; opacity: 0.8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pct { font-size: 2rem; font-weight: 800; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .state { font-size: 0.92rem; font-weight: 800; color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .est { font-size: 0.85rem; font-weight: 700; opacity: 0.65; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+`;
+
+class GlowSaltCard extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); this._built = false; }
+  static getConfigElement() { return document.createElement('glow-salt-card-editor'); }
+  static getStubConfig(hass) {
+    const e = Object.keys((hass && hass.states) || {}).find((x) => x.startsWith('sensor.') && /salt|zout/i.test(x));
+    return { entity: e || '' };
+  }
+  setConfig(config) {
+    if (!config || !config.entity) throw new Error(gsaltT(gsaltLang(this._hass, config && config.language), 'err'));
+    this._config = { glow: 15, low: 25, empty_distance: 50, full_distance: 5, ...config };
+    this._built = false;
+    this._est = undefined;
+    if (this._hass) this._render();
+  }
+  set hass(hass) { this._hass = hass; if (this._config) this._render(); }
+  get hass() { return this._hass; }
+  getCardSize() { return 2; }
+  getGridOptions() { return { columns: 6, rows: 2, min_columns: 4, min_rows: 2 }; }
+
+  _lang() { return gsaltLang(this._hass, this._config && this._config.language); }
+  _t(k, v) { return gsaltT(this._lang(), k, v); }
+
+  // percentage uit de sensor: rechtstreeks in %, of uit een afstand tot het zout
+  _pct(state, unit) {
+    const v = parseFloat(state);
+    if (isNaN(v)) return null;
+    const u = String(unit || '').toLowerCase();
+    if (u === '%' || u === '') return Math.max(0, Math.min(100, v));
+    let cm = v;
+    if (u === 'mm') cm = v / 10;
+    else if (u === 'm') cm = v * 100;
+    else if (u === 'in') cm = v * 2.54;
+    const e = parseFloat(this._config.empty_distance);
+    const f = parseFloat(this._config.full_distance);
+    if (!(e > f)) return null;
+    return Math.max(0, Math.min(100, (e - cm) / (e - f) * 100));
+  }
+
+  // verbruik schatten uit de geschiedenis sinds de laatste keer bijvullen (één keer per uur)
+  _loadHistory() {
+    if (this._histAt && Date.now() - this._histAt < 3600000) return;
+    if (!this._hass.callApi) return;
+    this._histAt = Date.now();
+    const start = new Date(Date.now() - 45 * 86400000).toISOString();
+    const unit = (this._hass.states[this._config.entity].attributes || {}).unit_of_measurement;
+    this._hass.callApi('GET', `history/period/${start}?filter_entity_id=${encodeURIComponent(this._config.entity)}&minimal_response&no_attributes`)
+      .then((res) => {
+        const pts = ((res && res[0]) || []).map((p) => ({ t: Date.parse(p.last_changed || p.lu * 1000), v: this._pct(p.state ?? p.s, unit) })).filter((p) => p.v !== null && p.t);
+        if (pts.length < 3) { this._est = null; return; }
+        // laatste bijvulling: een sprong van meer dan 15% omhoog
+        let from = 0;
+        for (let i = 1; i < pts.length; i++) if (pts[i].v - pts[i - 1].v > 15) from = i;
+        this._refill = from > 0 ? pts[from].t : null;
+        const seg = pts.slice(from);
+        const first = seg[0];
+        const last = seg[seg.length - 1];
+        const days = (last.t - first.t) / 86400000;
+        const used = first.v - last.v;
+        this._est = days >= 2 && used > 1 ? Math.max(0, (last.v - 3) / (used / days)) : null;
+      })
+      .catch(() => { this._est = null; })
+      .finally(() => this._render());
+  }
+
+  _build() {
+    this.shadowRoot.innerHTML = `
+      <style>${GSALT_STYLE}</style>
+      <ha-card>
+        <div class="halo"></div>
+        <div class="tank">
+          <svg viewBox="0 0 64 88" aria-hidden="true">
+            <defs>
+              <pattern id="gsalt-grain" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(18)">
+                <rect width="9" height="9" fill="#F4F2FA"/>
+                <rect x="1" y="1" width="3" height="3" rx="0.6" fill="#DCD8EA"/>
+                <rect x="5.5" y="4.5" width="2.5" height="2.5" rx="0.6" fill="#E7E4F2"/>
+                <rect x="2" y="6" width="2" height="2" rx="0.5" fill="#FFFFFF"/>
+              </pattern>
+              <clipPath id="gsalt-clip"><rect x="6" y="12" width="52" height="72" rx="10"/></clipPath>
+            </defs>
+            <rect class="body" x="6" y="12" width="52" height="72" rx="10"/>
+            <g clip-path="url(#gsalt-clip)"><rect class="salt" x="6" y="84" width="52" height="0" fill="url(#gsalt-grain)"/></g>
+            <line class="line" x1="10" x2="54" y1="84" y2="84"/>
+            <rect class="lid" x="2" y="4" width="60" height="9" rx="4.5"/>
+          </svg>
+        </div>
+        <div class="txt"><span class="name"></span><span class="pct"></span><span class="state"></span><span class="est"></span></div>
+      </ha-card>`;
+    this._card = this.shadowRoot.querySelector('ha-card');
+    this._card.addEventListener('click', () => this.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: this._config.entity }, bubbles: true, composed: true })));
+    this._built = true;
+    this._builtLang = this._lang();
+  }
+
+  _render() {
+    if (!this._built || this._builtLang !== this._lang()) this._build();
+    const c = this._config;
+    const s = this._hass.states[c.entity];
+    const r = this.shadowRoot;
+    const una = !s || s.state === 'unavailable' || s.state === 'unknown';
+    const p = una ? null : this._pct(s.state, s.attributes.unit_of_measurement);
+    const low = parseFloat(c.low) || 25;
+    const level = p === null ? 'na' : p < low / 2 ? 'empty' : p < low ? 'low' : 'ok';
+    const col = level === 'empty' ? GSALT_EMPTY : level === 'low' ? GSALT_LOW : GSALT_OK;
+    this._card.style.setProperty('--c', col);
+    this._card.style.setProperty('--glow', (parseInt(c.glow, 10) || 0) + 'px');
+    this._card.classList.toggle('warn', level === 'low' || level === 'empty');
+    this._card.classList.toggle('unavailable', una);
+    r.querySelector('.name').textContent = c.name || (s && s.attributes.friendly_name) || this._t('name');
+    r.querySelector('.pct').textContent = p === null ? '–' : Math.round(p) + '%';
+    r.querySelector('.state').textContent = una ? this._t('unavailable') : p === null ? s.state + ' ' + (s.attributes.unit_of_measurement || '') : this._t(level);
+
+    // het vat: zout van onder (y=84) tot het niveau
+    const top = 84 - (p || 0) / 100 * 72;
+    const salt = r.querySelector('.salt');
+    salt.setAttribute('y', top.toFixed(1));
+    salt.setAttribute('height', (84 - top).toFixed(1));
+    const line = r.querySelector('.line');
+    line.setAttribute('y1', top.toFixed(1)); line.setAttribute('y2', top.toFixed(1));
+    line.style.opacity = p === null ? 0 : 1;
+
+    // schatting
+    if (!una) this._loadHistory();
+    let est = '';
+    if (typeof this._est === 'number' && p !== null && this._est >= 1) {
+      const d = Math.round(this._est);
+      est = d > 27 ? this._t('weeks_left', { n: Math.round(d / 7) }) : d === 1 ? this._t('day_left') : this._t('days_left', { n: Math.max(0, d) });
+    } else if (this._refill) {
+      try { est = this._t('refilled', { d: new Date(this._refill).toLocaleDateString(this._lang(), { day: 'numeric', month: 'short' }) }); } catch (e) { est = ''; }
+    }
+    r.querySelector('.est').textContent = est;
+  }
+}
+
+class GlowSaltCardEditor extends HTMLElement {
+  setConfig(config) { this._config = { ...config }; this._render(); }
+  set hass(hass) { this._hass = hass; if (this._form) this._form.hass = hass; else this._render(); }
+  _render() {
+    if (!this._config || !this._hass) return;
+    const lang = gsaltLang(this._hass, this._config.language);
+    const t = (k) => gsaltT(lang, k);
+    if (!this._form || this._formLang !== lang) {
+      this.innerHTML = '';
+      this._form = document.createElement('ha-form');
+      this._formLang = lang;
+      this._form.computeLabel = (s) => gsaltT(lang, 'l_' + s.name);
+      this._form.addEventListener('value-changed', (e) => {
+        const v = { ...e.detail.value };
+        Object.keys(v).forEach((k) => { if (v[k] === '' || v[k] === null || v[k] === undefined) delete v[k]; });
+        if (v.language === 'auto') delete v.language;
+        [['glow', 15], ['low', 25], ['empty_distance', 50], ['full_distance', 5]].forEach(([k, d]) => { if (v[k] === d) delete v[k]; });
+        this._config = { type: this._config.type, ...v };
+        this.dispatchEvent(new CustomEvent('config-changed', { detail: { config: this._config }, bubbles: true, composed: true }));
+      });
+      this.appendChild(this._form);
+    }
+    this._form.hass = this._hass;
+    const s = this._hass.states[this._config.entity];
+    const unit = s && String(s.attributes.unit_of_measurement || '');
+    const distance = !!unit && unit !== '%';
+    const schema = [
+      { name: 'entity', selector: { entity: { domain: 'sensor' } } },
+      { name: 'name', selector: { text: {} } },
+      { name: 'low', selector: { number: { min: 5, max: 60, step: 1, mode: 'slider', unit_of_measurement: '%' } } },
+    ];
+    if (distance) schema.push({ type: 'grid', name: '', schema: [
+      { name: 'empty_distance', selector: { number: { min: 1, max: 300, step: 1, mode: 'box', unit_of_measurement: 'cm' } } },
+      { name: 'full_distance', selector: { number: { min: 0, max: 300, step: 1, mode: 'box', unit_of_measurement: 'cm' } } },
+    ] });
+    schema.push(
+      { name: 'glow', selector: { number: { min: 0, max: 40, step: 1, mode: 'slider', unit_of_measurement: 'px' } } },
+      { name: 'language', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: t('lang_auto') }].concat(Object.keys(GSALT_LANG_NAMES).map((k) => ({ value: k, label: GSALT_LANG_NAMES[k] }))) } } },
+    );
+    this._form.schema = schema;
+    this._form.data = { glow: 15, low: 25, empty_distance: 50, full_distance: 5, language: 'auto', ...this._config };
+  }
+}
+
+if (!customElements.get('glow-salt-card')) customElements.define('glow-salt-card', GlowSaltCard);
+if (!customElements.get('glow-salt-card-editor')) customElements.define('glow-salt-card-editor', GlowSaltCardEditor);
+window.customCards = window.customCards || [];
+if (!window.customCards.some((x) => x.type === 'glow-salt-card')) {
+  window.customCards.push({ type: 'glow-salt-card', name: 'Glow Salt Card', description: gsaltT(gsaltLang(null), 'description'), preview: true, documentationURL: 'https://github.com/stijnleroy/glow-cards' });
+}
+
+}
+
+/* ---- media.js ---- */
+{
+/*
+ * Glow Media Card
+ * Wat er speelt, met de hoes, een gloed in de kleur van de hoes, bediening,
+ * volume en voortgang. Wisselen tussen meerdere spelers (tv, soundbar, …).
+ */
+
+const GMED_I18N = {
+  nl: {
+    idle: 'Niets aan het spelen', off: 'Uit', unavailable: 'Niet beschikbaar', paused: 'Gepauzeerd', turn_on: 'Aanzetten', turn_off: 'Uitzetten',
+    prev: 'Vorige', next: 'Volgende', play: 'Afspelen', pause: 'Pauzeren', mute: 'Geluid uit', volume: 'Volume',
+    err: 'Vul "entity" of "entities" in met een mediaspeler.',
+    l_entities: 'Mediaspelers', l_name: 'Naam', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
+    description: 'Mediakaart met de hoes, een gloed in de kleur van de hoes, bediening en volume.',
+  },
+  en: {
+    idle: 'Nothing playing', off: 'Off', unavailable: 'Unavailable', paused: 'Paused', turn_on: 'Turn on', turn_off: 'Turn off',
+    prev: 'Previous', next: 'Next', play: 'Play', pause: 'Pause', mute: 'Mute', volume: 'Volume',
+    err: 'Fill in "entity" or "entities" with a media player.',
+    l_entities: 'Media players', l_name: 'Name', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
+    description: 'Media card with the artwork, a glow in its colour, controls and volume.',
+  },
+  fr: {
+    idle: 'Rien en lecture', off: 'Éteint', unavailable: 'Indisponible', paused: 'En pause', turn_on: 'Allumer', turn_off: 'Éteindre',
+    prev: 'Précédent', next: 'Suivant', play: 'Lecture', pause: 'Pause', mute: 'Muet', volume: 'Volume',
+    err: 'Renseignez "entity" ou "entities" avec un lecteur multimédia.',
+    l_entities: 'Lecteurs multimédia', l_name: 'Nom', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
+    description: 'Carte multimédia avec pochette, lueur assortie, commandes et volume.',
+  },
+  de: {
+    idle: 'Es läuft nichts', off: 'Aus', unavailable: 'Nicht verfügbar', paused: 'Pausiert', turn_on: 'Einschalten', turn_off: 'Ausschalten',
+    prev: 'Zurück', next: 'Weiter', play: 'Abspielen', pause: 'Pause', mute: 'Stumm', volume: 'Lautstärke',
+    err: 'Gib "entity" oder "entities" mit einem Mediaplayer an.',
+    l_entities: 'Mediaplayer', l_name: 'Name', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
+    description: 'Medienkarte mit Cover, Leuchten in dessen Farbe, Steuerung und Lautstärke.',
+  },
+  es: {
+    idle: 'No se reproduce nada', off: 'Apagado', unavailable: 'No disponible', paused: 'En pausa', turn_on: 'Encender', turn_off: 'Apagar',
+    prev: 'Anterior', next: 'Siguiente', play: 'Reproducir', pause: 'Pausa', mute: 'Silencio', volume: 'Volumen',
+    err: 'Indica "entity" o "entities" con un reproductor.',
+    l_entities: 'Reproductores', l_name: 'Nombre', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
+    description: 'Tarjeta multimedia con carátula, brillo de su color, controles y volumen.',
+  },
+  it: {
+    idle: 'Niente in riproduzione', off: 'Spento', unavailable: 'Non disponibile', paused: 'In pausa', turn_on: 'Accendi', turn_off: 'Spegni',
+    prev: 'Precedente', next: 'Successivo', play: 'Riproduci', pause: 'Pausa', mute: 'Muto', volume: 'Volume',
+    err: 'Indica "entity" o "entities" con un lettore multimediale.',
+    l_entities: 'Lettori multimediali', l_name: 'Nome', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
+    description: 'Scheda multimediale con copertina, bagliore del suo colore, comandi e volume.',
+  },
+};
+const GMED_LANG_NAMES = { nl: 'Nederlands', en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', it: 'Italiano' };
+function gmedLang(hass, wanted) {
+  let l = wanted && wanted !== 'auto' ? wanted : ((hass && ((hass.locale && hass.locale.language) || hass.language)) || (typeof navigator !== 'undefined' && navigator.language) || 'en');
+  l = String(l).toLowerCase().split(/[-_]/)[0];
+  return GMED_I18N[l] ? l : 'en';
+}
+function gmedT(lang, key) { return (GMED_I18N[lang] && GMED_I18N[lang][key]) || GMED_I18N.en[key] || key; }
+function gmedEsc(s) { return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+const gmedTime = (s) => { s = Math.max(0, Math.floor(s || 0)); const h = Math.floor(s / 3600); const m = Math.floor((s % 3600) / 60); const x = String(s % 60).padStart(2, '0'); return h ? h + ':' + String(m).padStart(2, '0') + ':' + x : m + ':' + x; };
+
+const GMED_DEFAULT = '185, 168, 255';
+const GMED_SVG = (d, fill) => `<svg viewBox="0 0 24 24" ${fill ? 'fill="currentColor"' : 'fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"'}>${d}</svg>`;
+const GMED_ICON = {
+  prev: GMED_SVG('<path d="M6 5h2v14H6z"/><path d="M20 5v14L9 12z"/>', true),
+  next: GMED_SVG('<path d="M16 5h2v14h-2z"/><path d="M4 5v14l11-7z"/>', true),
+  play: GMED_SVG('<path d="M7 4.5v15l13-7.5z"/>', true),
+  pause: GMED_SVG('<rect x="6" y="4.5" width="4.5" height="15" rx="1.2"/><rect x="13.5" y="4.5" width="4.5" height="15" rx="1.2"/>', true),
+  vol: GMED_SVG('<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/>'),
+  mute: GMED_SVG('<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/>'),
+  power: GMED_SVG('<path d="M12 3v9"/><path d="M6.3 7.2a8 8 0 1 0 11.4 0"/>'),
+  note: GMED_SVG('<path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>'),
+  tv: GMED_SVG('<rect x="3" y="5" width="18" height="12" rx="2.5"/><path d="M8 21h8"/>'),
+};
+
+const GMED_STYLE = `
+  :host { display: block; }
+  ha-card {
+    display: block; position: relative; overflow: hidden; box-sizing: border-box; padding: 16px; border-radius: var(--ha-card-border-radius, 24px); container-type: inline-size;
+    color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
+    border: 1px solid var(--glow-card-border, rgba(255, 255, 255, 0.08)); user-select: none; -webkit-user-select: none;
+    transition: border-color 0.6s, box-shadow 0.6s;
+  }
+  ha-card.playing { border-color: rgba(var(--c), 0.5); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.35); }
+  .bg { position: absolute; inset: -40px; background-size: cover; background-position: center; filter: blur(40px) saturate(1.3); opacity: 0; transition: opacity 0.8s; pointer-events: none; }
+  ha-card.has-art .bg { opacity: 0.28; }
+  .tint { position: absolute; inset: 0; background: linear-gradient(120deg, rgba(var(--c), 0.18), transparent 60%); opacity: 0; transition: opacity 0.6s; pointer-events: none; }
+  ha-card.playing .tint { opacity: 1; }
+  button { font: inherit; cursor: pointer; color: inherit; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .players { position: relative; display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; scrollbar-width: none; }
+  .players:empty { display: none; }
+  .players::-webkit-scrollbar { display: none; }
+  .pl { height: 30px; padding: 0 12px; border-radius: 15px; flex-shrink: 0; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid transparent; }
+  .pl i { width: 7px; height: 7px; border-radius: 4px; background: var(--glow-border, rgba(255,255,255,0.2)); }
+  .pl.live i { background: rgb(var(--c)); box-shadow: 0 0 6px rgba(var(--c), 0.9); }
+  .pl.sel { border-color: rgba(var(--c), 0.55); background: rgba(var(--c), 0.16); }
+  .main { position: relative; display: flex; gap: 16px; align-items: center; }
+  .art { position: relative; width: 112px; height: 112px; flex-shrink: 0; border-radius: 20px; overflow: hidden; cursor: pointer;
+    background: var(--glow-surface, rgba(255,255,255,0.07)); display: flex; align-items: center; justify-content: center; transition: box-shadow 0.6s; }
+  ha-card.playing .art { box-shadow: 0 0 var(--glow) rgba(var(--c), 0.7), 0 10px 26px rgba(0, 0, 0, 0.35); }
+  .art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .art svg { width: 44px; height: 44px; opacity: 0.4; }
+  .info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .title { font-size: 1.25rem; font-weight: 800; line-height: 1.2; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .artist { font-size: 0.95rem; font-weight: 700; opacity: 0.7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: -6px; }
+  .prog { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; opacity: 0.85; font-variant-numeric: tabular-nums; }
+  .prog .rail { flex: 1; height: 6px; border-radius: 3px; background: var(--glow-border, rgba(255,255,255,0.14)); overflow: hidden; }
+  .prog .fill { height: 100%; width: 0; border-radius: 3px; background: rgb(var(--c)); box-shadow: 0 0 8px rgba(var(--c), 0.8); }
+  .prog[hidden] { display: none; }
+  .ctl { display: flex; align-items: center; gap: 10px; }
+  .b { width: 44px; height: 44px; border-radius: 22px; padding: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 0; background: var(--glow-surface, rgba(255,255,255,0.07)); }
+  .b svg { width: 20px; height: 20px; }
+  .b.big { width: 56px; height: 56px; border-radius: 28px; color: #1C1730; background: rgb(var(--c)); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.7); }
+  .b.big svg { width: 26px; height: 26px; }
+  .b[hidden] { display: none; }
+  .b:active { transform: scale(0.94); }
+  .vol { flex: 1; min-width: 80px; display: flex; align-items: center; gap: 8px; }
+  .vol .b { width: 38px; height: 38px; background: transparent; }
+  .vol .track { flex: 1; height: 32px; display: flex; align-items: center; touch-action: none; cursor: pointer; }
+  .vol .rail { position: relative; width: 100%; height: 10px; border-radius: 5px; background: var(--glow-border, rgba(255,255,255,0.14)); }
+  .vol .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; background: rgba(var(--c), 0.9); }
+  .vol[hidden] { display: none; }
+  ha-card.idle .ctl .b:not(.pw), ha-card.idle .vol { display: none; }
+  .pw[hidden] { display: none; }
+  @container (max-width: 420px) {
+    .art { width: 84px; height: 84px; border-radius: 16px; }
+    .ctl { flex-wrap: wrap; }
+    .vol { flex-basis: 100%; }
+  }
+`;
+
+// opvallende kleur uit de hoes halen (zelfde bron, dus het canvas mag gelezen worden)
+function gmedColor(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      try {
+        const cv = document.createElement('canvas');
+        cv.width = 24; cv.height = 24;
+        const ctx = cv.getContext('2d');
+        ctx.drawImage(img, 0, 0, 24, 24);
+        const d = ctx.getImageData(0, 0, 24, 24).data;
+        let best = null;
+        let bestScore = -1;
+        let sum = [0, 0, 0];
+        for (let i = 0; i < d.length; i += 4) {
+          const r = d[i], g = d[i + 1], b = d[i + 2];
+          sum[0] += r; sum[1] += g; sum[2] += b;
+          const mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+          const sat = mx ? (mx - mn) / mx : 0;
+          const score = sat * (mx / 255) * (mx > 40 ? 1 : 0.2);
+          if (score > bestScore) { bestScore = score; best = [r, g, b]; }
+        }
+        let c = bestScore > 0.2 ? best : sum.map((x) => Math.round(x / (d.length / 4)));
+        // pastel maken, zoals de rest van de Glow-kaarten
+        c = c.map((x) => Math.round(x + (255 - x) * 0.35));
+        resolve(c.join(', '));
+      } catch (e) { resolve(null); }
+    };
+    img.onerror = () => resolve(null);
+    img.src = url;
+  });
+}
+
+class GlowMediaCard extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); this._built = false; this._sel = null; this._colors = {}; }
+  static getConfigElement() { return document.createElement('glow-media-card-editor'); }
+  static getStubConfig(hass) {
+    const ids = Object.keys((hass && hass.states) || {}).filter((e) => e.startsWith('media_player.'));
+    return { entities: ids.slice(0, 2) };
+  }
+  setConfig(config) {
+    const list = Array.isArray(config && config.entities) ? config.entities : config && config.entity ? [config.entity] : [];
+    if (!list.length) throw new Error(gmedT(gmedLang(this._hass, config && config.language), 'err'));
+    this._config = { glow: 15, ...config };
+    this._list = list.map((e) => (typeof e === 'string' ? { entity: e } : e)).filter((e) => e && e.entity);
+    this._built = false;
+    if (this._hass) this._render();
+  }
+  set hass(hass) { this._hass = hass; if (this._config) this._render(); }
+  get hass() { return this._hass; }
+  getCardSize() { return 3; }
+  getGridOptions() { return { columns: 12, rows: 'auto', min_columns: 6 }; }
+  connectedCallback() { clearInterval(this._tick); this._tick = setInterval(() => this._progress(), 1000); }
+  disconnectedCallback() { clearInterval(this._tick); }
+
+  _lang() { return gmedLang(this._hass, this._config && this._config.language); }
+  _t(k) { return gmedT(this._lang(), k); }
+
+  // de gekozen speler, of anders de eerste die speelt
+  _current() {
+    const st = this._hass.states;
+    const ok = this._list.filter((x) => st[x.entity]);
+    if (this._sel && ok.some((x) => x.entity === this._sel)) return this._sel;
+    const playing = ok.find((x) => st[x.entity].state === 'playing') || ok.find((x) => st[x.entity].state === 'paused') || ok.find((x) => !['off', 'unavailable', 'standby'].includes(st[x.entity].state));
+    return (playing || ok[0] || {}).entity;
+  }
+
+  _call(svc, data) { this._hass.callService('media_player', svc, { entity_id: this._cur, ...(data || {}) }); }
+
+  _build() {
+    this.shadowRoot.innerHTML = `
+      <style>${GMED_STYLE}</style>
+      <ha-card>
+        <div class="bg"></div><div class="tint"></div>
+        <div class="players"></div>
+        <div class="main">
+          <div class="art"></div>
+          <div class="info">
+            <span class="title"></span>
+            <span class="artist"></span>
+            <div class="prog" hidden><span class="pos"></span><div class="rail"><div class="fill"></div></div><span class="dur"></span></div>
+            <div class="ctl">
+              <button class="b pw" type="button" data-a="power">${GMED_ICON.power}</button>
+              <button class="b" type="button" data-a="prev" aria-label="${gmedEsc(this._t('prev'))}">${GMED_ICON.prev}</button>
+              <button class="b big" type="button" data-a="play"></button>
+              <button class="b" type="button" data-a="next" aria-label="${gmedEsc(this._t('next'))}">${GMED_ICON.next}</button>
+              <div class="vol">
+                <button class="b" type="button" data-a="mute" aria-label="${gmedEsc(this._t('mute'))}"></button>
+                <div class="track" aria-label="${gmedEsc(this._t('volume'))}"><div class="rail"><div class="fill"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ha-card>`;
+    const r = this.shadowRoot;
+    this._card = r.querySelector('ha-card');
+    r.querySelector('.players').addEventListener('click', (e) => { const b = e.target.closest('.pl'); if (b) { this._sel = b.dataset.e; this._render(); } });
+    r.querySelector('.art').addEventListener('click', () => this.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: this._cur }, bubbles: true, composed: true })));
+    r.querySelector('.ctl').addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if (!b || !this._cur) return;
+      const s = this._hass.states[this._cur];
+      const a = b.dataset.a;
+      if (a === 'play') this._call(s.state === 'playing' ? 'media_pause' : 'media_play');
+      else if (a === 'prev') this._call('media_previous_track');
+      else if (a === 'next') this._call('media_next_track');
+      else if (a === 'mute') this._call('volume_mute', { is_volume_muted: !s.attributes.is_volume_muted });
+      else if (a === 'power') this._call(['off', 'standby'].includes(s.state) ? 'turn_on' : 'turn_off');
+    });
+    // volume: slepen, versturen bij loslaten
+    const track = r.querySelector('.vol .track');
+    const fill = r.querySelector('.vol .fill');
+    const pct = (e) => { const b = track.getBoundingClientRect(); return Math.max(0, Math.min(1, (e.clientX - b.left) / b.width)); };
+    let drag = false;
+    track.addEventListener('pointerdown', (e) => { drag = true; this._volDrag = true; try { track.setPointerCapture(e.pointerId); } catch (x) { /* ignore */ } fill.style.width = pct(e) * 100 + '%'; });
+    track.addEventListener('pointermove', (e) => { if (drag) fill.style.width = pct(e) * 100 + '%'; });
+    track.addEventListener('pointerup', (e) => { if (!drag) return; drag = false; const v = Math.round(pct(e) * 100) / 100; this._call('volume_set', { volume_level: v }); setTimeout(() => { this._volDrag = false; }, 1500); });
+    track.addEventListener('pointercancel', () => { drag = false; this._volDrag = false; });
+    this._built = true;
+    this._builtLang = this._lang();
+    this._keys = {};
+  }
+
+  _progress() {
+    if (!this._built || !this._hass || !this._cur) return;
+    const s = this._hass.states[this._cur];
+    const r = this.shadowRoot;
+    const prog = r.querySelector('.prog');
+    const a = s && s.attributes;
+    if (!a || !a.media_duration || a.media_position === undefined) { prog.hidden = true; return; }
+    let pos = a.media_position;
+    if (s.state === 'playing' && a.media_position_updated_at) pos += (Date.now() - Date.parse(a.media_position_updated_at)) / 1000;
+    pos = Math.min(pos, a.media_duration);
+    prog.hidden = false;
+    r.querySelector('.pos').textContent = gmedTime(pos);
+    r.querySelector('.dur').textContent = gmedTime(a.media_duration);
+    r.querySelector('.prog .fill').style.width = (pos / a.media_duration * 100).toFixed(2) + '%';
+  }
+
+  _render() {
+    if (!this._built || this._builtLang !== this._lang()) this._build();
+    const st = this._hass.states;
+    const r = this.shadowRoot;
+    this._cur = this._current();
+    const s = this._cur && st[this._cur];
+    const a = (s && s.attributes) || {};
+    const state = s ? s.state : 'unavailable';
+    const active = state === 'playing' || state === 'paused' || state === 'buffering';
+    const f = a.supported_features || 0;
+    this._card.style.setProperty('--glow', (parseInt(this._config.glow, 10) || 0) + 'px');
+
+    // spelers
+    const chips = this._list.length > 1 ? this._list.filter((x) => st[x.entity]).map((x) => {
+      const ps = st[x.entity];
+      return `<button class="pl${x.entity === this._cur ? ' sel' : ''}${ps.state === 'playing' ? ' live' : ''}" type="button" data-e="${gmedEsc(x.entity)}"><i></i>${gmedEsc(x.name || ps.attributes.friendly_name || x.entity)}</button>`;
+    }).join('') : '';
+    if (this._keys.chips !== chips) { this._keys.chips = chips; r.querySelector('.players').innerHTML = chips; }
+
+    // hoes en kleur
+    const pic = active ? (a.entity_picture_local || a.entity_picture) : null;
+    const artKey = pic || (/tv|android|chromecast|shield/i.test(this._cur || '') ? 'tv' : 'note');
+    if (this._keys.art !== artKey) {
+      this._keys.art = artKey;
+      r.querySelector('.art').innerHTML = pic ? `<img alt="" src="${gmedEsc(pic)}">` : GMED_ICON[artKey];
+      r.querySelector('.bg').style.backgroundImage = pic ? `url("${pic.replace(/"/g, '%22')}")` : 'none';
+      this._card.classList.toggle('has-art', !!pic);
+      if (pic && !this._colors[pic]) gmedColor(pic).then((c) => { this._colors[pic] = c || GMED_DEFAULT; this._render(); });
+    }
+    const col = (pic && this._colors[pic]) || GMED_DEFAULT;
+    this._card.style.setProperty('--c', col);
+    this._card.classList.toggle('playing', state === 'playing');
+    this._card.classList.toggle('idle', !active);
+
+    // tekst
+    const name = (this._list.find((x) => x.entity === this._cur) || {}).name || a.friendly_name || this._cur || '';
+    let title;
+    let sub;
+    if (active) {
+      title = a.media_title || a.app_name || a.source || name;
+      sub = [a.media_artist || a.media_series_title || a.media_album_artist, a.media_artist ? null : a.app_name].filter(Boolean).join(' · ') || name;
+      if (state === 'paused') sub = this._t('paused') + ' · ' + sub;
+    } else {
+      title = name;
+      sub = state === 'unavailable' ? this._t('unavailable') : ['off', 'standby'].includes(state) ? this._t('off') : this._t('idle');
+    }
+    r.querySelector('.title').textContent = title;
+    r.querySelector('.artist').textContent = sub;
+
+    // knoppen volgens wat de speler kan
+    const play = r.querySelector('[data-a="play"]');
+    const playIcon = state === 'playing' ? 'pause' : 'play';
+    if (this._keys.play !== playIcon) { this._keys.play = playIcon; play.innerHTML = GMED_ICON[playIcon]; play.setAttribute('aria-label', this._t(playIcon)); }
+    play.hidden = !(f & 1 || f & 16384);
+    r.querySelector('[data-a="prev"]').hidden = !(f & 16);
+    r.querySelector('[data-a="next"]').hidden = !(f & 32);
+    const pw = r.querySelector('[data-a="power"]');
+    pw.hidden = !(f & 128 || f & 256) || active;
+    pw.setAttribute('aria-label', this._t(['off', 'standby'].includes(state) ? 'turn_on' : 'turn_off'));
+    const vol = r.querySelector('.vol');
+    vol.hidden = !(f & 4);
+    const muted = !!a.is_volume_muted;
+    const mi = muted ? 'mute' : 'vol';
+    if (this._keys.mute !== mi) { this._keys.mute = mi; r.querySelector('[data-a="mute"]').innerHTML = GMED_ICON[mi]; }
+    r.querySelector('[data-a="mute"]').hidden = !(f & 8);
+    if (!this._volDrag) r.querySelector('.vol .fill').style.width = (muted ? 0 : (a.volume_level || 0) * 100) + '%';
+    this._progress();
+  }
+}
+
+class GlowMediaCardEditor extends HTMLElement {
+  setConfig(config) { this._config = { ...config }; this._render(); }
+  set hass(hass) { this._hass = hass; if (this._form) this._form.hass = hass; else this._render(); }
+  _render() {
+    if (!this._config || !this._hass) return;
+    const lang = gmedLang(this._hass, this._config.language);
+    const t = (k) => gmedT(lang, k);
+    if (!this._form || this._formLang !== lang) {
+      this.innerHTML = '';
+      this._form = document.createElement('ha-form');
+      this._formLang = lang;
+      this._form.computeLabel = (s) => gmedT(lang, 'l_' + s.name);
+      this._form.addEventListener('value-changed', (e) => {
+        const v = { ...e.detail.value };
+        Object.keys(v).forEach((k) => { if (v[k] === '' || v[k] === null || v[k] === undefined || (Array.isArray(v[k]) && !v[k].length)) delete v[k]; });
+        if (v.language === 'auto') delete v.language;
+        if (v.glow === 15) delete v.glow;
+        delete v.entity;
+        this._config = { type: this._config.type, ...v };
+        this.dispatchEvent(new CustomEvent('config-changed', { detail: { config: this._config }, bubbles: true, composed: true }));
+      });
+      this.appendChild(this._form);
+    }
+    this._form.hass = this._hass;
+    const simple = (this._config.entities || []).every((x) => typeof x === 'string');
+    const ents = this._config.entities || (this._config.entity ? [this._config.entity] : []);
+    this._form.schema = [
+      ...(simple ? [{ name: 'entities', selector: { entity: { domain: 'media_player', multiple: true } } }] : []),
+      { name: 'glow', selector: { number: { min: 0, max: 40, step: 1, mode: 'slider', unit_of_measurement: 'px' } } },
+      { name: 'language', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: t('lang_auto') }].concat(Object.keys(GMED_LANG_NAMES).map((k) => ({ value: k, label: GMED_LANG_NAMES[k] }))) } } },
+    ];
+    this._form.data = { glow: 15, language: 'auto', ...this._config, entities: ents };
+  }
+}
+
+if (!customElements.get('glow-media-card')) customElements.define('glow-media-card', GlowMediaCard);
+if (!customElements.get('glow-media-card-editor')) customElements.define('glow-media-card-editor', GlowMediaCardEditor);
+window.customCards = window.customCards || [];
+if (!window.customCards.some((x) => x.type === 'glow-media-card')) {
+  window.customCards.push({ type: 'glow-media-card', name: 'Glow Media Card', description: gmedT(gmedLang(null), 'description'), preview: true, documentationURL: 'https://github.com/stijnleroy/glow-cards' });
+}
+
+}
+
+/* ---- weather.js ---- */
+{
+/*
+ * Glow Weather Card
+ * Het weer in de Glow-stijl: een lucht die het weer en het dagdeel volgt,
+ * een zonneboog, details, een temperatuurcurve per uur en dagbalken.
+ */
+
+const GWX_I18N = {
+  nl: {
+    feels: 'Voelt als', wind: 'Wind', humidity: 'Vochtigheid', pressure: 'Luchtdruk', precipitation: 'Neerslag', uv: 'UV-index', clouds: 'Bewolking', visibility: 'Zicht', dew: 'Dauwpunt',
+    hourly: 'Per uur', daily: 'Komende dagen', today: 'Vandaag', now: 'Nu', sunrise: 'Zonsopgang', sunset: 'Zonsondergang', unavailable: 'Niet beschikbaar',
+    c: { 'clear-night': 'Helder', cloudy: 'Bewolkt', exceptional: 'Uitzonderlijk', fog: 'Mist', hail: 'Hagel', lightning: 'Onweer', 'lightning-rainy': 'Onweer met regen', partlycloudy: 'Halfbewolkt', pouring: 'Hevige regen', rainy: 'Regen', snowy: 'Sneeuw', 'snowy-rainy': 'Natte sneeuw', sunny: 'Zonnig', windy: 'Winderig', 'windy-variant': 'Winderig en bewolkt' },
+    err: 'Vul "entity" in met een weer-entiteit.',
+    l_entity: 'Weer', l_name: 'Naam', l_show_hourly: 'Verwachting per uur', l_show_daily: 'Verwachting per dag', l_show_details: 'Details', l_days: 'Aantal dagen', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
+    description: 'Weerkaart met een lucht die het weer volgt, zonneboog, details en verwachting.',
+  },
+  en: {
+    feels: 'Feels like', wind: 'Wind', humidity: 'Humidity', pressure: 'Pressure', precipitation: 'Precipitation', uv: 'UV index', clouds: 'Clouds', visibility: 'Visibility', dew: 'Dew point',
+    hourly: 'Hourly', daily: 'Next days', today: 'Today', now: 'Now', sunrise: 'Sunrise', sunset: 'Sunset', unavailable: 'Unavailable',
+    c: { 'clear-night': 'Clear', cloudy: 'Cloudy', exceptional: 'Exceptional', fog: 'Fog', hail: 'Hail', lightning: 'Thunderstorm', 'lightning-rainy': 'Thunderstorm and rain', partlycloudy: 'Partly cloudy', pouring: 'Heavy rain', rainy: 'Rain', snowy: 'Snow', 'snowy-rainy': 'Sleet', sunny: 'Sunny', windy: 'Windy', 'windy-variant': 'Windy and cloudy' },
+    err: 'Fill in "entity" with a weather entity.',
+    l_entity: 'Weather', l_name: 'Name', l_show_hourly: 'Hourly forecast', l_show_daily: 'Daily forecast', l_show_details: 'Details', l_days: 'Number of days', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
+    description: 'Weather card with a sky that follows the weather, a sun arc, details and forecast.',
+  },
+  fr: {
+    feels: 'Ressenti', wind: 'Vent', humidity: 'Humidité', pressure: 'Pression', precipitation: 'Précipitations', uv: 'Indice UV', clouds: 'Nuages', visibility: 'Visibilité', dew: 'Point de rosée',
+    hourly: 'Par heure', daily: 'Prochains jours', today: 'Aujourd\'hui', now: 'Maint.', sunrise: 'Lever', sunset: 'Coucher', unavailable: 'Indisponible',
+    c: { 'clear-night': 'Dégagé', cloudy: 'Nuageux', exceptional: 'Exceptionnel', fog: 'Brouillard', hail: 'Grêle', lightning: 'Orage', 'lightning-rainy': 'Orage et pluie', partlycloudy: 'Partiellement nuageux', pouring: 'Forte pluie', rainy: 'Pluie', snowy: 'Neige', 'snowy-rainy': 'Neige fondue', sunny: 'Ensoleillé', windy: 'Venteux', 'windy-variant': 'Venteux et nuageux' },
+    err: 'Renseignez "entity" avec une entité météo.',
+    l_entity: 'Météo', l_name: 'Nom', l_show_hourly: 'Prévision horaire', l_show_daily: 'Prévision journalière', l_show_details: 'Détails', l_days: 'Nombre de jours', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
+    description: 'Carte météo avec ciel animé, arc solaire, détails et prévisions.',
+  },
+  de: {
+    feels: 'Gefühlt', wind: 'Wind', humidity: 'Luftfeuchte', pressure: 'Luftdruck', precipitation: 'Niederschlag', uv: 'UV-Index', clouds: 'Bewölkung', visibility: 'Sicht', dew: 'Taupunkt',
+    hourly: 'Stündlich', daily: 'Nächste Tage', today: 'Heute', now: 'Jetzt', sunrise: 'Sonnenaufgang', sunset: 'Sonnenuntergang', unavailable: 'Nicht verfügbar',
+    c: { 'clear-night': 'Klar', cloudy: 'Bewölkt', exceptional: 'Außergewöhnlich', fog: 'Nebel', hail: 'Hagel', lightning: 'Gewitter', 'lightning-rainy': 'Gewitter mit Regen', partlycloudy: 'Teilweise bewölkt', pouring: 'Starkregen', rainy: 'Regen', snowy: 'Schnee', 'snowy-rainy': 'Schneeregen', sunny: 'Sonnig', windy: 'Windig', 'windy-variant': 'Windig und bewölkt' },
+    err: 'Gib unter "entity" eine Wetter-Entität an.',
+    l_entity: 'Wetter', l_name: 'Name', l_show_hourly: 'Stündliche Vorhersage', l_show_daily: 'Tägliche Vorhersage', l_show_details: 'Details', l_days: 'Anzahl Tage', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
+    description: 'Wetterkarte mit Himmel, Sonnenbogen, Details und Vorhersage.',
+  },
+  es: {
+    feels: 'Sensación', wind: 'Viento', humidity: 'Humedad', pressure: 'Presión', precipitation: 'Precipitación', uv: 'Índice UV', clouds: 'Nubes', visibility: 'Visibilidad', dew: 'Punto de rocío',
+    hourly: 'Por horas', daily: 'Próximos días', today: 'Hoy', now: 'Ahora', sunrise: 'Amanecer', sunset: 'Atardecer', unavailable: 'No disponible',
+    c: { 'clear-night': 'Despejado', cloudy: 'Nublado', exceptional: 'Excepcional', fog: 'Niebla', hail: 'Granizo', lightning: 'Tormenta', 'lightning-rainy': 'Tormenta con lluvia', partlycloudy: 'Parcialmente nublado', pouring: 'Lluvia intensa', rainy: 'Lluvia', snowy: 'Nieve', 'snowy-rainy': 'Aguanieve', sunny: 'Soleado', windy: 'Ventoso', 'windy-variant': 'Ventoso y nublado' },
+    err: 'Indica en "entity" una entidad del tiempo.',
+    l_entity: 'Tiempo', l_name: 'Nombre', l_show_hourly: 'Previsión por horas', l_show_daily: 'Previsión diaria', l_show_details: 'Detalles', l_days: 'Número de días', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
+    description: 'Tarjeta del tiempo con cielo, arco solar, detalles y previsión.',
+  },
+  it: {
+    feels: 'Percepita', wind: 'Vento', humidity: 'Umidità', pressure: 'Pressione', precipitation: 'Precipitazioni', uv: 'Indice UV', clouds: 'Nuvolosità', visibility: 'Visibilità', dew: 'Punto di rugiada',
+    hourly: 'Ogni ora', daily: 'Prossimi giorni', today: 'Oggi', now: 'Ora', sunrise: 'Alba', sunset: 'Tramonto', unavailable: 'Non disponibile',
+    c: { 'clear-night': 'Sereno', cloudy: 'Nuvoloso', exceptional: 'Eccezionale', fog: 'Nebbia', hail: 'Grandine', lightning: 'Temporale', 'lightning-rainy': 'Temporale con pioggia', partlycloudy: 'Parzialmente nuvoloso', pouring: 'Pioggia forte', rainy: 'Pioggia', snowy: 'Neve', 'snowy-rainy': 'Nevischio', sunny: 'Soleggiato', windy: 'Ventoso', 'windy-variant': 'Ventoso e nuvoloso' },
+    err: 'Indica in "entity" un\'entità meteo.',
+    l_entity: 'Meteo', l_name: 'Nome', l_show_hourly: 'Previsione oraria', l_show_daily: 'Previsione giornaliera', l_show_details: 'Dettagli', l_days: 'Numero di giorni', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
+    description: 'Scheda meteo con cielo, arco solare, dettagli e previsioni.',
+  },
+};
+const GWX_LANG_NAMES = { nl: 'Nederlands', en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', it: 'Italiano' };
+function gwxLang(hass, wanted) {
+  let l = wanted && wanted !== 'auto' ? wanted : ((hass && ((hass.locale && hass.locale.language) || hass.language)) || (typeof navigator !== 'undefined' && navigator.language) || 'en');
+  l = String(l).toLowerCase().split(/[-_]/)[0];
+  return GWX_I18N[l] ? l : 'en';
+}
+function gwxT(lang, key) { return (GWX_I18N[lang] && GWX_I18N[lang][key]) || GWX_I18N.en[key] || key; }
+function gwxEsc(s) { return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+/* ---- iconen ---- */
+const GWX_S = (b) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${b}</svg>`;
+const GWX_CLOUD = '<path d="M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.4 1.6A3.3 3.3 0 0 0 7 18z"/>';
+const GWX_CLOUD_HI = '<path d="M7 15h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.4 1.6A3.3 3.3 0 0 0 7 15z"/>';
+const GWX_ICONS = {
+  sun: { c: '255, 214, 120', s: GWX_S('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>') },
+  moon: { c: '185, 168, 255', s: GWX_S('<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>') },
+  partly: { c: '255, 214, 120', s: GWX_S('<path d="M8 3.5v1.2M3.5 8h1.2M4.8 4.8l.9.9M11.2 4.8l-.9.9"/><path d="M5.3 10.4A3.2 3.2 0 0 1 10.6 7"/><path d="M9 20h8a3.5 3.5 0 0 0 .4-7 5 5 0 0 0-9.5 1.3A2.9 2.9 0 0 0 9 20z"/>') },
+  partlynight: { c: '185, 168, 255', s: GWX_S('<path d="M10.5 4.2A3.6 3.6 0 0 0 5 9.4"/><path d="M9 20h8a3.5 3.5 0 0 0 .4-7 5 5 0 0 0-9.5 1.3A2.9 2.9 0 0 0 9 20z"/>') },
+  cloud: { c: '201, 196, 221', s: GWX_S(GWX_CLOUD) },
+  rain: { c: '142, 197, 255', s: GWX_S(GWX_CLOUD_HI + '<path d="M9 18l-1 3M13 18l-1 3M17 18l-1 3"/>') },
+  pour: { c: '142, 197, 255', s: GWX_S(GWX_CLOUD_HI + '<path d="M8 17.5l-1.5 4M12 17.5l-1.5 4M16 17.5l-1.5 4M10 17.5l-1.5 4"/>') },
+  storm: { c: '185, 168, 255', s: GWX_S(GWX_CLOUD_HI + '<path d="M13 15l-2 3.5h3L12 22"/>') },
+  snow: { c: '207, 227, 255', s: GWX_S(GWX_CLOUD_HI + '<path d="M9 19h.01M13 19h.01M17 19h.01M11 22h.01M15 22h.01"/>') },
+  fog: { c: '201, 196, 221', s: GWX_S('<path d="M4 9h16M3 13h18M5 17h14"/>') },
+  wind: { c: '142, 227, 214', s: GWX_S('<path d="M3 9h11a3 3 0 1 0-3-3"/><path d="M3 15h15a3 3 0 1 1-3 3"/>') },
+};
+function gwxIcon(cond, night) {
+  const m = { sunny: night ? 'moon' : 'sun', 'clear-night': 'moon', partlycloudy: night ? 'partlynight' : 'partly', cloudy: 'cloud', rainy: 'rain', pouring: 'pour', lightning: 'storm', 'lightning-rainy': 'storm', snowy: 'snow', 'snowy-rainy': 'snow', hail: 'snow', fog: 'fog', windy: 'wind', 'windy-variant': 'wind', exceptional: 'cloud' };
+  return GWX_ICONS[m[cond] || 'cloud'];
+}
+const GWX_SMALL = {
+  feels: GWX_S('<path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/>'),
+  humidity: GWX_S('<path d="M12 2.7l5.7 5.6a8 8 0 1 1-11.4 0z"/>'),
+  precipitation: GWX_S('<path d="M8 4l-2 5M13 4l-2 5M18 4l-2 5M8 13l-2 5M13 13l-2 5M18 13l-2 5"/>'),
+  pressure: GWX_S('<circle cx="12" cy="13" r="8"/><path d="M12 13l3.5-3.5M8 5.5L6.5 4M16 5.5L17.5 4"/>'),
+  uv: GWX_S('<circle cx="12" cy="12" r="3.5"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/>'),
+  clouds: GWX_S(GWX_CLOUD),
+  visibility: GWX_S('<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'),
+  dew: GWX_S('<path d="M12 3c3 4 6 7 6 10a6 6 0 0 1-12 0c0-3 3-6 6-10z"/><path d="M9.5 14a2.5 2.5 0 0 0 2.5 2.5"/>'),
+};
+
+// temperatuur als kleur: koud blauw → mild geel → warm perzik
+function gwxTempColor(t) {
+  const stops = [[-5, [142, 197, 255]], [8, [185, 168, 255]], [16, [255, 224, 138]], [26, [255, 184, 153]], [34, [255, 128, 140]]];
+  if (t <= stops[0][0]) return stops[0][1].join(', ');
+  for (let i = 1; i < stops.length; i++) {
+    if (t <= stops[i][0]) {
+      const [t0, c0] = stops[i - 1];
+      const [t1, c1] = stops[i];
+      const k = (t - t0) / (t1 - t0);
+      return c0.map((v, j) => Math.round(v + (c1[j] - v) * k)).join(', ');
+    }
+  }
+  return stops[stops.length - 1][1].join(', ');
+}
+
+/* ---- lucht ---- */
+function gwxSky(cond, phase) {
+  const clear = cond === 'sunny' || cond === 'clear-night' || cond === 'partlycloudy';
+  const grim = /rain|pour|lightning|hail/.test(cond);
+  const snow = /snow/.test(cond);
+  const fog = cond === 'fog';
+  const g = {
+    day: clear ? ['#5FB3F0', '#BFE3FB'] : grim ? ['#5E6E82', '#9AA8B6'] : snow ? ['#AEBDCC', '#E3EAF1'] : fog ? ['#B6BEC6', '#DCE0E4'] : ['#8B9DB1', '#C4CED8'],
+    dusk: clear ? ['#4E4592', '#F29E76'] : ['#55506A', '#AD8F89'],
+    night: clear ? ['#070D24', '#22305E'] : ['#12161F', '#2B3244'],
+  }[phase];
+  let html = `<div class="sky-bg" style="background:linear-gradient(170deg,${g[0]},${g[1]})"></div>`;
+  if (phase === 'night' && clear) {
+    [[8, 20], [22, 55], [36, 18], [55, 40], [68, 14], [82, 48], [92, 24], [46, 70]].forEach(([x, y], i) => {
+      html += `<i class="star" style="left:${x}%;top:${y}%;animation-delay:${(i * 0.7) % 3}s"></i>`;
+    });
+  }
+  if (clear || cond === 'cloudy') {
+    if (phase === 'day' && clear) html += '<i class="orb sun"></i>';
+    else if (phase === 'dusk' && clear) html += '<i class="orb dusk"></i>';
+    else if (phase === 'night' && clear) html += '<i class="orb moon"></i>';
+  }
+  const clouds = { sunny: 0, 'clear-night': 0, partlycloudy: 2, cloudy: 4, fog: 1, windy: 2, 'windy-variant': 4 }[cond] ?? 4;
+  // wolken vooral rechts, zodat de temperatuur links leesbaar blijft
+  const pos = [[58, 10, 24], [40, 42, 18], [76, 44, 20], [46, 4, 20], [68, 28, 16]];
+  const dark = grim || phase === 'night';
+  for (let i = 0; i < clouds; i++) {
+    const [x, y, w] = pos[i];
+    html += `<span class="cloud${dark ? ' dark' : ''}" style="left:${x}%;top:${y}%;width:${w}%;animation-delay:${-i * 2}s"><svg viewBox="0 0 64 30"><path d="M14 28h38a10 10 0 0 0 1-20 14 14 0 0 0-27-2A10 10 0 0 0 14 28z"/></svg></span>`;
+  }
+  if (grim || snow) {
+    for (let i = 0; i < 14; i++) html += `<i class="${snow ? 'flake' : 'drop'}" style="left:${(i * 7.3 + 3) % 100}%;animation-delay:${(i * 0.37) % 1.6}s"></i>`;
+  }
+  if (fog) html += '<i class="mist" style="top:55%"></i><i class="mist" style="top:72%;animation-delay:-3s"></i>';
+  if (/lightning/.test(cond)) html += '<i class="flash"></i>';
+  return html;
+}
+
+const GWX_STYLE = `
+  :host { display: block; }
+  ha-card {
+    position: relative; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; padding: 16px;
+    border-radius: var(--ha-card-border-radius, 24px); container-type: inline-size;
+    color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
+    border: 1px solid rgba(var(--c), 0.35); box-shadow: 0 0 calc(var(--glow) * 0.7) rgba(var(--c), 0.2);
+  }
+  .sky { position: relative; height: 190px; border-radius: 20px; overflow: hidden; color: #FFFFFF; flex-shrink: 0; cursor: pointer; }
+  .sky-bg { position: absolute; inset: 0; }
+  .star { position: absolute; width: 2px; height: 2px; border-radius: 1px; background: #fff; opacity: 0.8; animation: gwx-twinkle 3s ease-in-out infinite; }
+  .orb { position: absolute; border-radius: 50%; }
+  .orb.sun { right: 10%; top: 18%; width: 46px; height: 46px; background: #FFE58A; box-shadow: 0 0 40px 14px rgba(255, 229, 138, 0.6); }
+  .orb.dusk { right: 14%; top: 58%; width: 50px; height: 50px; background: #FFB46B; box-shadow: 0 0 44px 16px rgba(255, 180, 107, 0.55); }
+  .orb.moon { right: 12%; top: 16%; width: 34px; height: 34px; background: #FFF4D6; box-shadow: 0 0 30px 8px rgba(255, 244, 214, 0.45); }
+  .cloud { position: absolute; animation: gwx-drift 9s ease-in-out infinite alternate; }
+  .cloud svg { display: block; width: 100%; height: auto; fill: rgba(255, 255, 255, 0.92); }
+  .cloud.dark svg { fill: rgba(196, 204, 218, 0.75); }
+  .drop { position: absolute; top: -10%; width: 2px; height: 14px; border-radius: 1px; background: rgba(214, 232, 255, 0.75); animation: gwx-fall 1.1s linear infinite; }
+  .flake { position: absolute; top: -10%; width: 5px; height: 5px; border-radius: 50%; background: #fff; opacity: 0.9; animation: gwx-fall 3.2s linear infinite; }
+  .mist { position: absolute; left: -20%; right: -20%; height: 26px; border-radius: 13px; background: rgba(255, 255, 255, 0.45); filter: blur(6px); animation: gwx-drift 8s ease-in-out infinite alternate; }
+  .flash { position: absolute; inset: 0; background: #fff; opacity: 0; animation: gwx-flash 7s infinite; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10, 12, 28, 0.45), transparent 70%); }
+  .now { position: absolute; left: 20px; top: 16px; bottom: 16px; display: flex; flex-direction: column; justify-content: space-between; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35); }
+  .now .loc { font-size: 15px; font-weight: 800; opacity: 0.9; }
+  .now .temp { font-size: 64px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; }
+  .now .cond { font-size: 18px; font-weight: 800; }
+  .now .hl { font-size: 14px; font-weight: 700; opacity: 0.9; }
+  .mid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 14px; align-items: stretch; }
+  .arc { position: relative; padding: 12px 14px 10px; border-radius: 20px; background: var(--glow-surface, rgba(255,255,255,0.07)); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .arc svg { width: 100%; max-width: 260px; height: auto; overflow: visible; }
+  .arc .times { width: 100%; max-width: 260px; display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; margin-top: 4px; }
+  .arc .times span { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+  .arc .times small { font-size: 11px; font-weight: 700; opacity: 0.6; }
+  .det { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .d { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 16px; background: var(--glow-surface, rgba(255,255,255,0.07)); min-width: 0; }
+  .d .ic { width: 32px; height: 32px; border-radius: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(var(--k), 0.18); color: color-mix(in srgb, rgb(var(--k)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .d .ic svg { width: 17px; height: 17px; }
+  .d .tx { display: flex; flex-direction: column; min-width: 0; }
+  .d .l { font-size: 11px; font-weight: 800; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .d .v { font-size: 16px; font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 6px; }
+  .d .v svg.arrow { width: 14px; height: 14px; }
+  .sec { display: flex; flex-direction: column; gap: 8px; }
+  .lab { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
+  .hours { overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; touch-action: pan-x; }
+  .hours::-webkit-scrollbar { display: none; }
+  .hours svg { display: block; overflow: visible; }
+  .hours .hl { font-size: 12px; font-weight: 800; fill: var(--glow-text, #F3F1FA); opacity: 0.6; }
+  .hours .ht { font-size: 14px; font-weight: 800; fill: var(--glow-text, #F3F1FA); }
+  .hours .hp { font-size: 11px; font-weight: 800; fill: color-mix(in srgb, rgb(142, 197, 255), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .hours .rain { fill: rgba(142, 197, 255, 0.35); }
+  .days { display: flex; flex-direction: column; gap: 4px; }
+  .day { display: grid; grid-template-columns: 76px 30px 44px 40px minmax(0, 1fr) 40px; align-items: center; gap: 8px; padding: 6px 4px; border-radius: 12px; }
+  .day:first-child { background: var(--glow-surface, rgba(255,255,255,0.05)); }
+  .day .dn { font-size: 15px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .day .di { width: 26px; height: 26px; color: color-mix(in srgb, rgb(var(--k)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .day .di svg { width: 26px; height: 26px; }
+  .day .dp { font-size: 12px; font-weight: 800; color: color-mix(in srgb, rgb(142, 197, 255), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); text-align: right; }
+  .day .lo, .day .hi { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }
+  .day .lo { opacity: 0.6; }
+  .day .bar { position: relative; height: 8px; border-radius: 4px; background: var(--glow-surface, rgba(255,255,255,0.08)); }
+  .day .bar i { position: absolute; top: 0; bottom: 0; border-radius: 4px; }
+  .day .bar b { position: absolute; top: -3px; width: 14px; height: 14px; margin-left: -7px; border-radius: 7px; background: #fff; border: 3px solid var(--glow-card-background, #15121F); box-sizing: border-box; }
+  .na { padding: 30px; text-align: center; opacity: 0.6; font-weight: 700; }
+  @container (max-width: 520px) {
+    .mid { grid-template-columns: minmax(0, 1fr); }
+    .day { grid-template-columns: 52px 26px 36px 34px minmax(0, 1fr) 34px; gap: 6px; }
+    .now .temp { font-size: 52px; }
+  }
+  @keyframes gwx-drift { from { transform: translateX(-6px); } to { transform: translateX(10px); } }
+  @keyframes gwx-fall { from { transform: translateY(0); } to { transform: translateY(230px); } }
+  @keyframes gwx-twinkle { 0%, 100% { opacity: 0.85; } 50% { opacity: 0.3; } }
+  @keyframes gwx-flash { 0%, 92%, 96%, 100% { opacity: 0; } 94% { opacity: 0.55; } }
+`;
+
+class GlowWeatherCard extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); this._built = false; this._fc = { hourly: null, daily: null }; this._subs = {}; }
+  static getConfigElement() { return document.createElement('glow-weather-card-editor'); }
+  static getStubConfig(hass) { return { entity: Object.keys((hass && hass.states) || {}).find((e) => e.startsWith('weather.')) || '' }; }
+  setConfig(config) {
+    if (!config || !config.entity) throw new Error(gwxT(gwxLang(this._hass, config && config.language), 'err'));
+    const changed = !this._config || this._config.entity !== config.entity;
+    this._config = { glow: 15, days: 7, show_hourly: true, show_daily: true, show_details: true, ...config };
+    this._built = false;
+    if (changed) { this._unsub(); this._fc = { hourly: null, daily: null }; }
+    if (this._hass) { this._subscribe(); this._render(); }
+  }
+  set hass(hass) { this._hass = hass; if (!this._config) return; this._subscribe(); this._render(); }
+  get hass() { return this._hass; }
+  getCardSize() { return 10; }
+  getGridOptions() { return { columns: 'full', rows: 'auto', min_columns: 6 }; }
+  connectedCallback() { if (this._hass && this._config) this._subscribe(); clearInterval(this._tick); this._tick = setInterval(() => this._render(), 60000); }
+  disconnectedCallback() { this._unsub(); clearInterval(this._tick); }
+
+  _lang() { return gwxLang(this._hass, this._config && this._config.language); }
+  _t(k) { return gwxT(this._lang(), k); }
+  _loc() { return (this._hass && this._hass.locale && this._hass.locale.language) || this._lang(); }
+
+  // verwachting via een abonnement (moderne Home Assistant), anders uit de attributen
+  _subscribe() {
+    const conn = this._hass && this._hass.connection;
+    if (!conn || !conn.subscribeMessage) return;
+    ['hourly', 'daily'].forEach((type) => {
+      if (this._subs[type]) return;
+      this._subs[type] = conn.subscribeMessage((msg) => { this._fc[type] = msg.forecast || []; this._render(); }, { type: 'weather/subscribe_forecast', entity_id: this._config.entity, forecast_type: type })
+        .catch(() => { this._fc[type] = this._fc[type] || []; return null; });
+    });
+  }
+  _unsub() {
+    Object.values(this._subs).forEach((p) => p && p.then && p.then((u) => typeof u === 'function' && u()).catch(() => {}));
+    this._subs = {};
+  }
+
+  _phase() {
+    const sun = this._hass.states['sun.sun'];
+    if (!sun) { const h = new Date().getHours(); return h >= 7 && h < 18 ? 'day' : h >= 18 && h < 20 ? 'dusk' : 'night'; }
+    const el = sun.attributes.elevation;
+    if (typeof el === 'number') return el > 6 ? 'day' : el > -4 ? 'dusk' : 'night';
+    return sun.state === 'above_horizon' ? 'day' : 'night';
+  }
+
+  _num(v, d = 0) {
+    if (typeof v !== 'number' || isNaN(v)) return '–';
+    try { return v.toLocaleString(this._loc(), { maximumFractionDigits: d, minimumFractionDigits: 0 }); } catch (e) { return String(Math.round(v)); }
+  }
+
+  _sunTimes() {
+    const sun = this._hass.states['sun.sun'];
+    if (!sun) return null;
+    const nr = Date.parse(sun.attributes.next_rising);
+    const ns = Date.parse(sun.attributes.next_setting);
+    if (!nr || !ns) return null;
+    // vandaag: als de zon op is, dan was de opgang ~een dag voor de volgende opgang
+    const up = sun.state === 'above_horizon';
+    return up ? { rise: nr - 86400000, set: ns, up } : (ns < nr ? { rise: nr - 86400000, set: ns, up } : { rise: nr, set: ns, up });
+  }
+
+  _build() {
+    this.shadowRoot.innerHTML = `<style>${GWX_STYLE}</style><ha-card></ha-card>`;
+    this._card = this.shadowRoot.querySelector('ha-card');
+    this._card.addEventListener('click', (e) => {
+      if (e.target.closest('.sky')) this.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: this._config.entity }, bubbles: true, composed: true }));
+    });
+    this._built = true;
+    this._builtLang = this._lang();
+    this._key = null;
+  }
+
+  _render() {
+    if (!this._hass || !this._config) return;
+    if (!this._built || this._builtLang !== this._lang()) this._build();
+    const c = this._config;
+    const s = this._hass.states[c.entity];
+    this._card.style.setProperty('--glow', (parseInt(c.glow, 10) || 0) + 'px');
+    if (!s || s.state === 'unavailable') {
+      this._card.style.setProperty('--c', '201, 196, 221');
+      const html = `<div class="na">${gwxEsc(this._t('unavailable'))}</div>`;
+      if (html !== this._key) { this._key = html; this._card.innerHTML = html; }
+      return;
+    }
+    const a = s.attributes;
+    const phase = this._phase();
+    const night = phase === 'night';
+    const tu = a.temperature_unit || '°C';
+    const deg = (v) => (typeof v === 'number' ? this._num(v, 0) + '°' : '–');
+    const daily = (this._fc.daily || a.forecast || []).slice(0, Math.max(1, parseInt(c.days, 10) || 7));
+    const hourly = (this._fc.hourly || []).filter((h) => Date.parse(h.datetime) > Date.now() - 3600000).slice(0, 24);
+    const today = daily[0];
+    const cond = this._t('c')[s.state] || s.state;
+    const icon = gwxIcon(s.state, night);
+    this._card.style.setProperty('--c', typeof a.temperature === 'number' ? gwxTempColor(a.temperature) : icon.c);
+
+    // lucht met de huidige toestand
+    const hl = today && typeof today.temperature === 'number' ? `↑ ${deg(today.temperature)}  ↓ ${deg(today.templow)}` : '';
+    let html = `
+      <div class="sky">${gwxSky(s.state, phase)}<div class="shade"></div>
+        <div class="now">
+          <span class="loc">${gwxEsc(c.name || a.friendly_name || '')}</span>
+          <span class="temp">${deg(a.temperature)}</span>
+          <div><div class="cond">${gwxEsc(cond)}</div><div class="hl">${gwxEsc(hl)}</div></div>
+        </div>
+      </div>`;
+
+    // zonneboog en details
+    if (c.show_details !== false) {
+      const st = this._sunTimes();
+      let arc = '';
+      if (st) {
+        const now = Date.now();
+        const k = Math.max(0, Math.min(1, (now - st.rise) / (st.set - st.rise)));
+        const ang = Math.PI * (1 - k);
+        const cx = 120, cy = 100, r = 86;
+        const sx = cx + r * Math.cos(ang), sy = cy - r * Math.sin(ang);
+        const tm = (t) => { try { return new Date(t).toLocaleTimeString(this._loc(), { hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } };
+        const up = now > st.rise && now < st.set;
+        arc = `<div class="arc">
+          <svg viewBox="0 0 240 112" aria-hidden="true">
+            <defs><linearGradient id="gwx-sun" x1="0" x2="1"><stop offset="0" stop-color="#FFB46B"/><stop offset="0.5" stop-color="#FFE58A"/><stop offset="1" stop-color="#FFB46B"/></linearGradient></defs>
+            <path d="M34 100 A86 86 0 0 1 206 100" fill="none" stroke="var(--glow-border, rgba(255,255,255,0.15))" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>
+            ${up ? `<path d="M34 100 A86 86 0 0 1 ${sx.toFixed(1)} ${sy.toFixed(1)}" fill="none" stroke="url(#gwx-sun)" stroke-width="4" stroke-linecap="round"/>` : ''}
+            <line x1="14" x2="226" y1="100" y2="100" stroke="var(--glow-border, rgba(255,255,255,0.15))" stroke-width="1.5"/>
+            ${up ? `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="11" fill="#FFE58A" style="filter:drop-shadow(0 0 10px rgba(255,229,138,0.9))"/>` : `<circle cx="120" cy="100" r="8" fill="#FFF4D6" opacity="0.7"/>`}
+          </svg>
+          <div class="times"><span>${gwxEsc(tm(st.rise))}<small>${gwxEsc(this._t('sunrise'))}</small></span><span>${gwxEsc(tm(st.set))}<small>${gwxEsc(this._t('sunset'))}</small></span></div>
+        </div>`;
+      }
+      const det = [];
+      const add = (k, v, col, extra) => { if (v !== null && v !== undefined && v !== '–') det.push(`<div class="d" style="--k:${col}"><span class="ic">${GWX_SMALL[k] || ''}</span><span class="tx"><span class="l">${gwxEsc(this._t(k))}</span><span class="v">${extra || ''}${gwxEsc(v)}</span></span></div>`); };
+      if (typeof a.apparent_temperature === 'number') add('feels', deg(a.apparent_temperature), gwxTempColor(a.apparent_temperature));
+      if (typeof a.wind_speed === 'number') {
+        const arrow = typeof a.wind_bearing === 'number' ? `<svg class="arrow" viewBox="0 0 24 24" style="transform:rotate(${a.wind_bearing + 180}deg)"><path d="M12 3l6 16-6-4-6 4z" fill="currentColor"/></svg>` : '';
+        det.push(`<div class="d" style="--k:142, 227, 214"><span class="ic">${GWX_ICONS.wind.s}</span><span class="tx"><span class="l">${gwxEsc(this._t('wind'))}</span><span class="v">${arrow}${gwxEsc(this._num(a.wind_speed, 0) + ' ' + (a.wind_speed_unit || 'km/h'))}</span></span></div>`);
+      }
+      if (typeof a.humidity === 'number') add('humidity', this._num(a.humidity, 0) + '%', '142, 197, 255');
+      const prec = today && typeof today.precipitation === 'number' ? today.precipitation : null;
+      if (prec !== null) add('precipitation', this._num(prec, 1) + ' ' + (a.precipitation_unit || 'mm'), '142, 197, 255');
+      if (typeof a.pressure === 'number') add('pressure', this._num(a.pressure, 0) + ' ' + (a.pressure_unit || 'hPa'), '185, 168, 255');
+      if (typeof a.uv_index === 'number') add('uv', this._num(a.uv_index, 1), a.uv_index >= 6 ? '255, 184, 153' : '255, 224, 138');
+      if (typeof a.cloud_coverage === 'number') add('clouds', this._num(a.cloud_coverage, 0) + '%', '201, 196, 221');
+      if (typeof a.dew_point === 'number' && det.length < 8) add('dew', deg(a.dew_point), '142, 197, 255');
+      if (arc || det.length) html += `<div class="mid">${arc}<div class="det">${det.slice(0, 6).join('')}</div></div>`;
+    }
+
+    // per uur: temperatuurcurve met icoontjes en regenkans
+    if (c.show_hourly !== false && hourly.length > 1) {
+      const step = 58;
+      const w = step * hourly.length;
+      const temps = hourly.map((h) => h.temperature);
+      const lo = Math.min(...temps), hi = Math.max(...temps);
+      const y = (t) => 74 - (hi === lo ? 0.5 : (t - lo) / (hi - lo)) * 34;
+      const pts = hourly.map((h, i) => [i * step + step / 2, y(h.temperature)]);
+      let d = `M${pts[0][0]} ${pts[0][1]}`;
+      for (let i = 1; i < pts.length; i++) {
+        const [x0, y0] = pts[i - 1]; const [x1, y1] = pts[i];
+        const mx = (x0 + x1) / 2;
+        d += ` C${mx} ${y0} ${mx} ${y1} ${x1} ${y1}`;
+      }
+      const area = d + ` L${pts[pts.length - 1][0]} 96 L${pts[0][0]} 96 Z`;
+      const stops = hourly.map((h, i) => `<stop offset="${(i / (hourly.length - 1)).toFixed(3)}" stop-color="rgb(${gwxTempColor(h.temperature)})"/>`).join('');
+      const sunMs = this._sunTimes();
+      const items = hourly.map((h, i) => {
+        const t = new Date(h.datetime);
+        const x = i * step + step / 2;
+        let label;
+        try { label = i === 0 ? this._t('now') : t.toLocaleTimeString(this._loc(), { hour: '2-digit' }).replace(/\s?u$/, ''); } catch (e) { label = String(t.getHours()); }
+        const isNight = sunMs ? (() => { const hh = t.getHours() + t.getMinutes() / 60; const r = new Date(sunMs.rise); const st = new Date(sunMs.set); return hh < r.getHours() + r.getMinutes() / 60 || hh > st.getHours() + st.getMinutes() / 60; })() : (t.getHours() < 7 || t.getHours() > 19);
+        const ic = gwxIcon(h.condition, isNight);
+        const p = typeof h.precipitation_probability === 'number' ? h.precipitation_probability : null;
+        const rainH = p ? Math.max(2, p / 100 * 26) : 0;
+        return `
+          <text class="hl" x="${x}" y="14" text-anchor="middle">${gwxEsc(label)}</text>
+          <svg x="${x - 11}" y="20" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: color-mix(in srgb, rgb(${ic.c}), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%))">${ic.s.replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg>
+          <text class="ht" x="${x}" y="${(pts[i][1] - 10).toFixed(1) * 1 + 44}" text-anchor="middle">${gwxEsc(deg(h.temperature))}</text>
+          <circle cx="${x}" cy="${(pts[i][1] + 44).toFixed(1)}" r="3.5" fill="rgb(${gwxTempColor(h.temperature)})"/>
+          ${rainH ? `<rect class="rain" x="${x - 12}" y="${166 - rainH}" width="24" height="${rainH}" rx="4"/>` : ''}
+          ${p ? `<text class="hp" x="${x}" y="182" text-anchor="middle">${p}%</text>` : ''}`;
+      }).join('');
+      html += `<div class="sec"><span class="lab">${gwxEsc(this._t('hourly'))}</span><div class="hours"><svg width="${w}" height="188" viewBox="0 0 ${w} 188">
+        <defs><linearGradient id="gwx-temp" x1="0" x2="1">${stops}</linearGradient>
+        <linearGradient id="gwx-area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.18"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+        <g transform="translate(0 44)"><path d="${area}" fill="url(#gwx-area)"/><path d="${d}" fill="none" stroke="url(#gwx-temp)" stroke-width="3.5" stroke-linecap="round"/></g>
+        ${items}</svg></div></div>`;
+    }
+
+    // per dag: temperatuurbalken op één gemeenschappelijke schaal
+    if (c.show_daily !== false && daily.length) {
+      const los = daily.map((d) => (typeof d.templow === 'number' ? d.templow : d.temperature));
+      const his = daily.map((d) => d.temperature);
+      const min = Math.min(...los), max = Math.max(...his);
+      const span = Math.max(1, max - min);
+      const rows = daily.map((d, i) => {
+        const t = new Date(d.datetime);
+        let name;
+        try { name = i === 0 ? this._t('today') : t.toLocaleDateString(this._loc(), { weekday: 'short' }); } catch (e) { name = String(i); }
+        const ic = gwxIcon(d.condition, false);
+        const lo = typeof d.templow === 'number' ? d.templow : d.temperature;
+        const x0 = (lo - min) / span * 100;
+        const x1 = (d.temperature - min) / span * 100;
+        const p = typeof d.precipitation_probability === 'number' && d.precipitation_probability >= 10 ? d.precipitation_probability + '%' : '';
+        const nowMark = i === 0 && typeof a.temperature === 'number' ? `<b style="left:${Math.max(0, Math.min(100, (a.temperature - min) / span * 100)).toFixed(1)}%"></b>` : '';
+        return `<div class="day"><span class="dn">${gwxEsc(name.charAt(0).toUpperCase() + name.slice(1))}</span><span class="di" style="--k:${ic.c}">${ic.s}</span><span class="dp">${gwxEsc(p)}</span><span class="lo">${deg(lo)}</span><span class="bar"><i style="left:${x0.toFixed(1)}%;width:${Math.max(3, x1 - x0).toFixed(1)}%;background:linear-gradient(90deg, rgb(${gwxTempColor(lo)}), rgb(${gwxTempColor(d.temperature)}));box-shadow:0 0 8px rgba(${gwxTempColor(d.temperature)}, 0.5)"></i>${nowMark}</span><span class="hi">${deg(d.temperature)}</span></div>`;
+      }).join('');
+      html += `<div class="sec"><span class="lab">${gwxEsc(this._t('daily'))}</span><div class="days">${rows}</div></div>`;
+    }
+    void tu;
+    if (html !== this._key) {
+      const sc = this.shadowRoot.querySelector('.hours');
+      const keep = sc ? sc.scrollLeft : 0;
+      this._key = html;
+      this._card.innerHTML = html;
+      const ns = this.shadowRoot.querySelector('.hours');
+      if (ns) ns.scrollLeft = keep;
+    }
+  }
+}
+
+class GlowWeatherCardEditor extends HTMLElement {
+  setConfig(config) { this._config = { ...config }; this._render(); }
+  set hass(hass) { this._hass = hass; if (this._form) this._form.hass = hass; else this._render(); }
+  _render() {
+    if (!this._config || !this._hass) return;
+    const lang = gwxLang(this._hass, this._config.language);
+    const t = (k) => gwxT(lang, k);
+    if (!this._form || this._formLang !== lang) {
+      this.innerHTML = '';
+      this._form = document.createElement('ha-form');
+      this._formLang = lang;
+      this._form.computeLabel = (s) => gwxT(lang, 'l_' + s.name);
+      this._form.addEventListener('value-changed', (e) => {
+        const v = { ...e.detail.value };
+        Object.keys(v).forEach((k) => { if (v[k] === '' || v[k] === null || v[k] === undefined) delete v[k]; });
+        if (v.language === 'auto') delete v.language;
+        [['glow', 15], ['days', 7], ['show_hourly', true], ['show_daily', true], ['show_details', true]].forEach(([k, d]) => { if (v[k] === d) delete v[k]; });
+        this._config = { type: this._config.type, ...v };
+        this.dispatchEvent(new CustomEvent('config-changed', { detail: { config: this._config }, bubbles: true, composed: true }));
+      });
+      this.appendChild(this._form);
+    }
+    this._form.hass = this._hass;
+    this._form.schema = [
+      { name: 'entity', selector: { entity: { domain: 'weather' } } },
+      { name: 'name', selector: { text: {} } },
+      { type: 'grid', name: '', schema: [
+        { name: 'show_details', selector: { boolean: {} } },
+        { name: 'show_hourly', selector: { boolean: {} } },
+        { name: 'show_daily', selector: { boolean: {} } },
+        { name: 'days', selector: { number: { min: 1, max: 10, step: 1, mode: 'box' } } },
+      ] },
+      { name: 'glow', selector: { number: { min: 0, max: 40, step: 1, mode: 'slider', unit_of_measurement: 'px' } } },
+      { name: 'language', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: t('lang_auto') }].concat(Object.keys(GWX_LANG_NAMES).map((k) => ({ value: k, label: GWX_LANG_NAMES[k] }))) } } },
+    ];
+    this._form.data = { glow: 15, days: 7, show_hourly: true, show_daily: true, show_details: true, language: 'auto', ...this._config };
+  }
+}
+
+if (!customElements.get('glow-weather-card')) customElements.define('glow-weather-card', GlowWeatherCard);
+if (!customElements.get('glow-weather-card-editor')) customElements.define('glow-weather-card-editor', GlowWeatherCardEditor);
+window.customCards = window.customCards || [];
+if (!window.customCards.some((x) => x.type === 'glow-weather-card')) {
+  window.customCards.push({ type: 'glow-weather-card', name: 'Glow Weather Card', description: gwxT(gwxLang(null), 'description'), preview: true, documentationURL: 'https://github.com/stijnleroy/glow-cards' });
+}
+
+}
+
+/* ---- usage.js ---- */
+{
+/*
+ * Glow Usage Card
+ * Verbruik van gas en water (of eender welke meterstand): vandaag, gisteren,
+ * deze week en deze maand uit de statistieken van Home Assistant, met staafjes
+ * voor de laatste dagen en optioneel de kosten.
+ */
+
+const GUSE_I18N = {
+  nl: {
+    today: 'Vandaag', yesterday: 'Gisteren', week: 'Deze week', month: 'Deze maand', vs: '{d} t.o.v. gisteren', same: 'Zelfde als gisteren', days: 'Laatste {n} dagen', cost: 'Kosten', loading: 'Gegevens laden…', none: 'Nog geen statistieken voor deze meter.',
+    gas: 'Gas', water: 'Water', energy: 'Elektriciteit',
+    err: 'Vul "meters" in met minstens één meter (gas, water, …).',
+    l_meters: 'Meters (totale meterstand, bv. gas en water)', l_name: 'Titel', l_days: 'Aantal dagen in de grafiek', l_gas_price: 'Prijs gas per eenheid (€)', l_water_price: 'Prijs water per eenheid (€)', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
+    description: 'Verbruik van gas en water: vandaag, week, maand en een grafiek van de laatste dagen.',
+  },
+  en: {
+    today: 'Today', yesterday: 'Yesterday', week: 'This week', month: 'This month', vs: '{d} vs yesterday', same: 'Same as yesterday', days: 'Last {n} days', cost: 'Cost', loading: 'Loading data…', none: 'No statistics for this meter yet.',
+    gas: 'Gas', water: 'Water', energy: 'Electricity',
+    err: 'Fill in "meters" with at least one meter (gas, water, …).',
+    l_meters: 'Meters (total meter reading, e.g. gas and water)', l_name: 'Title', l_days: 'Days in the chart', l_gas_price: 'Gas price per unit', l_water_price: 'Water price per unit', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
+    description: 'Gas and water usage: today, week, month and a chart of the last days.',
+  },
+  fr: {
+    today: 'Aujourd\'hui', yesterday: 'Hier', week: 'Cette semaine', month: 'Ce mois', vs: '{d} par rapport à hier', same: 'Comme hier', days: '{n} derniers jours', cost: 'Coût', loading: 'Chargement…', none: 'Pas encore de statistiques pour ce compteur.',
+    gas: 'Gaz', water: 'Eau', energy: 'Électricité',
+    err: 'Renseignez "meters" avec au moins un compteur.',
+    l_meters: 'Compteurs (index total, p. ex. gaz et eau)', l_name: 'Titre', l_days: 'Jours dans le graphique', l_gas_price: 'Prix du gaz par unité', l_water_price: 'Prix de l\'eau par unité', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
+    description: 'Consommation de gaz et d\'eau : jour, semaine, mois et graphique.',
+  },
+  de: {
+    today: 'Heute', yesterday: 'Gestern', week: 'Diese Woche', month: 'Dieser Monat', vs: '{d} gegenüber gestern', same: 'Wie gestern', days: 'Letzte {n} Tage', cost: 'Kosten', loading: 'Daten laden…', none: 'Noch keine Statistiken für diesen Zähler.',
+    gas: 'Gas', water: 'Wasser', energy: 'Strom',
+    err: 'Gib unter "meters" mindestens einen Zähler an.',
+    l_meters: 'Zähler (Gesamtstand, z. B. Gas und Wasser)', l_name: 'Titel', l_days: 'Tage im Diagramm', l_gas_price: 'Gaspreis pro Einheit', l_water_price: 'Wasserpreis pro Einheit', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
+    description: 'Gas- und Wasserverbrauch: heute, Woche, Monat und Diagramm.',
+  },
+  es: {
+    today: 'Hoy', yesterday: 'Ayer', week: 'Esta semana', month: 'Este mes', vs: '{d} respecto a ayer', same: 'Igual que ayer', days: 'Últimos {n} días', cost: 'Coste', loading: 'Cargando datos…', none: 'Aún no hay estadísticas para este contador.',
+    gas: 'Gas', water: 'Agua', energy: 'Electricidad',
+    err: 'Indica en "meters" al menos un contador.',
+    l_meters: 'Contadores (lectura total, p. ej. gas y agua)', l_name: 'Título', l_days: 'Días en el gráfico', l_gas_price: 'Precio del gas por unidad', l_water_price: 'Precio del agua por unidad', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
+    description: 'Consumo de gas y agua: hoy, semana, mes y gráfico.',
+  },
+  it: {
+    today: 'Oggi', yesterday: 'Ieri', week: 'Questa settimana', month: 'Questo mese', vs: '{d} rispetto a ieri', same: 'Come ieri', days: 'Ultimi {n} giorni', cost: 'Costo', loading: 'Caricamento…', none: 'Ancora nessuna statistica per questo contatore.',
+    gas: 'Gas', water: 'Acqua', energy: 'Elettricità',
+    err: 'Indica in "meters" almeno un contatore.',
+    l_meters: 'Contatori (lettura totale, es. gas e acqua)', l_name: 'Titolo', l_days: 'Giorni nel grafico', l_gas_price: 'Prezzo del gas per unità', l_water_price: 'Prezzo dell\'acqua per unità', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
+    description: 'Consumi di gas e acqua: oggi, settimana, mese e grafico.',
+  },
+};
+const GUSE_LANG_NAMES = { nl: 'Nederlands', en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', it: 'Italiano' };
+function guseLang(hass, wanted) {
+  let l = wanted && wanted !== 'auto' ? wanted : ((hass && ((hass.locale && hass.locale.language) || hass.language)) || (typeof navigator !== 'undefined' && navigator.language) || 'en');
+  l = String(l).toLowerCase().split(/[-_]/)[0];
+  return GUSE_I18N[l] ? l : 'en';
+}
+function guseT(lang, key, vars) {
+  let s = (GUSE_I18N[lang] && GUSE_I18N[lang][key]) || GUSE_I18N.en[key] || key;
+  if (vars) Object.keys(vars).forEach((k) => { s = s.split('{' + k + '}').join(vars[k]); });
+  return s;
+}
+function guseEsc(s) { return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function guseRgb(hex) {
+  let h = String(hex || '').replace('#', '').trim();
+  if (h.length === 3) h = h.split('').map((x) => x + x).join('');
+  const v = parseInt(h.slice(0, 6), 16);
+  return h.length >= 6 && !isNaN(v) ? ((v >> 16) & 255) + ', ' + ((v >> 8) & 255) + ', ' + (v & 255) : null;
+}
+
+const GUSE_KIND = {
+  gas: { c: '255, 184, 153', icon: '<path d="M12 3c1 3.5 5 6 5 10.5A5 5 0 0 1 7 13.5C7 11 8.5 9.5 9.5 8c.3 2 1.2 3 2.3 3.4C11.4 8.5 12 5.5 12 3z"/>' },
+  water: { c: '142, 197, 255', icon: '<path d="M12 2.7l5.7 5.6a8 8 0 1 1-11.4 0z"/>' },
+  energy: { c: '255, 224, 138', icon: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>' },
+  other: { c: '185, 168, 255', icon: '<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>' },
+};
+const GUSE_SVG = (b) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${b}</svg>`;
+
+const GUSE_STYLE = `
+  :host { display: block; }
+  ha-card {
+    position: relative; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 18px;
+    border-radius: var(--ha-card-border-radius, 24px); container-type: inline-size;
+    color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
+    border: 1px solid rgba(var(--c), 0.35); box-shadow: 0 0 calc(var(--glow) * 0.7) rgba(var(--c), 0.2); transition: border-color 0.4s, box-shadow 0.4s;
+  }
+  .halo { position: absolute; right: -70px; top: -80px; width: 220px; height: 220px; border-radius: 50%; filter: blur(60px); background: rgb(var(--c)); opacity: 0.22; pointer-events: none; transition: background 0.4s; }
+  button { font: inherit; cursor: pointer; color: inherit; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .tabs { position: relative; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tab { height: 36px; padding: 0 14px 0 10px; border-radius: 18px; display: flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 800; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid transparent; transition: background 0.3s, border-color 0.3s; }
+  .tab svg { width: 17px; height: 17px; color: color-mix(in srgb, rgb(var(--k)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .tab.sel { border-color: rgba(var(--k), 0.6); background: rgba(var(--k), 0.16); box-shadow: 0 0 calc(var(--glow) * 0.7) rgba(var(--k), 0.3); }
+  .title { position: relative; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
+  .top { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: end; }
+  .big { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .big .ic { width: 56px; height: 56px; border-radius: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgb(var(--c)); color: #1C1730; box-shadow: 0 0 var(--glow) rgba(var(--c), 0.7); }
+  .big .ic svg { width: 28px; height: 28px; }
+  .big .tx { display: flex; flex-direction: column; min-width: 0; }
+  .big .l { font-size: 13px; font-weight: 800; opacity: 0.65; }
+  .big .v { font-size: 38px; font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .big .v small { font-size: 17px; font-weight: 800; opacity: 0.7; margin-left: 4px; letter-spacing: 0; }
+  .big .cmp { font-size: 13px; font-weight: 800; color: color-mix(in srgb, rgb(var(--q)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); white-space: nowrap; }
+  .tiles { display: flex; gap: 8px; }
+  .tile { display: flex; flex-direction: column; gap: 1px; padding: 10px 14px; border-radius: 16px; background: var(--glow-surface, rgba(255,255,255,0.07)); min-width: 96px; }
+  .tile .l { font-size: 11px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.6; white-space: nowrap; }
+  .tile .v { font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .tile .e { font-size: 12px; font-weight: 800; color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); white-space: nowrap; }
+  .chart { position: relative; display: flex; flex-direction: column; gap: 6px; }
+  .bars { position: relative; display: flex; align-items: flex-end; gap: 8px; height: 140px; padding-top: 18px; }
+  .col { flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; }
+  .col .val { font-size: 11px; font-weight: 800; opacity: 0; transition: opacity 0.2s; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .col .bar { width: 100%; max-width: 46px; min-height: 4px; border-radius: 10px 10px 6px 6px; background: linear-gradient(180deg, rgba(var(--c), 0.75), rgba(var(--c), 0.35)); transition: height 0.6s cubic-bezier(.2, .9, .3, 1); }
+  .col.today .bar { background: rgb(var(--c)); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.6); }
+  .col.today .val, .col.peak .val, .bars:hover .col .val { opacity: 0.85; }
+  .col .dn { font-size: 12px; font-weight: 800; opacity: 0.6; }
+  .col.today .dn { opacity: 1; color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .avg { position: absolute; left: 0; right: 0; border-top: 2px dashed rgba(var(--c), 0.45); pointer-events: none; }
+  .msg { padding: 24px 8px; text-align: center; font-weight: 700; opacity: 0.6; }
+  @container (max-width: 520px) {
+    .top { grid-template-columns: minmax(0, 1fr); }
+    .tiles { flex-wrap: wrap; }
+    .tile { flex: 1; }
+    .big .v { font-size: 32px; }
+    .bars { gap: 5px; }
+  }
+`;
+
+class GlowUsageCard extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); this._built = false; this._data = {}; this._sel = 0; }
+  static getConfigElement() { return document.createElement('glow-usage-card-editor'); }
+  static getStubConfig(hass) {
+    const st = (hass && hass.states) || {};
+    const ids = Object.keys(st).filter((e) => e.startsWith('sensor.') && ['gas', 'water'].includes(st[e].attributes.device_class) && st[e].attributes.state_class === 'total_increasing');
+    return { meters: ids.slice(0, 2) };
+  }
+  setConfig(config) {
+    const m = Array.isArray(config && config.meters) ? config.meters : config && config.entity ? [config.entity] : [];
+    if (!m.length) throw new Error(guseT(guseLang(this._hass, config && config.language), 'err'));
+    this._config = { glow: 15, days: 7, ...config };
+    this._meters = m.map((x) => (typeof x === 'string' ? { entity: x } : x)).filter((x) => x && x.entity);
+    this._built = false;
+    this._data = {};
+    this._loadedAt = 0;
+    if (this._hass) this._render();
+  }
+  set hass(hass) { this._hass = hass; if (this._config) this._render(); }
+  get hass() { return this._hass; }
+  getCardSize() { return 5; }
+  getGridOptions() { return { columns: 12, rows: 'auto', min_columns: 6 }; }
+  connectedCallback() { clearInterval(this._tick); this._tick = setInterval(() => { this._loadedAt = 0; this._render(); }, 600000); }
+  disconnectedCallback() { clearInterval(this._tick); }
+
+  _lang() { return guseLang(this._hass, this._config && this._config.language); }
+  _t(k, v) { return guseT(this._lang(), k, v); }
+  _loc() { return (this._hass && this._hass.locale && this._hass.locale.language) || this._lang(); }
+
+  _kind(m) {
+    const s = this._hass.states[m.entity];
+    const dc = s && s.attributes.device_class;
+    if (m.kind) return m.kind;
+    if (dc === 'gas' || /gas/i.test(m.entity)) return 'gas';
+    if (dc === 'water' || /water/i.test(m.entity)) return 'water';
+    if (dc === 'energy') return 'energy';
+    return 'other';
+  }
+  _unit(m) { const s = this._hass.states[m.entity]; return m.unit || (s && s.attributes.unit_of_measurement) || ''; }
+  _price(m) {
+    if (typeof m.price === 'number') return m.price;
+    const k = this._kind(m);
+    const p = k === 'gas' ? this._config.gas_price : k === 'water' ? this._config.water_price : null;
+    return typeof p === 'number' ? p : parseFloat(p) || null;
+  }
+
+  _fmt(v, m) {
+    if (typeof v !== 'number' || isNaN(v)) return '–';
+    const u = this._unit(m).toLowerCase();
+    const d = u === 'l' || u === 'wh' ? 0 : Math.abs(v) < 10 ? 2 : 1;
+    try { return v.toLocaleString(this._loc(), { minimumFractionDigits: d, maximumFractionDigits: d }); } catch (e) { return v.toFixed(d); }
+  }
+  _money(v) {
+    try { return v.toLocaleString(this._loc(), { style: 'currency', currency: (this._hass.config && this._hass.config.currency) || 'EUR' }); } catch (e) { return '€ ' + v.toFixed(2); }
+  }
+
+  // dagtotalen en maandtotaal uit de langetermijnstatistieken
+  _load() {
+    if (this._loading || (this._loadedAt && Date.now() - this._loadedAt < 600000)) return;
+    if (!this._hass.callWS) return;
+    this._loading = true;
+    this._loadedAt = Date.now();
+    const n = Math.max(7, parseInt(this._config.days, 10) || 7);
+    const now = new Date();
+    const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const from = new Date(dayStart.getTime() - (Math.max(n, 8) - 1) * 86400000);
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const ids = this._meters.map((m) => m.entity);
+    const ws = (period, start) => this._hass.callWS({ type: 'recorder/statistics_during_period', start_time: start.toISOString(), statistic_ids: ids, period, types: ['change'] });
+    Promise.all([ws('day', from < monthStart ? from : monthStart), ws('month', monthStart)])
+      .then(([days, months]) => {
+        ids.forEach((id) => {
+          const list = (days[id] || []).map((r) => ({ t: typeof r.start === 'number' ? r.start : Date.parse(r.start), v: r.change || 0 }));
+          const month = ((months[id] || [])[0] || {}).change;
+          this._data[id] = { days: list, month: typeof month === 'number' ? month : null };
+        });
+      })
+      .catch(() => { ids.forEach((id) => { this._data[id] = this._data[id] || { days: [], month: null, error: true }; }); })
+      .finally(() => { this._loading = false; this._render(); });
+  }
+
+  _build() {
+    this.shadowRoot.innerHTML = `<style>${GUSE_STYLE}</style><ha-card><div class="halo"></div><div class="body"></div></ha-card>`;
+    this._card = this.shadowRoot.querySelector('ha-card');
+    this._body = this.shadowRoot.querySelector('.body');
+    this._body.style.cssText = 'position:relative;display:flex;flex-direction:column;gap:14px';
+    this._body.addEventListener('click', (e) => {
+      const t = e.target.closest('.tab');
+      if (t) { this._sel = +t.dataset.i; this._render(); return; }
+      if (e.target.closest('.big .ic')) this.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: this._meters[this._sel].entity }, bubbles: true, composed: true }));
+    });
+    this._built = true;
+    this._builtLang = this._lang();
+    this._key = null;
+  }
+
+  _render() {
+    if (!this._built || this._builtLang !== this._lang()) this._build();
+    this._load();
+    const c = this._config;
+    if (this._sel >= this._meters.length) this._sel = 0;
+    const m = this._meters[this._sel];
+    const kind = this._kind(m);
+    const col = guseRgb(m.color) || GUSE_KIND[kind].c;
+    this._card.style.setProperty('--c', col);
+    this._card.style.setProperty('--glow', (parseInt(c.glow, 10) || 0) + 'px');
+    const unit = this._unit(m);
+    const st = this._hass.states;
+
+    let html = '';
+    if (c.name) html += `<span class="title">${guseEsc(c.name)}</span>`;
+    if (this._meters.length > 1) {
+      html += `<div class="tabs">${this._meters.map((x, i) => {
+        const k = this._kind(x);
+        const s = st[x.entity];
+        return `<button class="tab${i === this._sel ? ' sel' : ''}" type="button" data-i="${i}" style="--k:${guseRgb(x.color) || GUSE_KIND[k].c}">${GUSE_SVG(GUSE_KIND[k].icon)}${guseEsc(x.name || (k !== 'other' ? this._t(k) : (s && s.attributes.friendly_name) || x.entity))}</button>`;
+      }).join('')}</div>`;
+    }
+    const data = this._data[m.entity];
+    if (!data) {
+      html += `<div class="msg">${guseEsc(this._t('loading'))}</div>`;
+    } else if (!data.days.length) {
+      html += `<div class="msg">${guseEsc(this._t('none'))}</div>`;
+    } else {
+      const now = new Date();
+      const d0 = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      const byDay = new Map(data.days.map((x) => [new Date(new Date(x.t).getFullYear(), new Date(x.t).getMonth(), new Date(x.t).getDate()).getTime(), x.v]));
+      const val = (t) => byDay.get(t) || 0;
+      const today = val(d0);
+      const yest = val(d0 - 86400000);
+      // week vanaf maandag
+      const dow = (now.getDay() + 6) % 7;
+      let week = 0;
+      for (let i = 0; i <= dow; i++) week += val(d0 - i * 86400000);
+      const month = data.month !== null ? data.month : [...byDay.entries()].filter(([t]) => t >= new Date(now.getFullYear(), now.getMonth(), 1).getTime()).reduce((a, [, v]) => a + v, 0);
+      const diff = today - yest;
+      const up = diff > 0;
+      const q = Math.abs(diff) < 1e-9 ? '201, 196, 221' : up ? '255, 184, 153' : '143, 227, 184';
+      const cmp = Math.abs(diff) < 1e-9 ? this._t('same') : this._t('vs', { d: (up ? '▲ +' : '▼ −') + this._fmt(Math.abs(diff), m) + ' ' + unit });
+      const price = this._price(m);
+      const money = (v) => (price ? `<span class="e">${guseEsc(this._money(v * price))}</span>` : '');
+      html += `
+        <div class="top">
+          <div class="big">
+            <span class="ic">${GUSE_SVG(GUSE_KIND[kind].icon)}</span>
+            <span class="tx">
+              <span class="l">${guseEsc(this._t('today'))}</span>
+              <span class="v">${guseEsc(this._fmt(today, m))}<small>${guseEsc(unit)}</small></span>
+              <span class="cmp" style="--q:${q}">${guseEsc(cmp)}</span>
+            </span>
+          </div>
+          <div class="tiles">
+            <div class="tile"><span class="l">${guseEsc(this._t('yesterday'))}</span><span class="v">${guseEsc(this._fmt(yest, m))} ${guseEsc(unit)}</span>${money(yest)}</div>
+            <div class="tile"><span class="l">${guseEsc(this._t('week'))}</span><span class="v">${guseEsc(this._fmt(week, m))} ${guseEsc(unit)}</span>${money(week)}</div>
+            <div class="tile"><span class="l">${guseEsc(this._t('month'))}</span><span class="v">${guseEsc(this._fmt(month, m))} ${guseEsc(unit)}</span>${money(month)}</div>
+          </div>
+        </div>`;
+      // staafjes
+      const n = Math.max(3, Math.min(31, parseInt(c.days, 10) || 7));
+      const cols = [];
+      for (let i = n - 1; i >= 0; i--) cols.push({ t: d0 - i * 86400000, v: val(d0 - i * 86400000) });
+      const max = Math.max(...cols.map((x) => x.v), 1e-9);
+      const past = cols.slice(0, -1).filter((x) => x.v > 0);
+      const avg = past.length ? past.reduce((a, x) => a + x.v, 0) / past.length : 0;
+      const peak = cols.reduce((a, x, i) => (x.v > cols[a].v ? i : a), 0);
+      const H = 140 - 18 - 22;
+      html += `<div class="chart"><span class="title">${guseEsc(this._t('days', { n }))}</span><div class="bars">
+        ${avg ? `<span class="avg" style="bottom:${(22 + avg / max * H).toFixed(1)}px"></span>` : ''}
+        ${cols.map((x, i) => {
+          let dn;
+          try { dn = new Date(x.t).toLocaleDateString(this._loc(), n > 10 ? { day: 'numeric' } : { weekday: 'short' }); } catch (e) { dn = ''; }
+          return `<div class="col${i === cols.length - 1 ? ' today' : ''}${i === peak ? ' peak' : ''}"><span class="val">${guseEsc(this._fmt(x.v, m))}</span><span class="bar" style="height:${Math.max(4, x.v / max * H).toFixed(1)}px"></span><span class="dn">${guseEsc(dn.replace('.', ''))}</span></div>`;
+        }).join('')}
+      </div></div>`;
+    }
+    if (html !== this._key) { this._key = html; this._body.innerHTML = html; }
+  }
+}
+
+class GlowUsageCardEditor extends HTMLElement {
+  setConfig(config) { this._config = { ...config }; this._render(); }
+  set hass(hass) { this._hass = hass; if (this._form) this._form.hass = hass; else this._render(); }
+  _render() {
+    if (!this._config || !this._hass) return;
+    const lang = guseLang(this._hass, this._config.language);
+    const t = (k) => guseT(lang, k);
+    if (!this._form || this._formLang !== lang) {
+      this.innerHTML = '';
+      this._form = document.createElement('ha-form');
+      this._formLang = lang;
+      this._form.computeLabel = (s) => guseT(lang, 'l_' + s.name);
+      this._form.addEventListener('value-changed', (e) => {
+        const v = { ...e.detail.value };
+        Object.keys(v).forEach((k) => { if (v[k] === '' || v[k] === null || v[k] === undefined || (Array.isArray(v[k]) && !v[k].length)) delete v[k]; });
+        if (v.language === 'auto') delete v.language;
+        if (v.glow === 15) delete v.glow;
+        if (v.days === 7) delete v.days;
+        delete v.entity;
+        this._config = { type: this._config.type, ...v };
+        this.dispatchEvent(new CustomEvent('config-changed', { detail: { config: this._config }, bubbles: true, composed: true }));
+      });
+      this.appendChild(this._form);
+    }
+    this._form.hass = this._hass;
+    const simple = (this._config.meters || []).every((x) => typeof x === 'string');
+    this._form.schema = [
+      ...(simple ? [{ name: 'meters', selector: { entity: { domain: 'sensor', multiple: true } } }] : []),
+      { name: 'name', selector: { text: {} } },
+      { type: 'grid', name: '', schema: [
+        { name: 'gas_price', selector: { number: { min: 0, max: 20, step: 0.0001, mode: 'box' } } },
+        { name: 'water_price', selector: { number: { min: 0, max: 20, step: 0.0001, mode: 'box' } } },
+      ] },
+      { name: 'days', selector: { number: { min: 3, max: 31, step: 1, mode: 'box' } } },
+      { name: 'glow', selector: { number: { min: 0, max: 40, step: 1, mode: 'slider', unit_of_measurement: 'px' } } },
+      { name: 'language', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: t('lang_auto') }].concat(Object.keys(GUSE_LANG_NAMES).map((k) => ({ value: k, label: GUSE_LANG_NAMES[k] }))) } } },
+    ];
+    this._form.data = { glow: 15, days: 7, language: 'auto', ...this._config, meters: this._config.meters || (this._config.entity ? [this._config.entity] : []) };
+  }
+}
+
+if (!customElements.get('glow-usage-card')) customElements.define('glow-usage-card', GlowUsageCard);
+if (!customElements.get('glow-usage-card-editor')) customElements.define('glow-usage-card-editor', GlowUsageCardEditor);
+window.customCards = window.customCards || [];
+if (!window.customCards.some((x) => x.type === 'glow-usage-card')) {
+  window.customCards.push({ type: 'glow-usage-card', name: 'Glow Usage Card', description: guseT(guseLang(null), 'description'), preview: true, documentationURL: 'https://github.com/stijnleroy/glow-cards' });
+}
+
+}
+
+console.info('%c GLOW-CARDS %c v1.11.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
