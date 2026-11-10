@@ -1,4 +1,4 @@
-/*! Glow Cards v1.11.0 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.11.1 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -8215,42 +8215,42 @@ const GUSE_I18N = {
     today: 'Vandaag', yesterday: 'Gisteren', week: 'Deze week', month: 'Deze maand', vs: '{d} t.o.v. gisteren', same: 'Zelfde als gisteren', days: 'Laatste {n} dagen', cost: 'Kosten', loading: 'Gegevens laden…', none: 'Nog geen statistieken voor deze meter.',
     gas: 'Gas', water: 'Water', energy: 'Elektriciteit',
     err: 'Vul "meters" in met minstens één meter (gas, water, …).',
-    l_meters: 'Meters (totale meterstand, bv. gas en water)', l_name: 'Titel', l_days: 'Aantal dagen in de grafiek', l_gas_price: 'Prijs gas per eenheid (€)', l_water_price: 'Prijs water per eenheid (€)', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
+    l_meters: 'Meters (totale meterstand, bv. gas, water en elektriciteit)', l_name: 'Titel', l_days: 'Aantal dagen in de grafiek', l_gas_price: 'Prijs gas per eenheid (€)', l_water_price: 'Prijs water per eenheid (€)', l_energy_price: 'Prijs elektriciteit per kWh (€)', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
     description: 'Verbruik van gas en water: vandaag, week, maand en een grafiek van de laatste dagen.',
   },
   en: {
     today: 'Today', yesterday: 'Yesterday', week: 'This week', month: 'This month', vs: '{d} vs yesterday', same: 'Same as yesterday', days: 'Last {n} days', cost: 'Cost', loading: 'Loading data…', none: 'No statistics for this meter yet.',
     gas: 'Gas', water: 'Water', energy: 'Electricity',
     err: 'Fill in "meters" with at least one meter (gas, water, …).',
-    l_meters: 'Meters (total meter reading, e.g. gas and water)', l_name: 'Title', l_days: 'Days in the chart', l_gas_price: 'Gas price per unit', l_water_price: 'Water price per unit', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
+    l_meters: 'Meters (total meter reading, e.g. gas, water and electricity)', l_name: 'Title', l_days: 'Days in the chart', l_gas_price: 'Gas price per unit', l_water_price: 'Water price per unit', l_energy_price: 'Electricity price per kWh', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
     description: 'Gas and water usage: today, week, month and a chart of the last days.',
   },
   fr: {
     today: 'Aujourd\'hui', yesterday: 'Hier', week: 'Cette semaine', month: 'Ce mois', vs: '{d} par rapport à hier', same: 'Comme hier', days: '{n} derniers jours', cost: 'Coût', loading: 'Chargement…', none: 'Pas encore de statistiques pour ce compteur.',
     gas: 'Gaz', water: 'Eau', energy: 'Électricité',
     err: 'Renseignez "meters" avec au moins un compteur.',
-    l_meters: 'Compteurs (index total, p. ex. gaz et eau)', l_name: 'Titre', l_days: 'Jours dans le graphique', l_gas_price: 'Prix du gaz par unité', l_water_price: 'Prix de l\'eau par unité', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
+    l_meters: 'Compteurs (index total, p. ex. gaz et eau)', l_name: 'Titre', l_days: 'Jours dans le graphique', l_gas_price: 'Prix du gaz par unité', l_water_price: 'Prix de l\'eau par unité', l_energy_price: 'Prix de l\'électricité par kWh', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
     description: 'Consommation de gaz et d\'eau : jour, semaine, mois et graphique.',
   },
   de: {
     today: 'Heute', yesterday: 'Gestern', week: 'Diese Woche', month: 'Dieser Monat', vs: '{d} gegenüber gestern', same: 'Wie gestern', days: 'Letzte {n} Tage', cost: 'Kosten', loading: 'Daten laden…', none: 'Noch keine Statistiken für diesen Zähler.',
     gas: 'Gas', water: 'Wasser', energy: 'Strom',
     err: 'Gib unter "meters" mindestens einen Zähler an.',
-    l_meters: 'Zähler (Gesamtstand, z. B. Gas und Wasser)', l_name: 'Titel', l_days: 'Tage im Diagramm', l_gas_price: 'Gaspreis pro Einheit', l_water_price: 'Wasserpreis pro Einheit', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
+    l_meters: 'Zähler (Gesamtstand, z. B. Gas und Wasser)', l_name: 'Titel', l_days: 'Tage im Diagramm', l_gas_price: 'Gaspreis pro Einheit', l_water_price: 'Wasserpreis pro Einheit', l_energy_price: 'Strompreis pro kWh', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
     description: 'Gas- und Wasserverbrauch: heute, Woche, Monat und Diagramm.',
   },
   es: {
     today: 'Hoy', yesterday: 'Ayer', week: 'Esta semana', month: 'Este mes', vs: '{d} respecto a ayer', same: 'Igual que ayer', days: 'Últimos {n} días', cost: 'Coste', loading: 'Cargando datos…', none: 'Aún no hay estadísticas para este contador.',
     gas: 'Gas', water: 'Agua', energy: 'Electricidad',
     err: 'Indica en "meters" al menos un contador.',
-    l_meters: 'Contadores (lectura total, p. ej. gas y agua)', l_name: 'Título', l_days: 'Días en el gráfico', l_gas_price: 'Precio del gas por unidad', l_water_price: 'Precio del agua por unidad', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
+    l_meters: 'Contadores (lectura total, p. ej. gas y agua)', l_name: 'Título', l_days: 'Días en el gráfico', l_gas_price: 'Precio del gas por unidad', l_water_price: 'Precio del agua por unidad', l_energy_price: 'Precio de la electricidad por kWh', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
     description: 'Consumo de gas y agua: hoy, semana, mes y gráfico.',
   },
   it: {
     today: 'Oggi', yesterday: 'Ieri', week: 'Questa settimana', month: 'Questo mese', vs: '{d} rispetto a ieri', same: 'Come ieri', days: 'Ultimi {n} giorni', cost: 'Costo', loading: 'Caricamento…', none: 'Ancora nessuna statistica per questo contatore.',
     gas: 'Gas', water: 'Acqua', energy: 'Elettricità',
     err: 'Indica in "meters" almeno un contatore.',
-    l_meters: 'Contatori (lettura totale, es. gas e acqua)', l_name: 'Titolo', l_days: 'Giorni nel grafico', l_gas_price: 'Prezzo del gas per unità', l_water_price: 'Prezzo dell\'acqua per unità', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
+    l_meters: 'Contatori (lettura totale, es. gas e acqua)', l_name: 'Titolo', l_days: 'Giorni nel grafico', l_gas_price: 'Prezzo del gas per unità', l_water_price: 'Prezzo dell\'acqua per unità', l_energy_price: 'Prezzo dell\'elettricità per kWh', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
     description: 'Consumi di gas e acqua: oggi, settimana, mese e grafico.',
   },
 };
@@ -8335,14 +8335,14 @@ class GlowUsageCard extends HTMLElement {
   static getConfigElement() { return document.createElement('glow-usage-card-editor'); }
   static getStubConfig(hass) {
     const st = (hass && hass.states) || {};
-    const ids = Object.keys(st).filter((e) => e.startsWith('sensor.') && ['gas', 'water'].includes(st[e].attributes.device_class) && st[e].attributes.state_class === 'total_increasing');
-    return { meters: ids.slice(0, 2) };
+    const ids = Object.keys(st).filter((e) => e.startsWith('sensor.') && ['gas', 'water', 'energy'].includes(st[e].attributes.device_class) && st[e].attributes.state_class === 'total_increasing');
+    return { meters: ids.slice(0, 3) };
   }
   setConfig(config) {
     const m = Array.isArray(config && config.meters) ? config.meters : config && config.entity ? [config.entity] : [];
     if (!m.length) throw new Error(guseT(guseLang(this._hass, config && config.language), 'err'));
     this._config = { glow: 15, days: 7, ...config };
-    this._meters = m.map((x) => (typeof x === 'string' ? { entity: x } : x)).filter((x) => x && x.entity);
+    this._meters = m.map((x) => (typeof x === 'string' || Array.isArray(x) ? { entity: x } : x)).filter((x) => x && x.entity && [].concat(x.entity).filter(Boolean).length);
     this._built = false;
     this._data = {};
     this._loadedAt = 0;
@@ -8359,20 +8359,25 @@ class GlowUsageCard extends HTMLElement {
   _t(k, v) { return guseT(this._lang(), k, v); }
   _loc() { return (this._hass && this._hass.locale && this._hass.locale.language) || this._lang(); }
 
+  // een meter kan uit meerdere sensoren bestaan (bv. dag- en nachttarief), die worden opgeteld
+  _ids(m) { return [].concat(m.entity).filter(Boolean); }
+  _main(m) { return this._ids(m)[0]; }
+  _mkey(m) { return this._ids(m).join(','); }
+
   _kind(m) {
-    const s = this._hass.states[m.entity];
+    const s = this._hass.states[this._main(m)];
     const dc = s && s.attributes.device_class;
     if (m.kind) return m.kind;
-    if (dc === 'gas' || /gas/i.test(m.entity)) return 'gas';
-    if (dc === 'water' || /water/i.test(m.entity)) return 'water';
+    if (dc === 'gas' || /gas/i.test(this._main(m))) return 'gas';
+    if (dc === 'water' || /water/i.test(this._main(m))) return 'water';
     if (dc === 'energy') return 'energy';
     return 'other';
   }
-  _unit(m) { const s = this._hass.states[m.entity]; return m.unit || (s && s.attributes.unit_of_measurement) || ''; }
+  _unit(m) { const s = this._hass.states[this._main(m)]; return m.unit || (s && s.attributes.unit_of_measurement) || ''; }
   _price(m) {
     if (typeof m.price === 'number') return m.price;
     const k = this._kind(m);
-    const p = k === 'gas' ? this._config.gas_price : k === 'water' ? this._config.water_price : null;
+    const p = k === 'gas' ? this._config.gas_price : k === 'water' ? this._config.water_price : k === 'energy' ? this._config.energy_price : null;
     return typeof p === 'number' ? p : parseFloat(p) || null;
   }
 
@@ -8397,17 +8402,26 @@ class GlowUsageCard extends HTMLElement {
     const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const from = new Date(dayStart.getTime() - (Math.max(n, 8) - 1) * 86400000);
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-    const ids = this._meters.map((m) => m.entity);
+    const ids = [...new Set([].concat(...this._meters.map((m) => this._ids(m))))];
     const ws = (period, start) => this._hass.callWS({ type: 'recorder/statistics_during_period', start_time: start.toISOString(), statistic_ids: ids, period, types: ['change'] });
     Promise.all([ws('day', from < monthStart ? from : monthStart), ws('month', monthStart)])
       .then(([days, months]) => {
-        ids.forEach((id) => {
-          const list = (days[id] || []).map((r) => ({ t: typeof r.start === 'number' ? r.start : Date.parse(r.start), v: r.change || 0 }));
-          const month = ((months[id] || [])[0] || {}).change;
-          this._data[id] = { days: list, month: typeof month === 'number' ? month : null };
+        this._meters.forEach((m) => {
+          const sum = new Map();
+          let month = null;
+          this._ids(m).forEach((id) => {
+            (days[id] || []).forEach((r) => {
+              const t = typeof r.start === 'number' ? r.start : Date.parse(r.start);
+              sum.set(t, (sum.get(t) || 0) + (r.change || 0));
+            });
+            const mc = ((months[id] || [])[0] || {}).change;
+            if (typeof mc === 'number') month = (month || 0) + mc;
+          });
+          const list = [...sum.entries()].sort((a, b) => a[0] - b[0]).map(([t, v]) => ({ t, v }));
+          this._data[this._mkey(m)] = { days: list, month };
         });
       })
-      .catch(() => { ids.forEach((id) => { this._data[id] = this._data[id] || { days: [], month: null, error: true }; }); })
+      .catch(() => { this._meters.forEach((m) => { const k = this._mkey(m); this._data[k] = this._data[k] || { days: [], month: null, error: true }; }); })
       .finally(() => { this._loading = false; this._render(); });
   }
 
@@ -8419,7 +8433,7 @@ class GlowUsageCard extends HTMLElement {
     this._body.addEventListener('click', (e) => {
       const t = e.target.closest('.tab');
       if (t) { this._sel = +t.dataset.i; this._render(); return; }
-      if (e.target.closest('.big .ic')) this.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: this._meters[this._sel].entity }, bubbles: true, composed: true }));
+      if (e.target.closest('.big .ic')) this.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: this._main(this._meters[this._sel]) }, bubbles: true, composed: true }));
     });
     this._built = true;
     this._builtLang = this._lang();
@@ -8444,11 +8458,11 @@ class GlowUsageCard extends HTMLElement {
     if (this._meters.length > 1) {
       html += `<div class="tabs">${this._meters.map((x, i) => {
         const k = this._kind(x);
-        const s = st[x.entity];
-        return `<button class="tab${i === this._sel ? ' sel' : ''}" type="button" data-i="${i}" style="--k:${guseRgb(x.color) || GUSE_KIND[k].c}">${GUSE_SVG(GUSE_KIND[k].icon)}${guseEsc(x.name || (k !== 'other' ? this._t(k) : (s && s.attributes.friendly_name) || x.entity))}</button>`;
+        const s = st[this._main(x)];
+        return `<button class="tab${i === this._sel ? ' sel' : ''}" type="button" data-i="${i}" style="--k:${guseRgb(x.color) || GUSE_KIND[k].c}">${GUSE_SVG(GUSE_KIND[k].icon)}${guseEsc(x.name || (k !== 'other' ? this._t(k) : (s && s.attributes.friendly_name) || this._main(x)))}</button>`;
       }).join('')}</div>`;
     }
-    const data = this._data[m.entity];
+    const data = this._data[this._mkey(m)];
     if (!data) {
       html += `<div class="msg">${guseEsc(this._t('loading'))}</div>`;
     } else if (!data.days.length) {
@@ -8541,6 +8555,7 @@ class GlowUsageCardEditor extends HTMLElement {
       { type: 'grid', name: '', schema: [
         { name: 'gas_price', selector: { number: { min: 0, max: 20, step: 0.0001, mode: 'box' } } },
         { name: 'water_price', selector: { number: { min: 0, max: 20, step: 0.0001, mode: 'box' } } },
+        { name: 'energy_price', selector: { number: { min: 0, max: 20, step: 0.0001, mode: 'box' } } },
       ] },
       { name: 'days', selector: { number: { min: 3, max: 31, step: 1, mode: 'box' } } },
       { name: 'glow', selector: { number: { min: 0, max: 40, step: 1, mode: 'slider', unit_of_measurement: 'px' } } },
@@ -8559,4 +8574,4 @@ if (!window.customCards.some((x) => x.type === 'glow-usage-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.11.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.11.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
