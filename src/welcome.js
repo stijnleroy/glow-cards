@@ -11,6 +11,7 @@ const GWC_I18N = {
     letter: '1 brief', letters: '{n} brieven', no_mail: 'Geen post', last: 'Laatst om {t}', reset: 'Op 0 zetten', close: 'Sluiten',
     l_name: 'Naam in de begroeting (optioneel)', l_persons: 'Personen (leeg = iedereen)', l_weather: 'Weer', l_waste: 'Afvalsensoren (leeg = automatisch, Afvalbeheer)',
     l_mail: 'Postteller', l_mail_reset: 'Reset-knop of script (alleen als de postteller geen counter of input_number is)', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
+    zone_home: 'Thuis', zone_away: 'Afwezig', c_zones: 'Kleuren per zone', c_waste: 'Kleuren per afvalsoort',
     description: 'Welkomstkaart zonder achtergrond: uur, begroeting, personen, weer, afval en post.',
   },
   en: {
@@ -19,6 +20,7 @@ const GWC_I18N = {
     letter: '1 letter', letters: '{n} letters', no_mail: 'No mail', last: 'Last at {t}', reset: 'Reset to 0', close: 'Close',
     l_name: 'Name in the greeting (optional)', l_persons: 'People (empty = everyone)', l_weather: 'Weather', l_waste: 'Waste sensors (empty = automatic, Afvalbeheer)',
     l_mail: 'Mail counter', l_mail_reset: 'Reset button or script (only if the mail counter is not a counter or input_number)', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
+    zone_home: 'Home', zone_away: 'Away', c_zones: 'Colours per zone', c_waste: 'Colours per waste type',
     description: 'Welcome card without a background: time, greeting, people, weather, waste and mail.',
   },
   fr: {
@@ -27,6 +29,7 @@ const GWC_I18N = {
     letter: '1 lettre', letters: '{n} lettres', no_mail: 'Pas de courrier', last: 'Dernier à {t}', reset: 'Remettre à 0', close: 'Fermer',
     l_name: 'Nom dans la salutation (optionnel)', l_persons: 'Personnes (vide = tout le monde)', l_weather: 'Météo', l_waste: 'Capteurs de déchets (vide = automatique, Afvalbeheer)',
     l_mail: 'Compteur de courrier', l_mail_reset: 'Bouton ou script de remise à zéro (seulement si ce n\'est pas un counter ou input_number)', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
+    zone_home: 'Maison', zone_away: 'Absent', c_zones: 'Couleurs par zone', c_waste: 'Couleurs par type de déchet',
     description: 'Carte d\'accueil sans fond : heure, salutation, personnes, météo, déchets et courrier.',
   },
   de: {
@@ -35,6 +38,7 @@ const GWC_I18N = {
     letter: '1 Brief', letters: '{n} Briefe', no_mail: 'Keine Post', last: 'Zuletzt um {t}', reset: 'Auf 0 setzen', close: 'Schließen',
     l_name: 'Name in der Begrüßung (optional)', l_persons: 'Personen (leer = alle)', l_weather: 'Wetter', l_waste: 'Müllsensoren (leer = automatisch, Afvalbeheer)',
     l_mail: 'Postzähler', l_mail_reset: 'Reset-Taste oder Skript (nur wenn der Postzähler kein counter oder input_number ist)', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
+    zone_home: 'Zuhause', zone_away: 'Abwesend', c_zones: 'Farben pro Zone', c_waste: 'Farben pro Müllart',
     description: 'Begrüßungskarte ohne Hintergrund: Uhrzeit, Begrüßung, Personen, Wetter, Müll und Post.',
   },
   es: {
@@ -43,6 +47,7 @@ const GWC_I18N = {
     letter: '1 carta', letters: '{n} cartas', no_mail: 'Sin correo', last: 'Última a las {t}', reset: 'Poner a 0', close: 'Cerrar',
     l_name: 'Nombre en el saludo (opcional)', l_persons: 'Personas (vacío = todos)', l_weather: 'Tiempo', l_waste: 'Sensores de basura (vacío = automático, Afvalbeheer)',
     l_mail: 'Contador de correo', l_mail_reset: 'Botón o script para reiniciar (solo si no es un counter o input_number)', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
+    zone_home: 'Casa', zone_away: 'Fuera', c_zones: 'Colores por zona', c_waste: 'Colores por tipo de basura',
     description: 'Tarjeta de bienvenida sin fondo: hora, saludo, personas, tiempo, basura y correo.',
   },
   it: {
@@ -51,6 +56,7 @@ const GWC_I18N = {
     letter: '1 lettera', letters: '{n} lettere', no_mail: 'Nessuna posta', last: 'Ultima alle {t}', reset: 'Azzera', close: 'Chiudi',
     l_name: 'Nome nel saluto (opzionale)', l_persons: 'Persone (vuoto = tutti)', l_weather: 'Meteo', l_waste: 'Sensori rifiuti (vuoto = automatico, Afvalbeheer)',
     l_mail: 'Contatore posta', l_mail_reset: 'Pulsante o script di azzeramento (solo se non è un counter o input_number)', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
+    zone_home: 'Casa', zone_away: 'Fuori', c_zones: 'Colori per zona', c_waste: 'Colori per tipo di rifiuto',
     description: 'Scheda di benvenuto senza sfondo: ora, saluto, persone, meteo, rifiuti e posta.',
   },
 };
@@ -70,7 +76,40 @@ function gwcT(lang, key, vars) {
 }
 function gwcEsc(s) { return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
-const GWC_PALETTE = ['143, 227, 184', '185, 168, 255', '142, 197, 255', '255, 184, 153', '255, 224, 138', '255, 159, 191'];
+const GWC_HOME = '143, 227, 184';
+const GWC_AWAY = '201, 196, 221';
+const GWC_ZONE_HINTS = [
+  { re: /werk|work|kantoor|office|job|bureau/i, c: '142, 197, 255' },
+  { re: /school|college|campus|univ|hogeschool|crèche|creche|kinderopvang/i, c: '255, 224, 138' },
+  { re: /sport|gym|fitness|zwem|club|voetbal/i, c: '255, 184, 153' },
+  { re: /oma|opa|ouders|familie|family|grandma|grandpa|parents/i, c: '255, 159, 191' },
+];
+// standaardkleuren voor de overige zones, in volgorde van de zones
+const GWC_ZONE_PALETTE = ['185, 168, 255', '142, 227, 214', '255, 184, 153', '255, 224, 138'];
+
+// '#8EC5FF', [142, 197, 255] of '142, 197, 255' → '142, 197, 255'
+function gwcRgb(v) {
+  if (Array.isArray(v) && v.length >= 3) return v.slice(0, 3).map((x) => Math.round(+x || 0)).join(', ');
+  const str = String(v || '').trim();
+  if (/^\d+\s*,\s*\d+\s*,\s*\d+$/.test(str)) return str.split(',').map((x) => x.trim()).join(', ');
+  let h = str.replace('#', '');
+  if (h.length === 3) h = h.split('').map((x) => x + x).join('');
+  const n = parseInt(h.slice(0, 6), 16);
+  return h.length >= 6 && !isNaN(n) ? ((n >> 16) & 255) + ', ' + ((n >> 8) & 255) + ', ' + (n & 255) : null;
+}
+// opzoeken in een kleurenlijst, ongeacht hoofdletters
+function gwcLookup(map, ...keys) {
+  if (!map || typeof map !== 'object') return null;
+  const low = {};
+  Object.keys(map).forEach((k) => { low[String(k).toLowerCase()] = map[k]; });
+  for (const k of keys) {
+    if (k === undefined || k === null) continue;
+    const v = low[String(k).toLowerCase()];
+    const c = v !== undefined ? gwcRgb(v) : null;
+    if (c) return c;
+  }
+  return null;
+}
 const GWC_MAIL = '255, 159, 191';
 
 // afvalsoorten herkennen aan de naam van de sensor
@@ -129,7 +168,8 @@ const GWC_STYLE = `
   .pill .w { font-size: 13px; font-weight: 700; opacity: 0.65; }
   .pill.home { background: rgba(var(--c), 0.14); border-color: rgba(var(--c), 0.45); }
   .pill.home .dot { border: 0; background: rgb(var(--c)); box-shadow: 0 0 calc(var(--glow) * 0.6) rgba(var(--c), 0.9); }
-  .pill.home .w { opacity: 1; color: ${GWC_INK('--c')}; }
+  .pill.home .w, .pill.zone .w { opacity: 1; color: ${GWC_INK('--c')}; }
+  .pill.zone .dot { border: 0; background: rgb(var(--c)); }
   .mail { cursor: pointer; font-size: 14px; font-weight: 800; color: ${GWC_INK('--c')}; background: rgba(var(--c), 0.16); border-color: rgba(var(--c), 0.55); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.35); -webkit-tap-highlight-color: transparent; }
   .mail svg { width: 16px; height: 16px; }
   .mail:active { transform: scale(0.97); }
@@ -254,6 +294,28 @@ class GlowWelcomeCard extends HTMLElement {
     return list.filter((e) => st[e]);
   }
 
+  // alle zones: thuis, afwezig en de andere zones uit Home Assistant
+  _zones() {
+    const st = this._hass.states;
+    const others = Object.keys(st).filter((e) => e.startsWith('zone.') && e !== 'zone.home').sort()
+      .map((e) => ({ key: st[e].attributes.friendly_name || e.split('.')[1], id: e }));
+    return [{ key: 'home', id: 'zone.home' }, { key: 'not_home', id: null }].concat(others);
+  }
+
+  _zoneColor(state) {
+    const zones = this._zones();
+    const z = zones.find((x) => x.key === state || (x.key && String(x.key).toLowerCase() === String(state).toLowerCase()));
+    const own = gwcLookup(this._config.zone_colors, state, z && z.id, z && z.id && z.id.split('.')[1]);
+    if (own) return own;
+    if (state === 'home') return GWC_HOME;
+    if (!z || state === 'not_home') return GWC_AWAY;
+    // bekende zonenamen krijgen een vaste kleur, de rest om beurten uit het palet
+    const hint = GWC_ZONE_HINTS.find((h) => h.re.test(z.key + ' ' + (z.id || '')));
+    if (hint) return hint.c;
+    const i = zones.filter((x) => x.id && x.id !== 'zone.home' && !GWC_ZONE_HINTS.some((h) => h.re.test(x.key + ' ' + x.id))).indexOf(z);
+    return GWC_ZONE_PALETTE[i % GWC_ZONE_PALETTE.length];
+  }
+
   _weather() {
     const st = this._hass.states;
     const id = this._config.weather || Object.keys(st).find((e) => e.startsWith('weather.'));
@@ -303,7 +365,8 @@ class GlowWelcomeCard extends HTMLElement {
       label = m ? m[0] : name;
     }
     label = label.charAt(0).toUpperCase() + label.slice(1);
-    return { label, c: hit ? hit.c : '201, 196, 221' };
+    const own = gwcLookup(this._config.waste_colors, label, id, id.split('.')[1]);
+    return { label, c: own || (hit ? hit.c : '201, 196, 221') };
   }
 
   _nextWaste() {
@@ -396,13 +459,14 @@ class GlowWelcomeCard extends HTMLElement {
     const st = this._hass.states;
 
     // personen en post
-    let row = this._persons().map((e, i) => {
+    let row = this._persons().map((e) => {
       const s = st[e];
       const home = s.state === 'home';
-      const c = GWC_PALETTE[i % GWC_PALETTE.length];
+      const known = s.state !== 'not_home' && s.state !== 'unknown' && s.state !== 'unavailable';
+      const c = this._zoneColor(s.state);
       const name = s.attributes.friendly_name || e;
       const where = s.state === 'unknown' || s.state === 'unavailable' ? '–' : this._fmtState(s);
-      return `<div class="pill${home ? ' home' : ''}" data-e="${gwcEsc(e)}" style="--c:${c}"><span class="dot"></span><span class="n">${gwcEsc(name)}</span><span class="w">${gwcEsc(where)}</span></div>`;
+      return `<div class="pill${home ? ' home' : known ? ' zone' : ''}" data-e="${gwcEsc(e)}" style="--c:${c}"><span class="dot"></span><span class="n">${gwcEsc(name)}</span><span class="w">${gwcEsc(where)}</span></div>`;
     }).join('');
     const mail = this._mail();
     if (mail && mail.n > 0) {
@@ -506,40 +570,97 @@ class GlowWelcomeCardEditor extends HTMLElement {
     this._render();
   }
   set hass(hass) {
+    const first = !this._hass;
     this._hass = hass;
-    if (this._form) this._form.hass = hass;
-    else this._render();
+    if (first || !this._form) this._render();
+    else this._form.hass = hass;
   }
+
+  // dezelfde logica als de kaart, om de zones en afvalsoorten te vinden
+  _probe() {
+    const p = Object.create(GlowWelcomeCard.prototype);
+    p._hass = this._hass;
+    p._config = this._config;
+    return p;
+  }
+
+  _colorFields() {
+    const p = this._probe();
+    const zones = p._zones().map((z) => ({ key: z.key, color: p._zoneColor(z.key) }));
+    const seen = new Set();
+    const waste = [];
+    p._wasteSensors().forEach((id) => {
+      const w = p._wasteType(id);
+      if (seen.has(w.label)) return;
+      seen.add(w.label);
+      waste.push({ key: w.label, color: w.c });
+    });
+    return { zones, waste };
+  }
+
   _render() {
     if (!this._config || !this._hass) return;
     const lang = gwcLang(this._hass, this._config.language);
     const t = (k) => gwcT(lang, k);
+    const cf = this._colorFields();
+    this._cf = cf;
+    const zoneLabel = (k) => (k === 'home' ? t('zone_home') : k === 'not_home' ? t('zone_away') : k);
     if (!this._form || this._formLang !== lang) {
       this.innerHTML = '';
       this._form = document.createElement('ha-form');
       this._formLang = lang;
-      this._form.computeLabel = (s) => gwcT(lang, 'l_' + s.name);
-      this._form.addEventListener('value-changed', (e) => {
-        const v = { ...e.detail.value };
-        Object.keys(v).forEach((k) => { if (v[k] === '' || v[k] === null || v[k] === undefined || (Array.isArray(v[k]) && !v[k].length)) delete v[k]; });
-        if (v.language === 'auto') delete v.language;
-        this._config = { type: this._config.type, ...v };
-        this.dispatchEvent(new CustomEvent('config-changed', { detail: { config: this._config }, bubbles: true, composed: true }));
-      });
+      this._form.addEventListener('value-changed', (e) => this._changed(e.detail.value));
       this.appendChild(this._form);
     }
+    this._form.computeLabel = (s) => {
+      if (s.name.startsWith('zc_')) return zoneLabel(this._cf.zones[+s.name.slice(3)].key);
+      if (s.name.startsWith('wc_')) return this._cf.waste[+s.name.slice(3)].key;
+      return gwcT(lang, 'l_' + s.name);
+    };
     this._form.hass = this._hass;
-    this._form.schema = [
+    const rgb = (c) => c.split(',').map((x) => +x.trim());
+    const colorGrid = (list, pre) => ({ type: 'grid', name: '', schema: list.map((z, i) => ({ name: pre + i, selector: { color_rgb: {} } })) });
+    const schema = [
       { name: 'name', selector: { text: {} } },
       { name: 'persons', selector: { entity: { domain: 'person', multiple: true } } },
       { name: 'weather', selector: { entity: { domain: 'weather' } } },
       { name: 'waste', selector: { entity: { domain: 'sensor', multiple: true } } },
       { name: 'mail', selector: { entity: { domain: ['counter', 'input_number', 'sensor'] } } },
       { name: 'mail_reset', selector: { entity: { domain: ['button', 'input_button', 'script', 'automation', 'counter'] } } },
+      { type: 'expandable', name: '', flatten: true, title: t('c_zones'), schema: [colorGrid(cf.zones, 'zc_')] },
+    ];
+    if (cf.waste.length) schema.push({ type: 'expandable', name: '', flatten: true, title: t('c_waste'), schema: [colorGrid(cf.waste, 'wc_')] });
+    schema.push(
       { name: 'glow', selector: { number: { min: 0, max: 40, step: 1, mode: 'slider', unit_of_measurement: 'px' } } },
       { name: 'language', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: t('lang_auto') }].concat(Object.keys(GWC_LANG_NAMES).map((k) => ({ value: k, label: GWC_LANG_NAMES[k] }))) } } },
-    ];
-    this._form.data = { glow: 15, language: 'auto', ...this._config };
+    );
+    this._form.schema = schema;
+    const data = { glow: 15, language: 'auto', ...this._config };
+    cf.zones.forEach((z, i) => { data['zc_' + i] = rgb(z.color); });
+    cf.waste.forEach((w, i) => { data['wc_' + i] = rgb(w.color); });
+    this._form.data = data;
+  }
+
+  _changed(value) {
+    const v = { ...value };
+    const hex = (a) => '#' + a.slice(0, 3).map((x) => Math.round(+x).toString(16).padStart(2, '0')).join('').toUpperCase();
+    const same = (a, c) => Array.isArray(a) && a.slice(0, 3).join(', ') === c;
+    // gewijzigde kleuren bewaren als zone_colors / waste_colors
+    const collect = (pre, list, prop) => {
+      const map = { ...(this._config[prop] || {}) };
+      list.forEach((item, i) => {
+        const val = v[pre + i];
+        delete v[pre + i];
+        if (Array.isArray(val) && !same(val, item.color)) map[item.key] = hex(val);
+      });
+      if (Object.keys(map).length) v[prop] = map; else delete v[prop];
+    };
+    collect('zc_', this._cf.zones, 'zone_colors');
+    collect('wc_', this._cf.waste, 'waste_colors');
+    Object.keys(v).forEach((k) => { if (v[k] === '' || v[k] === null || v[k] === undefined || (Array.isArray(v[k]) && !v[k].length)) delete v[k]; });
+    if (v.language === 'auto') delete v.language;
+    this._config = { type: this._config.type, ...v };
+    this.dispatchEvent(new CustomEvent('config-changed', { detail: { config: this._config }, bubbles: true, composed: true }));
   }
 }
 
