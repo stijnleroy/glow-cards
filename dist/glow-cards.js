@@ -1,4 +1,4 @@
-/*! Glow Cards v1.3.0 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.4.0 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -12,7 +12,7 @@
  * Licentie: MIT
  */
 
-const GBC_VERSION = '1.1.1';
+const GBC_VERSION = '1.2.0';
 
 const GBC_PALETTE = ['#FFB899', '#B9A8FF', '#8FE3B8', '#8EC5FF', '#FFE08A', '#FF9FBF'];
 
@@ -279,18 +279,19 @@ const GBC_STYLE = `
     display: block;
     position: relative;
     overflow: hidden;
-    border-radius: var(--gbc-radius, 28px);
-    padding: 18px;
+    border-radius: var(--ha-card-border-radius, 24px);
+    padding: 16px;
     color: var(--glow-text, #F3F1FA);
     background: var(--glow-card-background, #15121F);
     border: 1px solid var(--glow-card-border, rgba(255, 255, 255, 0.08));
     box-sizing: border-box;
   }
   ha-card.theme-bg { background: var(--ha-card-background, var(--card-background-color)); color: var(--primary-text-color); }
-  ha-card.theme-bg .blob { display: none; }
-  .blob { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; }
-  .blob.a { left: -90px; top: -90px; width: 260px; height: 260px; background: #B9A8FF; opacity: calc(0.28 * var(--glow-blob, 1)); }
-  .blob.b { right: -100px; bottom: -110px; width: 280px; height: 280px; background: #FFB899; opacity: calc(0.22 * var(--glow-blob, 1)); }
+  ha-card.theme-bg .halo { display: none; }
+  /* één zachte lichtvlek, zoals bij de kamer- en scènekaarten; feller zolang een gordijn beweegt */
+  .halo { position: absolute; right: -60px; top: -70px; width: 190px; height: 190px; border-radius: 50%; filter: blur(50px); pointer-events: none;
+    background: rgb(var(--h, 185, 168, 255)); opacity: calc(0.22 * var(--glow-blob, 1)); transition: opacity 0.5s, background 0.5s; }
+  ha-card.busy .halo { opacity: calc(0.5 * var(--glow-blob, 1)); }
   .wrap { position: relative; display: flex; flex-direction: column; gap: 16px; }
 
   .head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
@@ -466,7 +467,7 @@ class GlowBlindsCard extends HTMLElement {
     });
     this._config = {
       sun: 'sun.sun',
-      glow: 22,
+      glow: 15,
       show_all_buttons: true,
       show_hint: true,
       sky: true,
@@ -561,7 +562,7 @@ class GlowBlindsCard extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${GBC_STYLE}</style>
       <ha-card class="${c.background === 'theme' ? 'theme-bg' : ''}" style="--gbc-glow:${parseInt(c.glow, 10) || 0}px">
-        <div class="blob a"></div><div class="blob b"></div>
+        <div class="halo"></div>
         <div class="wrap">
           <div class="head">
             <div class="titles">
@@ -824,6 +825,15 @@ class GlowBlindsCard extends HTMLElement {
     }
   }
 
+  _updateHalo() {
+    const card = this.shadowRoot.querySelector('ha-card');
+    if (!card) return;
+    const moving = this.shadowRoot.querySelector('.stop.active');
+    card.classList.toggle('busy', !!moving);
+    const blind = moving && moving.closest('.blind');
+    card.style.setProperty('--h', blind ? gbcRgb(this._config.blinds[parseInt(blind.dataset.i, 10)].color) : '185, 168, 255');
+  }
+
   _updateBlind(i) {
     const root = this.shadowRoot.querySelector('.blind[data-i="' + i + '"]');
     if (!root) return;
@@ -931,6 +941,7 @@ class GlowBlindsCard extends HTMLElement {
     stopEl.setAttribute('aria-label', this._t('aria_stop', { name }));
 
     win.setAttribute('aria-valuenow', String(pos));
+    this._updateHalo();
     win.setAttribute('aria-label', this._t('aria_pos', { name, p: pos }));
   }
 }
@@ -1158,7 +1169,7 @@ class GlowBlindsCardEditor extends HTMLElement {
       language: c.language ?? 'auto',
       weather: c.weather,
       sun: c.sun ?? 'sun.sun',
-      glow: c.glow ?? 22,
+      glow: c.glow ?? 15,
       columns: c.columns,
       height: c.height,
       background: c.background ?? 'dark',
@@ -1219,7 +1230,7 @@ if (!window.customCards.some((c) => c.type === 'glow-blinds-card')) {
  * Licentie: MIT
  */
 
-const GEC_VERSION = '1.0.1';
+const GEC_VERSION = '1.1.0';
 
 const GEC_COL = {
   sun: '255, 224, 138',
@@ -1420,12 +1431,9 @@ const GEC_STYLE = `
   :host { display: block; }
   ha-card {
     display: block; position: relative; overflow: hidden; box-sizing: border-box;
-    border-radius: 28px; padding: 16px; color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
+    border-radius: var(--ha-card-border-radius, 24px); padding: 16px; color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
     border: 1px solid var(--glow-card-border, rgba(255, 255, 255, 0.08));
   }
-  .blob { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
-  .blob.a { left: -110px; top: -130px; width: 320px; height: 320px; background: #FFE08A; opacity: calc(0.14 * var(--glow-blob, 1)); }
-  .blob.b { right: -120px; bottom: -150px; width: 340px; height: 340px; background: #B9A8FF; opacity: calc(0.18 * var(--glow-blob, 1)); }
   .wrap { position: relative; display: flex; gap: 14px; height: var(--gec-h, 218px); }
 
   /* advies */
@@ -1557,7 +1565,7 @@ class GlowEnergyCard extends HTMLElement {
       soc_full: 90,
       advice_delay: 60,
       auto_rotate: 0,
-      glow: 22,
+      glow: 15,
       height: 218,
       ...config,
       tiles,
@@ -1697,7 +1705,6 @@ class GlowEnergyCard extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${GEC_STYLE}</style>
       <ha-card style="--glow:${parseInt(c.glow, 10) || 0}px">
-        <div class="blob a"></div><div class="blob b"></div>
         <div class="wrap" style="--gec-h:${parseInt(c.height, 10) || 218}px">
           <section class="adv" style="--a:${GEC_COL.ok};--s:${GEC_COL.ok}">
             <div class="halo"></div>
@@ -2199,7 +2206,7 @@ class GlowEnergyCardEditor extends HTMLElement {
       solar: c.solar, grid: c.grid, battery: c.battery, battery_soc: c.battery_soc, house: c.house,
       invert_grid: !!c.invert_grid, invert_battery: !!c.invert_battery,
       surplus: c.surplus ?? 1500, advice_delay: c.advice_delay ?? 60, soc_ok: c.soc_ok ?? 40, soc_full: c.soc_full ?? 90,
-      units: c.units ?? 'w', auto_rotate: c.auto_rotate ?? 0, glow: c.glow ?? 22, height: c.height ?? 218,
+      units: c.units ?? 'w', auto_rotate: c.auto_rotate ?? 0, glow: c.glow ?? 15, height: c.height ?? 218,
       language: c.language ?? 'auto',
     };
   }
@@ -2336,7 +2343,7 @@ const GRC_STYLE = `
   :host { display: block; height: 100%; }
   ha-card {
     position: relative; overflow: hidden; box-sizing: border-box; height: 100%; min-height: 112px;
-    border-radius: 24px; padding: 14px 16px; cursor: pointer; user-select: none; -webkit-user-select: none;
+    border-radius: var(--ha-card-border-radius, 24px); padding: 14px 16px; cursor: pointer; user-select: none; -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent; touch-action: manipulation;
     color: var(--glow-text, #F3F1FA);
     background: var(--glow-card-background, #15121F);
@@ -2921,7 +2928,7 @@ const GSC_STYLE = `
   :host { display: block; height: 100%; }
   ha-card {
     position: relative; overflow: hidden; box-sizing: border-box; height: 100%; min-height: 112px;
-    border-radius: 24px; padding: 14px 16px; cursor: pointer; user-select: none; -webkit-user-select: none;
+    border-radius: var(--ha-card-border-radius, 24px); padding: 14px 16px; cursor: pointer; user-select: none; -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent; touch-action: manipulation;
     color: var(--glow-text, #F3F1FA);
     background: var(--glow-card-background, #15121F);
@@ -3206,4 +3213,4 @@ if (!window.customCards.some((x) => x.type === 'glow-scene-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.3.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.4.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');

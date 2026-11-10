@@ -63,7 +63,7 @@ blinds:
 | `blinds` | required | List of blinds (see below). |
 | `weather` | – | Weather entity for the sky behind the window. Without one, the sky is clear. |
 | `sun` | `sun.sun` | Sun entity for day, twilight and night. |
-| `glow` | `22` | Glow strength in pixels (0 = no glow). |
+| `glow` | `15` | Glow strength in pixels (0 = no glow). |
 | `columns` | automatic | Number of columns. Automatic: 1–3 blinds side by side, 4 as 2×2, more in rows of 3. |
 | `height` | automatic | Window height in pixels (270 for one row, 170 for several rows). |
 | `background` | `dark` | `dark` = dark with glow, `theme` = your dashboard theme background. |

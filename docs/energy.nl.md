@@ -72,7 +72,7 @@ tiles:
 | `soc_full` | `90` | Vanaf dit % telt de batterij als vol. |
 | `advice_delay` | `60` | Aantal seconden dat een nieuw advies moet aanhouden voor het getoond wordt (0 = meteen). |
 | `auto_rotate` | `0` | Seconden tussen de tegels (0 = uit, zelf swipen). |
-| `glow` | `22` | Sterkte van de gloed in pixels. |
+| `glow` | `15` | Sterkte van de gloed in pixels. |
 | `height` | `218` | Hoogte van de inhoud in pixels. |
 | `language` | automatisch | `nl`, `en`, `fr`, `de`, `es` of `it`. |
 | `tiles` | – | Lijst met tegels (zie hieronder). |

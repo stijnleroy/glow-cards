@@ -43,7 +43,7 @@ const GSC_STYLE = `
   :host { display: block; height: 100%; }
   ha-card {
     position: relative; overflow: hidden; box-sizing: border-box; height: 100%; min-height: 112px;
-    border-radius: 24px; padding: 14px 16px; cursor: pointer; user-select: none; -webkit-user-select: none;
+    border-radius: var(--ha-card-border-radius, 24px); padding: 14px 16px; cursor: pointer; user-select: none; -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent; touch-action: manipulation;
     color: var(--glow-text, #F3F1FA);
     background: var(--glow-card-background, #15121F);

@@ -8,7 +8,7 @@
  * Licentie: MIT
  */
 
-const GBC_VERSION = '1.1.1';
+const GBC_VERSION = '1.2.0';
 
 const GBC_PALETTE = ['#FFB899', '#B9A8FF', '#8FE3B8', '#8EC5FF', '#FFE08A', '#FF9FBF'];
 
@@ -275,18 +275,19 @@ const GBC_STYLE = `
     display: block;
     position: relative;
     overflow: hidden;
-    border-radius: var(--gbc-radius, 28px);
-    padding: 18px;
+    border-radius: var(--ha-card-border-radius, 24px);
+    padding: 16px;
     color: var(--glow-text, #F3F1FA);
     background: var(--glow-card-background, #15121F);
     border: 1px solid var(--glow-card-border, rgba(255, 255, 255, 0.08));
     box-sizing: border-box;
   }
   ha-card.theme-bg { background: var(--ha-card-background, var(--card-background-color)); color: var(--primary-text-color); }
-  ha-card.theme-bg .blob { display: none; }
-  .blob { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; }
-  .blob.a { left: -90px; top: -90px; width: 260px; height: 260px; background: #B9A8FF; opacity: calc(0.28 * var(--glow-blob, 1)); }
-  .blob.b { right: -100px; bottom: -110px; width: 280px; height: 280px; background: #FFB899; opacity: calc(0.22 * var(--glow-blob, 1)); }
+  ha-card.theme-bg .halo { display: none; }
+  /* één zachte lichtvlek, zoals bij de kamer- en scènekaarten; feller zolang een gordijn beweegt */
+  .halo { position: absolute; right: -60px; top: -70px; width: 190px; height: 190px; border-radius: 50%; filter: blur(50px); pointer-events: none;
+    background: rgb(var(--h, 185, 168, 255)); opacity: calc(0.22 * var(--glow-blob, 1)); transition: opacity 0.5s, background 0.5s; }
+  ha-card.busy .halo { opacity: calc(0.5 * var(--glow-blob, 1)); }
   .wrap { position: relative; display: flex; flex-direction: column; gap: 16px; }
 
   .head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
@@ -462,7 +463,7 @@ class GlowBlindsCard extends HTMLElement {
     });
     this._config = {
       sun: 'sun.sun',
-      glow: 22,
+      glow: 15,
       show_all_buttons: true,
       show_hint: true,
       sky: true,
@@ -557,7 +558,7 @@ class GlowBlindsCard extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${GBC_STYLE}</style>
       <ha-card class="${c.background === 'theme' ? 'theme-bg' : ''}" style="--gbc-glow:${parseInt(c.glow, 10) || 0}px">
-        <div class="blob a"></div><div class="blob b"></div>
+        <div class="halo"></div>
         <div class="wrap">
           <div class="head">
             <div class="titles">
@@ -820,6 +821,15 @@ class GlowBlindsCard extends HTMLElement {
     }
   }
 
+  _updateHalo() {
+    const card = this.shadowRoot.querySelector('ha-card');
+    if (!card) return;
+    const moving = this.shadowRoot.querySelector('.stop.active');
+    card.classList.toggle('busy', !!moving);
+    const blind = moving && moving.closest('.blind');
+    card.style.setProperty('--h', blind ? gbcRgb(this._config.blinds[parseInt(blind.dataset.i, 10)].color) : '185, 168, 255');
+  }
+
   _updateBlind(i) {
     const root = this.shadowRoot.querySelector('.blind[data-i="' + i + '"]');
     if (!root) return;
@@ -927,6 +937,7 @@ class GlowBlindsCard extends HTMLElement {
     stopEl.setAttribute('aria-label', this._t('aria_stop', { name }));
 
     win.setAttribute('aria-valuenow', String(pos));
+    this._updateHalo();
     win.setAttribute('aria-label', this._t('aria_pos', { name, p: pos }));
   }
 }
@@ -1154,7 +1165,7 @@ class GlowBlindsCardEditor extends HTMLElement {
       language: c.language ?? 'auto',
       weather: c.weather,
       sun: c.sun ?? 'sun.sun',
-      glow: c.glow ?? 22,
+      glow: c.glow ?? 15,
       columns: c.columns,
       height: c.height,
       background: c.background ?? 'dark',

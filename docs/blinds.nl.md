@@ -60,7 +60,7 @@ blinds:
 | `blinds` | verplicht | Lijst met gordijnen (zie hieronder). |
 | `weather` | – | Weer-entiteit voor de lucht achter het raam. Zonder weer-entiteit is de lucht helder. |
 | `sun` | `sun.sun` | Zon-entiteit voor dag, schemer en nacht. |
-| `glow` | `22` | Sterkte van de gloed in pixels (0 = geen gloed). |
+| `glow` | `15` | Sterkte van de gloed in pixels (0 = geen gloed). |
 | `columns` | automatisch | Aantal kolommen. Automatisch: 1–3 gordijnen naast elkaar, 4 in 2×2, meer in rijen van 3. |
 | `height` | automatisch | Hoogte van de ramen in pixels (270 bij één rij, 170 bij meerdere rijen). |
 | `background` | `dark` | `dark` = donker met gloed, `theme` = achtergrond van je dashboardthema. |

@@ -71,7 +71,7 @@ tiles:
 | `soc_full` | `90` | Battery % counted as full. |
 | `advice_delay` | `60` | Seconds a new advice must hold before it is shown (0 = immediately). |
 | `auto_rotate` | `0` | Seconds between tiles (0 = off; swipe manually). |
-| `glow` | `22` | Glow strength in pixels. |
+| `glow` | `15` | Glow strength in pixels. |
 | `height` | `218` | Content height in pixels. |
 | `language` | automatic | `en`, `nl`, `fr`, `de`, `es` or `it`. |
 | `tiles` | – | List of tiles (below). |

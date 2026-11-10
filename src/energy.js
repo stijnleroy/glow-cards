@@ -8,7 +8,7 @@
  * Licentie: MIT
  */
 
-const GEC_VERSION = '1.0.1';
+const GEC_VERSION = '1.1.0';
 
 const GEC_COL = {
   sun: '255, 224, 138',
@@ -209,12 +209,9 @@ const GEC_STYLE = `
   :host { display: block; }
   ha-card {
     display: block; position: relative; overflow: hidden; box-sizing: border-box;
-    border-radius: 28px; padding: 16px; color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
+    border-radius: var(--ha-card-border-radius, 24px); padding: 16px; color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
     border: 1px solid var(--glow-card-border, rgba(255, 255, 255, 0.08));
   }
-  .blob { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
-  .blob.a { left: -110px; top: -130px; width: 320px; height: 320px; background: #FFE08A; opacity: calc(0.14 * var(--glow-blob, 1)); }
-  .blob.b { right: -120px; bottom: -150px; width: 340px; height: 340px; background: #B9A8FF; opacity: calc(0.18 * var(--glow-blob, 1)); }
   .wrap { position: relative; display: flex; gap: 14px; height: var(--gec-h, 218px); }
 
   /* advies */
@@ -346,7 +343,7 @@ class GlowEnergyCard extends HTMLElement {
       soc_full: 90,
       advice_delay: 60,
       auto_rotate: 0,
-      glow: 22,
+      glow: 15,
       height: 218,
       ...config,
       tiles,
@@ -486,7 +483,6 @@ class GlowEnergyCard extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${GEC_STYLE}</style>
       <ha-card style="--glow:${parseInt(c.glow, 10) || 0}px">
-        <div class="blob a"></div><div class="blob b"></div>
         <div class="wrap" style="--gec-h:${parseInt(c.height, 10) || 218}px">
           <section class="adv" style="--a:${GEC_COL.ok};--s:${GEC_COL.ok}">
             <div class="halo"></div>
@@ -988,7 +984,7 @@ class GlowEnergyCardEditor extends HTMLElement {
       solar: c.solar, grid: c.grid, battery: c.battery, battery_soc: c.battery_soc, house: c.house,
       invert_grid: !!c.invert_grid, invert_battery: !!c.invert_battery,
       surplus: c.surplus ?? 1500, advice_delay: c.advice_delay ?? 60, soc_ok: c.soc_ok ?? 40, soc_full: c.soc_full ?? 90,
-      units: c.units ?? 'w', auto_rotate: c.auto_rotate ?? 0, glow: c.glow ?? 22, height: c.height ?? 218,
+      units: c.units ?? 'w', auto_rotate: c.auto_rotate ?? 0, glow: c.glow ?? 15, height: c.height ?? 218,
       language: c.language ?? 'auto',
     };
   }
