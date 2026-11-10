@@ -10,7 +10,7 @@ A thermostat card in the Glow style, with a weekly schedule that runs entirely i
 - **Centre**: the target temperature, with the current temperature and humidity below.
 - **Glow**: peach while heating, lavender at temperature, grey when off.
 - **Modes**: **Off**, **Heat** (set the temperature yourself) and **Schedule**.
-- **Schedule** (button top right): a popup with the weekly schedule.
+- **Schedule**: by default the weekly schedule is shown on the card, which then fills almost a whole screen (meant for its own view). With `layout: compact` the card is one column wide and the schedule opens in a popup from the button top right.
 
 ## The schedule
 
@@ -23,7 +23,7 @@ The schedule has two temperatures: **comfort** and **eco**. You draw the comfort
 
 ### One-time setup
 
-The first time you tap **Schedule**, the card shows **Set up schedule**. It creates in Home Assistant (needs an administrator account):
+As long as the schedule does not exist yet, the card shows **Set up schedule**. It creates in Home Assistant (needs an administrator account):
 
 | What | Entity (for `climate.thermostat`) |
 |---|---|
@@ -45,6 +45,7 @@ entity: climate.thermostat
 | `entity` | – | The thermostat (`climate`). |
 | `name` | entity name | Name on the card. |
 | `humidity` | from the thermostat | Your own humidity sensor. |
+| `layout` | `full` | `full`: large, with the schedule on the card. `compact`: small, schedule in a popup. |
 | `schedule` | `schedule.<name>_schema` | The schedule helper. |
 | `comfort` | `input_number.<name>_comfort` | Comfort temperature. |
 | `eco` | `input_number.<name>_spaarstand` | Eco temperature. |

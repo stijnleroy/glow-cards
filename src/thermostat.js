@@ -15,6 +15,7 @@ const GTH_I18N = {
     setup_title: 'Schema nog niet ingesteld', setup_text: 'De kaart maakt in Home Assistant een schema, twee temperaturen (comfort en spaarstand), een schakelaar "schema actief" en één automatisering aan. Daarna loopt het schema ook als de tablet uit staat.', setup_btn: 'Schema instellen', setup_busy: 'Bezig met instellen…', setup_err: 'Dat lukte niet: {e}. Dit vraagt een beheerdersaccount.',
     err: 'Vul "entity" in met een thermostaat (climate).',
     l_entity: 'Thermostaat', l_name: 'Naam', l_schedule: 'Schema-helper (leeg = automatisch)', l_comfort: 'Comforttemperatuur (input_number)', l_eco: 'Spaartemperatuur (input_number)', l_active: 'Schema actief (input_boolean)', l_humidity: 'Vochtigheidssensor (optioneel)', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
+    l_layout: 'Weergave', lay_full: 'Groot, met het schema erbij', lay_compact: 'Klein, schema in een popup',
     description: 'Thermostaat met draaiknop en een weekschema met comfort- en spaartemperatuur.',
   },
   en: {
@@ -26,6 +27,7 @@ const GTH_I18N = {
     setup_title: 'Schedule not set up yet', setup_text: 'The card creates a schedule, two temperatures (comfort and eco), a "schedule active" switch and one automation in Home Assistant. The schedule then runs even when the tablet is off.', setup_btn: 'Set up schedule', setup_busy: 'Setting up…', setup_err: 'That did not work: {e}. This needs an administrator account.',
     err: 'Fill in "entity" with a thermostat (climate).',
     l_entity: 'Thermostat', l_name: 'Name', l_schedule: 'Schedule helper (empty = automatic)', l_comfort: 'Comfort temperature (input_number)', l_eco: 'Eco temperature (input_number)', l_active: 'Schedule active (input_boolean)', l_humidity: 'Humidity sensor (optional)', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
+    l_layout: 'Layout', lay_full: 'Large, with the schedule', lay_compact: 'Small, schedule in a popup',
     description: 'Thermostat with a dial and a weekly comfort/eco schedule.',
   },
   fr: {
@@ -37,6 +39,7 @@ const GTH_I18N = {
     setup_title: 'Programme pas encore configuré', setup_text: 'La carte crée dans Home Assistant un programme, deux températures (confort et éco), un interrupteur « programme actif » et une automatisation. Le programme tourne ensuite même si la tablette est éteinte.', setup_btn: 'Configurer le programme', setup_busy: 'Configuration…', setup_err: 'Échec : {e}. Un compte administrateur est nécessaire.',
     err: 'Renseignez "entity" avec un thermostat (climate).',
     l_entity: 'Thermostat', l_name: 'Nom', l_schedule: 'Programme (vide = automatique)', l_comfort: 'Température confort (input_number)', l_eco: 'Température éco (input_number)', l_active: 'Programme actif (input_boolean)', l_humidity: 'Capteur d\'humidité (optionnel)', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
+    l_layout: 'Affichage', lay_full: 'Grand, avec le programme', lay_compact: 'Petit, programme dans un popup',
     description: 'Thermostat avec molette et programme hebdomadaire confort/éco.',
   },
   de: {
@@ -48,6 +51,7 @@ const GTH_I18N = {
     setup_title: 'Zeitplan noch nicht eingerichtet', setup_text: 'Die Karte legt in Home Assistant einen Zeitplan, zwei Temperaturen (Komfort und Spar), einen Schalter „Zeitplan aktiv“ und eine Automatisierung an. Der Zeitplan läuft dann auch, wenn das Tablet aus ist.', setup_btn: 'Zeitplan einrichten', setup_busy: 'Wird eingerichtet…', setup_err: 'Hat nicht geklappt: {e}. Dafür ist ein Administratorkonto nötig.',
     err: 'Gib unter "entity" einen Thermostat (climate) an.',
     l_entity: 'Thermostat', l_name: 'Name', l_schedule: 'Zeitplan-Helfer (leer = automatisch)', l_comfort: 'Komforttemperatur (input_number)', l_eco: 'Spartemperatur (input_number)', l_active: 'Zeitplan aktiv (input_boolean)', l_humidity: 'Feuchtesensor (optional)', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
+    l_layout: 'Darstellung', lay_full: 'Groß, mit Zeitplan', lay_compact: 'Klein, Zeitplan im Popup',
     description: 'Thermostat mit Drehregler und Wochenplan für Komfort/Spar.',
   },
   es: {
@@ -59,6 +63,7 @@ const GTH_I18N = {
     setup_title: 'Horario aún no configurado', setup_text: 'La tarjeta crea en Home Assistant un horario, dos temperaturas (confort y ahorro), un interruptor «horario activo» y una automatización. El horario funciona aunque la tableta esté apagada.', setup_btn: 'Configurar horario', setup_busy: 'Configurando…', setup_err: 'No ha funcionado: {e}. Hace falta una cuenta de administrador.',
     err: 'Indica en "entity" un termostato (climate).',
     l_entity: 'Termostato', l_name: 'Nombre', l_schedule: 'Horario (vacío = automático)', l_comfort: 'Temperatura confort (input_number)', l_eco: 'Temperatura ahorro (input_number)', l_active: 'Horario activo (input_boolean)', l_humidity: 'Sensor de humedad (opcional)', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
+    l_layout: 'Vista', lay_full: 'Grande, con el horario', lay_compact: 'Pequeña, horario en un popup',
     description: 'Termostato con dial y horario semanal de confort/ahorro.',
   },
   it: {
@@ -70,6 +75,7 @@ const GTH_I18N = {
     setup_title: 'Programma non ancora configurato', setup_text: 'La scheda crea in Home Assistant un programma, due temperature (comfort ed eco), un interruttore «programma attivo» e un\'automazione. Il programma funziona anche a tablet spento.', setup_btn: 'Configura programma', setup_busy: 'Configurazione…', setup_err: 'Non è riuscito: {e}. Serve un account amministratore.',
     err: 'Indica in "entity" un termostato (climate).',
     l_entity: 'Termostato', l_name: 'Nome', l_schedule: 'Programma (vuoto = automatico)', l_comfort: 'Temperatura comfort (input_number)', l_eco: 'Temperatura eco (input_number)', l_active: 'Programma attivo (input_boolean)', l_humidity: 'Sensore di umidità (opzionale)', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
+    l_layout: 'Vista', lay_full: 'Grande, con il programma', lay_compact: 'Piccola, programma in un popup',
     description: 'Termostato con manopola e programma settimanale comfort/eco.',
   },
 };
@@ -103,10 +109,54 @@ const gthH = (s) => { const p = String(s || '0:0').split(':').map((x) => parseIn
 const gthS = (h) => String(Math.floor(h)).padStart(2, '0') + ':' + String(Math.round((h % 1) * 60)).padStart(2, '0') + ':00';
 const gthHM = (h) => String(Math.floor(h)).padStart(2, '0') + ':' + String(Math.round((h % 1) * 60)).padStart(2, '0');
 
+const GTH_SCHED_STYLE = `
+  button { font: inherit; cursor: pointer; color: inherit; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .top { display: flex; align-items: center; gap: 12px; }
+  .top .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .top .n { font-size: 22px; font-weight: 800; }
+  .top .s { font-size: 14px; font-weight: 700; opacity: 0.65; }
+  .top .s.on { opacity: 1; color: color-mix(in srgb, rgb(${GTH_HEAT}), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .tog { height: 40px; padding: 0 18px; border-radius: 20px; font-size: 14px; font-weight: 800; border: 0; background: var(--glow-surface, rgba(255,255,255,0.07)); }
+  .tog.on { color: #1C1730; background: rgb(${GTH_HEAT}); box-shadow: 0 0 var(--glow) rgba(${GTH_HEAT}, 0.5); }
+  .x { width: 40px; height: 40px; border-radius: 20px; font-size: 18px; font-weight: 800; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid ${GTH_LINE}; }
+  .temps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tb { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 18px; background: rgba(var(--k), 0.12); border: 1px solid rgba(var(--k), 0.4); }
+  .tb .dot { width: 12px; height: 12px; border-radius: 6px; background: rgb(var(--k)); box-shadow: 0 0 8px rgba(var(--k), 0.8); }
+  .tb .l { flex: 1; font-size: 15px; font-weight: 800; }
+  .tb .v { min-width: 54px; text-align: center; font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .mini { width: 36px; height: 36px; border-radius: 12px; font-size: 18px; font-weight: 800; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid ${GTH_LINE}; flex-shrink: 0; }
+  .mini:active { background: rgba(${GTH_HEAT}, 0.3); }
+  .scale { display: flex; padding-left: 50px; justify-content: space-between; font-size: 11px; font-weight: 800; opacity: 0.55; }
+  .week { display: flex; flex-direction: column; gap: 6px; }
+  .day { display: flex; align-items: center; gap: 10px; padding: 4px 6px; border-radius: 12px; border: 1px solid transparent; background: transparent; }
+  .day.sel { border-color: rgba(${GTH_HEAT}, 0.5); background: rgba(${GTH_HEAT}, 0.08); }
+  .day .dn { width: 34px; text-align: left; font-size: 14px; font-weight: 800; }
+  .bar { position: relative; flex: 1; height: 22px; border-radius: 8px; overflow: hidden; background: rgba(${GTH_COOL}, 0.22); }
+  .bar i { position: absolute; top: 0; bottom: 0; border-radius: 6px; background: rgb(${GTH_HEAT}); opacity: 0.9; box-shadow: 0 0 8px rgba(${GTH_HEAT}, 0.5); }
+  .bar b { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--glow-text, #F3F1FA); }
+  .inactive .bar { background: rgba(${GTH_COOL}, 0.1); }
+  .inactive .bar i { opacity: 0.35; }
+  .edit { display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: 20px; background: var(--glow-surface, rgba(255,255,255,0.07)); }
+  .eh { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .eh .dn { font-size: 16px; font-weight: 800; }
+  .link { height: 32px; padding: 0 12px; border-radius: 16px; font-size: 13px; font-weight: 800; background: transparent; border: 1px solid rgba(${GTH_HEAT}, 0.45); color: color-mix(in srgb, rgb(${GTH_HEAT}), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .blk { display: flex; align-items: center; gap: 8px; }
+  .blk .tm { min-width: 52px; text-align: center; font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .blk .to { opacity: 0.55; font-weight: 800; }
+  .blk .gap { flex: 1; }
+  .add { height: 42px; border-radius: 16px; font-size: 14px; font-weight: 800; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px dashed ${GTH_LINE}; }
+  .msg { font-size: 13px; font-weight: 700; opacity: 0.6; text-align: right; min-height: 18px; }
+  .setup { display: flex; flex-direction: column; gap: 14px; }
+  .setup p { margin: 0; font-size: 15px; line-height: 1.45; opacity: 0.8; }
+  .go { height: 52px; border-radius: 26px; font-size: 16px; font-weight: 800; color: #1C1730; background: rgb(${GTH_HEAT}); border: 0; box-shadow: 0 0 var(--glow) rgba(${GTH_HEAT}, 0.5); }
+  .go[disabled] { opacity: 0.6; }
+  .err { font-size: 14px; font-weight: 700; color: #FF8F8F; }
+`;
+
 const GTH_STYLE = `
   :host { display: block; }
   ha-card {
-    position: relative; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; padding: 18px;
+    position: relative; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; padding: 18px; container-type: inline-size;
     border-radius: var(--ha-card-border-radius, 24px); user-select: none; -webkit-user-select: none;
     color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
     border: 1px solid rgba(var(--c), 0.3); box-shadow: 0 0 calc(var(--glow) * 0.4) rgba(var(--c), 0.15);
@@ -140,8 +190,23 @@ const GTH_STYLE = `
   .seg { position: relative; display: flex; gap: 4px; padding: 4px; border-radius: 19px; background: var(--glow-surface, rgba(255,255,255,0.07)); }
   .seg button { flex: 1; height: 42px; border-radius: 15px; border: 0; font-size: 14px; font-weight: 800; background: transparent; transition: background 0.3s, box-shadow 0.3s; }
   .seg button.sel { color: #1C1730; background: rgb(var(--c)); box-shadow: 0 0 calc(var(--glow) * 0.8) rgba(var(--c), 0.6); }
+  ha-card.full { padding: 22px; gap: 18px; }
+  .cols { position: relative; display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 22px; align-items: start; }
+  .lcol { display: flex; flex-direction: column; gap: 12px; }
+  .rcol, .sbody { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  ha-card.full .temps { grid-template-columns: minmax(0, 1fr); }
+  ha-card.full .tb { padding: 14px 16px; }
+  ha-card.full .tb .v { font-size: 22px; }
+  .sbody { position: relative; }
+  .sbody .day { padding: 6px; }
+  .sbody .bar { height: 28px; }
+  .rcol .x, .sbody .x { display: none; }
+  @container (max-width: 640px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+  @container (max-width: 480px) { .blk { flex-wrap: wrap; row-gap: 6px; } .blk .gap { display: none; } .sbody .bar { height: 24px; } }
+  ${GTH_SCHED_STYLE}
   .seg button.sel.offsel { color: inherit; background: color-mix(in srgb, var(--glow-text, #F3F1FA) 16%, transparent); box-shadow: none; }
 `;
+
 
 const GTH_POP_STYLE = `
   :host { all: initial; }
@@ -151,48 +216,9 @@ const GTH_POP_STYLE = `
   .panel { width: 100%; max-width: 640px; max-height: calc(100vh - 40px); overflow-y: auto; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; padding: 22px; border-radius: 28px;
     color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
     border: 1px solid rgba(${GTH_HEAT}, 0.45); box-shadow: 0 0 50px rgba(${GTH_HEAT}, 0.2), 0 20px 50px rgba(0, 0, 0, 0.4); animation: gth-pop 0.25s cubic-bezier(.2, .9, .3, 1.2); }
-  button { font: inherit; cursor: pointer; color: inherit; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-  .top { display: flex; align-items: center; gap: 12px; }
-  .top .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-  .top .n { font-size: 22px; font-weight: 800; }
-  .top .s { font-size: 14px; font-weight: 700; opacity: 0.65; }
-  .top .s.on { opacity: 1; color: color-mix(in srgb, rgb(${GTH_HEAT}), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
-  .tog { height: 40px; padding: 0 18px; border-radius: 20px; font-size: 14px; font-weight: 800; border: 0; background: var(--glow-surface, rgba(255,255,255,0.07)); }
-  .tog.on { color: #1C1730; background: rgb(${GTH_HEAT}); box-shadow: 0 0 var(--glow) rgba(${GTH_HEAT}, 0.5); }
-  .x { width: 40px; height: 40px; border-radius: 20px; font-size: 18px; font-weight: 800; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid ${GTH_LINE}; }
-  .temps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .tb { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 18px; background: rgba(var(--k), 0.12); border: 1px solid rgba(var(--k), 0.4); }
-  .tb .dot { width: 12px; height: 12px; border-radius: 6px; background: rgb(var(--k)); box-shadow: 0 0 8px rgba(var(--k), 0.8); }
-  .tb .l { flex: 1; font-size: 15px; font-weight: 800; }
-  .tb .v { min-width: 54px; text-align: center; font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; }
-  .mini { width: 36px; height: 36px; border-radius: 12px; font-size: 18px; font-weight: 800; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid ${GTH_LINE}; flex-shrink: 0; }
-  .mini:active { background: rgba(${GTH_HEAT}, 0.3); }
-  .scale { display: flex; padding-left: 50px; justify-content: space-between; font-size: 11px; font-weight: 800; opacity: 0.55; }
-  .week { display: flex; flex-direction: column; gap: 6px; }
-  .day { display: flex; align-items: center; gap: 10px; padding: 4px 6px; border-radius: 12px; border: 1px solid transparent; background: transparent; }
-  .day.sel { border-color: rgba(${GTH_HEAT}, 0.5); background: rgba(${GTH_HEAT}, 0.08); }
-  .day .dn { width: 34px; text-align: left; font-size: 14px; font-weight: 800; }
-  .bar { position: relative; flex: 1; height: 22px; border-radius: 8px; overflow: hidden; background: rgba(${GTH_COOL}, 0.22); }
-  .bar i { position: absolute; top: 0; bottom: 0; border-radius: 6px; background: rgb(${GTH_HEAT}); opacity: 0.9; box-shadow: 0 0 8px rgba(${GTH_HEAT}, 0.5); }
-  .bar b { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--glow-text, #F3F1FA); }
-  .panel.inactive .bar { background: rgba(${GTH_COOL}, 0.1); }
-  .panel.inactive .bar i { opacity: 0.35; }
-  .edit { display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: 20px; background: var(--glow-surface, rgba(255,255,255,0.07)); }
-  .eh { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .eh .dn { font-size: 16px; font-weight: 800; }
-  .link { height: 32px; padding: 0 12px; border-radius: 16px; font-size: 13px; font-weight: 800; background: transparent; border: 1px solid rgba(${GTH_HEAT}, 0.45); color: color-mix(in srgb, rgb(${GTH_HEAT}), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
-  .blk { display: flex; align-items: center; gap: 8px; }
-  .blk .tm { min-width: 52px; text-align: center; font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; }
-  .blk .to { opacity: 0.55; font-weight: 800; }
-  .blk .gap { flex: 1; }
-  .add { height: 42px; border-radius: 16px; font-size: 14px; font-weight: 800; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px dashed ${GTH_LINE}; }
-  .msg { font-size: 13px; font-weight: 700; opacity: 0.6; text-align: right; min-height: 18px; }
-  .setup { display: flex; flex-direction: column; gap: 14px; }
-  .setup p { margin: 0; font-size: 15px; line-height: 1.45; opacity: 0.8; }
-  .go { height: 52px; border-radius: 26px; font-size: 16px; font-weight: 800; color: #1C1730; background: rgb(${GTH_HEAT}); border: 0; box-shadow: 0 0 var(--glow) rgba(${GTH_HEAT}, 0.5); }
-  .go[disabled] { opacity: 0.6; }
-  .err { font-size: 14px; font-weight: 700; color: #FF8F8F; }
+${GTH_SCHED_STYLE}
   @media (max-width: 520px) { .temps { grid-template-columns: 1fr; } .blk { flex-wrap: wrap; } }
+  .sched { display: flex; flex-direction: column; gap: 16px; }
   @keyframes gth-fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes gth-pop { from { opacity: 0; transform: scale(0.94) translateY(10px); } to { opacity: 1; transform: none; } }
 `;
@@ -227,8 +253,8 @@ class GlowThermostatCard extends HTMLElement {
   }
   get hass() { return this._hass; }
 
-  getCardSize() { return 6; }
-  getGridOptions() { return { columns: 6, rows: 'auto', min_columns: 6 }; }
+  getCardSize() { return this._config && this._config.layout === 'compact' ? 6 : 12; }
+  getGridOptions() { return this._config && this._config.layout === 'compact' ? { columns: 6, rows: 'auto', min_columns: 6 } : { columns: 'full', rows: 'auto', min_columns: 6 }; }
   disconnectedCallback() { this._closePopup(); }
 
   _lang() { return gthLang(this._hass, this._config && this._config.language); }
@@ -255,30 +281,35 @@ class GlowThermostatCard extends HTMLElement {
 
   /* ---- kaart ---- */
 
+  _full() { return this._config.layout !== 'compact'; }
+
   _build() {
+    const full = this._full();
+    const dial = `
+          <div class="head">
+            <div class="ht"><span class="n"></span><span class="s"></span></div>
+            ${full ? '' : `<button class="sbtn" type="button">${GTH_CAL}<span></span></button>`}
+          </div>
+          <div class="dial">
+            <svg viewBox="0 0 240 240" aria-hidden="true">
+              <defs><linearGradient id="gth-arc" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#8EC5FF"/><stop offset="55%" stop-color="#FFE08A"/><stop offset="100%" stop-color="#FFB899"/></linearGradient></defs>
+              <path class="track" fill="none" stroke-width="14" stroke-linecap="round"/>
+              <path class="arc" fill="none" stroke="url(#gth-arc)" stroke-width="14" stroke-linecap="round"/>
+              <circle class="cur" r="4"/>
+              <circle class="knob" r="13"/>
+            </svg>
+            <div class="mid"><span class="big"></span><span class="now"></span></div>
+          </div>
+          <div class="steps">
+            <button class="step" type="button" data-d="-1"></button>
+            <button class="step" type="button" data-d="1"></button>
+          </div>
+          <div class="seg"></div>`;
     this.shadowRoot.innerHTML = `
       <style>${GTH_STYLE}</style>
-      <ha-card>
+      <ha-card class="${full ? 'full' : ''}">
         <div class="halo"></div>
-        <div class="head">
-          <div class="ht"><span class="n"></span><span class="s"></span></div>
-          <button class="sbtn" type="button">${GTH_CAL}<span></span></button>
-        </div>
-        <div class="dial">
-          <svg viewBox="0 0 240 240" aria-hidden="true">
-            <defs><linearGradient id="gth-arc" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#8EC5FF"/><stop offset="55%" stop-color="#FFE08A"/><stop offset="100%" stop-color="#FFB899"/></linearGradient></defs>
-            <path class="track" fill="none" stroke-width="14" stroke-linecap="round"/>
-            <path class="arc" fill="none" stroke="url(#gth-arc)" stroke-width="14" stroke-linecap="round"/>
-            <circle class="cur" r="4"/>
-            <circle class="knob" r="13"/>
-          </svg>
-          <div class="mid"><span class="big"></span><span class="now"></span></div>
-        </div>
-        <div class="steps">
-          <button class="step" type="button" data-d="-1"></button>
-          <button class="step" type="button" data-d="1"></button>
-        </div>
-        <div class="seg"></div>
+        ${full ? `<div class="cols"><div class="lcol">${dial}</div><div class="rcol"></div></div><div class="sbody"></div>` : dial}
       </ha-card>`;
     const r = this.shadowRoot;
     this._card = r.querySelector('ha-card');
@@ -286,14 +317,22 @@ class GlowThermostatCard extends HTMLElement {
     steps[0].textContent = '−'; steps[0].setAttribute('aria-label', this._t('colder'));
     steps[1].textContent = '+'; steps[1].setAttribute('aria-label', this._t('warmer'));
     steps.forEach((b) => b.addEventListener('click', () => this._nudge(+b.dataset.d)));
-    r.querySelector('.sbtn span').textContent = this._t('schedule');
-    r.querySelector('.sbtn').addEventListener('click', () => this._openPopup());
+    if (r.querySelector('.sbtn')) {
+      r.querySelector('.sbtn span').textContent = this._t('schedule');
+      r.querySelector('.sbtn').addEventListener('click', () => this._openPopup());
+    } else {
+      // schema in de kaart zelf
+      r.querySelectorAll('.rcol, .sbody').forEach((el) => el.addEventListener('click', (e) => this._popClick(e)));
+      this._day = (new Date().getDay() + 6) % 7;
+      this._week = null;
+    }
     r.querySelector('.ht .n').addEventListener('click', () => this.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: this._config.entity }, bubbles: true, composed: true })));
     r.querySelector('.seg').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) this._setMode(b.dataset.m); });
     this._bindDial(r.querySelector('.dial'));
     this._built = true;
     this._builtLang = this._lang();
     this._segKey = null;
+    this._popKey = null;
   }
 
   _range() {
@@ -369,7 +408,7 @@ class GlowThermostatCard extends HTMLElement {
       if (this._hasSchedule()) this._hass.callService('input_boolean', 'turn_off', { entity_id: i.active });
       this._hass.callService('climate', 'set_hvac_mode', { entity_id: id, hvac_mode: this._heatMode() });
     } else if (m === 'auto') {
-      if (!this._hasSchedule()) { this._openPopup(); return; }
+      if (!this._hasSchedule()) { if (!this._full()) this._openPopup(); return; }
       this._hass.callService('climate', 'set_hvac_mode', { entity_id: id, hvac_mode: this._heatMode() });
       this._hass.callService('input_boolean', 'turn_on', { entity_id: i.active });
     }
@@ -429,6 +468,7 @@ class GlowThermostatCard extends HTMLElement {
     const mode = una ? '' : off ? 'off' : sched ? 'auto' : 'heat';
     const seg = ['off', 'heat', 'auto'].map((m) => `<button type="button" data-m="${m}" class="${mode === m ? 'sel' + (m === 'off' ? ' offsel' : '') : ''}">${gthEsc(this._t('m_' + m))}</button>`).join('');
     if (seg !== this._segKey) { this._segKey = seg; r.querySelector('.seg').innerHTML = seg; }
+    if (this._full() && !una) this._renderPopup();
   }
 
   /* ---- schemapopup ---- */
@@ -506,7 +546,7 @@ class GlowThermostatCard extends HTMLElement {
       this._msg = '';
       this._error = e && e.message ? e.message : String(e);
     }
-    if (this._pop) this._renderPopup(true);
+    if (this._pop || this._full()) this._renderPopup(true);
   }
 
   _popClick(e) {
@@ -567,9 +607,17 @@ class GlowThermostatCard extends HTMLElement {
   }
 
   _renderPopup(force) {
-    const root = this._pop && this._pop.shadowRoot;
-    if (!root) return;
-    const panel = root.querySelector('.panel');
+    let panel;
+    let body = null;
+    if (this._full()) {
+      if (!this._built) return;
+      panel = this.shadowRoot.querySelector('.rcol');
+      body = this.shadowRoot.querySelector('.sbody');
+    } else {
+      const root = this._pop && this._pop.shadowRoot;
+      if (!root) return;
+      panel = root.querySelector('.panel');
+    }
     const name = this._config.name || (this._hass.states[this._config.entity] || { attributes: {} }).attributes.friendly_name || '';
     const close = '<button class="x" type="button" data-a="close" aria-label="×">✕</button>';
 
@@ -582,7 +630,7 @@ class GlowThermostatCard extends HTMLElement {
           ${this._error ? `<span class="err">${gthEsc(this._t('setup_err', { e: this._error }))}</span>` : ''}
           <button class="go" type="button" data-a="setup"${this._busy ? ' disabled' : ''}>${gthEsc(this._t(this._busy ? 'setup_busy' : 'setup_btn'))}</button>
         </div>`;
-      if (html !== this._popKey) { this._popKey = html; panel.innerHTML = html; }
+      if (html !== this._popKey) { this._popKey = html; panel.innerHTML = html; if (body) body.innerHTML = ''; }
       return;
     }
     if (!this._week && !this._loadingWeek) { this._loadingWeek = true; this._loadWeek().finally(() => { this._loadingWeek = false; }); }
@@ -590,6 +638,7 @@ class GlowThermostatCard extends HTMLElement {
     const i = this._ids();
     const st = this._schedText();
     panel.classList.toggle('inactive', !st.on);
+    if (body) body.classList.toggle('inactive', !st.on);
     const days = this._t('days');
     const long = this._t('days_long');
     const today = (new Date().getDay() + 6) % 7;
@@ -597,13 +646,14 @@ class GlowThermostatCard extends HTMLElement {
     const week = this._week || GTH_DAYS.map(() => []);
     const d = this._day;
     const temp = (k, col) => `<div class="tb" style="--k:${col}"><span class="dot"></span><span class="l">${gthEsc(this._t(k))}</span><button class="mini" type="button" data-a="temp" data-k="${k}" data-d="-1">−</button><span class="v">${gthEsc(this._fmt(this._num(k === 'comfort' ? i.comfort : i.eco)))}</span><button class="mini" type="button" data-a="temp" data-k="${k}" data-d="1">+</button></div>`;
-    const html = `
+    const head = `
       <div class="top">
         <div class="t"><span class="n">${gthEsc(this._t('schedule'))} · ${gthEsc(name)}</span><span class="s${st.on ? ' on' : ''}">${gthEsc(st.text)}</span></div>
         <button class="tog${st.on ? ' on' : ''}" type="button" data-a="toggle">${gthEsc(this._t(st.on ? 'on' : 'off'))}</button>
         ${close}
       </div>
-      <div class="temps">${temp('comfort', GTH_HEAT)}${temp('eco', GTH_COOL)}</div>
+      <div class="temps">${temp('comfort', GTH_HEAT)}${temp('eco', GTH_COOL)}</div>`;
+    const rest = `
       <div class="week">
         <div class="scale"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></div>
         ${week.map((blocks, k) => `<button class="day${k === d ? ' sel' : ''}" type="button" data-a="day" data-i="${k}"><span class="dn">${gthEsc(days[k])}</span><span class="bar">${this._clean(blocks).map((b) => `<i style="left:${(b[0] / 24 * 100).toFixed(2)}%;width:${((b[1] - b[0]) / 24 * 100).toFixed(2)}%"></i>`).join('')}${k === today ? `<b style="left:${nowPct}%"></b>` : ''}</span></button>`).join('')}
@@ -618,7 +668,11 @@ class GlowThermostatCard extends HTMLElement {
         <button class="add" type="button" data-a="add">${gthEsc(this._t('add_block'))}</button>
       </div>
       <span class="msg">${gthEsc(this._error || this._msg || '')}</span>`;
-    if (force || html !== this._popKey) { this._popKey = html; panel.innerHTML = html; }
+    const html = body ? head + '\u0000' + rest : head + rest;
+    if (force || html !== this._popKey) {
+      this._popKey = html;
+      if (body) { panel.innerHTML = head; body.innerHTML = rest; } else panel.innerHTML = head + rest;
+    }
   }
 
   /* ---- eenmalig instellen ---- */
@@ -699,6 +753,7 @@ class GlowThermostatCardEditor extends HTMLElement {
         Object.keys(v).forEach((k) => { if (v[k] === '' || v[k] === null || v[k] === undefined) delete v[k]; });
         if (v.language === 'auto') delete v.language;
         if (v.glow === 15) delete v.glow;
+        if (v.layout === 'full') delete v.layout;
         this._config = { type: this._config.type, ...v };
         this.dispatchEvent(new CustomEvent('config-changed', { detail: { config: this._config }, bubbles: true, composed: true }));
       });
@@ -709,6 +764,7 @@ class GlowThermostatCardEditor extends HTMLElement {
       { name: 'entity', selector: { entity: { domain: 'climate' } } },
       { name: 'name', selector: { text: {} } },
       { name: 'humidity', selector: { entity: { domain: 'sensor', device_class: 'humidity' } } },
+      { name: 'layout', selector: { select: { mode: 'dropdown', options: [{ value: 'full', label: t('lay_full') }, { value: 'compact', label: t('lay_compact') }] } } },
       { type: 'expandable', name: '', flatten: true, title: t('schedule'), schema: [
         { name: 'schedule', selector: { entity: { domain: 'schedule' } } },
         { name: 'comfort', selector: { entity: { domain: 'input_number' } } },
@@ -718,7 +774,7 @@ class GlowThermostatCardEditor extends HTMLElement {
       { name: 'glow', selector: { number: { min: 0, max: 40, step: 1, mode: 'slider', unit_of_measurement: 'px' } } },
       { name: 'language', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: t('lang_auto') }].concat(Object.keys(GTH_LANG_NAMES).map((k) => ({ value: k, label: GTH_LANG_NAMES[k] }))) } } },
     ];
-    this._form.data = { glow: 15, language: 'auto', ...this._config };
+    this._form.data = { glow: 15, layout: 'full', language: 'auto', ...this._config };
   }
 }
 

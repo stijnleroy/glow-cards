@@ -10,7 +10,7 @@ Een thermostaatkaart in de Glow-stijl, met een weekschema dat volledig in Home A
 - **Midden**: de ingestelde temperatuur, met eronder de huidige temperatuur en vochtigheid.
 - **Gloed**: perzik als de ketel verwarmt, lavendel als het op temperatuur is, grijs als de thermostaat uit staat.
 - **Standen**: **Uit**, **Verwarmen** (zelf de temperatuur kiezen) en **Schema**.
-- **Schema** (knop rechtsboven): een popup met het weekschema.
+- **Schema**: standaard staat het weekschema mee op de kaart, die dan bijna een volledig scherm vult (bedoeld voor een eigen view). Met `layout: compact` wordt de kaart één kolom breed en opent het schema in een popup via de knop rechtsboven.
 
 ## Het schema
 
@@ -23,7 +23,7 @@ Het schema kent twee temperaturen: **comfort** en **spaarstand**. Je tekent per 
 
 ### Eenmalig instellen
 
-De eerste keer dat je op **Schema** tikt, toont de kaart de knop **Schema instellen**. Die maakt in Home Assistant aan (vraagt een beheerdersaccount):
+Zolang het schema nog niet bestaat, toont de kaart de knop **Schema instellen**. Die maakt in Home Assistant aan (vraagt een beheerdersaccount):
 
 | Wat | Entiteit (voor `climate.thermostaat`) |
 |---|---|
@@ -45,6 +45,7 @@ entity: climate.thermostaat
 | `entity` | – | De thermostaat (`climate`). |
 | `name` | naam van de entiteit | Naam op de kaart. |
 | `humidity` | van de thermostaat | Eigen vochtigheidssensor. |
+| `layout` | `full` | `full`: groot, met het schema op de kaart. `compact`: klein, schema in een popup. |
 | `schedule` | `schedule.<naam>_schema` | De Schema-helper. |
 | `comfort` | `input_number.<naam>_comfort` | Comforttemperatuur. |
 | `eco` | `input_number.<naam>_spaarstand` | Spaartemperatuur. |
