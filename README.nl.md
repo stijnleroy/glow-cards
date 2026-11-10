@@ -14,6 +14,7 @@ Een familie van gloeiende dashboardkaarten voor Home Assistant, samen te install
 | **Glow Welcome Card** – een welkomstkaart zonder achtergrond voor bovenaan: uur, begroeting, waar iedereen is, het weer, het eerstvolgende afval en de post. | ![](images/welcome.png) | [Nederlands](docs/welcome.nl.md) · [English](docs/welcome.md) |
 | **Glow Security Card** – een grote beveiligingskaart voor Alarmo: altijd een klavier, grote standknoppen, de openingen en de camera's die je kiest. | ![](images/security.png) | [Nederlands](docs/security.nl.md) · [English](docs/security.md) |
 | **Glow Fan Card** – een ventilatortegel: tik schakelt, met timerknoppen en een eigen tijd. | ![](images/fan.png) | [Nederlands](docs/fan.nl.md) · [English](docs/fan.md) |
+| **Glow Garage Card** – een garagepoorttegel: toont open of dicht, bedienen met een bevestigingstik. | ![](images/garage.png) | [Nederlands](docs/garage.nl.md) · [English](docs/garage.md) |
 
 Alle kaarten delen dezelfde stijl, spreken zes talen (Nederlands, Engels, Frans, Duits, Spaans, Italiaans) en hebben een visuele editor.
 
