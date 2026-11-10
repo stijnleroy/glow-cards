@@ -15,6 +15,7 @@ A family of glowing Home Assistant dashboard cards, installed together through H
 | **Glow Security Card** – a large security card for Alarmo: an always-visible keypad, large mode buttons, and the openings and cameras you choose. | ![](images/security.png) | [English](docs/security.md) · [Nederlands](docs/security.nl.md) |
 | **Glow Fan Card** – a fan tile: tap toggles, with timer buttons and your own time. | ![](images/fan.png) | [English](docs/fan.md) · [Nederlands](docs/fan.nl.md) |
 | **Glow Garage Card** – a garage door tile: shows open or closed, operate with a confirmation tap. | ![](images/garage.png) | [English](docs/garage.md) · [Nederlands](docs/garage.nl.md) |
+| **Glow Thermostat Card** – a thermostat with a dial and a weekly schedule (comfort and eco) that runs in Home Assistant itself. | ![](images/thermostat.png) | [English](docs/thermostat.md) · [Nederlands](docs/thermostat.nl.md) |
 
 All cards share the same look, support six languages (English, Dutch, French, German, Spanish, Italian) and have a visual editor.
 
