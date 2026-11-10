@@ -7,8 +7,9 @@
 A fan tile in the Glow style, for ventilation or a fan that simply turns on or off.
 
 - **Tap**: on or off. While the fan is on, the icon spins, the tile glows and shows since when.
+- **Double tap**: a popup with the timers (like the Glow Room Card).
 - **Hold**: the standard details.
-- **Timer buttons** (on the right of the tile): turn the fan on for a set time, 15 min, 30 min and 1 h by default. The tile counts down and then turns the fan off. Tap the active button again to stop.
+- **Timer buttons** (in the popup): turn the fan on for a set time, 15 min, 30 min and 1 h by default. The tile counts down and then turns the fan off. The popup then also shows **Stop timer and turn off**.
 - **Other**: pick your own time with − and +, or a quick choice.
 
 Works with `fan`, `switch`, `light` and `input_boolean` entities.
@@ -28,7 +29,7 @@ timer_entity: timer.ventilation
 | `icon` | spinning fan | Your own icon (does not spin). |
 | `timers` | `[15, 30, 60]` | Timer buttons in minutes. An empty list `[]` hides the timer. |
 | `custom` | `true` | **Other** button for your own time. |
-| `timer_position` | `inside` | `inside`: the timer buttons in a two-row block on the right of the tile, which keeps the size of a room tile. `below`: a row of buttons below the tile. |
+| `timer_position` | `popup` | `popup`: the timers in a popup that opens with a double tap. `inside`: a two-row block on the right of the tile. `below`: a row of buttons below the tile. |
 | `timer_entity` | – | A timer helper that handles switching off in Home Assistant (recommended, see below). |
 | `color` | mint | Glow colour, e.g. `'#8EE3D6'`. |
 | `glow` | `15` | Glow strength in pixels. |
