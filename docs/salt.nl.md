@@ -45,6 +45,8 @@ regen_automation: automation.waterverzachter_zoutverbruik_op_basis_van_regenerat
 | `empty_distance` | `50` | Afstand (cm) als het vat leeg is, alleen bij een afstandssensor. |
 | `full_distance` | `5` | Afstand (cm) als het vat vol is. |
 | `capacity` | maximum van de helper | Inhoud van het vat in kg, alleen bij kg. |
+| `per_regeneration` | uit de geschiedenis | Kilo zout per regeneratie. |
+| `regen_days` | uit de geschiedenis | Gemiddeld aantal dagen tussen twee regeneraties. Nodig voor de schatting in weken als er weinig geschiedenis is (Home Assistant bewaart standaard 10 dagen). |
 | `refill_script` | automatisch | Script (of knop) om bij te vullen. |
 | `regen_automation` | automatisch | Automatisering die bij een regeneratie zout aftrekt. |
 | `glow` | `15` | Sterkte van de gloed. |

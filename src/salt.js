@@ -9,42 +9,42 @@ const GSALT_I18N = {
     name: 'Zout', ok: 'Voldoende zout', low: 'Bijvullen', empty: 'Bijna leeg, vul bij', unavailable: 'Niet beschikbaar',
     days_left: 'Nog ongeveer {n} dagen', day_left: 'Nog ongeveer 1 dag', weeks_left: 'Nog ongeveer {n} weken', refilled: 'Bijgevuld op {d}', regen_left: 'Nog {n} regeneraties', ok_short: 'Voldoende', short_d: '± {n} dagen', short_w: '± {n} weken', last_regen: 'Laatste regeneratie {d}', refill_btn: 'Bijgevuld', confirm: 'Zeker?', done: 'Bijgevuld!',
     err: 'Vul "entity" in met de zoutsensor of de helper met het zout in kg.',
-    l_entity: 'Zoutsensor (%, afstand of kg)', l_name: 'Naam', l_low: 'Waarschuwen onder (%)', l_empty_distance: 'Afstand als het vat leeg is (cm)', l_full_distance: 'Afstand als het vat vol is (cm)', l_capacity: 'Inhoud van het vat (kg)', l_refill_script: 'Script om bij te vullen', l_regen_automation: 'Automatisering die zout aftrekt bij regeneratie', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
+    l_entity: 'Zoutsensor (%, afstand of kg)', l_name: 'Naam', l_low: 'Waarschuwen onder (%)', l_empty_distance: 'Afstand als het vat leeg is (cm)', l_full_distance: 'Afstand als het vat vol is (cm)', l_capacity: 'Inhoud van het vat (kg)', l_per_regeneration: 'Zout per regeneratie (kg)', l_regen_days: 'Gemiddeld aantal dagen tussen regeneraties', l_refill_script: 'Script om bij te vullen', l_regen_automation: 'Automatisering die zout aftrekt bij regeneratie', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
     description: 'Zoutniveau van de waterontharder met waarschuwing en schatting wanneer het op is.',
   },
   en: {
     name: 'Salt', ok: 'Enough salt', low: 'Refill', empty: 'Almost empty, refill', unavailable: 'Unavailable',
     days_left: 'About {n} days left', day_left: 'About 1 day left', weeks_left: 'About {n} weeks left', refilled: 'Refilled on {d}', regen_left: '{n} regenerations left', ok_short: 'Enough', short_d: '± {n} days', short_w: '± {n} weeks', last_regen: 'Last regeneration {d}', refill_btn: 'Refilled', confirm: 'Sure?', done: 'Refilled!',
     err: 'Fill in "entity" with the salt sensor.',
-    l_entity: 'Salt sensor (%, distance or kg)', l_name: 'Name', l_low: 'Warn below (%)', l_empty_distance: 'Distance when empty (cm)', l_full_distance: 'Distance when full (cm)', l_capacity: 'Tank capacity (kg)', l_refill_script: 'Refill script', l_regen_automation: 'Automation that subtracts salt on regeneration', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
+    l_entity: 'Salt sensor (%, distance or kg)', l_name: 'Name', l_low: 'Warn below (%)', l_empty_distance: 'Distance when empty (cm)', l_full_distance: 'Distance when full (cm)', l_capacity: 'Tank capacity (kg)', l_per_regeneration: 'Salt per regeneration (kg)', l_regen_days: 'Average days between regenerations', l_refill_script: 'Refill script', l_regen_automation: 'Automation that subtracts salt on regeneration', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
     description: 'Water softener salt level with a warning and an estimate of when it runs out.',
   },
   fr: {
     name: 'Sel', ok: 'Assez de sel', low: 'À remplir', empty: 'Presque vide, remplissez', unavailable: 'Indisponible',
     days_left: 'Encore environ {n} jours', day_left: 'Encore environ 1 jour', weeks_left: 'Encore environ {n} semaines', refilled: 'Rempli le {d}', regen_left: 'Encore {n} régénérations', ok_short: 'Suffisant', short_d: '± {n} jours', short_w: '± {n} semaines', last_regen: 'Dernière régénération {d}', refill_btn: 'Rempli', confirm: 'Sûr ?', done: 'Rempli !',
     err: 'Renseignez "entity" avec le capteur de sel.',
-    l_entity: 'Capteur de sel (% ou distance)', l_name: 'Nom', l_low: 'Alerter sous (%)', l_empty_distance: 'Distance à vide (cm)', l_full_distance: 'Distance à plein (cm)', l_capacity: 'Capacité du bac (kg)', l_refill_script: 'Script de remplissage', l_regen_automation: 'Automatisation qui déduit le sel à la régénération', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
+    l_entity: 'Capteur de sel (% ou distance)', l_name: 'Nom', l_low: 'Alerter sous (%)', l_empty_distance: 'Distance à vide (cm)', l_full_distance: 'Distance à plein (cm)', l_capacity: 'Capacité du bac (kg)', l_per_regeneration: 'Sel par régénération (kg)', l_regen_days: 'Jours en moyenne entre régénérations', l_refill_script: 'Script de remplissage', l_regen_automation: 'Automatisation qui déduit le sel à la régénération', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
     description: 'Niveau de sel de l\'adoucisseur avec alerte et estimation.',
   },
   de: {
     name: 'Salz', ok: 'Genug Salz', low: 'Nachfüllen', empty: 'Fast leer, nachfüllen', unavailable: 'Nicht verfügbar',
     days_left: 'Noch etwa {n} Tage', day_left: 'Noch etwa 1 Tag', weeks_left: 'Noch etwa {n} Wochen', refilled: 'Nachgefüllt am {d}', regen_left: 'Noch {n} Regenerationen', ok_short: 'Genug', short_d: '± {n} Tage', short_w: '± {n} Wochen', last_regen: 'Letzte Regeneration {d}', refill_btn: 'Nachgefüllt', confirm: 'Sicher?', done: 'Nachgefüllt!',
     err: 'Gib unter "entity" den Salzsensor an.',
-    l_entity: 'Salzsensor (% oder Abstand)', l_name: 'Name', l_low: 'Warnen unter (%)', l_empty_distance: 'Abstand, wenn leer (cm)', l_full_distance: 'Abstand, wenn voll (cm)', l_capacity: 'Behälterinhalt (kg)', l_refill_script: 'Skript zum Nachfüllen', l_regen_automation: 'Automation, die bei Regeneration Salz abzieht', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
+    l_entity: 'Salzsensor (% oder Abstand)', l_name: 'Name', l_low: 'Warnen unter (%)', l_empty_distance: 'Abstand, wenn leer (cm)', l_full_distance: 'Abstand, wenn voll (cm)', l_capacity: 'Behälterinhalt (kg)', l_per_regeneration: 'Salz pro Regeneration (kg)', l_regen_days: 'Durchschnittliche Tage zwischen Regenerationen', l_refill_script: 'Skript zum Nachfüllen', l_regen_automation: 'Automation, die bei Regeneration Salz abzieht', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
     description: 'Salzstand der Enthärtungsanlage mit Warnung und Schätzung.',
   },
   es: {
     name: 'Sal', ok: 'Sal suficiente', low: 'Rellenar', empty: 'Casi vacío, rellena', unavailable: 'No disponible',
     days_left: 'Quedan unos {n} días', day_left: 'Queda aproximadamente 1 día', weeks_left: 'Quedan unas {n} semanas', refilled: 'Rellenado el {d}', regen_left: 'Quedan {n} regeneraciones', ok_short: 'Suficiente', short_d: '± {n} días', short_w: '± {n} semanas', last_regen: 'Última regeneración {d}', refill_btn: 'Rellenado', confirm: '¿Seguro?', done: '¡Rellenado!',
     err: 'Indica en "entity" el sensor de sal.',
-    l_entity: 'Sensor de sal (% o distancia)', l_name: 'Nombre', l_low: 'Avisar por debajo de (%)', l_empty_distance: 'Distancia vacío (cm)', l_full_distance: 'Distancia lleno (cm)', l_capacity: 'Capacidad del depósito (kg)', l_refill_script: 'Script de rellenado', l_regen_automation: 'Automatización que resta sal en la regeneración', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
+    l_entity: 'Sensor de sal (% o distancia)', l_name: 'Nombre', l_low: 'Avisar por debajo de (%)', l_empty_distance: 'Distancia vacío (cm)', l_full_distance: 'Distancia lleno (cm)', l_capacity: 'Capacidad del depósito (kg)', l_per_regeneration: 'Sal por regeneración (kg)', l_regen_days: 'Días promedio entre regeneraciones', l_refill_script: 'Script de rellenado', l_regen_automation: 'Automatización que resta sal en la regeneración', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
     description: 'Nivel de sal del descalcificador con aviso y estimación.',
   },
   it: {
     name: 'Sale', ok: 'Sale sufficiente', low: 'Da riempire', empty: 'Quasi vuoto, riempi', unavailable: 'Non disponibile',
     days_left: 'Ancora circa {n} giorni', day_left: 'Ancora circa 1 giorno', weeks_left: 'Ancora circa {n} settimane', refilled: 'Riempito il {d}', regen_left: 'Ancora {n} rigenerazioni', ok_short: 'Sufficiente', short_d: '± {n} giorni', short_w: '± {n} settimane', last_regen: 'Ultima rigenerazione {d}', refill_btn: 'Riempito', confirm: 'Sicuro?', done: 'Riempito!',
     err: 'Indica in "entity" il sensore del sale.',
-    l_entity: 'Sensore sale (% o distanza)', l_name: 'Nome', l_low: 'Avvisa sotto (%)', l_empty_distance: 'Distanza a vuoto (cm)', l_full_distance: 'Distanza a pieno (cm)', l_capacity: 'Capacità del serbatoio (kg)', l_refill_script: 'Script di riempimento', l_regen_automation: 'Automazione che sottrae sale alla rigenerazione', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
+    l_entity: 'Sensore sale (% o distanza)', l_name: 'Nome', l_low: 'Avvisa sotto (%)', l_empty_distance: 'Distanza a vuoto (cm)', l_full_distance: 'Distanza a pieno (cm)', l_capacity: 'Capacità del serbatoio (kg)', l_per_regeneration: 'Sale per rigenerazione (kg)', l_regen_days: 'Giorni medi tra le rigenerazioni', l_refill_script: 'Script di riempimento', l_regen_automation: 'Automazione che sottrae sale alla rigenerazione', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
     description: 'Livello del sale dell\'addolcitore con avviso e stima.',
   },
 };
@@ -164,7 +164,14 @@ class GlowSaltCard extends HTMLElement {
     this._hass.callApi('GET', `history/period/${start}?filter_entity_id=${encodeURIComponent(this._config.entity)}&minimal_response&no_attributes`)
       .then((res) => {
         const pts = ((res && res[0]) || []).map((p) => ({ t: Date.parse(p.last_changed || p.lu * 1000), v: this._pct(p.state ?? p.s, unit) })).filter((p) => p.v !== null && p.t);
-        if (pts.length < 3) { this._est = null; return; }
+        // stapgrootte per regeneratie (in kg): de meest voorkomende daling
+        const raw = ((res && res[0]) || []).map((p) => parseFloat(p.state ?? p.s)).filter((v) => !isNaN(v));
+        const drops = [];
+        for (let i = 1; i < raw.length; i++) { const d = raw[i - 1] - raw[i]; if (d > 0.01) drops.push(Math.round(d * 100) / 100); }
+        drops.sort((a, b) => a - b);
+        this._step = drops.length ? drops[Math.floor(drops.length / 2)] : null;
+        // te weinig geschiedenis (Home Assistant bewaart standaard 10 dagen)
+        if (pts.length < 3 || drops.length < 2 && this._isWeight()) { this._rate = null; this._est = null; return; }
         // laatste bijvulling: een sprong van meer dan 15% omhoog
         let from = 0;
         for (let i = 1; i < pts.length; i++) if (pts[i].v - pts[i - 1].v > 15) from = i;
@@ -177,12 +184,6 @@ class GlowSaltCard extends HTMLElement {
         // verbruik in % per dag; de schatting zelf rekent met de huidige stand
         this._rate = days >= 2 && used > 1 ? used / days : null;
         this._est = this._rate ? 1 : null;
-        // stapgrootte per regeneratie (in kg): de meest voorkomende daling
-        const raw = ((res && res[0]) || []).map((p) => parseFloat(p.state ?? p.s)).filter((v) => !isNaN(v));
-        const drops = [];
-        for (let i = 1; i < raw.length; i++) { const d = raw[i - 1] - raw[i]; if (d > 0.01) drops.push(Math.round(d * 100) / 100); }
-        drops.sort((a, b) => a - b);
-        this._step = drops.length ? drops[Math.floor(drops.length / 2)] : null;
       })
       .catch(() => { this._est = null; })
       .finally(() => this._render());
@@ -271,7 +272,12 @@ class GlowSaltCard extends HTMLElement {
     // schatting
     if (!una) this._loadHistory();
     let est = '';
-    const left = this._rate && p !== null ? Math.max(0, (p - (this._isWeight() ? 0 : 3)) / this._rate) : null;
+    const step = parseFloat(c.per_regeneration) || this._step;
+    const cap = this._cap();
+    const rd = parseFloat(c.regen_days);
+    // vaste instellingen gaan voor; anders het tempo uit de geschiedenis
+    const rate = this._isWeight() && step && rd > 0 && cap ? step / cap * 100 / rd : this._rate;
+    const left = rate && p !== null ? Math.max(0, (p - (this._isWeight() ? 0 : 3)) / rate) : null;
     if (left !== null && left >= 1) {
       const d = Math.round(left);
       est = d > 27 ? this._t('weeks_left', { n: Math.round(d / 7) }) : d === 1 ? this._t('day_left') : this._t('days_left', { n: Math.max(0, d) });
@@ -282,7 +288,7 @@ class GlowSaltCard extends HTMLElement {
         const d = Math.round(left);
         r.querySelector('.state').textContent = (level === 'ok' ? this._t('ok_short') : this._t(level)) + ' · ' + (d > 27 ? this._t('short_w', { n: Math.round(d / 7) }) : this._t('short_d', { n: d }));
       }
-      est = this._step > 0 ? this._t('regen_left', { n: Math.floor(parseFloat(s.state) / this._step + 1e-9) }) : '';
+      est = step > 0 ? this._t('regen_left', { n: Math.floor(parseFloat(s.state) / step + 1e-9) }) : '';
     } else if (est) {
       // niets
     } else if (this._refill) {
@@ -337,7 +343,11 @@ class GlowSaltCardEditor extends HTMLElement {
       { name: 'low', selector: { number: { min: 5, max: 60, step: 1, mode: 'slider', unit_of_measurement: '%' } } },
     ];
     if (/^(kg|g|lb)$/i.test(unit || '')) schema.push(
-      { name: 'capacity', selector: { number: { min: 1, max: 200, step: 0.5, mode: 'box', unit_of_measurement: unit } } },
+      { type: 'grid', name: '', schema: [
+        { name: 'capacity', selector: { number: { min: 1, max: 200, step: 0.5, mode: 'box', unit_of_measurement: unit } } },
+        { name: 'per_regeneration', selector: { number: { min: 0.1, max: 20, step: 0.1, mode: 'box', unit_of_measurement: unit } } },
+        { name: 'regen_days', selector: { number: { min: 0.5, max: 60, step: 0.5, mode: 'box' } } },
+      ] },
       { name: 'refill_script', selector: { entity: { domain: ['script', 'input_button', 'button'] } } },
       { name: 'regen_automation', selector: { entity: { domain: 'automation' } } },
     );

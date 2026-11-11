@@ -37,6 +37,8 @@ regen_automation: automation.waterverzachter_zoutverbruik_op_basis_van_regenerat
 | `empty_distance` | `50` | Distance (cm) when empty, only for a distance sensor. |
 | `full_distance` | `5` | Distance (cm) when full. |
 | `capacity` | helper maximum | Tank capacity in kg, only for kg. |
+| `per_regeneration` | from history | Kilos of salt per regeneration. |
+| `regen_days` | from history | Average days between two regenerations. Needed for the weeks estimate when there is little history (Home Assistant keeps 10 days by default). |
 | `refill_script` | automatic | Script (or button) to refill. |
 | `regen_automation` | automatic | Automation that subtracts salt on each regeneration. |
 | `glow` | `15` | Glow strength. |
