@@ -55,6 +55,8 @@ views:
 | `spacer` | `true` | Onderaan de view ruimte vrijhouden. |
 | `language` | automatisch | `nl`, `en`, `fr`, `de`, `es` of `it`. |
 
+**Automatische bolletjes.** Zonder `badge` kijkt de balk zelf naar elke view. Een view over klimaat (naam of icoon) krijgt een perzik bolletje als de verwarming aan het stoken is. Bij beveiliging komt er een rood bolletje als het alarm ingeschakeld is; het knippert als het afgaat. Bij verlichting toont een geel getal hoeveel lampen er aan zijn, en bij media een bolletje als er iets speelt. Wil je het niet bij een view, zet dan `badge: false`.
+
 Per view: `path` (bv. `/dashboard-tablet/klimaat`, of een volledige `https://`-link), `name`, `icon`, `color` en eventueel `badge`:
 
 | Bolletje | Toont |

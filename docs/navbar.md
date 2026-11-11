@@ -55,6 +55,8 @@ views:
 | `spacer` | `true` | Keep space free at the bottom of the view. |
 | `language` | automatic | `en`, `nl`, `fr`, `de`, `es` or `it`. |
 
+**Automatic dots.** Without `badge` the bar looks at each view itself. A climate view (by name or icon) gets a peach dot while the heating is running. Security gets a red dot when the alarm is armed, blinking when it is triggered. Lighting shows a yellow number with the lights that are on, media a dot when something is playing. Use `badge: false` to turn it off for a view.
+
 Per view: `path` (e.g. `/dashboard-tablet/klimaat`, or a full `https://` link), `name`, `icon`, `color` and optionally `badge`:
 
 | Badge | Shows |

@@ -70,16 +70,18 @@ const GSALT_STYLE = `
     position: relative; overflow: hidden; box-sizing: border-box; height: 100%; min-height: 112px; padding: 12px 16px 12px 12px;
     border-radius: var(--ha-card-border-radius, 24px); cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
     color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
-    border: 1px solid var(--glow-card-border, rgba(255, 255, 255, 0.08));
+    border: 1px solid rgba(var(--c), 0.4); box-shadow: 0 0 calc(var(--glow) * 0.8) rgba(var(--c), 0.25);
+    background: linear-gradient(rgba(var(--c), 0.06), rgba(var(--c), 0.06)), var(--glow-card-background, #15121F);
     display: flex; align-items: center; gap: 14px; transition: border-color 0.4s, box-shadow 0.4s;
   }
-  ha-card.warn { border-color: rgba(var(--c), 0.55); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.35); background: linear-gradient(rgba(var(--c), 0.12), rgba(var(--c), 0.12)), var(--glow-card-background, #15121F); }
+  ha-card.warn { border-color: rgba(var(--c), 0.6); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.4); background: linear-gradient(rgba(var(--c), 0.13), rgba(var(--c), 0.13)), var(--glow-card-background, #15121F); }
   ha-card.unavailable { opacity: 0.5; }
-  .halo { position: absolute; right: -50px; top: -60px; width: 160px; height: 160px; border-radius: 50%; background: rgb(var(--c)); opacity: 0.12; filter: blur(46px); pointer-events: none; transition: opacity 0.5s, background 0.4s; }
-  ha-card.warn .halo { opacity: 0.4; }
+  .halo { position: absolute; left: -40px; bottom: -70px; width: 170px; height: 170px; border-radius: 50%; background: rgb(var(--c)); opacity: 0.3; filter: blur(46px); pointer-events: none; transition: opacity 0.5s, background 0.4s; }
+  ha-card.warn .halo { opacity: 0.45; }
+  .tank svg { filter: drop-shadow(0 0 calc(var(--glow) * 0.6) rgba(var(--c), 0.45)); }
   .tank { position: relative; flex-shrink: 0; width: 64px; height: 88px; }
   .tank svg { width: 100%; height: 100%; display: block; overflow: visible; }
-  .tank .body { fill: var(--glow-surface, rgba(255,255,255,0.07)); stroke: var(--glow-border, rgba(255,255,255,0.14)); stroke-width: 1.5; }
+  .tank .body { fill: var(--glow-surface, rgba(255,255,255,0.07)); stroke: rgba(var(--c), 0.55); stroke-width: 1.5; }
   .tank .lid { fill: var(--glow-border, rgba(255,255,255,0.18)); }
   .tank .salt { transition: y 0.8s ease, height 0.8s ease; }
   .tank .line { stroke: rgb(var(--c)); stroke-width: 2.5; stroke-linecap: round; filter: drop-shadow(0 0 4px rgba(var(--c), 0.9)); transition: y1 0.8s ease, y2 0.8s ease; }
@@ -90,7 +92,7 @@ const GSALT_STYLE = `
   .pct small { font-size: 0.95rem; font-weight: 800; opacity: 0.55; margin-left: 6px; }
   .reg { font-size: 0.78rem; font-weight: 700; opacity: 0.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .reg:empty, .est:empty { display: none; }
-  .refill { position: relative; flex-shrink: 0; align-self: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 58px; height: 58px; padding: 0; border-radius: 18px; border: 1px solid var(--glow-border, rgba(255,255,255,0.14)); background: var(--glow-surface, rgba(255,255,255,0.07)); color: inherit; font: inherit; font-size: 0.68rem; font-weight: 800; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background 0.3s, border-color 0.3s, box-shadow 0.3s; }
+  .refill { position: relative; flex-shrink: 0; align-self: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 58px; height: 58px; padding: 0; border-radius: 18px; border: 1px solid rgba(var(--c), 0.35); background: rgba(var(--c), 0.1); color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); font: inherit; font-size: 0.68rem; font-weight: 800; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background 0.3s, border-color 0.3s, box-shadow 0.3s; }
   .refill svg { width: 20px; height: 20px; }
   .refill.arm, .refill.ok { border-color: rgba(var(--c), 0.7); background: rgba(var(--c), 0.2); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.45); color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
   .refill[hidden] { display: none; }

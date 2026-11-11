@@ -1,4 +1,4 @@
-/*! Glow Cards v1.13.1 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.14.0 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -3692,6 +3692,8 @@ const GNC_STYLE = `
   .lab { font-size: 12px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; color: var(--glow-muted, #A39FB8); }
   button.on .lab { color: var(--glow-text, #F3F1FA); }
   .dot { position: absolute; right: -4px; top: -2px; width: 10px; height: 10px; border-radius: 5px; background: rgb(var(--b)); box-shadow: 0 0 10px rgba(var(--b), 0.95); }
+  .dot.pulse { animation: gnc-pulse 1.1s ease-in-out infinite; }
+  @keyframes gnc-pulse { 50% { transform: scale(1.5); box-shadow: 0 0 16px rgba(var(--b), 1); } }
   .num { position: absolute; right: -14px; top: -8px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; font-size: 11px; font-weight: 800; line-height: 18px; text-align: center; color: #1C1730; background: rgb(var(--b)); box-shadow: 0 0 8px rgba(var(--b), 0.8); }
   .more {
     position: fixed; z-index: 8; right: max(16px, calc(50% - 450px)); bottom: calc(108px + env(safe-area-inset-bottom, 0px));
@@ -3739,6 +3741,26 @@ function gncFindMaster(cfg) {
   walk(cfg && cfg.views);
   return found;
 }
+
+// welke entiteiten en welk soort view: voor de automatische bolletjes
+function gncViewInfo(v) {
+  let json = '';
+  try { json = JSON.stringify(v); } catch (e) { json = ''; }
+  const ids = [...new Set(json.match(/\b(climate|alarm_control_panel|light|media_player|cover|lock)\.[a-z0-9_]+/g) || [])];
+  const name = ((v.title || '') + ' ' + (v.path || '')).toLowerCase();
+  const icon = String(v.icon || '').toLowerCase();
+  return {
+    ids,
+    climate: /klimaat|climate|verwarm|thermo|heat|clima|klima|chauff|riscald|calefac/.test(name) || /thermo|radiator|heat/.test(icon),
+    light: /verlicht|\blicht|\blights?\b|lamp|lumi|luce|luz|beleucht/.test(name) || /lightbulb|lamp|ceiling-light|led-strip/.test(icon),
+    alarm: /beveilig|alarm|secur|sicher|segur|sicur/.test(name) || /security|shield|alarm/.test(icon),
+    media: /media|\btv\b|muziek|music|musique|musik|musica/.test(name) || /speaker|television|music/.test(icon),
+  };
+}
+
+const GNC_HEAT = '255, 150, 96';
+const GNC_ALARM = '255, 118, 130';
+const GNC_LIGHT = '255, 214, 120';
 
 class GlowNavbarCard extends HTMLElement {
   constructor() {
@@ -3807,13 +3829,15 @@ class GlowNavbarCard extends HTMLElement {
     const dash = this._dashPath();
     gncDashConfig(this._hass, dash)
       .then((cfg) => {
+        this._viewInfo = {};
+        (cfg.views || []).forEach((v, i) => { this._viewInfo['/' + dash + '/' + (v.path || i)] = gncViewInfo(v); });
         if (this._inherit) {
           const master = gncFindMaster(cfg);
           if (master) {
             const { type, ...rest } = master;
             this._config = { ...GNC_DEFAULTS, ...rest };
             if (Array.isArray(rest.views) && rest.views.length) {
-              this._views = rest.views.map((v, i) => ({ ...v, color: v.color || GNC_PALETTE[i % GNC_PALETTE.length] }));
+              this._views = rest.views.map((v, i) => ({ ...v, color: v.color || GNC_PALETTE[i % GNC_PALETTE.length], auto: this._viewInfo[String(v.path || '').replace(/\/$/, '')] }));
               return;
             }
           }
@@ -3826,6 +3850,7 @@ class GlowNavbarCard extends HTMLElement {
             name: v.title || v.path || String(i + 1),
             icon: v.icon || 'mdi:view-dashboard',
             color: GNC_PALETTE[n % GNC_PALETTE.length],
+            auto: gncViewInfo(v),
           }));
       })
       .catch(() => { this._views = []; })
@@ -3841,11 +3866,35 @@ class GlowNavbarCard extends HTMLElement {
     return /\/0$/.test(p) && here === p.replace(/\/0$/, '');
   }
 
+  // zonder ingesteld bolletje: automatisch volgens wat er in de view staat
+  _autoBadge(v) {
+    const a = v.auto;
+    const st = this._hass.states;
+    if (!a || v.badge === false) return null;
+    const pick = (domain, byName) => {
+      const own = a.ids.filter((e) => e.startsWith(domain + '.') && st[e]);
+      return own.length ? own : byName ? Object.keys(st).filter((e) => e.startsWith(domain + '.')) : [];
+    };
+    const alarms = pick('alarm_control_panel', a.alarm);
+    if (alarms.some((e) => st[e].state === 'triggered')) return { dot: true, color: GNC_ALARM, pulse: true };
+    if (a.alarm && alarms.some((e) => /^armed/.test(st[e].state))) return { dot: true, color: GNC_ALARM };
+    const heat = pick('climate', a.climate).filter((e) => st[e].attributes.hvac_action === 'heating' || (st[e].attributes.hvac_action === undefined && st[e].state === 'heat'));
+    if (heat.length) return { dot: true, color: GNC_HEAT };
+    if (a.light) {
+      const n = pick('light', true).filter((e) => st[e].state === 'on' && !Array.isArray(st[e].attributes.entity_id) && !st[e].attributes.is_hue_group).length;
+      if (n) return { num: String(n), color: GNC_LIGHT };
+    }
+    if (a.media && pick('media_player', true).some((e) => st[e].state === 'playing')) return { dot: true, color: gncRgb(v.color) };
+    return null;
+  }
+
   _badge(v) {
     const b = v.badge;
-    if (!b || !this._hass) return null;
+    if (!this._hass) return null;
+    if (!b) return this._autoBadge(v);
     const st = this._hass.states;
     const color = gncRgb(b.color || v.color);
+    if (b === true || b.type === 'auto') return this._autoBadge(v);
     if (b.type === 'lights_on') {
       const n = Object.keys(st).filter((e) => e.startsWith('light.') && st[e].state === 'on'
         && !Array.isArray(st[e].attributes.entity_id) && !Array.isArray(st[e].attributes.group_entities) && !st[e].attributes.is_hue_group).length;
@@ -3920,7 +3969,7 @@ class GlowNavbarCard extends HTMLElement {
     const btn = (v, i, inMore) => {
       const on = this._isActive(v);
       const b = this._badge(v);
-      const badge = b ? (b.dot ? `<span class="dot" style="--b:${b.color}"></span>` : `<span class="num" style="--b:${b.color}">${gncEsc(b.num)}</span>`) : '';
+      const badge = b ? (b.dot ? `<span class="dot${b.pulse ? ' pulse' : ''}" style="--b:${b.color}"></span>` : `<span class="num" style="--b:${b.color}">${gncEsc(b.num)}</span>`) : '';
       return `<button type="button" class="${on ? 'on' : ''}" data-i="${i}" style="--c:${gncRgb(v.color)}" aria-label="${gncEsc(v.name)}" ${on && !inMore ? 'aria-current="page"' : ''}>
         <span class="ic">${this._iconHtml(v.icon)}${badge}</span>
         ${inMore || lab(on) ? `<span class="lab">${gncEsc(v.name)}</span>` : ''}
@@ -7112,16 +7161,18 @@ const GSALT_STYLE = `
     position: relative; overflow: hidden; box-sizing: border-box; height: 100%; min-height: 112px; padding: 12px 16px 12px 12px;
     border-radius: var(--ha-card-border-radius, 24px); cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
     color: var(--glow-text, #F3F1FA); background: var(--glow-card-background, #15121F);
-    border: 1px solid var(--glow-card-border, rgba(255, 255, 255, 0.08));
+    border: 1px solid rgba(var(--c), 0.4); box-shadow: 0 0 calc(var(--glow) * 0.8) rgba(var(--c), 0.25);
+    background: linear-gradient(rgba(var(--c), 0.06), rgba(var(--c), 0.06)), var(--glow-card-background, #15121F);
     display: flex; align-items: center; gap: 14px; transition: border-color 0.4s, box-shadow 0.4s;
   }
-  ha-card.warn { border-color: rgba(var(--c), 0.55); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.35); background: linear-gradient(rgba(var(--c), 0.12), rgba(var(--c), 0.12)), var(--glow-card-background, #15121F); }
+  ha-card.warn { border-color: rgba(var(--c), 0.6); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.4); background: linear-gradient(rgba(var(--c), 0.13), rgba(var(--c), 0.13)), var(--glow-card-background, #15121F); }
   ha-card.unavailable { opacity: 0.5; }
-  .halo { position: absolute; right: -50px; top: -60px; width: 160px; height: 160px; border-radius: 50%; background: rgb(var(--c)); opacity: 0.12; filter: blur(46px); pointer-events: none; transition: opacity 0.5s, background 0.4s; }
-  ha-card.warn .halo { opacity: 0.4; }
+  .halo { position: absolute; left: -40px; bottom: -70px; width: 170px; height: 170px; border-radius: 50%; background: rgb(var(--c)); opacity: 0.3; filter: blur(46px); pointer-events: none; transition: opacity 0.5s, background 0.4s; }
+  ha-card.warn .halo { opacity: 0.45; }
+  .tank svg { filter: drop-shadow(0 0 calc(var(--glow) * 0.6) rgba(var(--c), 0.45)); }
   .tank { position: relative; flex-shrink: 0; width: 64px; height: 88px; }
   .tank svg { width: 100%; height: 100%; display: block; overflow: visible; }
-  .tank .body { fill: var(--glow-surface, rgba(255,255,255,0.07)); stroke: var(--glow-border, rgba(255,255,255,0.14)); stroke-width: 1.5; }
+  .tank .body { fill: var(--glow-surface, rgba(255,255,255,0.07)); stroke: rgba(var(--c), 0.55); stroke-width: 1.5; }
   .tank .lid { fill: var(--glow-border, rgba(255,255,255,0.18)); }
   .tank .salt { transition: y 0.8s ease, height 0.8s ease; }
   .tank .line { stroke: rgb(var(--c)); stroke-width: 2.5; stroke-linecap: round; filter: drop-shadow(0 0 4px rgba(var(--c), 0.9)); transition: y1 0.8s ease, y2 0.8s ease; }
@@ -7132,7 +7183,7 @@ const GSALT_STYLE = `
   .pct small { font-size: 0.95rem; font-weight: 800; opacity: 0.55; margin-left: 6px; }
   .reg { font-size: 0.78rem; font-weight: 700; opacity: 0.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .reg:empty, .est:empty { display: none; }
-  .refill { position: relative; flex-shrink: 0; align-self: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 58px; height: 58px; padding: 0; border-radius: 18px; border: 1px solid var(--glow-border, rgba(255,255,255,0.14)); background: var(--glow-surface, rgba(255,255,255,0.07)); color: inherit; font: inherit; font-size: 0.68rem; font-weight: 800; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background 0.3s, border-color 0.3s, box-shadow 0.3s; }
+  .refill { position: relative; flex-shrink: 0; align-self: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 58px; height: 58px; padding: 0; border-radius: 18px; border: 1px solid rgba(var(--c), 0.35); background: rgba(var(--c), 0.1); color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); font: inherit; font-size: 0.68rem; font-weight: 800; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background 0.3s, border-color 0.3s, box-shadow 0.3s; }
   .refill svg { width: 20px; height: 20px; }
   .refill.arm, .refill.ok { border-color: rgba(var(--c), 0.7); background: rgba(var(--c), 0.2); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.45); color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
   .refill[hidden] { display: none; }
@@ -8716,4 +8767,4 @@ if (!window.customCards.some((x) => x.type === 'glow-usage-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.13.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.14.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
