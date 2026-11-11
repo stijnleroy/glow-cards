@@ -17,7 +17,7 @@ A family of glowing Home Assistant dashboard cards, installed together through H
 | **Glow Garage Card** – a garage door tile: shows open or closed, operate with a confirmation tap. | ![](images/garage.png) | [English](docs/garage.md) · [Nederlands](docs/garage.nl.md) |
 | **Glow Thermostat Card** – a thermostat with a dial and a weekly schedule (comfort and eco) that runs in Home Assistant itself. | ![](images/thermostat.png) | [English](docs/thermostat.md) · [Nederlands](docs/thermostat.nl.md) |
 | **Glow Salt Card** – the salt level of the water softener: a tank that empties, a refill warning and an estimate of when it runs out. | ![](images/salt.png) | [English](docs/salt.md) · [Nederlands](docs/salt.nl.md) |
-| **Glow Media Card** – what is playing, with the artwork, a glow in its colour, controls, volume and switching between players. | ![](images/media.png) | [English](docs/media.md) · [Nederlands](docs/media.nl.md) |
+| **Glow Media Card** – what is playing with artwork and glow, internet radio, Spotify playlists, speakers, play together and a sleep timer. | ![](images/media.png) | [English](docs/media.md) · [Nederlands](docs/media.nl.md) |
 | **Glow Weather Card** – the weather with a sky that follows it, a sun arc, details, an hourly temperature curve and daily bars. | ![](images/weather.png) | [English](docs/weather.md) · [Nederlands](docs/weather.nl.md) |
 | **Glow Usage Card** – gas, water and electricity usage: today, yesterday, week and month, with bars and cost. | ![](images/usage.png) | [English](docs/usage.md) · [Nederlands](docs/usage.nl.md) |
 

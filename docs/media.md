@@ -4,25 +4,37 @@
 
 ![Media card](../images/media.png)
 
-What is playing on your TV, soundbar or speaker, in the Glow style.
+A large media card for its own view on your tablet: what is playing, internet radio, Spotify and your speakers, in the Glow style.
 
-- **Artwork**: large on the left, and blurred as the card background.
-- **Glow in the colour of the artwork**: the card picks the most striking colour from the artwork and makes it pastel. Border, button and bars glow in that colour.
-- **Controls**: previous, play/pause and next, a draggable volume bar and mute. Only the buttons the player supports are shown.
-- **Progress**: a bar with elapsed and total time.
-- **Several players**: list more and you get buttons at the top to switch. The card picks the player that is playing, marked with a glowing dot.
-- **Off**: when nothing is playing, a power button is shown.
-- **Tap the artwork**: the standard details of the player.
+- **Now playing**: large artwork, title, artist and progress. The whole card glows in the artwork's most striking colour, or in the station's colour.
+- **Controls**: big play button, previous and next, shuffle and repeat (one or all), volume and mute. On radio, previous and next jump to the previous or next favourite station.
+- **Radio**: your favourite stations as tiles. One tap plays the station on the chosen speaker, with a LIVE label and what is playing now. Search any station and tap the star to add it to your favourites.
+- **Spotify**: your playlists. Tap one to play it on the chosen speaker, if Spotify knows that speaker (e.g. TV or soundbar).
+- **Speakers**: pick where to play at the bottom. **Play together** lets you tick several speakers: players that can group are grouped, otherwise the same station also starts on the other speakers.
+- **Sleep timer**: music stops by itself after 15, 30, 45 or 60 minutes.
+- **Sound and source**: pick a sound mode or input when the player supports it.
+
+Stations are looked up in [Radio Browser](https://www.radio-browser.info), the same open station list Home Assistant uses, so a station name is enough. Starred stations and the sleep timer are kept on the device itself (the tablet).
 
 ```yaml
 type: custom:glow-media-card
 entities:
   - media_player.soundbar
-  - media_player.android_tv
+  - media_player.living_speaker
+  - media_player.tv
+stations:
+  - Studio Brussel
+  - MNM
+  - name: My station
+    url: https://stream.example.com/live.mp3
+    logo: https://example.com/logo.png
 ```
 
 | Option | Default | Description |
 |---|---|---|
-| `entities` | – | List of media players. `{ entity: media_player.tv, name: TV }` works too. |
+| `entities` | – | Your speakers and players. `{ entity: media_player.tv, name: TV, spotify_source: 'Living TV' }` works too. |
+| `stations` | – | Favourite stations: a name, a link or `{ name, url, logo }`. |
+| `spotify` | automatic | The Spotify player (`media_player.spotify_…`). `false` hides Spotify. |
+| `layout` | `full` | `compact` for a small card with only what is playing. |
 | `glow` | `15` | Glow strength. |
 | `language` | automatic | `en`, `nl`, `fr`, `de`, `es` or `it`. |
