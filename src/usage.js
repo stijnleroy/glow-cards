@@ -211,8 +211,19 @@ class GlowUsageCard extends HTMLElement {
     const from = new Date(dayStart.getTime() - (Math.max(n, 8) - 1) * 86400000);
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
     const ids = [...new Set([].concat(...this._meters.map((m) => this._ids(m).concat(this._xids(m)))))];
-    const ws = (period, start) => this._hass.callWS({ type: 'recorder/statistics_during_period', start_time: start.toISOString(), statistic_ids: ids, period, types: ['change'] });
-    Promise.all([ws('day', from < monthStart ? from : monthStart), ws('month', monthStart)])
+    // per eenheid opvragen, zodat de cijfers in de eenheid van de sensor komen (bv. liter i.p.v. m³)
+    const cls = (u) => (/^(l|ml|m³|m3|ft³|ccf|gal|mcf)$/i.test(u) ? 'volume' : /^(wh|kwh|mwh|gwh|mj|gj)$/i.test(u) ? 'energy' : null);
+    const groups = new Map();
+    ids.forEach((id) => {
+      const s = this._hass.states[id];
+      const u = (s && s.attributes.unit_of_measurement) || '';
+      const k = cls(u) ? cls(u) + ':' + u : '';
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(id);
+    });
+    const ws = (period, start, list, k) => this._hass.callWS(Object.assign({ type: 'recorder/statistics_during_period', start_time: start.toISOString(), statistic_ids: list, period, types: ['change'] }, k ? { units: { [k.split(':')[0]]: k.slice(k.indexOf(':') + 1) } } : {}));
+    const all = (period, start) => Promise.all([...groups.entries()].map(([k, list]) => ws(period, start, list, k))).then((r) => Object.assign({}, ...r));
+    Promise.all([all('day', from < monthStart ? from : monthStart), all('month', monthStart)])
       .then(([days, months]) => {
         const agg = (list) => {
           const sum = new Map();

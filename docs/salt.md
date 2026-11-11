@@ -18,12 +18,26 @@ type: custom:glow-salt-card
 entity: sensor.zout_niveau
 ```
 
+### Estimate based on regenerations (kg)
+
+No sensor in the tank, but a helper (`input_number`) in **kg** that an automation lowers on every regeneration? The card works with that too: kilos and percentage (using `capacity` or the helper's maximum), regenerations left (step size taken from history), weeks left, the last regeneration, and a **Refilled** button that runs your refill script (tap twice within 3 seconds). The script and automation are found automatically by name, or you pick them.
+
+```yaml
+type: custom:glow-salt-card
+entity: input_number.zout_waterverzachter
+refill_script: script.waterverzachter_zout_bijvullen
+regen_automation: automation.waterverzachter_zoutverbruik_op_basis_van_regeneratie
+```
+
 | Option | Default | Description |
 |---|---|---|
-| `entity` | – | The salt sensor. |
+| `entity` | – | The salt sensor, or the helper holding the salt in kg. |
 | `name` | entity name | Name on the tile. |
 | `low` | `25` | Warn below this percentage. |
 | `empty_distance` | `50` | Distance (cm) when empty, only for a distance sensor. |
 | `full_distance` | `5` | Distance (cm) when full. |
+| `capacity` | helper maximum | Tank capacity in kg, only for kg. |
+| `refill_script` | automatic | Script (or button) to refill. |
+| `regen_automation` | automatic | Automation that subtracts salt on each regeneration. |
 | `glow` | `15` | Glow strength. |
 | `language` | automatic | `en`, `nl`, `fr`, `de`, `es` or `it`. |
