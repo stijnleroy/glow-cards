@@ -1,4 +1,4 @@
-/*! Glow Cards v1.16.0 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.16.1 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -9632,7 +9632,12 @@ function gdbClosePopup() {
 }
 function gdbRing(cfg) {
   // scherm van de tablet aanzetten: Fully Kiosk in de browser, of een schakelaar in Home Assistant
-  try { if (window.fully && window.fully.turnScreenOn) window.fully.turnScreenOn(); } catch (e) { /* geen Fully */ }
+  try {
+    if (window.fully) {
+      if (window.fully.turnScreenOn) window.fully.turnScreenOn();
+      if (window.fully.stopScreensaver) window.fully.stopScreensaver();
+    }
+  } catch (e) { /* geen Fully */ }
   if (cfg.wake && GDB.hass && GDB.hass.states[cfg.wake]) {
     const [d] = cfg.wake.split('.');
     GDB.hass.callService(d === 'button' ? 'button' : 'homeassistant', d === 'button' ? 'press' : 'turn_on', { entity_id: cfg.wake });
@@ -9900,4 +9905,4 @@ if (!window.customCards.some((x) => x.type === 'glow-doorbell-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.16.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.16.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');

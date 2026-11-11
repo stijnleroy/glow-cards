@@ -235,7 +235,12 @@ function gdbClosePopup() {
 }
 function gdbRing(cfg) {
   // scherm van de tablet aanzetten: Fully Kiosk in de browser, of een schakelaar in Home Assistant
-  try { if (window.fully && window.fully.turnScreenOn) window.fully.turnScreenOn(); } catch (e) { /* geen Fully */ }
+  try {
+    if (window.fully) {
+      if (window.fully.turnScreenOn) window.fully.turnScreenOn();
+      if (window.fully.stopScreensaver) window.fully.stopScreensaver();
+    }
+  } catch (e) { /* geen Fully */ }
   if (cfg.wake && GDB.hass && GDB.hass.states[cfg.wake]) {
     const [d] = cfg.wake.split('.');
     GDB.hass.callService(d === 'button' ? 'button' : 'homeassistant', d === 'button' ? 'press' : 'turn_on', { entity_id: cfg.wake });
