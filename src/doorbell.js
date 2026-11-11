@@ -177,7 +177,7 @@ function gdbMountCam(box, hass, entity, live) {
     const v = document.createElement('ha-camera-stream');
     v.hass = hass; v.stateObj = s; v.muted = true; v.controls = false; v.allowExoPlayer = false;
     box.appendChild(v);
-    return { update: (h) => { v.hass = h; v.stateObj = h.states[entity]; }, stop: () => {} };
+    return { update: (h) => { v.hass = h; v.stateObj = h.states[entity]; }, stop: () => { v.remove(); } };
   }
   const img = new Image();
   img.alt = '';
@@ -186,11 +186,12 @@ function gdbMountCam(box, hass, entity, live) {
   load(hass);
   box.appendChild(img);
   const iv = setInterval(() => load(cur), 5000);
-  return { update: (h) => { cur = h; }, stop: () => clearInterval(iv) };
+  return { update: (h) => { cur = h; }, stop: () => { clearInterval(iv); img.remove(); } };
 }
 
 // ---- popup bij aanbellen, over het hele dashboard ----
 const GDB = (window.__glowDoorbell = window.__glowDoorbell || { hass: null, dash: null, cfgs: [], unsub: null, pop: null, seen: {} });
+GDB.cards = GDB.cards || new Set();
 
 function gdbOpenPopup(cfg, mode) {
   const hass = GDB.hass;
@@ -216,22 +217,29 @@ function gdbOpenPopup(cfg, mode) {
       <button class="close" type="button">${gdbEsc(t('close'))}</button>
       <div class="rail"><div></div></div>
     </div></div>`;
-  const cam = gdbMountCam(sh.querySelector('.cam'), hass, cfg.camera, true);
+  // Google Nest en co. laten maar een beperkt aantal streams toe: de kaart geeft haar stream even af
+  GDB.cards.forEach((c) => c._suspend(cfg.camera));
+  const camBox = sh.querySelector('.cam');
+  let cam = null;
+  const camT = setTimeout(() => { cam = gdbMountCam(camBox, GDB.hass || hass, cfg.camera, true); if (GDB.pop) GDB.pop.cam = cam; }, 400);
   const fill = sh.querySelector('.rail div');
   fill.animate([{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }], { duration: secs * 1000, easing: 'linear', fill: 'forwards' });
   const close = () => gdbClosePopup();
   sh.querySelector('.close').addEventListener('click', close);
   sh.querySelector('.veil').addEventListener('click', (e) => { if (e.target.classList.contains('veil')) close(); });
   document.body.appendChild(host);
-  GDB.pop = { host, cam, timer: setTimeout(close, secs * 1000) };
+  GDB.pop = { host, cam, camT, timer: setTimeout(close, secs * 1000) };
 }
 function gdbClosePopup() {
   const p = GDB.pop;
   if (!p) return;
   clearTimeout(p.timer);
+  clearTimeout(p.camT);
   if (p.cam) p.cam.stop();
   p.host.remove();
   GDB.pop = null;
+  // de kaarten krijgen hun live beeld terug
+  setTimeout(() => GDB.cards.forEach((c) => c._resume()), 400);
 }
 function gdbRing(cfg) {
   // scherm van de tablet aanzetten: Fully Kiosk in de browser, of een schakelaar in Home Assistant
@@ -316,8 +324,26 @@ class GlowDoorbellCard extends HTMLElement {
   get hass() { return this._hass; }
   getCardSize() { return 9; }
   getGridOptions() { return { columns: 12, rows: 'auto', min_columns: 6 }; }
-  connectedCallback() { clearInterval(this._tick); this._tick = setInterval(() => { if (this._hass) this._render(); }, 30000); }
-  disconnectedCallback() { clearInterval(this._tick); if (this._cam) { this._cam.stop(); this._cam = null; } this._built = false; }
+  connectedCallback() { GDB.cards.add(this); clearInterval(this._tick); this._tick = setInterval(() => { if (this._hass) this._render(); }, 30000); }
+  disconnectedCallback() { GDB.cards.delete(this); clearInterval(this._tick); if (this._cam) { this._cam.stop(); this._cam = null; } this._built = false; }
+
+  // stream afgeven terwijl de popup open is, en daarna terugnemen
+  _suspend(camera) {
+    if (!this._built || camera !== this._config.camera || !this._cam) return;
+    this._cam.stop();
+    this._cam = null;
+    this._suspended = true;
+    const r = this.shadowRoot;
+    r.querySelector('.media').innerHTML = '';
+    r.querySelector('.ph').style.display = '';
+  }
+  _resume() {
+    if (!this._suspended || !this._built || !this.isConnected) return;
+    this._suspended = false;
+    const r = this.shadowRoot;
+    this._cam = gdbMountCam(r.querySelector('.media'), this._hass, this._config.camera, this._config.live);
+    if (this._cam) r.querySelector('.ph').style.display = 'none';
+  }
 
   _lang() { return gdbLang(this._hass, this._config && this._config.language); }
   _t(k, v) { return gdbT(this._lang(), k, v); }
