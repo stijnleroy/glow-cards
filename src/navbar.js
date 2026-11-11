@@ -155,6 +155,8 @@ class GlowNavbarCard extends HTMLElement {
 
   set hass(hass) {
     this._hass = hass;
+    // de deurbelpopup luistert mee, zodat die op elke view kan verschijnen
+    if (window.glowDoorbellWatch) window.glowDoorbellWatch(hass);
     if (!this._config) return;
     if (!this._views) this._loadViews();
     this._render();

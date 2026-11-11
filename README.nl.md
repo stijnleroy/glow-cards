@@ -20,6 +20,7 @@ Een familie van gloeiende dashboardkaarten voor Home Assistant, samen te install
 | **Glow Media Card** – wat er speelt met hoes en gloed, internetradio, Spotify-afspeellijsten, speakers, samen afspelen en een slaaptimer. | ![](images/media.png) | [Nederlands](docs/media.nl.md) · [English](docs/media.md) |
 | **Glow Weather Card** – het weer met een lucht die het weer volgt, een zonneboog, details, een temperatuurcurve per uur en dagbalken. | ![](images/weather.png) | [Nederlands](docs/weather.nl.md) · [English](docs/weather.md) |
 | **Glow Usage Card** – verbruik van gas, water en elektriciteit: vandaag, gisteren, week en maand, met staafjes en kosten. | ![](images/usage.png) | [Nederlands](docs/usage.nl.md) · [English](docs/usage.md) |
+| **Glow Doorbell Card** – live beeld van de deurbel, wat je camera's vandaag zagen en een popup op elke view als er iemand aanbelt. | ![](images/doorbell.png) | [Nederlands](docs/doorbell.nl.md) · [English](docs/doorbell.md) |
 
 Alle kaarten delen dezelfde stijl, spreken zes talen (Nederlands, Engels, Frans, Duits, Spaans, Italiaans) en hebben een visuele editor.
 
