@@ -278,7 +278,14 @@ class GlowSaltCard extends HTMLElement {
     const cap = this._cap();
     const rd = parseFloat(c.regen_days);
     // vaste instellingen gaan voor; anders het tempo uit de geschiedenis
-    const rate = this._isWeight() && step && rd > 0 && cap ? step / cap * 100 / rd : this._rate;
+    let rate = this._isWeight() && step && rd > 0 && cap ? step / cap * 100 / rd : this._rate;
+    // te weinig geschiedenis: rekenen vanaf de laatste keer dat het bijvulscript liep (vat toen vol)
+    if (!rate && this._isWeight() && cap && p !== null) {
+      const sc = this._script();
+      const lt = sc && this._hass.states[sc] && Date.parse(this._hass.states[sc].attributes.last_triggered || '');
+      const days = lt ? (Date.now() - lt) / 86400000 : 0;
+      if (days >= 2 && p < 99) rate = (100 - p) / days;
+    }
     const left = rate && p !== null ? Math.max(0, (p - (this._isWeight() ? 0 : 3)) / rate) : null;
     if (left !== null && left >= 1) {
       const d = Math.round(left);

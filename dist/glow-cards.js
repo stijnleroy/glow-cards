@@ -1,4 +1,4 @@
-/*! Glow Cards v1.14.0 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.14.1 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -7369,7 +7369,14 @@ class GlowSaltCard extends HTMLElement {
     const cap = this._cap();
     const rd = parseFloat(c.regen_days);
     // vaste instellingen gaan voor; anders het tempo uit de geschiedenis
-    const rate = this._isWeight() && step && rd > 0 && cap ? step / cap * 100 / rd : this._rate;
+    let rate = this._isWeight() && step && rd > 0 && cap ? step / cap * 100 / rd : this._rate;
+    // te weinig geschiedenis: rekenen vanaf de laatste keer dat het bijvulscript liep (vat toen vol)
+    if (!rate && this._isWeight() && cap && p !== null) {
+      const sc = this._script();
+      const lt = sc && this._hass.states[sc] && Date.parse(this._hass.states[sc].attributes.last_triggered || '');
+      const days = lt ? (Date.now() - lt) / 86400000 : 0;
+      if (days >= 2 && p < 99) rate = (100 - p) / days;
+    }
     const left = rate && p !== null ? Math.max(0, (p - (this._isWeight() ? 0 : 3)) / rate) : null;
     if (left !== null && left >= 1) {
       const d = Math.round(left);
@@ -8767,4 +8774,4 @@ if (!window.customCards.some((x) => x.type === 'glow-usage-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.14.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.14.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');

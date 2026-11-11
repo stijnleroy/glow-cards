@@ -19,7 +19,7 @@ Heb je geen sensor in het vat, maar een helper (`input_number`) in **kg** die ee
 
 - **Kilo's en percentage**: het percentage rekent met de inhoud van het vat (`capacity`, anders het maximum van de helper).
 - **Nog X regeneraties**: de kaart haalt uit de geschiedenis hoeveel zout er per regeneratie afgaat.
-- **± weken**: hoe lang het zout nog meegaat bij het huidige tempo.
+- **± weken**: hoe lang het zout nog meegaat bij het huidige tempo. Is er te weinig geschiedenis, dan rekent de kaart vanaf de laatste keer dat je bijvulscript liep (met het vat toen vol).
 - **Laatste regeneratie**: wanneer de automatisering het laatst liep.
 - **Knop Bijgevuld**: start je script om bij te vullen. Tik twee keer binnen 3 seconden, zodat je niet per ongeluk bijvult.
 
