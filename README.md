@@ -21,6 +21,7 @@ A family of glowing Home Assistant dashboard cards, installed together through H
 | **Glow Weather Card** – the weather with a sky that follows it, a sun arc, details, an hourly temperature curve and daily bars. | ![](images/weather.png) | [English](docs/weather.md) · [Nederlands](docs/weather.nl.md) |
 | **Glow Usage Card** – gas, water and electricity usage: today, yesterday, week and month, with bars and cost. | ![](images/usage.png) | [English](docs/usage.md) · [Nederlands](docs/usage.nl.md) |
 | **Glow Doorbell Card** – live doorbell video, today's camera events and a popup on every view when someone rings. | ![](images/doorbell.png) | [English](docs/doorbell.md) · [Nederlands](docs/doorbell.nl.md) |
+| **Glow Battery Card** – home battery and inverter: level, working mode and every setting in a popup. | ![](images/battery.png) | [English](docs/battery.md) · [Nederlands](docs/battery.nl.md) |
 
 All cards share the same look, support six languages (English, Dutch, French, German, Spanish, Italian) and have a visual editor.
 
