@@ -15,6 +15,7 @@ const GSC_I18N = {
     err: 'Vul "rooms" of "areas" in met de kamers en lampen.',
     l_areas: 'Ruimtes (alle lampen uit deze ruimtes)', l_favorites_entity: 'Favorieten bewaren in (input_text)', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
     description: 'Sferen van Scene presets met afbeeldingen, eigen lampkeuze en dynamische sferen.',
+    groups: { white: 'Wit licht', warm: 'Warm', calm: 'Rustig', nature: 'Natuur', party: 'Feest', season: 'Seizoenen', custom: 'Eigen' },
     cats: { Defaults: 'Standaard', Refreshing: 'Fris', Cozy: 'Gezellig', 'Party vibes': 'Feest', Serenity: 'Sereen', Dreamy: 'Dromerig', Peaceful: 'Rustig', Sunrise: 'Zonsopgang', Luxurious: 'Luxueus', Pure: 'Puur', Lush: 'Weelderig', Futuristic: 'Futuristisch', Halloween: 'Halloween', 'Winter holidays': 'Feestdagen', Daily: 'Dagelijks', 'Race Day': 'Racedag', Romantic: 'Romantisch', Vibrant: 'Levendig', Wanderlust: 'Reislust', Rustic: 'Landelijk', 'Misc Additions': 'Extra', 'Winter whisper': 'Winter', 'Sports live': 'Sport' },
   },
   en: {
@@ -27,6 +28,7 @@ const GSC_I18N = {
     err: 'Fill in "rooms" or "areas" with the rooms and lights.',
     l_areas: 'Areas (all lights in these areas)', l_favorites_entity: 'Keep favourites in (input_text)', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
     description: 'Scene presets with images, your own light selection and dynamic scenes.',
+    groups: { white: 'White light', warm: 'Warm', calm: 'Calm', nature: 'Nature', party: 'Party', season: 'Seasons', custom: 'Custom' },
     cats: {},
   },
   fr: {
@@ -39,6 +41,7 @@ const GSC_I18N = {
     err: 'Renseignez "rooms" ou "areas".',
     l_areas: 'Pièces (toutes les lampes)', l_favorites_entity: 'Favoris dans (input_text)', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
     description: 'Ambiances Scene presets avec images, choix des lampes et ambiances dynamiques.',
+    groups: { white: 'Lumière blanche', warm: 'Chaleureux', calm: 'Calme', nature: 'Nature', party: 'Fête', season: 'Saisons', custom: 'Perso' },
     cats: {},
   },
   de: {
@@ -51,6 +54,7 @@ const GSC_I18N = {
     err: 'Gib "rooms" oder "areas" an.',
     l_areas: 'Bereiche (alle Lampen)', l_favorites_entity: 'Favoriten speichern in (input_text)', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
     description: 'Scene-presets-Szenen mit Bildern, eigener Lampenauswahl und dynamischen Szenen.',
+    groups: { white: 'Weißes Licht', warm: 'Warm', calm: 'Ruhig', nature: 'Natur', party: 'Party', season: 'Jahreszeiten', custom: 'Eigene' },
     cats: {},
   },
   es: {
@@ -63,6 +67,7 @@ const GSC_I18N = {
     err: 'Indica "rooms" o "areas".',
     l_areas: 'Zonas (todas las luces)', l_favorites_entity: 'Guardar favoritas en (input_text)', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
     description: 'Escenas de Scene presets con imágenes, tu selección de luces y escenas dinámicas.',
+    groups: { white: 'Luz blanca', warm: 'Cálido', calm: 'Tranquilo', nature: 'Naturaleza', party: 'Fiesta', season: 'Temporadas', custom: 'Propias' },
     cats: {},
   },
   it: {
@@ -75,6 +80,7 @@ const GSC_I18N = {
     err: 'Indica "rooms" o "areas".',
     l_areas: 'Aree (tutte le luci)', l_favorites_entity: 'Salva preferite in (input_text)', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
     description: 'Scene di Scene presets con immagini, scelta delle luci e scene dinamiche.',
+    groups: { white: 'Luce bianca', warm: 'Caldo', calm: 'Calmo', nature: 'Natura', party: 'Festa', season: 'Stagioni', custom: 'Personali' },
     cats: {},
   },
 };
@@ -111,6 +117,16 @@ function gscXY(x, y) {
 }
 
 const GSC_C = '185, 168, 255';
+// de 23 groepen van Scene presets samengevoegd tot een handvol
+const GSC_GROUP = {
+  Defaults: 'white', Daily: 'white',
+  Cozy: 'warm', Sunrise: 'warm', Rustic: 'warm', Romantic: 'warm', Luxurious: 'warm',
+  Refreshing: 'calm', Serenity: 'calm', Peaceful: 'calm', Pure: 'calm', 'Winter whisper': 'calm',
+  Dreamy: 'nature', Lush: 'nature', Wanderlust: 'nature',
+  'Party vibes': 'party', Vibrant: 'party', Futuristic: 'party', 'Race Day': 'party', 'Sports live': 'party', 'Misc Additions': 'party',
+  Halloween: 'season', 'Winter holidays': 'season',
+};
+const GSC_ORDER = ['white', 'warm', 'calm', 'nature', 'party', 'season', 'custom'];
 const GSC_STYLE = `
   :host { display: block; }
   ha-card { display: flex; flex-direction: column; gap: 14px; background: none; border: 0; box-shadow: none; color: var(--glow-text, #F3F1FA); user-select: none; -webkit-user-select: none; container-type: inline-size; }
@@ -140,7 +156,7 @@ const GSC_STYLE = `
   .act b { font-size: 1.1rem; font-weight: 800; }
   .act span span { font-size: 0.85rem; font-weight: 700; opacity: 0.62; }
   .stop { height: 42px; padding: 0 16px; border-radius: 16px; font-size: 0.9rem; font-weight: 800; border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); background: var(--glow-surface, rgba(255,255,255,0.07)); }
-  .tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
   .tabs::-webkit-scrollbar { display: none; }
   .tab { flex-shrink: 0; height: 38px; padding: 0 16px; border-radius: 19px; font-size: 0.9rem; font-weight: 800; border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); background: var(--glow-surface, rgba(255,255,255,0.07)); }
   .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
@@ -457,9 +473,11 @@ class GlowScenesCard extends HTMLElement {
 
     // sferen
     const favs = this._favs();
-    const cats = this._data ? [...new Set(this._data.presets.map((p) => p.cat))] : [];
+    const grpOf = (p) => GSC_GROUP[p.cat] || 'custom';
+    const present = this._data ? new Set(this._data.presets.map(grpOf)) : new Set();
+    const cats = GSC_ORDER.filter((g) => present.has(g));
     if (!s.cat || (s.cat !== '__fav' && !cats.includes(s.cat))) s.cat = favs.length ? '__fav' : cats[0] || '__fav';
-    const catName = (c) => (GSC_I18N[this._lang()].cats || {})[c] || (c === 'Custom' ? this._t('custom') : c);
+    const catName = (c) => (GSC_I18N[this._lang()].groups || GSC_I18N.en.groups)[c] || c;
     const tabs = [`<button class="tab${s.cat === '__fav' ? ' on' : ''}" type="button" data-c="__fav">★ ${gscEsc(this._t('favorites'))}</button>`]
       .concat(cats.map((c) => `<button class="tab${s.cat === c ? ' on' : ''}" type="button" data-c="${gscEsc(c)}">${gscEsc(catName(c))}</button>`)).join('');
     if (this._keys.tabs !== tabs) { this._keys.tabs = tabs; r.querySelector('.tabs').innerHTML = tabs; }
@@ -467,7 +485,7 @@ class GlowScenesCard extends HTMLElement {
     if (this._err) grid = `<div class="msg">${gscEsc(this._t('no_plugin'))}</div>`;
     else if (!this._data) grid = `<div class="msg">${gscEsc(this._t('loading'))}</div>`;
     else {
-      const list = s.cat === '__fav' ? presets.filter((p) => favs.some((f) => p.id.startsWith(f))) : presets.filter((p) => p.cat === s.cat);
+      const list = s.cat === '__fav' ? presets.filter((p) => favs.some((f) => p.id.startsWith(f))) : presets.filter((p) => grpOf(p) === s.cat);
       grid = !list.length ? `<div class="msg">${gscEsc(this._t('no_favs'))}</div>` : list.map((p) => {
         const fav = favs.some((f) => p.id.startsWith(f));
         const bg = (p.img ? `url('${p.img}') center / cover, ` : '') + (p.cols.length > 1 ? `linear-gradient(135deg, ${p.cols.map((c) => 'rgb(' + c + ')').join(', ')})` : `rgb(${p.cols[0] || GSC_C})`);
