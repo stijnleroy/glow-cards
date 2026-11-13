@@ -256,7 +256,12 @@ class GlowScenesCard extends HTMLElement {
   _loadDyn() {
     if (!this._hass || !this._hass.callWS) return;
     this._hass.callWS({ type: 'scene_presets/get_dynamic_scenes' })
-      .then((r) => { this._dyn = Array.isArray(r) ? r : Object.values(r || {}); this._render(); })
+      .then((r) => {
+        // antwoord is { dynamic_scenes: [...] }
+        const list = Array.isArray(r) ? r : r && Array.isArray(r.dynamic_scenes) ? r.dynamic_scenes : [];
+        this._dyn = list.filter((d) => d && d.running !== false);
+        this._render();
+      })
       .catch(() => { this._dyn = []; });
   }
 
@@ -336,7 +341,7 @@ class GlowScenesCard extends HTMLElement {
       this._hass.callService('scene_presets', 'stop_dynamic_scenes_for_targets', { targets: { entity_id: sel } });
       this._hass.callService('scene_presets', 'apply_preset', { ...data, shuffle: s.shuffle, smart_shuffle: s.shuffle });
     }
-    this._last = { id: p.id, lights: sel, at: Date.now() };
+    this._last = { id: p.id, lights: sel, at: Date.now(), dyn: !!s.dyn };
     gscStore('last', this._last);
     setTimeout(() => this._loadDyn(), 800);
     this._render();
@@ -386,7 +391,10 @@ class GlowScenesCard extends HTMLElement {
     });
     r.querySelector('.stop').addEventListener('click', () => {
       const d = this._activeDyn();
+      const last = this._last || gscStore('last');
       if (d) this._hass.callService('scene_presets', 'stop_dynamic_scene', { id: d.id });
+      else if (last && last.lights) this._hass.callService('scene_presets', 'stop_dynamic_scenes_for_targets', { targets: { entity_id: last.lights } });
+      if (last) { last.dyn = false; this._last = last; gscStore('last', last); }
       this._dyn = this._dyn.filter((x) => !d || x.id !== d.id);
       setTimeout(() => this._loadDyn(), 800);
       this._render();
@@ -466,7 +474,7 @@ class GlowScenesCard extends HTMLElement {
       const n = dyn ? (dyn.parameters.light_entity_ids || []).length : (last.lights || []).length;
       act.querySelector('.tx span').textContent = (dyn ? this._t('dyn_info', { n: dyn.interval }) : '') + this._t('n_lights', { n });
       const stop = act.querySelector('.stop');
-      stop.hidden = !dyn;
+      stop.hidden = !(dyn || (last && last.dyn && last.id === actId));
       stop.textContent = this._t('stop');
     }
     r.querySelector('.toast').textContent = this._toast || '';
