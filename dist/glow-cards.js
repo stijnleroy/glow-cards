@@ -1,4 +1,4 @@
-/*! Glow Cards v1.19.0 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.19.1 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -11031,53 +11031,47 @@ class GlowScenesCard extends HTMLElement {
       return { name: (areas[a] && areas[a].name) || a, lights: ids.map((e) => ({ entity: e })), groups: [] };
     });
   }
-  // groepen per kamer: zelf ingesteld + lichtgroepen uit Home Assistant (group_entities)
+  // groepen per kamer. Een lichtgroep uit Home Assistant (group_entities) telt als één lamp,
+  // net zoals in Scene presets zelf. Zelf ingestelde groepen zonder entity zijn snelknoppen.
   _groups(rooms) {
     const st = this._hass.states;
     const all = rooms.flatMap((r) => r.lights.map((l) => l.entity));
-    const key = (ids) => [...ids].sort().join(',');
     const seen = new Set();
     const out = rooms.map(() => []);
     const nice = (n) => String(n).replace(/(\D)(\d+)_(\d+)$/, '$1 $2–$3').replace(/_/g, ' ');
-    const add = (ri, name, ids) => {
-      ids = ids.filter((e) => all.includes(e));
-      if (ids.length < 2 || seen.has(key(ids))) return;
-      seen.add(key(ids));
-      out[ri].push({ name, lights: ids });
-    };
-    rooms.forEach((rm, ri) => rm.groups.forEach((g) => add(ri, g.name, g.lights)));
+    const members = (e) => { const a = (st[e] && st[e].attributes) || {}; return Array.isArray(a.group_entities) ? a.group_entities : Array.isArray(a.entity_id) ? a.entity_id : []; };
+    const roomOf = (ids) => { let best = 0, bn = -1; rooms.forEach((rm, ri) => { const n = rm.lights.filter((l) => ids.includes(l.entity)).length; if (n > bn) { bn = n; best = ri; } }); return best; };
+    rooms.forEach((rm, ri) => rm.groups.forEach((g) => {
+      if (g.entity) {
+        if (!st[g.entity] || seen.has(g.entity)) return;
+        seen.add(g.entity);
+        out[ri].push({ name: g.name || nice(st[g.entity].attributes.friendly_name || g.entity), entity: g.entity, lights: members(g.entity) });
+      } else if (g.lights.length >= 2) out[ri].push({ name: g.name, lights: g.lights.filter((e) => all.includes(e)) });
+    }));
     if (this._config.auto_groups !== false) {
-      Object.keys(st).filter((e) => e.startsWith('light.') && !all.includes(e)).forEach((e) => {
-        const a = st[e].attributes || {};
-        const mem = Array.isArray(a.group_entities) ? a.group_entities : Array.isArray(a.entity_id) ? a.entity_id : null;
-        if (!mem) return;
-        const ids = mem.filter((x) => all.includes(x));
-        if (ids.length < 2) return;
-        // in de kamer met de meeste leden
-        let best = 0, bn = -1;
-        rooms.forEach((rm, ri) => { const n = rm.lights.filter((l) => ids.includes(l.entity)).length; if (n > bn) { bn = n; best = ri; } });
-        add(best, nice(a.friendly_name || e), ids);
+      Object.keys(st).filter((e) => e.startsWith('light.') && !all.includes(e) && !seen.has(e)).forEach((e) => {
+        const mem = members(e);
+        if (!mem.length || !mem.some((x) => all.includes(x))) return;
+        seen.add(e);
+        out[roomOf(mem)].push({ name: nice(st[e].attributes.friendly_name || e), entity: e, lights: mem });
       });
     }
-    // de hele kamer als die nog niet als groep bestaat, vooraan
-    rooms.forEach((rm, ri) => {
-      const ids = rm.lights.map((l) => l.entity);
-      if (ids.length >= 2 && !seen.has(key(ids))) { seen.add(key(ids)); out[ri].unshift({ name: this._t('whole', { r: rm.name.toLowerCase() }), lights: ids }); }
-      out[ri].sort((a, b) => b.lights.length - a.lights.length);
-    });
+    out.forEach((g) => g.sort((a, b) => (b.entity ? 1 : 0) - (a.entity ? 1 : 0) || b.lights.length - a.lights.length));
     return out;
   }
-  // korte beschrijving van de keuze: grootste volledig gekozen groepen + losse lampen
+  _gents() { return this._groups(this._rooms()).flat().filter((g) => g.entity); }
+  // korte beschrijving van de keuze
   _summary(rooms, groups, sel) {
     if (!sel.length) return '';
     const left = new Set(sel);
     const parts = [];
-    groups.flat().forEach((g) => { if (g.lights.every((e) => left.has(e))) { parts.push(g.name); g.lights.forEach((e) => left.delete(e)); } });
+    groups.flat().forEach((g) => { if (g.entity && left.has(g.entity)) { parts.push(g.name); left.delete(g.entity); } });
+    groups.flat().forEach((g) => { if (!g.entity && g.lights.length && g.lights.every((e) => left.has(e))) { parts.push(g.name); g.lights.forEach((e) => left.delete(e)); } });
     rooms.forEach((rm) => rm.lights.forEach((l) => { if (left.has(l.entity)) parts.push(this._lname(l)); }));
     return parts.join(' + ');
   }
   _sel() {
-    const all = this._rooms().flatMap((r) => r.lights.map((l) => l.entity));
+    const all = this._rooms().flatMap((r) => r.lights.map((l) => l.entity)).concat(this._gents().map((g) => g.entity));
     const saved = gscStore('selection');
     const sel = Array.isArray(saved) ? saved.filter((e) => all.includes(e)) : all.slice(0, 4);
     return sel;
@@ -11163,9 +11157,22 @@ class GlowScenesCard extends HTMLElement {
       else if (b.dataset.g) {
         const ids = JSON.parse(b.dataset.g).filter((x) => this._hass.states[x] && this._hass.states[x].state !== 'unavailable');
         const on = ids.every((x) => sel.includes(x));
-        sel = on ? sel.filter((x) => !ids.includes(x)) : [...new Set([...sel, ...ids])];
+        const gs = this._gents();
+        sel = on ? sel.filter((x) => !ids.includes(x)) : [...new Set([...sel.filter((x) => { const og = gs.find((y) => y.entity === x); return !(og && og.lights.some((m) => ids.includes(m))); }), ...ids])];
       } else if (b.dataset.e) {
-        sel = sel.includes(b.dataset.e) ? sel.filter((x) => x !== b.dataset.e) : sel.concat(b.dataset.e);
+        const e = b.dataset.e;
+        if (sel.includes(e)) sel = sel.filter((x) => x !== e);
+        else {
+          // een groep en haar eigen lampen niet tegelijk: dat zou elkaar overschrijven
+          const gs = this._gents();
+          const g = gs.find((x) => x.entity === e);
+          const mine = new Set(g ? g.lights : [e]);
+          sel = sel.filter((x) => {
+            if (g && mine.has(x)) return false;
+            const og = gs.find((y) => y.entity === x);
+            return !(og && og.lights.some((m) => mine.has(m)));
+          }).concat(e);
+        }
       }
       this._setSel(sel);
     });
@@ -11214,7 +11221,7 @@ class GlowScenesCard extends HTMLElement {
 
   // de dynamische sfeer die (deels) op de gekozen lampen loopt
   _activeDyn() {
-    const all = this._rooms().flatMap((r) => r.lights.map((l) => l.entity));
+    const all = this._rooms().flatMap((r) => r.lights.map((l) => l.entity)).concat(this._gents().map((g) => g.entity));
     return this._dyn.find((d) => d && d.parameters && (d.parameters.light_entity_ids || []).some((e) => all.includes(e)));
   }
 
@@ -11250,10 +11257,10 @@ class GlowScenesCard extends HTMLElement {
         <span class="sum${sum ? '' : ' no'}">${gscEsc(sum || this._t('nosel'))}</span>
         <button class="sm${open ? ' on' : ''}" type="button" data-open="1">${gscEsc(this._t(open ? 'done' : 'edit'))}</button></div>`
       + `<div class="lbody"${open ? '' : ' hidden'}>`
-      + (rooms.length > 1 ? `<div class="row"><div class="seg">${rooms.map((x, i) => { const c = x.lights.filter((l) => sel.includes(l.entity)).length; return `<button type="button" class="${i === ri ? 'on' : ''}" data-room="${i}">${gscEsc(x.name)}${c ? `<em>${c}</em>` : ''}</button>`; }).join('')}</div><div class="grow"></div>
+      + (rooms.length > 1 ? `<div class="row"><div class="seg">${rooms.map((x, i) => { const c = x.lights.filter((l) => sel.includes(l.entity)).length + groups[i].filter((g) => g.entity && sel.includes(g.entity)).length; return `<button type="button" class="${i === ri ? 'on' : ''}" data-room="${i}">${gscEsc(x.name)}${c ? `<em>${c}</em>` : ''}</button>`; }).join('')}</div><div class="grow"></div>
           <button class="sm" type="button" data-all="1">${gscEsc(this._t('all'))}</button><button class="sm" type="button" data-none="1">${gscEsc(this._t('none'))}</button></div>`
         : `<div class="row"><div class="grow"></div><button class="sm" type="button" data-all="1">${gscEsc(this._t('all'))}</button><button class="sm" type="button" data-none="1">${gscEsc(this._t('none'))}</button></div>`)
-      + (rm ? (groups[ri].length ? `<span class="sub">${gscEsc(this._t('lgroups'))}</span><div class="row">${groups[ri].map(gchip).join('')}</div>` : '')
+      + (rm ? (groups[ri].length ? `<span class="sub">${gscEsc(this._t('lgroups'))}</span><div class="row">${groups[ri].map((g) => (g.entity ? chip({ entity: g.entity, name: g.name }) : gchip(g))).join('')}</div>` : '')
         + `<span class="sub">${gscEsc(this._t('singles'))}</span><div class="row">${rm.lights.map(chip).join('')}</div>` : '')
       + `</div>`;
     if (this._keys.lights !== lightsHtml) { this._keys.lights = lightsHtml; r.querySelector('.lights').innerHTML = lightsHtml; }
@@ -11367,4 +11374,4 @@ if (!window.customCards.some((x) => x.type === 'glow-scenes-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.19.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.19.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');

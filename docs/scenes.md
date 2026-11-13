@@ -6,7 +6,7 @@
 
 A simple way to use the scenes of the [Scene presets](https://github.com/Hypfer/hass-scene_presets) integration, which you need installed.
 
-- **Pick lights**: one line shows what is chosen ("Dining + TV lamp"). Tap *Change* to open it: switch between rooms, tap one of your light groups, or pick single lights. Light groups from Home Assistant (light groups, Zigbee2MQTT groups) are found automatically; a group is split into its lights so every lamp gets its own colour. The dot next to each light shows its current colour. The card remembers your choice on the device.
+- **Pick lights**: one line shows what is chosen ("Dining + TV lamp"). Tap *Change* to open it: switch between rooms, tap one of your light groups, or pick single lights. Light groups from Home Assistant (light groups, Zigbee2MQTT groups) are found automatically and count as one light, just like in Scene presets itself. Picking a group drops its own lights from the choice, and the other way round. The dot next to each light shows its current colour. The card remembers your choice on the device.
 - **Scenes**: every Scene presets scene with its image, per category, including your custom scenes. One tap applies it to the chosen lights.
 - **Favourites**: the star adds a scene to your favourites. With `favorites_entity` (an `input_text`) they are shared between all devices and users.
 - **Settings**: the scene's brightness or your own, the transition, and shuffled colours.
