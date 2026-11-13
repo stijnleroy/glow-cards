@@ -22,6 +22,7 @@ Een familie van gloeiende dashboardkaarten voor Home Assistant, samen te install
 | **Glow Usage Card** – verbruik van gas, water en elektriciteit: vandaag, gisteren, week en maand, met staafjes en kosten. | ![](images/usage.png) | [Nederlands](docs/usage.nl.md) · [English](docs/usage.md) |
 | **Glow Doorbell Card** – live beeld van de deurbel, wat je camera's vandaag zagen en een popup op elke view als er iemand aanbelt. | ![](images/doorbell.png) | [Nederlands](docs/doorbell.nl.md) · [English](docs/doorbell.md) |
 | **Glow Battery Card** – thuisbatterij en omvormer: percentage, werkmodus en alle instellingen in een popup. | ![](images/battery.png) | [Nederlands](docs/battery.nl.md) · [English](docs/battery.md) |
+| **Glow Scenes Card** – de sferen van Scene presets met hun afbeeldingen, eigen lampkeuze, gedeelde favorieten en dynamische sferen. | ![](images/scenes.png) | [Nederlands](docs/scenes.nl.md) · [English](docs/scenes.md) |
 
 Alle kaarten delen dezelfde stijl, spreken zes talen (Nederlands, Engels, Frans, Duits, Spaans, Italiaans) en hebben een visuele editor.
 
