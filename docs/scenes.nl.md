@@ -6,7 +6,7 @@
 
 Een eenvoudige manier om de sferen van de integratie [Scene presets](https://github.com/Hypfer/hass-scene_presets) te gebruiken. Je hebt die integratie dus nodig.
 
-- **Lampen kiezen**: per kamer, elke lamp apart aan of uit te vinken, met snelknoppen voor een hele kamer en eigen groepen. Het bolletje bij elke lamp toont de kleur die ze nu heeft. De kaart onthoudt je keuze op het toestel.
+- **Lampen kiezen**: één regel toont wat er gekozen is ("Eettafel + Tv-tafellamp"). Tik op *Aanpassen* om te kiezen: wissel tussen kamers, tik een van je lichtgroepen aan of kies losse lampen. Lichtgroepen uit Home Assistant (lichtgroepen, Zigbee2MQTT-groepen) worden vanzelf gevonden; een groep wordt opgesplitst in haar lampen, zodat elke lamp een eigen kleur krijgt. Het bolletje bij elke lamp toont de kleur die ze nu heeft. De kaart onthoudt je keuze op het toestel.
 - **Sferen**: alle sferen van Scene presets met hun afbeelding, per groep (Standaard, Gezellig, Feest…), ook je eigen sferen. Eén tik zet de sfeer op de gekozen lampen.
 - **Favorieten**: met de ster zet je een sfeer bij je favorieten. Met `favorites_entity` (een `input_text`) zijn ze gedeeld tussen al je toestellen en gebruikers.
 - **Instellingen**: helderheid van de sfeer of je eigen helderheid, de overgang, en kleuren door elkaar.
@@ -39,6 +39,7 @@ areas: [living, keuken]
 |---|---|---|
 | `rooms` | – | Kamers met `name`, `lights` (entiteit of `{ entity, name }`) en optioneel `groups`. |
 | `areas` | – | In plaats van `rooms`: alle lampen uit deze ruimtes. |
+| `auto_groups` | `true` | Toon je lichtgroepen uit Home Assistant als snelknoppen. |
 | `favorites_entity` | – | `input_text` (max. 255 tekens) om favorieten te delen. Zonder bewaart elk toestel zijn eigen favorieten. |
 | `glow` | `15` | Sterkte van de gloed. |
 | `language` | automatisch | `nl`, `en`, `fr`, `de`, `es` of `it`. |

@@ -6,7 +6,7 @@
 
 A simple way to use the scenes of the [Scene presets](https://github.com/Hypfer/hass-scene_presets) integration, which you need installed.
 
-- **Pick lights**: per room, every light on its own, with quick buttons for a whole room and your own groups. The dot next to each light shows its current colour. The card remembers your choice on the device.
+- **Pick lights**: one line shows what is chosen ("Dining + TV lamp"). Tap *Change* to open it: switch between rooms, tap one of your light groups, or pick single lights. Light groups from Home Assistant (light groups, Zigbee2MQTT groups) are found automatically; a group is split into its lights so every lamp gets its own colour. The dot next to each light shows its current colour. The card remembers your choice on the device.
 - **Scenes**: every Scene presets scene with its image, per category, including your custom scenes. One tap applies it to the chosen lights.
 - **Favourites**: the star adds a scene to your favourites. With `favorites_entity` (an `input_text`) they are shared between all devices and users.
 - **Settings**: the scene's brightness or your own, the transition, and shuffled colours.
@@ -37,6 +37,7 @@ areas: [living_room, kitchen]
 |---|---|---|
 | `rooms` | – | Rooms with `name`, `lights` (entity or `{ entity, name }`) and optional `groups`. |
 | `areas` | – | Instead of `rooms`: all lights in these areas. |
+| `auto_groups` | `true` | Show your Home Assistant light groups as quick buttons. |
 | `favorites_entity` | – | `input_text` (max. 255 characters) to share favourites. Without it each device keeps its own. |
 | `glow` | `15` | Glow strength. |
 | `language` | automatic | `en`, `nl`, `fr`, `de`, `es` or `it`. |

@@ -6,7 +6,7 @@
 
 const GSC_I18N = {
   nl: {
-    lights: 'Lampen', chosen: '{n} gekozen', all: 'Alles', none: 'Niets', whole: 'Hele {r}', favorites: 'Favorieten',
+    lgroups: 'Groepen', singles: 'Losse lampen', edit: 'Aanpassen', done: 'Klaar', nosel: 'Nog geen lampen gekozen', lights: 'Lampen', chosen: '{n} gekozen', all: 'Alles', none: 'Niets', whole: 'Hele {r}', favorites: 'Favorieten',
     brightness: 'Helderheid', as_scene: 'zoals de sfeer', own_bri: 'Eigen helderheid', scene_bri: 'Helderheid van de sfeer',
     transition: 'Overgang', shuffle: 'Door elkaar', dynamic: 'Dynamisch', dynamic_sub: 'Kleuren verschuiven zachtjes', every: 'Elke {n}',
     stop: 'Stoppen', n_lights: '{n} lampen', dyn_info: 'Dynamisch · elke {n} s · ', pick_lights: 'Kies eerst een of meer lampen.',
@@ -19,7 +19,7 @@ const GSC_I18N = {
     cats: { Defaults: 'Standaard', Refreshing: 'Fris', Cozy: 'Gezellig', 'Party vibes': 'Feest', Serenity: 'Sereen', Dreamy: 'Dromerig', Peaceful: 'Rustig', Sunrise: 'Zonsopgang', Luxurious: 'Luxueus', Pure: 'Puur', Lush: 'Weelderig', Futuristic: 'Futuristisch', Halloween: 'Halloween', 'Winter holidays': 'Feestdagen', Daily: 'Dagelijks', 'Race Day': 'Racedag', Romantic: 'Romantisch', Vibrant: 'Levendig', Wanderlust: 'Reislust', Rustic: 'Landelijk', 'Misc Additions': 'Extra', 'Winter whisper': 'Winter', 'Sports live': 'Sport' },
   },
   en: {
-    lights: 'Lights', chosen: '{n} selected', all: 'All', none: 'None', whole: 'All of {r}', favorites: 'Favourites',
+    lgroups: 'Groups', singles: 'Single lights', edit: 'Change', done: 'Done', nosel: 'No lights selected yet', lights: 'Lights', chosen: '{n} selected', all: 'All', none: 'None', whole: 'All of {r}', favorites: 'Favourites',
     brightness: 'Brightness', as_scene: 'as the scene', own_bri: 'Own brightness', scene_bri: 'Scene brightness',
     transition: 'Transition', shuffle: 'Shuffle', dynamic: 'Dynamic', dynamic_sub: 'Colours shift gently', every: 'Every {n}',
     stop: 'Stop', n_lights: '{n} lights', dyn_info: 'Dynamic · every {n} s · ', pick_lights: 'Pick one or more lights first.',
@@ -32,7 +32,7 @@ const GSC_I18N = {
     cats: {},
   },
   fr: {
-    lights: 'Lampes', chosen: '{n} choisies', all: 'Toutes', none: 'Aucune', whole: 'Tout {r}', favorites: 'Favoris',
+    lgroups: 'Groupes', singles: 'Lampes seules', edit: 'Modifier', done: 'OK', nosel: 'Aucune lampe choisie', lights: 'Lampes', chosen: '{n} choisies', all: 'Toutes', none: 'Aucune', whole: 'Tout {r}', favorites: 'Favoris',
     brightness: 'Luminosité', as_scene: 'comme l\'ambiance', own_bri: 'Luminosité propre', scene_bri: 'Luminosité de l\'ambiance',
     transition: 'Transition', shuffle: 'Mélanger', dynamic: 'Dynamique', dynamic_sub: 'Les couleurs changent doucement', every: 'Toutes les {n}',
     stop: 'Arrêter', n_lights: '{n} lampes', dyn_info: 'Dynamique · toutes les {n} s · ', pick_lights: 'Choisissez d\'abord une ou plusieurs lampes.',
@@ -45,7 +45,7 @@ const GSC_I18N = {
     cats: {},
   },
   de: {
-    lights: 'Lampen', chosen: '{n} gewählt', all: 'Alle', none: 'Keine', whole: 'Ganz {r}', favorites: 'Favoriten',
+    lgroups: 'Gruppen', singles: 'Einzelne Lampen', edit: 'Ändern', done: 'Fertig', nosel: 'Noch keine Lampen gewählt', lights: 'Lampen', chosen: '{n} gewählt', all: 'Alle', none: 'Keine', whole: 'Ganz {r}', favorites: 'Favoriten',
     brightness: 'Helligkeit', as_scene: 'wie die Szene', own_bri: 'Eigene Helligkeit', scene_bri: 'Helligkeit der Szene',
     transition: 'Übergang', shuffle: 'Mischen', dynamic: 'Dynamisch', dynamic_sub: 'Farben wechseln sanft', every: 'Alle {n}',
     stop: 'Stoppen', n_lights: '{n} Lampen', dyn_info: 'Dynamisch · alle {n} s · ', pick_lights: 'Wähle zuerst eine oder mehrere Lampen.',
@@ -58,7 +58,7 @@ const GSC_I18N = {
     cats: {},
   },
   es: {
-    lights: 'Luces', chosen: '{n} elegidas', all: 'Todas', none: 'Ninguna', whole: 'Todo {r}', favorites: 'Favoritas',
+    lgroups: 'Grupos', singles: 'Luces sueltas', edit: 'Cambiar', done: 'Listo', nosel: 'Aún no hay luces elegidas', lights: 'Luces', chosen: '{n} elegidas', all: 'Todas', none: 'Ninguna', whole: 'Todo {r}', favorites: 'Favoritas',
     brightness: 'Brillo', as_scene: 'como la escena', own_bri: 'Brillo propio', scene_bri: 'Brillo de la escena',
     transition: 'Transición', shuffle: 'Mezclar', dynamic: 'Dinámico', dynamic_sub: 'Los colores cambian suavemente', every: 'Cada {n}',
     stop: 'Parar', n_lights: '{n} luces', dyn_info: 'Dinámico · cada {n} s · ', pick_lights: 'Elige primero una o más luces.',
@@ -71,7 +71,7 @@ const GSC_I18N = {
     cats: {},
   },
   it: {
-    lights: 'Luci', chosen: '{n} scelte', all: 'Tutte', none: 'Nessuna', whole: 'Tutto {r}', favorites: 'Preferite',
+    lgroups: 'Gruppi', singles: 'Luci singole', edit: 'Modifica', done: 'Fatto', nosel: 'Nessuna luce scelta', lights: 'Luci', chosen: '{n} scelte', all: 'Tutte', none: 'Nessuna', whole: 'Tutto {r}', favorites: 'Preferite',
     brightness: 'Luminosità', as_scene: 'come la scena', own_bri: 'Luminosità propria', scene_bri: 'Luminosità della scena',
     transition: 'Transizione', shuffle: 'Mescola', dynamic: 'Dinamica', dynamic_sub: 'I colori cambiano dolcemente', every: 'Ogni {n}',
     stop: 'Ferma', n_lights: '{n} luci', dyn_info: 'Dinamica · ogni {n} s · ', pick_lights: 'Scegli prima una o più luci.',
@@ -140,6 +140,18 @@ const GSC_STYLE = `
   .sm { height: 34px; padding: 0 14px; border-radius: 17px; font-size: 0.85rem; font-weight: 800; border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); background: var(--glow-surface, rgba(255,255,255,0.07)); }
   .room { display: flex; flex-direction: column; gap: 8px; }
   .rn { font-size: 1.05rem; font-weight: 800; margin-right: 4px; }
+  .sum { flex: 1 1 160px; min-width: 0; font-size: 1rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sum.no { opacity: 0.5; }
+  .seg { display: flex; gap: 4px; padding: 4px; border-radius: 22px; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); align-self: flex-start; }
+  .seg button { height: 38px; padding: 0 18px; border-radius: 19px; border: 0; background: none; font-size: 0.95rem; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; }
+  .seg button.on { background: rgba(${GSC_C}, 0.22); color: color-mix(in srgb, rgb(${GSC_C}), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .seg em { font-style: normal; min-width: 20px; height: 20px; padding: 0 6px; box-sizing: border-box; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; background: rgba(${GSC_C}, 0.3); }
+  .sub { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.5; margin-top: 2px; }
+  .chip.g { padding: 0 8px 0 16px; }
+  .chip.g small { min-width: 24px; height: 24px; padding: 0 6px; box-sizing: border-box; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.78rem; background: rgba(128,128,128,0.2); }
+  .chip.g.part { border-color: rgba(${GSC_C}, 0.35); }
+  .lbody { display: flex; flex-direction: column; gap: 10px; }
+  .lbody[hidden] { display: none; }
   .chip { height: 38px; padding: 0 14px; border-radius: 19px; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 800;
     border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); background: var(--glow-surface, rgba(255,255,255,0.07)); transition: background 0.2s, border-color 0.2s; }
   .chip.on, .tab.on, .sm.on { border-color: rgba(${GSC_C}, 0.6); background: rgba(${GSC_C}, 0.16); color: color-mix(in srgb, rgb(${GSC_C}), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
@@ -289,6 +301,51 @@ class GlowScenesCard extends HTMLElement {
       return { name: (areas[a] && areas[a].name) || a, lights: ids.map((e) => ({ entity: e })), groups: [] };
     });
   }
+  // groepen per kamer: zelf ingesteld + lichtgroepen uit Home Assistant (group_entities)
+  _groups(rooms) {
+    const st = this._hass.states;
+    const all = rooms.flatMap((r) => r.lights.map((l) => l.entity));
+    const key = (ids) => [...ids].sort().join(',');
+    const seen = new Set();
+    const out = rooms.map(() => []);
+    const nice = (n) => String(n).replace(/(\D)(\d+)_(\d+)$/, '$1 $2–$3').replace(/_/g, ' ');
+    const add = (ri, name, ids) => {
+      ids = ids.filter((e) => all.includes(e));
+      if (ids.length < 2 || seen.has(key(ids))) return;
+      seen.add(key(ids));
+      out[ri].push({ name, lights: ids });
+    };
+    rooms.forEach((rm, ri) => rm.groups.forEach((g) => add(ri, g.name, g.lights)));
+    if (this._config.auto_groups !== false) {
+      Object.keys(st).filter((e) => e.startsWith('light.') && !all.includes(e)).forEach((e) => {
+        const a = st[e].attributes || {};
+        const mem = Array.isArray(a.group_entities) ? a.group_entities : Array.isArray(a.entity_id) ? a.entity_id : null;
+        if (!mem) return;
+        const ids = mem.filter((x) => all.includes(x));
+        if (ids.length < 2) return;
+        // in de kamer met de meeste leden
+        let best = 0, bn = -1;
+        rooms.forEach((rm, ri) => { const n = rm.lights.filter((l) => ids.includes(l.entity)).length; if (n > bn) { bn = n; best = ri; } });
+        add(best, nice(a.friendly_name || e), ids);
+      });
+    }
+    // de hele kamer als die nog niet als groep bestaat, vooraan
+    rooms.forEach((rm, ri) => {
+      const ids = rm.lights.map((l) => l.entity);
+      if (ids.length >= 2 && !seen.has(key(ids))) { seen.add(key(ids)); out[ri].unshift({ name: this._t('whole', { r: rm.name.toLowerCase() }), lights: ids }); }
+      out[ri].sort((a, b) => b.lights.length - a.lights.length);
+    });
+    return out;
+  }
+  // korte beschrijving van de keuze: grootste volledig gekozen groepen + losse lampen
+  _summary(rooms, groups, sel) {
+    if (!sel.length) return '';
+    const left = new Set(sel);
+    const parts = [];
+    groups.flat().forEach((g) => { if (g.lights.every((e) => left.has(e))) { parts.push(g.name); g.lights.forEach((e) => left.delete(e)); } });
+    rooms.forEach((rm) => rm.lights.forEach((l) => { if (left.has(l.entity)) parts.push(this._lname(l)); }));
+    return parts.join(' + ');
+  }
   _sel() {
     const all = this._rooms().flatMap((r) => r.lights.map((l) => l.entity));
     const saved = gscStore('selection');
@@ -369,6 +426,8 @@ class GlowScenesCard extends HTMLElement {
       const rooms = this._rooms();
       const all = rooms.flatMap((x) => x.lights.map((l) => l.entity));
       let sel = this._sel();
+      if (b.dataset.open) { this._lopen = !(this._lopen ?? (gscStore('lights-open') ?? !sel.length)); gscStore('lights-open', this._lopen); this._render(); return; }
+      if (b.dataset.room) { this._room = parseInt(b.dataset.room, 10); gscStore('room', this._room); this._render(); return; }
       if (b.dataset.all) sel = all.filter((x) => this._hass.states[x].state !== 'unavailable');
       else if (b.dataset.none) sel = [];
       else if (b.dataset.g) {
@@ -446,15 +505,27 @@ class GlowScenesCard extends HTMLElement {
       const rgb = lit && ls.attributes.rgb_color ? ls.attributes.rgb_color.join(', ') : lit ? '255, 214, 160' : '';
       return `<button class="chip${on ? ' on' : ''}${!ls || ls.state === 'unavailable' ? ' na' : ''}" type="button" data-e="${gscEsc(l.entity)}"><i class="${lit ? 'lit' : ''}" style="${rgb ? '--l:' + rgb : ''}"></i>${gscEsc(this._lname(l))}</button>`;
     };
-    const grp = (name, ids) => {
-      const ok = ids.filter((x) => st[x] && st[x].state !== 'unavailable');
-      const on = ok.length && ok.every((x) => sel.includes(x));
-      return `<button class="chip${on ? ' on' : ''}" type="button" data-g="${gscEsc(JSON.stringify(ids))}">${gscEsc(name)}</button>`;
+    const groups = this._groups(rooms);
+    const open = this._lopen ?? (gscStore('lights-open') ?? !sel.length);
+    let ri = Math.min(Math.max(0, parseInt(this._room ?? gscStore('room') ?? 0, 10) || 0), rooms.length - 1);
+    const gchip = (g) => {
+      const ok = g.lights.filter((x) => st[x] && st[x].state !== 'unavailable');
+      const n = ok.filter((x) => sel.includes(x)).length;
+      const cls = ok.length && n === ok.length ? ' on' : n ? ' part' : '';
+      return `<button class="chip g${cls}" type="button" data-g="${gscEsc(JSON.stringify(g.lights))}">${gscEsc(g.name)}<small>${g.lights.length}</small></button>`;
     };
-    const lightsHtml = `<div class="row"><span class="pt">${gscEsc(this._t('lights'))}</span><span class="cnt">${gscEsc(this._t('chosen', { n: sel.length }))}</span><div class="grow"></div>
-        <button class="sm" type="button" data-all="1">${gscEsc(this._t('all'))}</button><button class="sm" type="button" data-none="1">${gscEsc(this._t('none'))}</button></div>`
-      + rooms.map((rm) => `<div class="room"><div class="row"><span class="rn">${gscEsc(rm.name)}</span>${rooms.length > 1 || rm.groups.length ? grp(this._t('whole', { r: rm.name.toLowerCase() }), rm.lights.map((l) => l.entity)) : ''}${rm.groups.map((g) => grp(g.name, g.lights)).join('')}</div>
-        <div class="row">${rm.lights.map(chip).join('')}</div></div>`).join('');
+    const sum = this._summary(rooms, groups, sel);
+    const rm = rooms[ri];
+    const lightsHtml = `<div class="row"><span class="pt">${gscEsc(this._t('lights'))}</span>${sel.length ? `<span class="cnt">${sel.length}</span>` : ''}
+        <span class="sum${sum ? '' : ' no'}">${gscEsc(sum || this._t('nosel'))}</span>
+        <button class="sm${open ? ' on' : ''}" type="button" data-open="1">${gscEsc(this._t(open ? 'done' : 'edit'))}</button></div>`
+      + `<div class="lbody"${open ? '' : ' hidden'}>`
+      + (rooms.length > 1 ? `<div class="row"><div class="seg">${rooms.map((x, i) => { const c = x.lights.filter((l) => sel.includes(l.entity)).length; return `<button type="button" class="${i === ri ? 'on' : ''}" data-room="${i}">${gscEsc(x.name)}${c ? `<em>${c}</em>` : ''}</button>`; }).join('')}</div><div class="grow"></div>
+          <button class="sm" type="button" data-all="1">${gscEsc(this._t('all'))}</button><button class="sm" type="button" data-none="1">${gscEsc(this._t('none'))}</button></div>`
+        : `<div class="row"><div class="grow"></div><button class="sm" type="button" data-all="1">${gscEsc(this._t('all'))}</button><button class="sm" type="button" data-none="1">${gscEsc(this._t('none'))}</button></div>`)
+      + (rm ? (groups[ri].length ? `<span class="sub">${gscEsc(this._t('lgroups'))}</span><div class="row">${groups[ri].map(gchip).join('')}</div>` : '')
+        + `<span class="sub">${gscEsc(this._t('singles'))}</span><div class="row">${rm.lights.map(chip).join('')}</div>` : '')
+      + `</div>`;
     if (this._keys.lights !== lightsHtml) { this._keys.lights = lightsHtml; r.querySelector('.lights').innerHTML = lightsHtml; }
 
     // actieve sfeer: een lopende dynamische, anders de laatste die je koos
