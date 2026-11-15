@@ -1,4 +1,4 @@
-/*! Glow Cards v1.20.1 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.20.2 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -8460,17 +8460,22 @@ class GlowMediaCardEditor extends HTMLElement {
         if (v.layout === 'full') delete v.layout;
         if (typeof v.stations === 'string') v.stations = v.stations.split('\n').map((x) => x.trim()).filter(Boolean);
         delete v.entity;
+        // spelers met eigen instellingen (naam, Spotify-bron) behouden die als ze gekozen blijven
+        if (Array.isArray(v.entities)) {
+          const old = {};
+          (this._config.entities || []).forEach((x) => { if (x && typeof x === 'object' && x.entity) old[x.entity] = x; });
+          v.entities = v.entities.map((id) => old[id] || id);
+        }
         this._config = { type: this._config.type, ...v };
         this.dispatchEvent(new CustomEvent('config-changed', { detail: { config: this._config }, bubbles: true, composed: true }));
       });
       this.appendChild(this._form);
     }
     this._form.hass = this._hass;
-    const simple = (this._config.entities || []).every((x) => typeof x === 'string');
     const simpleSt = (this._config.stations || []).every((x) => typeof x === 'string');
-    const ents = this._config.entities || (this._config.entity ? [this._config.entity] : []);
+    const ents = (this._config.entities || (this._config.entity ? [this._config.entity] : [])).map((x) => (x && typeof x === 'object' ? x.entity : x)).filter(Boolean);
     this._form.schema = [
-      ...(simple ? [{ name: 'entities', selector: { entity: { domain: 'media_player', multiple: true } } }] : []),
+      { name: 'entities', selector: { entity: { domain: 'media_player', multiple: true } } },
       { name: 'layout', selector: { select: { mode: 'dropdown', options: [{ value: 'full', label: t('layout_full') }, { value: 'compact', label: t('layout_compact') }] } } },
       { name: 'spotify', selector: { entity: { domain: 'media_player' } } },
       ...(simpleSt ? [{ name: 'stations', selector: { text: { multiline: true } } }] : []),
@@ -11811,4 +11816,4 @@ if (!window.customCards.some((x) => x.type === 'glow-batteries-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.20.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.20.2 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
