@@ -168,109 +168,122 @@ const GBS_STYLE = `
   @container (max-width: 380px) { .grid { grid-template-columns: minmax(0, 1fr); } .cell { display: none; } }
 `;
 
+// last_reported zit niet in de live toestanden van de frontend; één keer per 5 minuten ophalen, gedeeld
+const GBS_REP = { r: {}, boot: 0, at: 0, subs: new Set() };
+function gbsFetch(hass) {
+  if (!hass || !hass.callApi || Date.now() - GBS_REP.at < 300000) return;
+  GBS_REP.at = Date.now();
+  hass.callApi('GET', 'states').then((list) => {
+    const r = {};
+    let boot = Infinity;
+    (list || []).forEach((s) => {
+      const t = Date.parse(s.last_reported || s.last_updated || '');
+      if (!isNaN(t)) { r[s.entity_id] = t; if (t < boot) boot = t; }
+    });
+    GBS_REP.r = r;
+    GBS_REP.boot = isFinite(boot) ? boot : 0;
+    GBS_REP.subs.forEach((f) => f());
+  }).catch(() => { GBS_REP.at = Date.now() - 240000; });
+}
+const GBS_DEF = { glow: 15, critical: 10, low: 25, phones: true, stale_hours: 24, stale_hours_remote: 168 };
+
+function gbsCollect(hass, c) {
+  const h = hass;
+  const st = h.states, ents = h.entities || {}, devs = h.devices || {}, areas = h.areas || {};
+  const ex = new Set([].concat(c.exclude || []));
+  const types = c.types || {};
+  const byDev = {};
+  Object.keys(ents).forEach((e) => { const d = ents[e].device_id; if (d) (byDev[d] = byDev[d] || []).push(e); });
+  const ids = Array.isArray(c.entities) && c.entities.length ? c.entities.map((x) => (typeof x === 'string' ? x : x.entity))
+    : Object.keys(st).filter((e) => e.startsWith('sensor.') && st[e].attributes.device_class === 'battery' && (st[e].attributes.unit_of_measurement || '%') === '%');
+  const out = [];
+  ids.forEach((id) => {
+    if (ex.has(id) || !st[id]) return;
+    const s = st[id];
+    const reg = ents[id] || {};
+    if (!c.entities && /battery_state_of_capacity|_soc$/.test(id)) return; // thuisbatterij heeft een eigen kaart
+    const dev = reg.device_id ? devs[reg.device_id] : null;
+    if (!c.entities && dev && /^(batteries|luna|powerwall)/i.test(dev.model || '')) return;
+    const sib = (reg.device_id && byDev[reg.device_id]) || [id];
+    const model = ((dev && dev.model) || '') + ' ' + ((dev && dev.name) || '');
+    const phone = ['mobile_app', 'fully_kiosk'].includes(reg.platform);
+    if (phone && c.phones === false) return;
+    const dc = sib.map((x) => st[x] && st[x].attributes.device_class).filter(Boolean);
+    const kind = phone ? 'phone'
+      : sib.some((x) => x.startsWith('cover.')) ? 'blind'
+      : /cube/i.test(model) ? 'cube'
+      : dc.some((d) => d === 'motion' || d === 'occupancy') ? 'motion'
+      : dc.some((d) => ['door', 'window', 'opening', 'garage_door'].includes(d)) ? 'door'
+      : sib.some((x) => /_action$/.test(x) || x.startsWith('event.')) || /remote|switch|dimmer|button|rodret|somrig|styrbar/i.test(model) ? 'remote'
+      : dc.includes('temperature') || dc.includes('humidity') ? 'temp' : 'sensor';
+    const found = GBS_TYPES.find(([re]) => re.test(model));
+    const type = types[id] || (found ? found[1] : '');
+    // laatste melding: last_seen van Zigbee2MQTT als die er is, anders de jongste melding van een van zijn entiteiten
+    let last = 0;
+    const seen = sib.find((x) => /_last_seen$/.test(x) && st[x] && !isNaN(Date.parse(st[x].state)));
+    if (seen) last = Date.parse(st[seen].state);
+    else sib.forEach((x) => {
+      const xs = st[x];
+      if (!xs || ['unavailable', 'unknown'].includes(xs.state)) return;
+      const t = GBS_REP.r[x] || Date.parse(xs.last_updated);
+      if (t > last) last = t;
+    });
+    const unavailable = s.state === 'unavailable' || s.state === 'unknown';
+    const p = unavailable ? NaN : Math.round(parseFloat(s.state));
+    const remoteLike = kind === 'remote' || kind === 'cube';
+    const limit = (remoteLike ? c.stale_hours_remote : c.stale_hours) * 3600000;
+    const age = last ? Date.now() - last : Infinity;
+    const stale = unavailable || age > limit;
+    const areaId = reg.area_id || (dev && dev.area_id);
+    let name = (dev && (dev.name_by_user || dev.name)) || s.attributes.friendly_name || id;
+    if (!dev) name = String(name).replace(/\s*(batterij(niveau)?|battery( level)?|niveau de batterie|batterie(stand)?|bater[ií]a|batteria)\s*$/i, '');
+    out.push({ id, name, area: (areaId && areas[areaId] && areas[areaId].name) || '', p, kind, type, last, age, unavailable, phone,
+      l: stale || isNaN(p) ? 'stale' : p <= c.critical ? 'crit' : p <= c.low ? 'low' : 'ok' });
+  });
+  return out.sort((a, b) => (isNaN(a.p) ? -1 : a.p) - (isNaN(b.p) ? -1 : b.p) || a.name.localeCompare(b.name));
+}
+
+// voor de navigatiebalk: hoeveel toestellen nu aandacht vragen (vervangen of geen contact)
+let GBS_ALERT = { at: 0, n: 0 };
+window.glowBatteryAlerts = (hass, cfg) => {
+  if (!hass) return 0;
+  gbsFetch(hass);
+  if (Date.now() - GBS_ALERT.at < 10000) return GBS_ALERT.n;
+  const n = gbsCollect(hass, { ...GBS_DEF, ...(cfg || {}) }).filter((x) => !x.phone && (x.l === 'crit' || x.l === 'stale')).length;
+  GBS_ALERT = { at: Date.now(), n };
+  return n;
+};
+
 class GlowBatteriesCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
     this._filter = 'all';
-    this._reported = {}; // entity_id -> ms van de laatste melding (ook als de waarde gelijk bleef)
-    this._boot = 0;
-    this._fetched = 0;
+    this._onRep = () => { this._key = null; this._render(); };
   }
   static getConfigElement() { return document.createElement('glow-batteries-card-editor'); }
   static getStubConfig() { return {}; }
   setConfig(config) {
-    this._config = { glow: 15, critical: 10, low: 25, phones: true, stale_hours: 24, stale_hours_remote: 168, ...(config || {}) };
+    this._config = { ...GBS_DEF, ...(config || {}) };
     this._key = null;
     if (this._hass) this._render();
   }
   set hass(hass) {
     this._hass = hass;
-    this._fetchReported();
+    gbsFetch(hass);
     this._render();
   }
-  connectedCallback() { this._tick = setInterval(() => { this._fetchReported(); this._key = null; this._render(); }, 60000); }
-  disconnectedCallback() { clearInterval(this._tick); }
+  connectedCallback() {
+    GBS_REP.subs.add(this._onRep);
+    this._tick = setInterval(() => { gbsFetch(this._hass); this._key = null; this._render(); }, 60000);
+  }
+  disconnectedCallback() { GBS_REP.subs.delete(this._onRep); clearInterval(this._tick); }
   getCardSize() { return 10; }
   getGridOptions() { return { columns: 'full', rows: 'auto', min_columns: 6 }; }
   _lang() { return gbsLang(this._hass, this._config && this._config.language); }
   _t(k, v) { return gbsT(this._lang(), k, v); }
 
-  // last_reported zit niet in de live toestanden van de frontend; haal ze om de 5 minuten op
-  _fetchReported() {
-    if (!this._hass || !this._hass.callApi || Date.now() - this._fetched < 300000) return;
-    this._fetched = Date.now();
-    this._hass.callApi('GET', 'states').then((list) => {
-      const r = {};
-      let boot = Infinity;
-      (list || []).forEach((s) => {
-        const t = Date.parse(s.last_reported || s.last_updated || '');
-        if (!isNaN(t)) { r[s.entity_id] = t; if (t < boot) boot = t; }
-      });
-      this._reported = r;
-      this._boot = isFinite(boot) ? boot : 0;
-      this._key = null;
-      this._render();
-    }).catch(() => { this._fetched = Date.now() - 240000; });
-  }
-
-  _collect() {
-    const h = this._hass, c = this._config;
-    const st = h.states, ents = h.entities || {}, devs = h.devices || {}, areas = h.areas || {};
-    const ex = new Set([].concat(c.exclude || []));
-    const types = c.types || {};
-    // entiteiten per toestel
-    const byDev = {};
-    Object.keys(ents).forEach((e) => { const d = ents[e].device_id; if (d) (byDev[d] = byDev[d] || []).push(e); });
-    const ids = Array.isArray(c.entities) && c.entities.length ? c.entities.map((x) => (typeof x === 'string' ? x : x.entity))
-      : Object.keys(st).filter((e) => e.startsWith('sensor.') && st[e].attributes.device_class === 'battery' && (st[e].attributes.unit_of_measurement || '%') === '%');
-    const out = [];
-    ids.forEach((id) => {
-      if (ex.has(id) || !st[id]) return;
-      const s = st[id];
-      const reg = ents[id] || {};
-      if (!c.entities && /battery_state_of_capacity|_soc$/.test(id)) return; // thuisbatterij heeft een eigen kaart
-      const dev = reg.device_id ? devs[reg.device_id] : null;
-      if (!c.entities && dev && /^(batteries|luna|powerwall)/i.test(dev.model || '')) return;
-      const sib = (reg.device_id && byDev[reg.device_id]) || [id];
-      const model = ((dev && dev.model) || '') + ' ' + ((dev && dev.name) || '');
-      const phone = ['mobile_app', 'fully_kiosk'].includes(reg.platform);
-      if (phone && c.phones === false) return;
-      const dc = sib.map((x) => st[x] && st[x].attributes.device_class).filter(Boolean);
-      const kind = phone ? 'phone'
-        : sib.some((x) => x.startsWith('cover.')) ? 'blind'
-        : /cube/i.test(model) ? 'cube'
-        : dc.some((d) => d === 'motion' || d === 'occupancy') ? 'motion'
-        : dc.some((d) => ['door', 'window', 'opening', 'garage_door'].includes(d)) ? 'door'
-        : sib.some((x) => /_action$/.test(x) || x.startsWith('event.')) || /remote|switch|dimmer|button|rodret|somrig|styrbar/i.test(model) ? 'remote'
-        : dc.includes('temperature') || dc.includes('humidity') ? 'temp' : 'sensor';
-      const cfgType = types[id];
-      const found = GBS_TYPES.find(([re]) => re.test(model));
-      const type = cfgType || (found ? found[1] : '');
-      // laatste melding van het toestel: last_seen van Zigbee2MQTT als die er is, anders de jongste melding van een van zijn entiteiten
-      let last = 0;
-      const seen = sib.find((x) => /_last_seen$/.test(x) && st[x] && !isNaN(Date.parse(st[x].state)));
-      if (seen) last = Date.parse(st[seen].state);
-      else sib.forEach((x) => {
-        const xs = st[x];
-        if (!xs || ['unavailable', 'unknown'].includes(xs.state)) return;
-        const t = this._reported[x] || Date.parse(xs.last_updated);
-        if (t > last) last = t;
-      });
-      const unavailable = s.state === 'unavailable' || s.state === 'unknown';
-      const p = unavailable ? NaN : Math.round(parseFloat(s.state));
-      const remoteLike = kind === 'remote' || kind === 'cube';
-      const limit = (remoteLike ? c.stale_hours_remote : c.stale_hours) * 3600000;
-      const age = last ? Date.now() - last : Infinity;
-      const stale = unavailable || age > limit;
-      const areaId = reg.area_id || (dev && dev.area_id);
-      let name = (dev && (dev.name_by_user || dev.name)) || s.attributes.friendly_name || id;
-      if (!dev) name = String(name).replace(/\s*(batterij(niveau)?|battery( level)?|niveau de batterie|batterie(stand)?|bater[ií]a|batteria)\s*$/i, '');
-      out.push({ id, name, area: (areaId && areas[areaId] && areas[areaId].name) || '', p, kind, type, last, age, unavailable, phone,
-        l: stale ? 'stale' : isNaN(p) ? 'stale' : p <= c.critical ? 'crit' : p <= c.low ? 'low' : 'ok' });
-    });
-    return out.sort((a, b) => (isNaN(a.p) ? -1 : a.p) - (isNaN(b.p) ? -1 : b.p) || a.name.localeCompare(b.name));
-  }
+  _collect() { return gbsCollect(this._hass, this._config); }
 
   _ago(ms) {
     const h = ms / 3600000;
@@ -306,7 +319,7 @@ class GlowBatteriesCard extends HTMLElement {
       if (stale) {
         if (x.unavailable) meta = this._t('unreachable');
         else {
-          const sinceBoot = this._boot && x.last && x.last - this._boot < 180000;
+          const sinceBoot = GBS_REP.boot && x.last && x.last - GBS_REP.boot < 180000;
           meta = this._t(sinceBoot ? 'silent_boot' : 'silent', { t: this._ago(x.age), p: isNaN(x.p) ? '?' : x.p });
         }
       } else meta = charge ? this._t('charge') : this._t('replace');

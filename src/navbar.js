@@ -120,8 +120,16 @@ function gncViewInfo(v) {
   const ids = [...new Set(json.match(/\b(climate|alarm_control_panel|light|media_player|cover|lock)\.[a-z0-9_]+/g) || [])];
   const name = ((v.title || '') + ' ' + (v.path || '')).toLowerCase();
   const icon = String(v.icon || '').toLowerCase();
+  // instellingen van een batterijenkaart in deze view, voor het bolletje
+  let batteries = null;
+  const walkB = (n) => {
+    if (batteries || !n || typeof n !== 'object') return;
+    if (n.type === 'custom:glow-batteries-card') { batteries = n; return; }
+    Object.values(n).forEach(walkB);
+  };
+  walkB(v);
   return {
-    ids,
+    ids, batteries,
     climate: /klimaat|climate|verwarm|thermo|heat|clima|klima|chauff|riscald|calefac/.test(name) || /thermo|radiator|heat/.test(icon),
     light: /verlicht|\blicht|\blights?\b|lamp|lumi|luce|luz|beleucht/.test(name) || /lightbulb|lamp|ceiling-light|led-strip/.test(icon),
     alarm: /beveilig|alarm|secur|sicher|segur|sicur/.test(name) || /security|shield|alarm/.test(icon),
@@ -256,6 +264,10 @@ class GlowNavbarCard extends HTMLElement {
     if (a.light) {
       const n = pick('light', true).filter((e) => st[e].state === 'on' && !Array.isArray(st[e].attributes.entity_id) && !st[e].attributes.is_hue_group).length;
       if (n) return { num: String(n), color: GNC_LIGHT };
+    }
+    if (a.batteries && window.glowBatteryAlerts) {
+      const n = window.glowBatteryAlerts(this._hass, a.batteries);
+      if (n) return { num: String(n), color: GNC_ALARM };
     }
     if (a.media && pick('media_player', true).some((e) => st[e].state === 'playing')) return { dot: true, color: gncRgb(v.color) };
     return null;
