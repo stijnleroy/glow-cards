@@ -102,11 +102,20 @@ function ghmHex(h) {
 // lichtkleuren worden verzadigd weergegeven; heel witte tinten krijgen de eigen pastelkleur
 function ghmLightRgb(s) {
   const a = (s && s.attributes) || {};
-  if (Array.isArray(a.rgb_color) && a.color_mode && !/color_temp|white|brightness|onoff/.test(a.color_mode)) {
-    const [r, g, b] = a.rgb_color;
-    if (Math.max(r, g, b) - Math.min(r, g, b) > 40) return [r, g, b].join(', ');
+  const cm = a.color_mode || '';
+  // kleurtemperatuur omrekenen naar de echte witte tint van de lamp
+  const k = a.color_temp_kelvin || (a.color_temp ? 1000000 / a.color_temp : null);
+  if ((/color_temp|white/.test(cm) || !Array.isArray(a.rgb_color)) && k) {
+    const t = k / 100;
+    const cl = (v) => Math.max(0, Math.min(255, Math.round(v)));
+    const r = t <= 66 ? 255 : cl(329.698727446 * Math.pow(t - 60, -0.1332047592));
+    const g = t <= 66 ? cl(99.4708025861 * Math.log(t) - 161.1195681661) : cl(288.1221695283 * Math.pow(t - 60, -0.0755148492));
+    const b = t >= 66 ? 255 : t <= 19 ? 0 : cl(138.5177312231 * Math.log(t - 10) - 305.0447927307);
+    return [r, g, b].join(', ');
   }
-  return null;
+  if (Array.isArray(a.rgb_color)) return a.rgb_color.slice(0, 3).map((v) => Math.round(v)).join(', ');
+  // alleen helderheid of aan/uit: warm wit
+  return '255, 196, 137';
 }
 const GHM_ICON = (p) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg>`;
 const GHM_P = {
@@ -161,8 +170,8 @@ const GHM_STYLE = `
   .chip em { font-style: normal; font-size: 0.62rem; font-weight: 800; opacity: 0.7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .rooms { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 4px; }
   .room { border: 0; background: none; padding: 4px 0; display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 0; touch-action: manipulation; }
-  .orb { width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.4s, box-shadow 0.4s, transform 0.15s; background: var(--glow-surface, rgba(255,255,255,0.06)); color: var(--glow-muted, #A39FB8); box-shadow: inset 0 0 0 1px var(--glow-border, rgba(255,255,255,0.1)); --mdc-icon-size: 26px; }
-  .room.on .orb { background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.55), rgb(var(--c)) 58%); color: #1C1730; box-shadow: 0 0 var(--glow) rgba(var(--c), 0.85), 0 0 calc(var(--glow) * 2.4) rgba(var(--c), 0.35); }
+  .orb { width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.4s, box-shadow 0.4s, transform 0.15s; background: var(--glow-surface, rgba(255,255,255,0.06)); color: var(--glow-muted, #A39FB8); box-shadow: inset 0 0 0 1px var(--glow-border, rgba(255,255,255,0.1)); --mdc-icon-size: 26px; }
+  .room.on .orb { background: rgb(var(--c)); color: #1C1730; box-shadow: 0 0 calc(var(--glow) * 0.9) rgba(var(--c), 0.55); }
   .room:active .orb { transform: scale(0.93); }
   .room > b { font-size: 0.75rem; font-weight: 800; line-height: 1; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .room > span { font-size: 0.68rem; font-weight: 800; line-height: 1; opacity: 0.55; }
@@ -192,6 +201,22 @@ const GHM_STYLE = `
   .flow i { position: absolute; left: 0; top: -2px; width: 8px; height: 8px; border-radius: 4px; background: rgb(var(--c)); box-shadow: 0 0 8px rgb(var(--c)); animation: ghm-flow 1.6s linear infinite; }
   .flow.rev i { animation-name: ghm-flow-rev; }
   .flow.idle i { display: none; }
+  .sback { position: fixed; inset: 0; z-index: 8; background: rgba(5, 4, 10, 0.55); }
+  .sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9; max-width: 520px; margin: 0 auto; box-sizing: border-box; padding: 12px 16px calc(24px + env(safe-area-inset-bottom, 0px)); border-radius: 28px 28px 0 0; background: var(--glow-sheet, #1A1729); border: 1px solid var(--glow-border, rgba(255,255,255,0.12)); border-bottom: 0; box-shadow: 0 -20px 60px rgba(0,0,0,0.45); display: flex; flex-direction: column; gap: 8px; animation: ghm-up 0.25s ease-out; }
+  .grip { align-self: center; width: 40px; height: 4px; border-radius: 2px; background: var(--glow-border, rgba(255,255,255,0.25)); }
+  .sh { display: flex; align-items: center; justify-content: space-between; }
+  .sh b { font-size: 1.1rem; font-weight: 900; }
+  .srow { display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 12px; border-radius: 18px; background: var(--glow-surface, rgba(255,255,255,0.05)); border: 1px solid var(--glow-border, rgba(255,255,255,0.08)); }
+  .srow.on { border-color: rgba(var(--c), 0.5); background: rgba(var(--c), 0.12); }
+  .sn { flex: 1; min-width: 0; border: 0; background: none; padding: 0; text-align: left; display: flex; flex-direction: column; }
+  .sn b { font-size: 0.95rem; font-weight: 800; }
+  .sn span { font-size: 0.75rem; font-weight: 800; opacity: 0.65; }
+  .sp { position: relative; width: 10px; height: 40px; border-radius: 5px; background: var(--glow-surface, rgba(255,255,255,0.08)); overflow: hidden; }
+  .sp i { position: absolute; left: 0; right: 0; bottom: 0; background: rgb(var(--c)); }
+  .sb { width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); background: var(--glow-surface, rgba(255,255,255,0.07)); --mdc-icon-size: 22px; }
+  .sb.on { background: rgb(var(--c)); color: #1C1730; }
+  .sb:active { transform: scale(0.94); }
+  @keyframes ghm-up { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
   @keyframes ghm-flow { from { transform: translateX(-12px); opacity: 0; } 30% { opacity: 1; } to { transform: translateX(60px); opacity: 0; } }
   @keyframes ghm-flow-rev { from { transform: translateX(60px); opacity: 0; } 30% { opacity: 1; } to { transform: translateX(-12px); opacity: 0; } }
   @keyframes ghm-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.5); } }
@@ -297,7 +322,7 @@ class GlowHomeCard extends HTMLElement {
       const s = this._st(x.entity);
       const on = !!s && s.state === 'on';
       const bri = s && s.attributes.brightness != null ? Math.round(s.attributes.brightness / 2.55) : null;
-      const c = (on && x.light_color !== false && ghmLightRgb(s)) || ghmHex(x.color) || GHM_PAL[i % GHM_PAL.length];
+      const c = on && x.light_color !== false ? ghmLightRgb(s) : (ghmHex(x.color) || '201, 196, 221');
       const name = x.name || (s && s.attributes.friendly_name) || x.entity;
       return { id: x.entity, name, icon: x.icon || (s && s.attributes.icon) || 'mdi:lightbulb', on, c, sub: !s ? '–' : on ? (bri != null ? bri + ' %' : this._t('on')) : this._t('off'), na: !s || s.state === 'unavailable' };
     });
@@ -362,7 +387,7 @@ class GlowHomeCard extends HTMLElement {
     const wx = this._st(wxId);
     const people = this._people(), mail = this._mail(), waste = this._waste(), status = this._status();
     const rooms = this._rooms(), scenes = this._scenes(), quick = this._quick(), en = this._energy();
-    const key = JSON.stringify([greet, date, wx && [wx.state, wx.attributes.temperature], people.map((p) => [p.where, p.pic]), mail, waste, status, rooms, scenes, quick, en, this._ask, this._lang()]);
+    const key = JSON.stringify([greet, date, wx && [wx.state, wx.attributes.temperature], people.map((p) => [p.where, p.pic]), mail, waste, status, rooms, scenes, quick, en, this._ask, this._sheet, this._sheet != null && quick.filter((q) => q.i === this._sheet).flatMap((q) => q.ids.map((id) => [this._hass.states[id].state, this._hass.states[id].attributes.current_position])), this._lang()]);
     if (key === this._key) return;
     this._key = key;
     const lit = rooms.filter((r) => r.on).length;
@@ -380,11 +405,32 @@ class GlowHomeCard extends HTMLElement {
           <div class="rooms">${rooms.map((r, i) => `<button type="button" class="room${r.on ? ' on' : ''}" data-room="${i}" style="--c:${r.c}${r.na ? ';opacity:0.4' : ''}"><span class="orb"><ha-icon icon="${E(r.icon)}"></ha-icon></span><b>${E(r.name)}</b><span class="${r.on ? 'ink' : ''}">${E(r.sub)}</span></button>`).join('')}</div>` : ''}
         ${scenes.length ? `<div class="lab"><b>${E(this._t('scenes'))}</b></div><div class="scenes">${scenes.map((s, i) => `<button type="button" class="sc${s.on ? ' on' : ''}" data-sc="${i}" style="--c:${s.c}"><ha-icon icon="${E(s.icon)}"></ha-icon>${E(s.name)}</button>`).join('')}</div>` : ''}
         ${quick.length ? `<div class="quick">${quick.map((q) => `<button type="button" class="q${q.on ? ' on' : ''}${this._ask === q.i ? ' ask' : ''}" data-q="${q.i}" style="--c:${q.c}"><span><span class="qi"><ha-icon icon="${E(q.icon)}"></ha-icon></span><b>${E(q.name)}</b></span><em>${E(this._ask === q.i ? this._t('tap_again') : q.txt)}</em></button>`).join('')}</div>` : ''}
+        ${this._sheetHtml(quick)}
         ${en ? `<button type="button" class="en" data-en="1"><span><b class="ink" style="--c:${GHM_C.yellow}">${E(en.pv)}</b><em>${E(this._t('solar'))}</em></span><span class="flow ${en.flow1}" style="--c:${GHM_C.yellow}"><i></i></span><span><b>${E(en.house)}</b><em>${E(this._t('house'))}</em></span><span class="flow ${en.flow2}" style="--c:${en.rc}"><i></i></span><span><b class="ink" style="--c:${en.rc}">${E(en.right)}</b><em>${E(en.rsub)}</em></span></button>` : ''}
       </ha-card>`;
     this._data = { status, rooms, scenes, quick, en };
     this.shadowRoot.innerHTML = html;
     if (!this._bound) this._bind();
+  }
+
+  // blad met de losse toestellen van een snelknop (bv. twee gordijnen)
+  _sheetHtml(quick) {
+    const q = this._sheet != null && quick.find((x) => x.i === this._sheet);
+    if (!q) return '';
+    const st = this._hass.states, E = ghmEsc;
+    const rows = q.ids.map((id) => {
+      const s = st[id];
+      const dom = id.split('.')[0];
+      const name = (s.attributes.friendly_name || id);
+      const pos = s.attributes.current_position;
+      const open = ['on', 'open', 'opening'].includes(s.state);
+      const stTxt = dom === 'cover' ? (pos != null ? pos + ' %' : open ? this._t('opened') : this._t('closed')) : open ? this._t('is_on') : this._t('is_off');
+      const btns = dom === 'cover'
+        ? `<button type="button" class="sb" data-cv="open_cover" data-id="${E(id)}"><ha-icon icon="mdi:arrow-up"></ha-icon></button><button type="button" class="sb" data-cv="stop_cover" data-id="${E(id)}"><ha-icon icon="mdi:stop"></ha-icon></button><button type="button" class="sb" data-cv="close_cover" data-id="${E(id)}"><ha-icon icon="mdi:arrow-down"></ha-icon></button>`
+        : `<button type="button" class="sb${open ? ' on' : ''}" data-tg="${E(id)}"><ha-icon icon="mdi:power"></ha-icon></button>`;
+      return `<div class="srow${open ? ' on' : ''}"><button type="button" class="sn" data-more="${E(id)}"><b>${E(name)}</b><span>${E(stTxt)}</span></button>${dom === 'cover' && pos != null ? `<span class="sp"><i style="height:${pos}%"></i></span>` : ''}${btns}</div>`;
+    }).join('');
+    return `<div class="sback" data-close="1"></div><div class="sheet" style="--c:${q.c}"><span class="grip"></span><div class="sh"><b>${E(q.name)}</b><button type="button" class="sb" data-close="1"><ha-icon icon="mdi:close"></ha-icon></button></div>${rows}</div>`;
   }
 
   _more(id) { if (id) this.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: id }, bubbles: true, composed: true })); }
@@ -406,9 +452,12 @@ class GlowHomeCard extends HTMLElement {
     });
     ['pointerup', 'pointercancel', 'pointerleave'].forEach((t) => root.addEventListener(t, () => clearTimeout(holdT)));
     root.addEventListener('click', (ev) => {
-      const b = ev.target.closest('button');
+      const b = ev.target.closest('button, [data-close]');
       if (!b) return;
       const d = b.dataset, hass = this._hass;
+      if (d.close) { this._sheet = null; this._key = null; this._render(); return; }
+      if (d.cv) { hass.callService('cover', d.cv, { entity_id: d.id }); return; }
+      if (d.tg) { hass.callService('homeassistant', 'toggle', { entity_id: d.tg }); return; }
       if (d.more) { this._more(d.more); return; }
       if (d.room !== undefined) {
         if (held) { held = false; return; }
@@ -434,7 +483,7 @@ class GlowHomeCard extends HTMLElement {
         const q = this._data.quick.find((x) => x.i === +d.q);
         if (!q || !q.ids.length) return;
         if (q.navigate) { this._go(q.navigate); return; }
-        if (q.ids.length > 1) { this._more(q.ids[0]); return; }
+        if (q.ids.length > 1) { this._sheet = q.i; this._key = null; this._render(); return; }
         if (q.confirm && this._ask !== q.i) {
           this._ask = q.i; this._key = null; this._render();
           clearTimeout(this._askT);

@@ -32,11 +32,20 @@ function gltHex(h) {
 }
 function gltRgb(s) {
   const a = (s && s.attributes) || {};
-  if (Array.isArray(a.rgb_color) && a.color_mode && !/color_temp|white|brightness|onoff/.test(a.color_mode)) {
-    const [r, g, b] = a.rgb_color;
-    if (Math.max(r, g, b) - Math.min(r, g, b) > 40) return [r, g, b].join(', ');
+  const cm = a.color_mode || '';
+  // kleurtemperatuur omrekenen naar de echte witte tint van de lamp
+  const k = a.color_temp_kelvin || (a.color_temp ? 1000000 / a.color_temp : null);
+  if ((/color_temp|white/.test(cm) || !Array.isArray(a.rgb_color)) && k) {
+    const t = k / 100;
+    const cl = (v) => Math.max(0, Math.min(255, Math.round(v)));
+    const r = t <= 66 ? 255 : cl(329.698727446 * Math.pow(t - 60, -0.1332047592));
+    const g = t <= 66 ? cl(99.4708025861 * Math.log(t) - 161.1195681661) : cl(288.1221695283 * Math.pow(t - 60, -0.0755148492));
+    const b = t >= 66 ? 255 : t <= 19 ? 0 : cl(138.5177312231 * Math.log(t - 10) - 305.0447927307);
+    return [r, g, b].join(', ');
   }
-  return null;
+  if (Array.isArray(a.rgb_color)) return a.rgb_color.slice(0, 3).map((v) => Math.round(v)).join(', ');
+  // alleen helderheid of aan/uit: warm wit
+  return '255, 196, 137';
 }
 
 const GLT_STYLE = `
@@ -51,7 +60,7 @@ const GLT_STYLE = `
   .rm.on { border-color: rgba(var(--c), 0.4); background: linear-gradient(90deg, rgba(var(--c), 0.16), rgba(var(--c), 0.04)); }
   .row { display: flex; align-items: center; gap: 10px; }
   .orb { width: 36px; height: 36px; flex-shrink: 0; padding: 0; border: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--glow-surface, rgba(255,255,255,0.06)); color: var(--glow-muted, #A39FB8); box-shadow: inset 0 0 0 1px var(--glow-border, rgba(255,255,255,0.1)); transition: background 0.35s, box-shadow 0.35s, transform 0.15s; --mdc-icon-size: 20px; }
-  .on > .row .orb, .lamp.on .orb { background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.55), rgb(var(--c)) 58%); color: #1C1730; box-shadow: 0 0 var(--glow) rgba(var(--c), 0.85); }
+  .on > .row .orb, .lamp.on .orb { background: rgb(var(--c)); color: #1C1730; box-shadow: 0 0 calc(var(--glow) * 0.8) rgba(var(--c), 0.55); }
   .orb:active { transform: scale(0.92); }
   .nm { flex: 1; min-width: 0; border: 0; background: none; padding: 0; text-align: left; display: flex; flex-direction: column; }
   .nm b { font-size: 0.95rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -88,10 +97,10 @@ class GlowLightsCard extends HTMLElement {
       const s = st[x.entity];
       const members = Array.isArray(x.lights) && x.lights.length ? x.lights
         : s ? [].concat(s.attributes.entity_id || s.attributes.group_entities || [x.entity]) : [];
-      const lamps = members.filter((e) => st[e]).map((e) => ({ id: e, name: (st[e].attributes.friendly_name || e).replace(new RegExp('^' + (x.name || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s+', 'i'), ''), on: st[e].state === 'on', na: st[e].state === 'unavailable', c: gltRgb(st[e]) }));
+      const lamps = members.filter((e) => st[e]).map((e) => ({ id: e, name: (st[e].attributes.friendly_name || e).replace(new RegExp('^' + (x.name || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s+', 'i'), ''), on: st[e].state === 'on', na: st[e].state === 'unavailable', c: st[e].state === 'on' ? gltRgb(st[e]) : null }));
       const on = !!s && s.state === 'on';
       const bri = on && s.attributes.brightness != null ? Math.round(s.attributes.brightness / 2.55) : on ? 100 : 0;
-      const c = (on && x.light_color !== false && gltRgb(s)) || gltHex(x.color) || GLT_PAL[i % GLT_PAL.length];
+      const c = on && x.light_color !== false ? gltRgb(s) : (gltHex(x.color) || '201, 196, 221');
       const nOn = lamps.filter((l) => l.on).length;
       const count = lamps.length === 1 ? this._t('lamp') : this._t('lamps', { n: lamps.length });
       return { i, id: x.entity, name: x.name || (s && s.attributes.friendly_name) || x.entity, icon: x.icon || (s && s.attributes.icon) || 'mdi:lightbulb-group', on, bri, c, lamps, na: !s || s.state === 'unavailable',
