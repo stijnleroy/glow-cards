@@ -38,3 +38,7 @@ stations:
 | `layout` | `full` | `compact` for a small card with only what is playing. |
 | `glow` | `15` | Glow strength. |
 | `language` | automatic | `en`, `nl`, `fr`, `de`, `es` or `it`. |
+
+### Phone layout
+
+`layout: phone` keeps everything, but puts the artwork next to the title and shows either **Music** (radio and Spotify) or **Speakers** via two tabs, with three stations per row.

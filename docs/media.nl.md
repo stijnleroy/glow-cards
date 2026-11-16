@@ -40,3 +40,7 @@ stations:
 | `layout` | `full` | `compact` voor een kleine kaart met alleen wat er speelt. |
 | `glow` | `15` | Sterkte van de gloed. |
 | `language` | automatisch | `nl`, `en`, `fr`, `de`, `es` of `it`. |
+
+### Gsm-weergave
+
+`layout: phone` houdt alles, maar zet de hoes naast de titel en toont **Muziek** (radio en Spotify) of **Speakers** via twee tabbladen, met drie zenders per rij.

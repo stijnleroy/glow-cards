@@ -1,4 +1,4 @@
-/*! Glow Cards v1.22.1 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.23.0 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -7640,7 +7640,7 @@ const GMED_I18N = {
   nl: {
     idle: 'Niets aan het spelen', off: 'Uit', unavailable: 'Niet beschikbaar', paused: 'Gepauzeerd', turn_on: 'Aanzetten', turn_off: 'Uitzetten',
     prev: 'Vorige', next: 'Volgende', play: 'Afspelen', pause: 'Pauzeren', mute: 'Geluid uit', volume: 'Volume', shuffle: 'Shuffle', repeat: 'Herhalen',
-    radio: 'Radio', spotify: 'Spotify', search_radio: 'Zoek een zender…', live: 'Live', now: 'Nu: {t}', playing: 'Speelt', ready: 'Klaar',
+    music: 'Muziek', radio: 'Radio', spotify: 'Spotify', search_radio: 'Zoek een zender…', live: 'Live', now: 'Nu: {t}', playing: 'Speelt', ready: 'Klaar',
     speakers: 'Speakers', together: 'Samen afspelen', together_on: 'Samen afspelen aan', on_speaker: 'op {n}',
     sleep: 'Slaap', sleep_title: 'Slaaptimer', sleep_sub: 'Muziek stopt vanzelf na…', sleep_left: 'Stopt over {n} min', sleep_cancel: 'Timer uitzetten', min: '{n} min',
     sound: 'Geluid', source: 'Bron', sound_title: 'Geluid en bron', no_fav: 'Zoek een zender en tik op de ster om ze hier te bewaren.',
@@ -7653,7 +7653,7 @@ const GMED_I18N = {
   en: {
     idle: 'Nothing playing', off: 'Off', unavailable: 'Unavailable', paused: 'Paused', turn_on: 'Turn on', turn_off: 'Turn off',
     prev: 'Previous', next: 'Next', play: 'Play', pause: 'Pause', mute: 'Mute', volume: 'Volume', shuffle: 'Shuffle', repeat: 'Repeat',
-    radio: 'Radio', spotify: 'Spotify', search_radio: 'Search a station…', live: 'Live', now: 'Now: {t}', playing: 'Playing', ready: 'Ready',
+    music: 'Music', radio: 'Radio', spotify: 'Spotify', search_radio: 'Search a station…', live: 'Live', now: 'Now: {t}', playing: 'Playing', ready: 'Ready',
     speakers: 'Speakers', together: 'Play together', together_on: 'Playing together', on_speaker: 'on {n}',
     sleep: 'Sleep', sleep_title: 'Sleep timer', sleep_sub: 'Music stops by itself after…', sleep_left: 'Stops in {n} min', sleep_cancel: 'Turn timer off', min: '{n} min',
     sound: 'Sound', source: 'Source', sound_title: 'Sound and source', no_fav: 'Search a station and tap the star to keep it here.',
@@ -7666,7 +7666,7 @@ const GMED_I18N = {
   fr: {
     idle: 'Rien en lecture', off: 'Éteint', unavailable: 'Indisponible', paused: 'En pause', turn_on: 'Allumer', turn_off: 'Éteindre',
     prev: 'Précédent', next: 'Suivant', play: 'Lecture', pause: 'Pause', mute: 'Muet', volume: 'Volume', shuffle: 'Aléatoire', repeat: 'Répéter',
-    radio: 'Radio', spotify: 'Spotify', search_radio: 'Chercher une station…', live: 'Direct', now: 'En cours : {t}', playing: 'Lecture', ready: 'Prêt',
+    music: 'Musique', radio: 'Radio', spotify: 'Spotify', search_radio: 'Chercher une station…', live: 'Direct', now: 'En cours : {t}', playing: 'Lecture', ready: 'Prêt',
     speakers: 'Enceintes', together: 'Lire ensemble', together_on: 'Lecture groupée', on_speaker: 'sur {n}',
     sleep: 'Veille', sleep_title: 'Minuterie', sleep_sub: 'La musique s\'arrête après…', sleep_left: 'S\'arrête dans {n} min', sleep_cancel: 'Désactiver', min: '{n} min',
     sound: 'Son', source: 'Source', sound_title: 'Son et source', no_fav: 'Cherchez une station et touchez l\'étoile pour la garder ici.',
@@ -7679,7 +7679,7 @@ const GMED_I18N = {
   de: {
     idle: 'Es läuft nichts', off: 'Aus', unavailable: 'Nicht verfügbar', paused: 'Pausiert', turn_on: 'Einschalten', turn_off: 'Ausschalten',
     prev: 'Zurück', next: 'Weiter', play: 'Abspielen', pause: 'Pause', mute: 'Stumm', volume: 'Lautstärke', shuffle: 'Zufall', repeat: 'Wiederholen',
-    radio: 'Radio', spotify: 'Spotify', search_radio: 'Sender suchen…', live: 'Live', now: 'Jetzt: {t}', playing: 'Spielt', ready: 'Bereit',
+    music: 'Musik', radio: 'Radio', spotify: 'Spotify', search_radio: 'Sender suchen…', live: 'Live', now: 'Jetzt: {t}', playing: 'Spielt', ready: 'Bereit',
     speakers: 'Lautsprecher', together: 'Zusammen abspielen', together_on: 'Spielt zusammen', on_speaker: 'auf {n}',
     sleep: 'Schlaf', sleep_title: 'Sleep-Timer', sleep_sub: 'Musik stoppt von selbst nach…', sleep_left: 'Stoppt in {n} Min.', sleep_cancel: 'Timer aus', min: '{n} Min.',
     sound: 'Klang', source: 'Quelle', sound_title: 'Klang und Quelle', no_fav: 'Sender suchen und auf den Stern tippen, um ihn hier zu behalten.',
@@ -7692,7 +7692,7 @@ const GMED_I18N = {
   es: {
     idle: 'No se reproduce nada', off: 'Apagado', unavailable: 'No disponible', paused: 'En pausa', turn_on: 'Encender', turn_off: 'Apagar',
     prev: 'Anterior', next: 'Siguiente', play: 'Reproducir', pause: 'Pausa', mute: 'Silencio', volume: 'Volumen', shuffle: 'Aleatorio', repeat: 'Repetir',
-    radio: 'Radio', spotify: 'Spotify', search_radio: 'Buscar una emisora…', live: 'En directo', now: 'Ahora: {t}', playing: 'Sonando', ready: 'Listo',
+    music: 'Música', radio: 'Radio', spotify: 'Spotify', search_radio: 'Buscar una emisora…', live: 'En directo', now: 'Ahora: {t}', playing: 'Sonando', ready: 'Listo',
     speakers: 'Altavoces', together: 'Reproducir juntos', together_on: 'Sonando juntos', on_speaker: 'en {n}',
     sleep: 'Dormir', sleep_title: 'Temporizador', sleep_sub: 'La música se para sola tras…', sleep_left: 'Se para en {n} min', sleep_cancel: 'Quitar temporizador', min: '{n} min',
     sound: 'Sonido', source: 'Fuente', sound_title: 'Sonido y fuente', no_fav: 'Busca una emisora y toca la estrella para guardarla aquí.',
@@ -7705,7 +7705,7 @@ const GMED_I18N = {
   it: {
     idle: 'Niente in riproduzione', off: 'Spento', unavailable: 'Non disponibile', paused: 'In pausa', turn_on: 'Accendi', turn_off: 'Spegni',
     prev: 'Precedente', next: 'Successivo', play: 'Riproduci', pause: 'Pausa', mute: 'Muto', volume: 'Volume', shuffle: 'Casuale', repeat: 'Ripeti',
-    radio: 'Radio', spotify: 'Spotify', search_radio: 'Cerca una stazione…', live: 'Diretta', now: 'Ora: {t}', playing: 'In riproduzione', ready: 'Pronto',
+    music: 'Musica', radio: 'Radio', spotify: 'Spotify', search_radio: 'Cerca una stazione…', live: 'Diretta', now: 'Ora: {t}', playing: 'In riproduzione', ready: 'Pronto',
     speakers: 'Altoparlanti', together: 'Riproduci insieme', together_on: 'Riproduzione insieme', on_speaker: 'su {n}',
     sleep: 'Sonno', sleep_title: 'Timer di spegnimento', sleep_sub: 'La musica si ferma da sola dopo…', sleep_left: 'Si ferma tra {n} min', sleep_cancel: 'Disattiva timer', min: '{n} min',
     sound: 'Suono', source: 'Sorgente', sound_title: 'Suono e sorgente', no_fav: 'Cerca una stazione e tocca la stella per tenerla qui.',
@@ -7887,6 +7887,24 @@ const GMED_STYLE = `
   .grp svg { width: 18px; height: 18px; }
   .toast { position: relative; padding: 10px 14px; border-radius: 14px; font-size: 0.9rem; font-weight: 700; background: rgba(255, 184, 153, 0.14); border: 1px solid rgba(255, 184, 153, 0.45); }
   .toast:empty { display: none; }
+
+  /* gsm: hoes naast de titel, en muziek kiezen of speakers via twee tabbladen */
+  .ptabs { display: none; }
+  ha-card.phone .ptabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 6px; border-radius: 22px; background: var(--glow-surface, rgba(255,255,255,0.05)); border: 1px solid var(--glow-border, rgba(255,255,255,0.08)); }
+  .ptabs button { height: 42px; border-radius: 16px; border: 1px solid transparent; background: none; font-size: 0.95rem; font-weight: 900; color: var(--glow-muted, #A39FB8); }
+  .ptabs button.on { border-color: rgba(var(--c), 0.55); background: rgba(var(--c), 0.18); color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  ha-card.phone .panel.hide { display: none; }
+  ha-card.phone .np { padding: 16px; gap: 14px; }
+  ha-card.phone .top { flex-direction: row; }
+  ha-card.phone .art { width: 108px; height: 108px; border-radius: 20px; flex-shrink: 0; }
+  ha-card.phone .art svg { width: 42px; height: 42px; }
+  ha-card.phone .title { font-size: 1.2rem; }
+  ha-card.phone .artist { font-size: 0.9rem; }
+  ha-card.phone .row .t span { display: none; }
+  @container (max-width: 440px) {
+    ha-card.phone .grid4 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    ha-card.phone .logo { width: 48px; height: 48px; border-radius: 15px; font-size: 0.9rem; }
+  }
 
   /* compact: alleen wat er speelt */
   ha-card.compact .panel, ha-card.compact .row .t, ha-card.compact .eqb { display: none; }
@@ -8261,12 +8279,14 @@ class GlowMediaCard extends HTMLElement {
           </div>
         </div>
         <div class="toast"></div>
+        <div class="ptabs"><button type="button" data-tab="lib"></button><button type="button" data-tab="spk"></button></div>
         <div class="panel lib"></div>
         <div class="panel spk"></div>
       </ha-card>`;
     const r = this.shadowRoot;
     this._card = r.querySelector('ha-card');
     this._np = r.querySelector('.np');
+    r.querySelector('.ptabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) { this._ptab = b.dataset.tab; this._render(); } });
     r.querySelector('.art').addEventListener('click', () => this.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: this._cur }, bubbles: true, composed: true })));
     r.querySelector('.pchips').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { this._sel = b.dataset.e; this._render(); } });
     this._np.addEventListener('click', (e) => {
@@ -8389,6 +8409,14 @@ class GlowMediaCard extends HTMLElement {
     const r = this.shadowRoot;
     const full = this._full();
     this._card.classList.toggle('compact', !full);
+    const phone = this._config.layout === 'phone';
+    this._card.classList.toggle('phone', phone);
+    if (phone) {
+      const tab = this._ptab || 'lib';
+      r.querySelectorAll('.ptabs [data-tab]').forEach((b) => { b.classList.toggle('on', b.dataset.tab === tab); b.textContent = this._t(b.dataset.tab === 'lib' ? 'music' : 'speakers'); });
+      r.querySelector('.panel.lib').classList.toggle('hide', tab !== 'lib');
+      r.querySelector('.panel.spk').classList.toggle('hide', tab !== 'spk');
+    }
     const main = this._main();
     this._cur = this._shown(main);
     const s = this._cur && st[this._cur];
@@ -8834,6 +8862,15 @@ const GWX_STYLE = `
   .d .v svg.arrow { width: 14px; height: 14px; }
   .sec { display: flex; flex-direction: column; gap: 8px; }
   .lab { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
+  ha-card.compact .sky { height: 150px; }
+  ha-card.compact .now .temp { font-size: 48px; }
+  ha-card.compact .now .cond { font-size: 16px; }
+  ha-card.compact .mid { grid-template-columns: minmax(0, 1fr); }
+  ha-card.compact .det { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  ha-card.compact .d { flex-direction: column; align-items: flex-start; gap: 4px; padding: 8px 10px; }
+  ha-card.compact .d .ic { width: 26px; height: 26px; }
+  ha-card.compact .d .v { font-size: 14px; }
+  ha-card.compact .hours { overflow: hidden; touch-action: auto; }
   .hours { overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; touch-action: pan-x; }
   .hours::-webkit-scrollbar { display: none; }
   .hours svg { display: block; overflow: visible; }
@@ -8956,8 +8993,12 @@ class GlowWeatherCard extends HTMLElement {
     const night = phase === 'night';
     const tu = a.temperature_unit || '°C';
     const deg = (v) => (typeof v === 'number' ? this._num(v, 0) + '°' : '–');
-    const daily = (this._fc.daily || a.forecast || []).slice(0, Math.max(1, parseInt(c.days, 10) || 7));
-    const hourly = (this._fc.hourly || []).filter((h) => Date.parse(h.datetime) > Date.now() - 3600000).slice(0, 24);
+    const compact = c.layout === 'compact';
+    this._card.classList.toggle('compact', compact);
+    const daily = (this._fc.daily || a.forecast || []).slice(0, Math.max(1, parseInt(c.days, 10) || (compact ? 5 : 7)));
+    let hourly = (this._fc.hourly || []).filter((h) => Date.parse(h.datetime) > Date.now() - 3600000).slice(0, 24);
+    // compact: om de 2 uur, zodat alles zonder opzij te vegen past
+    if (compact) hourly = hourly.filter((h, i) => i % 2 === 0).slice(0, 7);
     const today = daily[0];
     const cond = this._t('c')[s.state] || s.state;
     const icon = gwxIcon(s.state, night);
@@ -8978,7 +9019,7 @@ class GlowWeatherCard extends HTMLElement {
     if (c.show_details !== false) {
       const st = this._sunTimes();
       let arc = '';
-      if (st) {
+      if (st && !compact) {
         const now = Date.now();
         const k = Math.max(0, Math.min(1, (now - st.rise) / (st.set - st.rise)));
         const ang = Math.PI * (1 - k);
@@ -9011,12 +9052,12 @@ class GlowWeatherCard extends HTMLElement {
       if (typeof a.uv_index === 'number') add('uv', this._num(a.uv_index, 1), a.uv_index >= 6 ? '255, 184, 153' : '255, 224, 138');
       if (typeof a.cloud_coverage === 'number') add('clouds', this._num(a.cloud_coverage, 0) + '%', '201, 196, 221');
       if (typeof a.dew_point === 'number' && det.length < 8) add('dew', deg(a.dew_point), '142, 197, 255');
-      if (arc || det.length) html += `<div class="mid">${arc}<div class="det">${det.slice(0, 6).join('')}</div></div>`;
+      if (arc || det.length) html += `<div class="mid">${arc}<div class="det">${det.slice(0, compact ? 3 : 6).join('')}</div></div>`;
     }
 
     // per uur: temperatuurcurve met icoontjes en regenkans
     if (c.show_hourly !== false && hourly.length > 1) {
-      const step = 58;
+      const step = compact ? Math.max(40, Math.floor(((this._card.clientWidth || 358) - 32) / hourly.length)) : 58;
       const w = step * hourly.length;
       const temps = hourly.map((h) => h.temperature);
       const lo = Math.min(...temps), hi = Math.max(...temps);
@@ -11681,6 +11722,7 @@ const GBS_STYLE = `
   .gh { display: flex; justify-content: space-between; align-items: baseline; }
   .gh b { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
   .gh span { font-size: 0.85rem; font-weight: 800; }
+  .gh.fold { width: 100%; padding: 12px 14px; border-radius: 16px; border: 1px solid var(--glow-border, rgba(255,255,255,0.08)); background: var(--glow-surface, rgba(255,255,255,0.05)); }
   .rows { display: flex; flex-direction: column; gap: 8px; }
   .row { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 20px; text-align: left; width: 100%; box-sizing: border-box;
     background: linear-gradient(rgba(var(--c), 0.13), rgba(var(--c), 0.13)), var(--glow-card-background, #1A1726); border: 1px solid rgba(var(--c), 0.5); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.28); }
@@ -11835,7 +11877,7 @@ class GlowBatteriesCard extends HTMLElement {
   _render() {
     if (!this._hass || !this._config) return;
     const items = this._collect();
-    const key = JSON.stringify([this._filter, this._lang(), items.map((x) => [x.id, x.p, x.l, Math.round(x.age / 3600000)])]);
+    const key = JSON.stringify([this._filter, this._exp, this._lang(), items.map((x) => [x.id, x.p, x.l, Math.round(x.age / 3600000)])]);
     if (key === this._key) return;
     this._key = key;
     const c = this._config;
@@ -11877,8 +11919,15 @@ class GlowBatteriesCard extends HTMLElement {
         <span class="tt"><b>${gbsEsc(x.name)}</b><span class="ink">${stale ? gbsEsc(x.unavailable ? '?' : this._ago(x.age)) : pct(x)}</span></span>
         <span class="bar"><i class="${stale ? 'hatch' : ''}" style="width:${Math.max(4, isNaN(x.p) ? 100 : x.p)}%"></i></span></button>`;
     };
-    const grp = (k, title, list, big) => `<div class="grp"><div class="gh"><b>${gbsEsc(title)}</b><span class="ink" style="--c:${GBS_C[k]}">${gbsEsc(cnt(list.length))}</span></div>`
-      + (big ? `<div class="rows">${list.map(row).join('')}</div>` : `<div class="grid">${list.map((x) => tile(x, k === 'phone')).join('')}</div>`) + '</div>';
+    // op de gsm (collapse) gaan "In orde" en de telefoons dicht tot je erop tikt
+    this._exp = this._exp || {};
+    const grp = (k, title, list, big) => {
+      const fold = c.collapse && !big && !this._exp[k] && f === 'all';
+      const head = c.collapse && !big
+        ? `<button type="button" class="gh fold" data-fold="${k}"><b>${gbsEsc(title)}</b><span class="ink" style="--c:${GBS_C[k]}">${gbsEsc(cnt(list.length))} ${fold ? '▾' : '▴'}</span></button>`
+        : `<div class="gh"><b>${gbsEsc(title)}</b><span class="ink" style="--c:${GBS_C[k]}">${gbsEsc(cnt(list.length))}</span></div>`;
+      return `<div class="grp">${head}` + (fold ? '' : big ? `<div class="rows">${list.map(row).join('')}</div>` : `<div class="grid">${list.map((x) => tile(x, k === 'phone')).join('')}</div>`) + '</div>';
+    };
     const show = (k) => f === 'all' || f === k;
     let body = '';
     ['stale', 'crit', 'low'].forEach((k) => { if (show(k) && n[k]) body += grp(k, this._t('g_' + k), dev.filter((x) => x.l === k), true); });
@@ -11901,6 +11950,9 @@ class GlowBatteriesCard extends HTMLElement {
         <div class="pills">${pills}</div>
         ${body}
       </ha-card>`;
+    this.shadowRoot.querySelectorAll('[data-fold]').forEach((b) => b.addEventListener('click', () => {
+      this._exp[b.dataset.fold] = !this._exp[b.dataset.fold]; this._key = null; this._render();
+    }));
     this.shadowRoot.querySelectorAll('[data-f]').forEach((b) => b.addEventListener('click', () => {
       this._filter = this._filter === b.dataset.f ? 'all' : b.dataset.f; this._key = null; this._render();
     }));
@@ -12657,4 +12709,4 @@ if (!window.customCards.some((x) => x.type === 'glow-lights-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.22.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.23.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');

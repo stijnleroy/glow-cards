@@ -142,6 +142,7 @@ const GBS_STYLE = `
   .gh { display: flex; justify-content: space-between; align-items: baseline; }
   .gh b { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
   .gh span { font-size: 0.85rem; font-weight: 800; }
+  .gh.fold { width: 100%; padding: 12px 14px; border-radius: 16px; border: 1px solid var(--glow-border, rgba(255,255,255,0.08)); background: var(--glow-surface, rgba(255,255,255,0.05)); }
   .rows { display: flex; flex-direction: column; gap: 8px; }
   .row { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 20px; text-align: left; width: 100%; box-sizing: border-box;
     background: linear-gradient(rgba(var(--c), 0.13), rgba(var(--c), 0.13)), var(--glow-card-background, #1A1726); border: 1px solid rgba(var(--c), 0.5); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.28); }
@@ -296,7 +297,7 @@ class GlowBatteriesCard extends HTMLElement {
   _render() {
     if (!this._hass || !this._config) return;
     const items = this._collect();
-    const key = JSON.stringify([this._filter, this._lang(), items.map((x) => [x.id, x.p, x.l, Math.round(x.age / 3600000)])]);
+    const key = JSON.stringify([this._filter, this._exp, this._lang(), items.map((x) => [x.id, x.p, x.l, Math.round(x.age / 3600000)])]);
     if (key === this._key) return;
     this._key = key;
     const c = this._config;
@@ -338,8 +339,15 @@ class GlowBatteriesCard extends HTMLElement {
         <span class="tt"><b>${gbsEsc(x.name)}</b><span class="ink">${stale ? gbsEsc(x.unavailable ? '?' : this._ago(x.age)) : pct(x)}</span></span>
         <span class="bar"><i class="${stale ? 'hatch' : ''}" style="width:${Math.max(4, isNaN(x.p) ? 100 : x.p)}%"></i></span></button>`;
     };
-    const grp = (k, title, list, big) => `<div class="grp"><div class="gh"><b>${gbsEsc(title)}</b><span class="ink" style="--c:${GBS_C[k]}">${gbsEsc(cnt(list.length))}</span></div>`
-      + (big ? `<div class="rows">${list.map(row).join('')}</div>` : `<div class="grid">${list.map((x) => tile(x, k === 'phone')).join('')}</div>`) + '</div>';
+    // op de gsm (collapse) gaan "In orde" en de telefoons dicht tot je erop tikt
+    this._exp = this._exp || {};
+    const grp = (k, title, list, big) => {
+      const fold = c.collapse && !big && !this._exp[k] && f === 'all';
+      const head = c.collapse && !big
+        ? `<button type="button" class="gh fold" data-fold="${k}"><b>${gbsEsc(title)}</b><span class="ink" style="--c:${GBS_C[k]}">${gbsEsc(cnt(list.length))} ${fold ? '▾' : '▴'}</span></button>`
+        : `<div class="gh"><b>${gbsEsc(title)}</b><span class="ink" style="--c:${GBS_C[k]}">${gbsEsc(cnt(list.length))}</span></div>`;
+      return `<div class="grp">${head}` + (fold ? '' : big ? `<div class="rows">${list.map(row).join('')}</div>` : `<div class="grid">${list.map((x) => tile(x, k === 'phone')).join('')}</div>`) + '</div>';
+    };
     const show = (k) => f === 'all' || f === k;
     let body = '';
     ['stale', 'crit', 'low'].forEach((k) => { if (show(k) && n[k]) body += grp(k, this._t('g_' + k), dev.filter((x) => x.l === k), true); });
@@ -362,6 +370,9 @@ class GlowBatteriesCard extends HTMLElement {
         <div class="pills">${pills}</div>
         ${body}
       </ha-card>`;
+    this.shadowRoot.querySelectorAll('[data-fold]').forEach((b) => b.addEventListener('click', () => {
+      this._exp[b.dataset.fold] = !this._exp[b.dataset.fold]; this._key = null; this._render();
+    }));
     this.shadowRoot.querySelectorAll('[data-f]').forEach((b) => b.addEventListener('click', () => {
       this._filter = this._filter === b.dataset.f ? 'all' : b.dataset.f; this._key = null; this._render();
     }));

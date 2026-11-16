@@ -32,3 +32,5 @@ type: custom:glow-batteries-card
 | `types` | – | Batterijtype per sensor, bv. `sensor.bureau_battery: 2× AA`. |
 | `glow` | `15` | Sterkte van de gloed (px). |
 | `language` | auto | `nl`, `en`, `fr`, `de`, `es`, `it`. |
+
+Met `collapse: true` (handig op een gsm) blijven de groepen **In orde** en **Telefoons en tablets** dicht tot je erop tikt.

@@ -32,3 +32,5 @@ type: custom:glow-batteries-card
 | `types` | – | Battery type per sensor, e.g. `sensor.office_battery: 2× AA`. |
 | `glow` | `15` | Glow strength (px). |
 | `language` | auto | `nl`, `en`, `fr`, `de`, `es`, `it`. |
+
+With `collapse: true` (handy on a phone) the **Fine** and **Phones and tablets** groups stay folded until you tap them.

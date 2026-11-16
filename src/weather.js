@@ -192,6 +192,15 @@ const GWX_STYLE = `
   .d .v svg.arrow { width: 14px; height: 14px; }
   .sec { display: flex; flex-direction: column; gap: 8px; }
   .lab { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
+  ha-card.compact .sky { height: 150px; }
+  ha-card.compact .now .temp { font-size: 48px; }
+  ha-card.compact .now .cond { font-size: 16px; }
+  ha-card.compact .mid { grid-template-columns: minmax(0, 1fr); }
+  ha-card.compact .det { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  ha-card.compact .d { flex-direction: column; align-items: flex-start; gap: 4px; padding: 8px 10px; }
+  ha-card.compact .d .ic { width: 26px; height: 26px; }
+  ha-card.compact .d .v { font-size: 14px; }
+  ha-card.compact .hours { overflow: hidden; touch-action: auto; }
   .hours { overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; touch-action: pan-x; }
   .hours::-webkit-scrollbar { display: none; }
   .hours svg { display: block; overflow: visible; }
@@ -314,8 +323,12 @@ class GlowWeatherCard extends HTMLElement {
     const night = phase === 'night';
     const tu = a.temperature_unit || '°C';
     const deg = (v) => (typeof v === 'number' ? this._num(v, 0) + '°' : '–');
-    const daily = (this._fc.daily || a.forecast || []).slice(0, Math.max(1, parseInt(c.days, 10) || 7));
-    const hourly = (this._fc.hourly || []).filter((h) => Date.parse(h.datetime) > Date.now() - 3600000).slice(0, 24);
+    const compact = c.layout === 'compact';
+    this._card.classList.toggle('compact', compact);
+    const daily = (this._fc.daily || a.forecast || []).slice(0, Math.max(1, parseInt(c.days, 10) || (compact ? 5 : 7)));
+    let hourly = (this._fc.hourly || []).filter((h) => Date.parse(h.datetime) > Date.now() - 3600000).slice(0, 24);
+    // compact: om de 2 uur, zodat alles zonder opzij te vegen past
+    if (compact) hourly = hourly.filter((h, i) => i % 2 === 0).slice(0, 7);
     const today = daily[0];
     const cond = this._t('c')[s.state] || s.state;
     const icon = gwxIcon(s.state, night);
@@ -336,7 +349,7 @@ class GlowWeatherCard extends HTMLElement {
     if (c.show_details !== false) {
       const st = this._sunTimes();
       let arc = '';
-      if (st) {
+      if (st && !compact) {
         const now = Date.now();
         const k = Math.max(0, Math.min(1, (now - st.rise) / (st.set - st.rise)));
         const ang = Math.PI * (1 - k);
@@ -369,12 +382,12 @@ class GlowWeatherCard extends HTMLElement {
       if (typeof a.uv_index === 'number') add('uv', this._num(a.uv_index, 1), a.uv_index >= 6 ? '255, 184, 153' : '255, 224, 138');
       if (typeof a.cloud_coverage === 'number') add('clouds', this._num(a.cloud_coverage, 0) + '%', '201, 196, 221');
       if (typeof a.dew_point === 'number' && det.length < 8) add('dew', deg(a.dew_point), '142, 197, 255');
-      if (arc || det.length) html += `<div class="mid">${arc}<div class="det">${det.slice(0, 6).join('')}</div></div>`;
+      if (arc || det.length) html += `<div class="mid">${arc}<div class="det">${det.slice(0, compact ? 3 : 6).join('')}</div></div>`;
     }
 
     // per uur: temperatuurcurve met icoontjes en regenkans
     if (c.show_hourly !== false && hourly.length > 1) {
-      const step = 58;
+      const step = compact ? Math.max(40, Math.floor(((this._card.clientWidth || 358) - 32) / hourly.length)) : 58;
       const w = step * hourly.length;
       const temps = hourly.map((h) => h.temperature);
       const lo = Math.min(...temps), hi = Math.max(...temps);

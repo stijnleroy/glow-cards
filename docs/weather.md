@@ -29,3 +29,7 @@ entity: weather.forecast_thuis
 | `days` | `7` | Number of days. |
 | `glow` | `15` | Glow strength. |
 | `language` | automatic | `en`, `nl`, `fr`, `de`, `es` or `it`. |
+
+### Phone layout
+
+`layout: compact`: a lower sky, three details instead of six, no sun arc, and the hourly forecast every 2 hours so it fits without swiping.

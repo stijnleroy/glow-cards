@@ -29,3 +29,7 @@ entity: weather.forecast_thuis
 | `days` | `7` | Aantal dagen. |
 | `glow` | `15` | Sterkte van de gloed. |
 | `language` | automatisch | `nl`, `en`, `fr`, `de`, `es` of `it`. |
+
+### Gsm-weergave
+
+`layout: compact`: een lagere lucht, drie details in plaats van zes, geen zonneboog en de verwachting per uur om de 2 uur, zodat ze zonder opzij te vegen past.
