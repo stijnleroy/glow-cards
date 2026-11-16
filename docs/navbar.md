@@ -48,7 +48,8 @@ views:
 | Option | Default | Description |
 |---|---|---|
 | `views` | automatic | List of views (below). Empty = all views of this dashboard. |
-| `max_items` | `6` | Views on the bar; the rest goes under "More". |
+| `max_items` | `6` | Views on the bar; the rest goes under "More". On a phone (narrower than 500 px) at most 4. |
+| `extra` | – | Extra buttons after the views, e.g. to another dashboard or the settings: a list of `name`, `icon`, `path` (`/config`, `/dashboard-tablet`). |
 | `labels` | `always` | `always`, `active` (only the active view) or `never`. |
 | `style` | `floating` | `floating` or `fixed` (against the bottom edge). |
 | `glow` | `15` | Glow strength in pixels. |

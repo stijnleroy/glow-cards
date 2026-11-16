@@ -1,4 +1,4 @@
-/*! Glow Cards v1.20.2 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.21.0 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -3711,6 +3711,7 @@ const GNC_STYLE = `
   .more .lab { font-size: 13px; color: var(--glow-text, #F3F1FA); }
   .shade { position: fixed; inset: 0; z-index: 7; }
   @keyframes gnc-pop { from { opacity: 0; transform: translateY(10px) scale(0.97); } to { opacity: 1; transform: none; } }
+  @media (max-width: 499px) { .bar button .lab, .morebtn .lab { font-size: 0.68rem; letter-spacing: -0.02em; overflow: visible; max-width: none; } }
 `;
 
 const GNC_VARS = ['--glow-card-background', '--glow-text', '--glow-surface', '--glow-border', '--glow-ink-amount', '--ha-card-border-radius', '--paper-font-body1_-_font-family', '--secondary-text-color'];
@@ -3806,12 +3807,14 @@ class GlowNavbarCard extends HTMLElement {
   connectedCallback() {
     window.addEventListener('location-changed', this._onLoc);
     window.addEventListener('popstate', this._onLoc);
+    window.addEventListener('resize', this._onLoc);
     this._render();
   }
 
   disconnectedCallback() {
     window.removeEventListener('location-changed', this._onLoc);
     window.removeEventListener('popstate', this._onLoc);
+    window.removeEventListener('resize', this._onLoc);
     if (this._portal && window.__glowNavbar === this._portal) window.__glowNavbar = null;
     if (this._portal) this._portal.remove();
     this._portal = null;
@@ -3972,8 +3975,12 @@ class GlowNavbarCard extends HTMLElement {
     if (muted) host.style.setProperty('--glow-muted', muted.trim());
     host.style.setProperty('--glow', (parseInt(c.glow, 10) || 0) + 'px');
 
-    const views = this._views || [];
-    const max = Math.max(2, parseInt(c.max_items, 10) || 6);
+    // extra knoppen (bv. naar een ander dashboard of de instellingen) komen achteraan, meestal onder "Meer"
+    const extra = (Array.isArray(c.extra) ? c.extra : []).filter((x) => x && x.path).map((x, i) => ({ name: x.name || x.path, icon: x.icon || 'mdi:link-variant', path: x.path, color: x.color || GNC_PALETTE[(i + 3) % GNC_PALETTE.length], badge: false }));
+    const views = (this._views || []).concat(extra);
+    // op een smal scherm (gsm) passen er maar 4 knoppen + "Meer" goed naast elkaar
+    const narrow = (inline ? this.clientWidth : window.innerWidth) < 500;
+    const max = Math.max(2, Math.min(parseInt(c.max_items, 10) || 6, narrow ? 4 : 99));
     const needMore = views.length > max;
     const shown = needMore ? views.slice(0, max) : views;
     const rest = needMore ? views.slice(max) : [];
@@ -4962,6 +4969,7 @@ const GSEC_STYLE = `
   @container (max-width: 420px) {
     .cams { grid-template-columns: minmax(0, 1fr); }
     .since { display: none; }
+    .doors { grid-template-columns: minmax(0, 1fr); }
   }
 `;
 
@@ -7780,6 +7788,10 @@ const GMED_STYLE = `
     .grid2 { grid-template-columns: minmax(0, 1fr); }
     .search { max-width: none; width: 100%; }
     .ph { flex-wrap: wrap; }
+    .ctl { gap: 6px; }
+    .b.big { width: 68px; height: 68px; }
+    .b.m { width: 46px; height: 46px; border-radius: 16px; }
+    .b.m svg { width: 22px; height: 22px; }
   }
 `;
 
@@ -8713,7 +8725,8 @@ const GWX_STYLE = `
   .na { padding: 30px; text-align: center; opacity: 0.6; font-weight: 700; }
   @container (max-width: 520px) {
     .mid { grid-template-columns: minmax(0, 1fr); }
-    .day { grid-template-columns: 52px 26px 36px 34px minmax(0, 1fr) 34px; gap: 6px; }
+    .day { grid-template-columns: 62px 26px 34px 30px minmax(0, 1fr) 30px; gap: 5px; }
+    .day .dn { font-size: 14px; }
     .now .temp { font-size: 52px; }
   }
   @keyframes gwx-drift { from { transform: translateX(-6px); } to { transform: translateX(10px); } }
@@ -11816,4 +11829,4 @@ if (!window.customCards.some((x) => x.type === 'glow-batteries-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.20.2 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.21.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');

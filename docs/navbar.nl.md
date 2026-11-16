@@ -48,7 +48,8 @@ views:
 | Optie | Standaard | Uitleg |
 |---|---|---|
 | `views` | automatisch | Lijst met views (zie hieronder). Leeg = alle views van dit dashboard. |
-| `max_items` | `6` | Aantal views op de balk; de rest komt onder "Meer". |
+| `max_items` | `6` | Aantal views op de balk; de rest komt onder "Meer". Op een gsm (smaller dan 500 px) maximaal 4. |
+| `extra` | – | Extra knoppen na de views, bv. naar een ander dashboard of de instellingen: een lijst met `name`, `icon`, `path` (`/config`, `/dashboard-tablet`). |
 | `labels` | `always` | `always`, `active` (alleen de actieve view) of `never`. |
 | `style` | `floating` | `floating` (zwevend) of `fixed` (tegen de onderrand). |
 | `glow` | `15` | Sterkte van de gloed in pixels. |

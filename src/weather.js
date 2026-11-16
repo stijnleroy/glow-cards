@@ -214,7 +214,8 @@ const GWX_STYLE = `
   .na { padding: 30px; text-align: center; opacity: 0.6; font-weight: 700; }
   @container (max-width: 520px) {
     .mid { grid-template-columns: minmax(0, 1fr); }
-    .day { grid-template-columns: 52px 26px 36px 34px minmax(0, 1fr) 34px; gap: 6px; }
+    .day { grid-template-columns: 62px 26px 34px 30px minmax(0, 1fr) 30px; gap: 5px; }
+    .day .dn { font-size: 14px; }
     .now .temp { font-size: 52px; }
   }
   @keyframes gwx-drift { from { transform: translateX(-6px); } to { transform: translateX(10px); } }

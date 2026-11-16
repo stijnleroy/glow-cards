@@ -203,6 +203,7 @@ const GSEC_STYLE = `
   @container (max-width: 420px) {
     .cams { grid-template-columns: minmax(0, 1fr); }
     .since { display: none; }
+    .doors { grid-template-columns: minmax(0, 1fr); }
   }
 `;
 

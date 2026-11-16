@@ -82,6 +82,7 @@ const GNC_STYLE = `
   .more .lab { font-size: 13px; color: var(--glow-text, #F3F1FA); }
   .shade { position: fixed; inset: 0; z-index: 7; }
   @keyframes gnc-pop { from { opacity: 0; transform: translateY(10px) scale(0.97); } to { opacity: 1; transform: none; } }
+  @media (max-width: 499px) { .bar button .lab, .morebtn .lab { font-size: 0.68rem; letter-spacing: -0.02em; overflow: visible; max-width: none; } }
 `;
 
 const GNC_VARS = ['--glow-card-background', '--glow-text', '--glow-surface', '--glow-border', '--glow-ink-amount', '--ha-card-border-radius', '--paper-font-body1_-_font-family', '--secondary-text-color'];
@@ -177,12 +178,14 @@ class GlowNavbarCard extends HTMLElement {
   connectedCallback() {
     window.addEventListener('location-changed', this._onLoc);
     window.addEventListener('popstate', this._onLoc);
+    window.addEventListener('resize', this._onLoc);
     this._render();
   }
 
   disconnectedCallback() {
     window.removeEventListener('location-changed', this._onLoc);
     window.removeEventListener('popstate', this._onLoc);
+    window.removeEventListener('resize', this._onLoc);
     if (this._portal && window.__glowNavbar === this._portal) window.__glowNavbar = null;
     if (this._portal) this._portal.remove();
     this._portal = null;
@@ -343,8 +346,12 @@ class GlowNavbarCard extends HTMLElement {
     if (muted) host.style.setProperty('--glow-muted', muted.trim());
     host.style.setProperty('--glow', (parseInt(c.glow, 10) || 0) + 'px');
 
-    const views = this._views || [];
-    const max = Math.max(2, parseInt(c.max_items, 10) || 6);
+    // extra knoppen (bv. naar een ander dashboard of de instellingen) komen achteraan, meestal onder "Meer"
+    const extra = (Array.isArray(c.extra) ? c.extra : []).filter((x) => x && x.path).map((x, i) => ({ name: x.name || x.path, icon: x.icon || 'mdi:link-variant', path: x.path, color: x.color || GNC_PALETTE[(i + 3) % GNC_PALETTE.length], badge: false }));
+    const views = (this._views || []).concat(extra);
+    // op een smal scherm (gsm) passen er maar 4 knoppen + "Meer" goed naast elkaar
+    const narrow = (inline ? this.clientWidth : window.innerWidth) < 500;
+    const max = Math.max(2, Math.min(parseInt(c.max_items, 10) || 6, narrow ? 4 : 99));
     const needMore = views.length > max;
     const shown = needMore ? views.slice(0, max) : views;
     const rest = needMore ? views.slice(max) : [];

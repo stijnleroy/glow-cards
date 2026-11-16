@@ -289,6 +289,10 @@ const GMED_STYLE = `
     .grid2 { grid-template-columns: minmax(0, 1fr); }
     .search { max-width: none; width: 100%; }
     .ph { flex-wrap: wrap; }
+    .ctl { gap: 6px; }
+    .b.big { width: 68px; height: 68px; }
+    .b.m { width: 46px; height: 46px; border-radius: 16px; }
+    .b.m svg { width: 22px; height: 22px; }
   }
 `;
 
