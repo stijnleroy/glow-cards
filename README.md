@@ -23,6 +23,8 @@ A family of glowing Home Assistant dashboard cards, installed together through H
 | **Glow Doorbell Card** – live doorbell video, today's camera events and a popup on every view when someone rings. | ![](images/doorbell.png) | [English](docs/doorbell.md) · [Nederlands](docs/doorbell.nl.md) |
 | **Glow Battery Card** – home battery and inverter: level, working mode and every setting in a popup. | ![](images/battery.png) | [English](docs/battery.md) · [Nederlands](docs/battery.nl.md) |
 | **Glow Batteries Card** – the batteries of all your devices: replace now, soon, and devices that stopped reporting. | ![](images/batteries.png) | [English](docs/batteries.md) · [Nederlands](docs/batteries.nl.md) |
+| **Glow Home Card** – the whole house on one phone screen: rooms as glowing orbs, what is going on, scenes and energy. | ![](images/home.png) | [English](docs/home.md) · [Nederlands](docs/home.nl.md) |
+| **Glow Lights Card** – lights for phones: one row per room, drag brightness, expand the lights. | ![](images/lights.png) | [English](docs/lights.md) · [Nederlands](docs/lights.nl.md) |
 | **Glow Scenes Card** – Scene presets scenes with their images, your own light selection, shared favourites and dynamic scenes. | ![](images/scenes.png) | [English](docs/scenes.md) · [Nederlands](docs/scenes.nl.md) |
 
 All cards share the same look, support six languages (English, Dutch, French, German, Spanish, Italian) and have a visual editor.

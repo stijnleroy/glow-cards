@@ -42,3 +42,7 @@ cameras:
 The code goes straight to the alarm panel. The card does not store or check it.
 
 In a narrower spot the mode buttons move below the keypad.
+
+### Phone layout
+
+`layout: compact` shows the modes as one row; the keypad slides up from the bottom once you pick a mode. Openings become small chips, cameras get tabs (one camera at a time). With `events` (a list of motion sensors and doorbell events) you also get today's events.

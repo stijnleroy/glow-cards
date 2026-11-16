@@ -42,3 +42,7 @@ cameras:
 De code gaat rechtstreeks naar het alarmpaneel. De kaart bewaart ze niet en controleert ze niet zelf.
 
 Op een smallere plek schuiven de standknoppen onder het klavier.
+
+### Gsm-weergave
+
+`layout: compact` toont de standen als één rij; het klavier schuift pas van onderen in als je een stand kiest. Openingen worden kleine chips, camera's krijgen tabbladen (één camera tegelijk). Met `events` (een lijst bewegingssensoren en deurbel-events) zie je ook de meldingen van vandaag.

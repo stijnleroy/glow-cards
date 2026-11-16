@@ -6,7 +6,7 @@
 
 const GSEC_I18N = {
   nl: {
-    title: 'Beveiliging', disarmed: 'Uitgeschakeld', armed_home: 'Ingeschakeld · thuis', armed_away: 'Ingeschakeld · afwezig', armed_night: 'Ingeschakeld · nacht', armed_vacation: 'Ingeschakeld · vakantie', armed_custom_bypass: 'Ingeschakeld · aangepast',
+    code_for: 'Code voor {m}', go_arm: '{m} inschakelen', go_disarm: 'Uitschakelen', today: 'Vandaag', none_today: 'Nog niets vandaag', title: 'Beveiliging', disarmed: 'Uitgeschakeld', armed_home: 'Ingeschakeld · thuis', armed_away: 'Ingeschakeld · afwezig', armed_night: 'Ingeschakeld · nacht', armed_vacation: 'Ingeschakeld · vakantie', armed_custom_bypass: 'Ingeschakeld · aangepast',
     arming: 'Inschakelen… {m}', arming_s: 'Inschakelen… {m} over {s} s', pending: 'Ingangsvertraging, typ je code', pending_s: 'Ingangsvertraging, typ je code ({s} s)', triggered: 'Alarm!', unavailable: 'Niet beschikbaar',
     m_disarmed: 'Uit', m_armed_home: 'Thuis', m_armed_night: 'Nacht', m_armed_away: 'Afwezig', m_armed_vacation: 'Vakantie', m_armed_custom_bypass: 'Aangepast',
     d_disarmed: 'Uitschakelen', d_armed_home: 'Buitenkant bewaakt', d_armed_night: 'Voor de nacht', d_armed_away: 'Alles bewaakt', d_armed_vacation: 'Lang weg', d_armed_custom_bypass: 'Eigen keuze',
@@ -18,7 +18,7 @@ const GSEC_I18N = {
     description: 'Grote beveiligingskaart voor Alarmo: klavier, standen, openingen en camera\'s.',
   },
   en: {
-    title: 'Security', disarmed: 'Disarmed', armed_home: 'Armed · home', armed_away: 'Armed · away', armed_night: 'Armed · night', armed_vacation: 'Armed · vacation', armed_custom_bypass: 'Armed · custom',
+    code_for: 'Code for {m}', go_arm: 'Arm: {m}', go_disarm: 'Disarm', today: 'Today', none_today: 'Nothing yet today', title: 'Security', disarmed: 'Disarmed', armed_home: 'Armed · home', armed_away: 'Armed · away', armed_night: 'Armed · night', armed_vacation: 'Armed · vacation', armed_custom_bypass: 'Armed · custom',
     arming: 'Arming… {m}', arming_s: 'Arming… {m} in {s} s', pending: 'Entry delay, enter your code', pending_s: 'Entry delay, enter your code ({s} s)', triggered: 'Alarm!', unavailable: 'Unavailable',
     m_disarmed: 'Off', m_armed_home: 'Home', m_armed_night: 'Night', m_armed_away: 'Away', m_armed_vacation: 'Vacation', m_armed_custom_bypass: 'Custom',
     d_disarmed: 'Disarm', d_armed_home: 'Perimeter guarded', d_armed_night: 'For the night', d_armed_away: 'Everything guarded', d_armed_vacation: 'Away for long', d_armed_custom_bypass: 'Your choice',
@@ -30,7 +30,7 @@ const GSEC_I18N = {
     description: 'Large security card for Alarmo: keypad, modes, openings and cameras.',
   },
   fr: {
-    title: 'Sécurité', disarmed: 'Désactivée', armed_home: 'Activée · maison', armed_away: 'Activée · absent', armed_night: 'Activée · nuit', armed_vacation: 'Activée · vacances', armed_custom_bypass: 'Activée · personnalisé',
+    code_for: 'Code pour {m}', go_arm: 'Activer : {m}', go_disarm: 'Désactiver', today: 'Aujourd\'hui', none_today: 'Rien encore aujourd\'hui', title: 'Sécurité', disarmed: 'Désactivée', armed_home: 'Activée · maison', armed_away: 'Activée · absent', armed_night: 'Activée · nuit', armed_vacation: 'Activée · vacances', armed_custom_bypass: 'Activée · personnalisé',
     arming: 'Activation… {m}', arming_s: 'Activation… {m} dans {s} s', pending: 'Délai d\'entrée, tapez votre code', pending_s: 'Délai d\'entrée, tapez votre code ({s} s)', triggered: 'Alarme !', unavailable: 'Indisponible',
     m_disarmed: 'Arrêt', m_armed_home: 'Maison', m_armed_night: 'Nuit', m_armed_away: 'Absent', m_armed_vacation: 'Vacances', m_armed_custom_bypass: 'Perso',
     d_disarmed: 'Désactiver', d_armed_home: 'Extérieur surveillé', d_armed_night: 'Pour la nuit', d_armed_away: 'Tout surveillé', d_armed_vacation: 'Longue absence', d_armed_custom_bypass: 'Votre choix',
@@ -42,7 +42,7 @@ const GSEC_I18N = {
     description: 'Grande carte de sécurité pour Alarmo : clavier, modes, ouvertures et caméras.',
   },
   de: {
-    title: 'Sicherheit', disarmed: 'Unscharf', armed_home: 'Scharf · zuhause', armed_away: 'Scharf · abwesend', armed_night: 'Scharf · Nacht', armed_vacation: 'Scharf · Urlaub', armed_custom_bypass: 'Scharf · benutzerdefiniert',
+    code_for: 'Code für {m}', go_arm: '{m} aktivieren', go_disarm: 'Deaktivieren', today: 'Heute', none_today: 'Heute noch nichts', title: 'Sicherheit', disarmed: 'Unscharf', armed_home: 'Scharf · zuhause', armed_away: 'Scharf · abwesend', armed_night: 'Scharf · Nacht', armed_vacation: 'Scharf · Urlaub', armed_custom_bypass: 'Scharf · benutzerdefiniert',
     arming: 'Wird scharf geschaltet… {m}', arming_s: 'Scharf… {m} in {s} s', pending: 'Eingangsverzögerung, Code eingeben', pending_s: 'Eingangsverzögerung, Code eingeben ({s} s)', triggered: 'Alarm!', unavailable: 'Nicht verfügbar',
     m_disarmed: 'Aus', m_armed_home: 'Zuhause', m_armed_night: 'Nacht', m_armed_away: 'Abwesend', m_armed_vacation: 'Urlaub', m_armed_custom_bypass: 'Eigene',
     d_disarmed: 'Unscharf schalten', d_armed_home: 'Außenhaut gesichert', d_armed_night: 'Für die Nacht', d_armed_away: 'Alles gesichert', d_armed_vacation: 'Lange weg', d_armed_custom_bypass: 'Eigene Wahl',
@@ -54,7 +54,7 @@ const GSEC_I18N = {
     description: 'Große Sicherheitskarte für Alarmo: Tastenfeld, Modi, Öffnungen und Kameras.',
   },
   es: {
-    title: 'Seguridad', disarmed: 'Desactivada', armed_home: 'Activada · en casa', armed_away: 'Activada · fuera', armed_night: 'Activada · noche', armed_vacation: 'Activada · vacaciones', armed_custom_bypass: 'Activada · personalizada',
+    code_for: 'Código para {m}', go_arm: 'Activar: {m}', go_disarm: 'Desactivar', today: 'Hoy', none_today: 'Nada todavía hoy', title: 'Seguridad', disarmed: 'Desactivada', armed_home: 'Activada · en casa', armed_away: 'Activada · fuera', armed_night: 'Activada · noche', armed_vacation: 'Activada · vacaciones', armed_custom_bypass: 'Activada · personalizada',
     arming: 'Activando… {m}', arming_s: 'Activando… {m} en {s} s', pending: 'Retardo de entrada, introduce tu código', pending_s: 'Retardo de entrada, introduce tu código ({s} s)', triggered: '¡Alarma!', unavailable: 'No disponible',
     m_disarmed: 'Apagada', m_armed_home: 'En casa', m_armed_night: 'Noche', m_armed_away: 'Fuera', m_armed_vacation: 'Vacaciones', m_armed_custom_bypass: 'Propia',
     d_disarmed: 'Desactivar', d_armed_home: 'Exterior vigilado', d_armed_night: 'Para la noche', d_armed_away: 'Todo vigilado', d_armed_vacation: 'Ausencia larga', d_armed_custom_bypass: 'A tu elección',
@@ -66,7 +66,7 @@ const GSEC_I18N = {
     description: 'Tarjeta de seguridad grande para Alarmo: teclado, modos, aberturas y cámaras.',
   },
   it: {
-    title: 'Sicurezza', disarmed: 'Disattivato', armed_home: 'Attivo · in casa', armed_away: 'Attivo · fuori', armed_night: 'Attivo · notte', armed_vacation: 'Attivo · vacanza', armed_custom_bypass: 'Attivo · personalizzato',
+    code_for: 'Codice per {m}', go_arm: 'Attiva: {m}', go_disarm: 'Disattiva', today: 'Oggi', none_today: 'Ancora niente oggi', title: 'Sicurezza', disarmed: 'Disattivato', armed_home: 'Attivo · in casa', armed_away: 'Attivo · fuori', armed_night: 'Attivo · notte', armed_vacation: 'Attivo · vacanza', armed_custom_bypass: 'Attivo · personalizzato',
     arming: 'Attivazione… {m}', arming_s: 'Attivazione… {m} tra {s} s', pending: 'Ritardo d\'ingresso, inserisci il codice', pending_s: 'Ritardo d\'ingresso, inserisci il codice ({s} s)', triggered: 'Allarme!', unavailable: 'Non disponibile',
     m_disarmed: 'Spento', m_armed_home: 'In casa', m_armed_night: 'Notte', m_armed_away: 'Fuori', m_armed_vacation: 'Vacanza', m_armed_custom_bypass: 'Personale',
     d_disarmed: 'Disattiva', d_armed_home: 'Perimetro sorvegliato', d_armed_night: 'Per la notte', d_armed_away: 'Tutto sorvegliato', d_armed_vacation: 'Assenza lunga', d_armed_custom_bypass: 'A tua scelta',
@@ -196,6 +196,50 @@ const GSEC_STYLE = `
   .cam.motion { border-color: rgba(${GSEC_MOTION}, 0.6); box-shadow: 0 0 var(--glow) rgba(${GSEC_MOTION}, 0.35); }
   .cam.motion .badge { display: flex; }
 
+  /* compact (gsm): standen als één rij, klavier als blad dat van onderen inschuift */
+  ha-card.compact { overflow: visible; container-type: normal; gap: 14px; padding: 16px; }
+  ha-card.compact .halo { display: none; }
+  ha-card.compact .head { gap: 12px; }
+  ha-card.compact .shield { width: 52px; height: 52px; }
+  ha-card.compact .shield svg { width: 28px; height: 28px; }
+  ha-card.compact .ht .t { font-size: 22px; }
+  ha-card.compact .ht .s { font-size: 14px; }
+  ha-card.compact .since { display: none; }
+  ha-card.compact .ctl { display: block; }
+  ha-card.compact .modes { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 6px; padding: 6px; border-radius: 22px; background: var(--glow-surface, rgba(255,255,255,0.05)); border: 1px solid ${GSEC_LINE}; }
+  ha-card.compact .hint { display: none; }
+  ha-card.compact .mode { height: 50px; padding: 0 4px; justify-content: center; border-radius: 17px; border-color: transparent; background: none; opacity: 1; }
+  ha-card.compact .mode .dot, ha-card.compact .mode .d { display: none; }
+  ha-card.compact .mode .n { flex: none; text-align: center; font-size: 15px; font-weight: 900; color: var(--glow-muted, #A39FB8); }
+  ha-card.compact .mode.on { border-color: rgba(var(--m), 0.6); background: rgba(var(--m), 0.2); }
+  ha-card.compact .mode.on .n { color: ${GSEC_INK('--m')}; }
+  ha-card.compact .pad { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9; max-width: 520px; margin: 0 auto; padding: 14px 22px calc(26px + env(safe-area-inset-bottom, 0px)); border-radius: 28px 28px 0 0; background: var(--glow-sheet, #1A1729); border: 1px solid ${GSEC_LINE}; border-bottom: 0; gap: 12px; transform: translateY(110%); visibility: hidden; transition: transform 0.28s ease-out, visibility 0s linear 0.28s; box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.45); }
+  ha-card.compact.asking .pad { transform: none; visibility: visible; transition: transform 0.28s ease-out; }
+  .back { display: none; }
+  ha-card.compact.asking .back { display: block; position: fixed; inset: 0; z-index: 8; background: rgba(5, 4, 10, 0.55); }
+  .ptitle, .go, .grip { display: none; }
+  ha-card.compact .grip { display: block; align-self: center; width: 40px; height: 4px; border-radius: 2px; background: ${GSEC_LINE}; }
+  ha-card.compact .ptitle { display: block; text-align: center; font-size: 17px; font-weight: 900; }
+  ha-card.compact .key { height: 54px; font-size: 22px; border-radius: 16px; }
+  ha-card.compact .go { display: block; height: 52px; border-radius: 18px; border: 0; font-size: 16px; font-weight: 900; color: #1C1730; background: rgb(var(--g)); box-shadow: 0 0 var(--glow) rgba(var(--g), 0.6); }
+  ha-card.compact .go:disabled { opacity: 0.4; box-shadow: none; }
+  ha-card.compact .doors { display: flex; flex-wrap: wrap; gap: 6px; }
+  ha-card.compact .door { height: 34px; padding: 0 12px; border-radius: 17px; gap: 7px; }
+  ha-card.compact .door .n { flex: none; font-size: 13px; }
+  ha-card.compact .door .v { display: none; }
+  ha-card.compact .cams { grid-template-columns: minmax(0, 1fr); }
+  ha-card.compact .cam:not(.sel) { display: none; }
+  .ctabs { display: none; gap: 4px; }
+  ha-card.compact .ctabs { display: flex; }
+  .ctab { height: 30px; padding: 0 11px; border-radius: 15px; font-size: 12px; font-weight: 800; border: 1px solid ${GSEC_LINE}; background: var(--glow-surface, rgba(255,255,255,0.05)); color: var(--glow-muted, #A39FB8); }
+  .ctab.on { border-color: rgba(${GSEC_MOTION}, 0.55); background: rgba(${GSEC_MOTION}, 0.18); color: color-mix(in srgb, rgb(${GSEC_MOTION}), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .evs { display: flex; flex-direction: column; gap: 4px; }
+  .ev { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 14px; background: var(--glow-surface, rgba(255,255,255,0.05)); cursor: pointer; }
+  .ev i { width: 10px; height: 10px; border-radius: 5px; flex-shrink: 0; background: rgb(var(--e)); box-shadow: 0 0 8px rgba(var(--e), 0.9); }
+  .ev b { flex: 1; min-width: 0; font-size: 14px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ev span { font-size: 13px; font-weight: 800; opacity: 0.6; }
+  .evnone { font-size: 13px; font-weight: 700; opacity: 0.55; padding: 4px 2px; }
+
   @container (max-width: 640px) {
     .ctl { grid-template-columns: minmax(0, 1fr); }
     .doors { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -206,6 +250,9 @@ const GSEC_STYLE = `
     .doors { grid-template-columns: minmax(0, 1fr); }
   }
 `;
+
+// korte namen voor de gsm: "Opritcamera vloeiend" → "Opritcamera", "Schuifraam deursensor" → "Schuifraam"
+function gsecShort(n) { return String(n).replace(/\s+(vloeiend|duidelijk|fluent|clear|deursensor|raamsensor|contact|sensor)$/i, '').trim(); }
 
 class GlowSecurityCard extends HTMLElement {
   constructor() {
@@ -333,22 +380,36 @@ class GlowSecurityCard extends HTMLElement {
           <span class="since"></span>
         </div>
         <div class="ctl">
+          <div class="back"></div>
           <div class="pad">
+            <span class="grip"></span><span class="ptitle"></span>
             <div class="dots"></div>
             <div class="keys">${['1', '2', '3', '4', '5', '6', '7', '8', '9', '✕', '0', '⌫'].map((k) => `<button class="key${k === '✕' || k === '⌫' ? ' fn' : ''}" type="button" data-k="${k}">${k}</button>`).join('')}</div>
+            <button class="go" type="button"></button>
           </div>
           <div class="modes"><span class="hint"></span></div>
         </div>
         <div class="sec openings"><div class="sh"><span class="lab"></span><span class="cnt"></span></div><div class="doors"></div></div>
-        <div class="sec cameras"><div class="sh"><span class="lab"></span></div><div class="cams"></div></div>
+        <div class="sec cameras"><div class="sh"><span class="lab"></span><div class="ctabs"></div></div><div class="cams"></div></div>
+        <div class="sec events" style="display:none"><div class="sh"><span class="lab"></span></div><div class="evs"></div></div>
       </ha-card>`;
     const r = this.shadowRoot;
     this._card = r.querySelector('ha-card');
+    this._card.classList.toggle('compact', this._compact());
+    r.querySelector('.back').addEventListener('click', () => this._closeSheet());
+    r.querySelector('.go').addEventListener('click', () => { const k = this._asking; this._closeSheet(true); if (k) this._choose(k); });
+    r.querySelector('.ctabs').addEventListener('click', (e) => { const b = e.target.closest('.ctab'); if (b) { this._cam = b.dataset.e; this._renderLists(); } });
+    r.querySelector('.evs').addEventListener('click', (e) => { const b = e.target.closest('.ev'); if (b) this._moreInfo(b.dataset.e); });
     r.querySelector('.shield').addEventListener('click', () => this._moreInfo(this._config.entity));
     r.querySelectorAll('.key').forEach((b) => b.addEventListener('click', () => this._press(b.dataset.k)));
     r.querySelector('.modes').addEventListener('click', (e) => {
       const b = e.target.closest('.mode');
-      if (b) this._choose(b.dataset.k);
+      if (!b) return;
+      const k = b.dataset.k;
+      const a = this._alarm();
+      // op de gsm: eerst de stand kiezen, dan schuift het klavier in
+      if (this._compact() && a && a.state !== k && this._needsCode(k)) { this._openSheet(k); return; }
+      this._choose(k);
     });
     r.querySelector('.doors').addEventListener('click', (e) => {
       const d = e.target.closest('.door');
@@ -363,6 +424,20 @@ class GlowSecurityCard extends HTMLElement {
     this._builtLang = this._lang();
   }
 
+  _compact() { return this._config && this._config.layout === 'compact'; }
+  _openSheet(k) {
+    this._asking = k;
+    this._code = '';
+    this._card.classList.add('asking');
+    this._renderPad();
+  }
+  _closeSheet(keepCode) {
+    this._asking = null;
+    if (!keepCode) this._code = '';
+    if (this._card) this._card.classList.remove('asking');
+    this._renderPad();
+  }
+
   _moreInfo(entity) {
     if (!entity) return;
     this.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: entity }, bubbles: true, composed: true }));
@@ -371,6 +446,7 @@ class GlowSecurityCard extends HTMLElement {
   /* ---- klavier en standen ---- */
 
   _press(k) {
+    if (k === '✕' && !this._code && this._asking) { this._closeSheet(); return; }
     if (k === '✕') this._code = '';
     else if (k === '⌫') this._code = this._code.slice(0, -1);
     else if (this._code.length < 12) this._code += k;
@@ -427,6 +503,15 @@ class GlowSecurityCard extends HTMLElement {
     hint.classList.toggle('bad', !!this._error);
     hint.style.setProperty('--bad', GSEC_ALARM);
     r.querySelector('.modes').classList.toggle('ready', n > 0);
+    if (this._compact()) {
+      const k = this._asking;
+      const name = k ? this._t('m_' + k) : '';
+      r.querySelector('.ptitle').textContent = k ? this._t('code_for', { m: name }) : '';
+      const go = r.querySelector('.go');
+      go.textContent = k === 'disarmed' ? this._t('go_disarm') : this._t('go_arm', { m: name });
+      go.disabled = !n;
+      go.style.setProperty('--g', k ? this._modeColor(k) : GSEC_SHUT);
+    }
   }
 
   /* ---- tekenen ---- */
@@ -496,6 +581,7 @@ class GlowSecurityCard extends HTMLElement {
       return `<button class="mode${on ? ' on' : ''}" type="button" data-k="${m.k}" style="--m:${m.c}"><span class="dot"></span><span class="n">${gsecEsc(this._t('m_' + m.k))}</span><span class="d">${gsecEsc(d)}</span></button>`;
     }).join('');
     const box = r.querySelector('.modes');
+    box.style.setProperty('--n', String(this._modes().length));
     if (this._keys.modes !== html) {
       this._keys.modes = html;
       box.querySelectorAll('.mode').forEach((b) => b.remove());
@@ -517,7 +603,7 @@ class GlowSecurityCard extends HTMLElement {
       const s = st[e];
       const o = this._openState(s, e);
       if (o.open) nOpen++;
-      return `<div class="door${o.open ? ' open' : ''}${o.na ? ' na' : ''}" data-e="${gsecEsc(e)}"><span class="dot"></span><span class="n">${gsecEsc(s.attributes.friendly_name || e)}</span><span class="v">${gsecEsc(o.label)}</span></div>`;
+      return `<div class="door${o.open ? ' open' : ''}${o.na ? ' na' : ''}" data-e="${gsecEsc(e)}"><span class="dot"></span><span class="n">${gsecEsc(this._compact() ? gsecShort(s.attributes.friendly_name || e) : s.attributes.friendly_name || e)}</span><span class="v">${gsecEsc(o.label)}</span></div>`;
     }).join('');
     this._set(sec.querySelector('.doors'), 'doors', doors);
     const cnt = sec.querySelector('.cnt');
@@ -530,6 +616,11 @@ class GlowSecurityCard extends HTMLElement {
     csec.style.display = cams.length ? '' : 'none';
     csec.querySelector('.lab').textContent = this._t('cameras');
     const grid = csec.querySelector('.cams');
+    if (this._compact()) {
+      if (!cams.some((c) => c.entity === this._cam)) this._cam = cams[0] && cams[0].entity;
+      const tabs = cams.map((c) => `<button type="button" class="ctab${c.entity === this._cam ? ' on' : ''}" data-e="${gsecEsc(c.entity)}">${gsecEsc(c.name || gsecShort(st[c.entity].attributes.friendly_name || c.entity).replace(/camera$/i, '') || c.entity)}</button>`).join('');
+      this._set(csec.querySelector('.ctabs'), 'ctabs', tabs);
+    }
     const key = JSON.stringify([cams.map((c) => c.entity), !!this._config.live, this._lang()]);
     if (this._keys.cams !== key) {
       this._keys.cams = key;
@@ -549,7 +640,8 @@ class GlowSecurityCard extends HTMLElement {
       const el = grid.querySelector(`.cam[data-e="${CSS.escape(c.entity)}"]`);
       if (!el) return;
       const s = st[c.entity];
-      el.querySelector('.n').textContent = c.name || s.attributes.friendly_name || c.entity;
+      el.classList.toggle('sel', !this._compact() || c.entity === this._cam);
+      el.querySelector('.n').textContent = c.name || (this._compact() ? gsecShort(s.attributes.friendly_name || c.entity) : s.attributes.friendly_name || c.entity);
       const m = c.motion && st[c.motion];
       const moving = !!(m && m.state === 'on');
       el.classList.toggle('motion', moving);
@@ -562,6 +654,45 @@ class GlowSecurityCard extends HTMLElement {
       }
     });
     if (!this._config.live && !this._lastSnap) this._refreshSnaps();
+    this._renderEvents();
+  }
+
+  // meldingen van vandaag (beweging, aanbellen...) uit de geschiedenis
+  _renderEvents() {
+    const ids = Array.isArray(this._config.events) ? this._config.events.filter((e) => this._hass.states[e]) : [];
+    const sec = this.shadowRoot.querySelector('.events');
+    sec.style.display = ids.length ? '' : 'none';
+    if (!ids.length) return;
+    sec.querySelector('.lab').textContent = this._t('today');
+    if (!this._evAt || Date.now() - this._evAt > 60000 || this._evKey !== ids.join(',')) {
+      this._evAt = Date.now();
+      this._evKey = ids.join(',');
+      const start = new Date(); start.setHours(0, 0, 0, 0);
+      this._hass.callApi('GET', 'history/period/' + start.toISOString() + '?filter_entity_id=' + ids.join(',') + '&minimal_response&no_attributes')
+        .then((res) => {
+          const evs = [];
+          (res || []).forEach((list) => {
+            const id = list[0] && list[0].entity_id;
+            let prev = null;
+            list.forEach((x) => {
+              const on = x.state === 'on' || (id && id.startsWith('event.') && x.state && x.state !== 'unavailable' && x.state !== 'unknown');
+              if (on && prev !== null && prev !== x.state) evs.push({ id, t: Date.parse(x.last_changed) });
+              prev = x.state;
+            });
+          });
+          this._events = evs.sort((a, b) => b.t - a.t).slice(0, parseInt(this._config.events_max, 10) || 4);
+          this._drawEvents();
+        }).catch(() => {});
+    }
+    this._drawEvents();
+  }
+  _drawEvents() {
+    const box = this.shadowRoot.querySelector('.evs');
+    const st = this._hass.states;
+    const col = (id) => { const dc = (st[id] && st[id].attributes.device_class) || ''; return /person|occupancy|presence/.test(dc + id) ? '185, 168, 255' : /vehicle|car|voertuig/.test(dc + id) ? '142, 197, 255' : /animal|pet|dier/.test(id) ? '143, 227, 184' : id.startsWith('event.') ? '255, 224, 138' : '255, 159, 191'; };
+    const html = !this._events ? '' : !this._events.length ? `<div class="evnone">${gsecEsc(this._t('none_today'))}</div>`
+      : this._events.map((e) => `<div class="ev" data-e="${gsecEsc(e.id)}" style="--e:${col(e.id)}"><i></i><b>${gsecEsc((st[e.id] && st[e.id].attributes.friendly_name) || e.id)}</b><span>${gsecEsc(this._fmtTime(new Date(e.t)))}</span></div>`).join('');
+    this._set(box, 'events', html);
   }
 
   // live beeld via het eigen camera-element van Home Assistant
