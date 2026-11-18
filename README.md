@@ -25,6 +25,7 @@ A family of glowing Home Assistant dashboard cards, installed together through H
 | **Glow Batteries Card** – the batteries of all your devices: replace now, soon, and devices that stopped reporting. | ![](images/batteries.png) | [English](docs/batteries.md) · [Nederlands](docs/batteries.nl.md) |
 | **Glow Home Card** – the whole house on one phone screen: rooms as glowing orbs, what is going on, scenes and energy. | ![](images/home.png) | [English](docs/home.md) · [Nederlands](docs/home.nl.md) |
 | **Glow Lights Card** – lights for phones: one row per room, drag brightness, expand the lights. | ![](images/lights.png) | [English](docs/lights.md) · [Nederlands](docs/lights.nl.md) |
+| **Glow Schedule Card** – all schedules in one card (Scheduler and schedule helpers): timelines, days, blocks and sunset. | ![](images/schedule.png) | [English](docs/schedule.md) · [Nederlands](docs/schedule.nl.md) |
 | **Glow Scenes Card** – Scene presets scenes with their images, your own light selection, shared favourites and dynamic scenes. | ![](images/scenes.png) | [English](docs/scenes.md) · [Nederlands](docs/scenes.nl.md) |
 
 All cards share the same look, support six languages (English, Dutch, French, German, Spanish, Italian) and have a visual editor.

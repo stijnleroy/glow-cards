@@ -230,6 +230,13 @@ class GlowThermostatCard extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this._built = false;
     this._pending = null;
+    // de Glow Schedule Card kan hetzelfde schema aanpassen: dan opnieuw inlezen
+    this._onExt = (e) => {
+      if (e.detail && e.detail.from === this) return;
+      if (this._saveTimer) return;
+      this._week = null;
+      if (this._pop || this._full()) this._renderPopup(true);
+    };
   }
 
   static getConfigElement() { return document.createElement('glow-thermostat-card-editor'); }
@@ -255,7 +262,8 @@ class GlowThermostatCard extends HTMLElement {
 
   getCardSize() { return this._config && this._config.layout === 'compact' ? 6 : 12; }
   getGridOptions() { return this._config && this._config.layout === 'compact' ? { columns: 6, rows: 'auto', min_columns: 6 } : { columns: 'full', rows: 'auto', min_columns: 6 }; }
-  disconnectedCallback() { this._closePopup(); }
+  connectedCallback() { window.addEventListener('glow-schedule-changed', this._onExt); }
+  disconnectedCallback() { window.removeEventListener('glow-schedule-changed', this._onExt); this._closePopup(); }
 
   _lang() { return gthLang(this._hass, this._config && this._config.language); }
   _t(k, v) { return gthT(this._lang(), k, v); }
@@ -542,6 +550,7 @@ class GlowThermostatCard extends HTMLElement {
     try {
       await this._hass.callWS(data);
       this._msg = this._t('saved');
+      window.dispatchEvent(new CustomEvent('glow-schedule-changed', { detail: { from: this } }));
     } catch (e) {
       this._msg = '';
       this._error = e && e.message ? e.message : String(e);
