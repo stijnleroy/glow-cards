@@ -29,4 +29,17 @@ type: custom:glow-schedule-card
 | `glow` | `15` | Sterkte van de gloed in px. |
 | `language` | automatisch | `nl`, `en`, `fr`, `de`, `es` of `it`. |
 
+## Met Glow Schedules (ploegen)
+
+Heb je de integratie [Glow Schedules](https://github.com/stijnleroy/glow-schedules) geïnstalleerd, dan toont de kaart bovenaan **de ploeg van deze week** (vroeg, laat of vrij) en volgende week.
+
+- **Tik op een dag** om die te wisselen, bv. bij een ruil. Een puntje toont dat de dag aangepast is.
+- **Week omwisselen** draait het patroon om; **Vakantie** laat elke dag lopen als een vrije dag.
+- Elk schema **volgt de ploeg** (eigen blokken voor vroeg, laat en vrij) of is **elke dag hetzelfde**.
+- Per blok een waarde: temperatuur bij een thermostaat, helderheid bij een lamp, stand bij een rolluik.
+- **Buiten de blokken**: spaarstand (of een andere waarde), uit, of niets doen.
+- Nieuwe schema's worden dan in Glow Schedules gemaakt. Schema's van Scheduler en schema-helpers blijven gewoon zichtbaar.
+
+De [Glow Thermostat Card](thermostat.nl.md) bewerkt dan ook het Glow Schedules-schema van haar thermostaat: je past de blokken van de ploeg van die dag aan.
+
 Onder 560 px breed (gsm) komt de tijdbalk onder de naam.

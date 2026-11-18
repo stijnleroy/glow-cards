@@ -235,6 +235,8 @@ class GlowThermostatCard extends HTMLElement {
       if (e.detail && e.detail.from === this) return;
       if (this._saveTimer) return;
       this._week = null;
+      this._gRev = null;
+      if (this._hass) this._glowCheck();
       if (this._pop || this._full()) this._renderPopup(true);
     };
   }
@@ -255,6 +257,7 @@ class GlowThermostatCard extends HTMLElement {
   set hass(hass) {
     this._hass = hass;
     if (!this._config) return;
+    this._glowCheck();
     this._render();
     if (this._pop) this._renderPopup();
   }
@@ -274,9 +277,60 @@ class GlowThermostatCard extends HTMLElement {
 
   /* ---- helpers van het schema: standaardnamen afgeleid van de thermostaat ---- */
 
+  /* ---- Glow Schedules: staat er een schema voor deze thermostaat, dan bewerkt de kaart dat ---- */
+
+  _glowCheck() {
+    const st = this._hass.states;
+    const g = Object.keys(st).find((e) => e.startsWith('sensor.glow_schedules') && st[e].attributes.rotation);
+    if (!g) { if (this._gs) { this._gs = null; this._week = null; } return; }
+    const rev = st[g].attributes.revision + '|' + st[g].state + '|' + JSON.stringify(st[g].attributes.week);
+    if (rev === this._gRev || this._gLoading) return;
+    this._gRev = rev;
+    this._gLoading = true;
+    this._hass.callWS({ type: 'glow_schedules/get' }).then((snap) => {
+      this._gsnap = snap;
+      this._gs = (snap.schedules || []).find((x) => (x.targets || []).includes(this._config.entity)) || null;
+      if (this._gs) this._error = null;
+      this._gLoading = false;
+      if (!this._saveTimer) { this._week = null; if (this._gs) this._loadWeek(); }
+      this._render();
+      if (this._pop || this._full()) this._renderPopup(true);
+    }).catch(() => { this._gs = null; }).finally(() => { this._gLoading = false; });
+  }
+  _gEnt(v) { return typeof v === 'string' && v.includes('.') && isNaN(Number(v)) ? v : null; }
+  _gVariant(d) { const w = this._gsnap && this._gsnap.week && this._gsnap.week[d]; return this._gs.mode === 'shift' ? (w ? w.shift : 'free') : 'all'; }
+  _gMin(t, end) {
+    const s = String(t || '').toLowerCase();
+    const m = /^(sunrise|sunset)\s*(?:([+-])\s*(\d+))?$/.exec(s);
+    const sun = this._gsnap && this._gsnap.sun;
+    if (m) return Math.max(0, Math.min(1440, ((sun && sun[m[1]]) ?? 1080) + (m[2] === '-' ? -1 : 1) * parseInt(m[3] || '0', 10)));
+    const p = s.split(':').map((x) => parseInt(x, 10) || 0);
+    const v = p[0] * 60 + (p[1] || 0);
+    return end && v === 0 ? 1440 : v;
+  }
+  _gShiftName(d) {
+    const v = this._gVariant(d);
+    const n = { nl: { early: 'vroege ploeg', late: 'late ploeg', free: 'vrij', all: 'elke dag' }, en: { early: 'early shift', late: 'late shift', free: 'day off', all: 'every day' }, fr: { early: 'équipe du matin', late: 'équipe du soir', free: 'jour libre', all: 'chaque jour' }, de: { early: 'Frühschicht', late: 'Spätschicht', free: 'frei', all: 'jeden Tag' }, es: { early: 'turno de mañana', late: 'turno de tarde', free: 'libre', all: 'cada día' }, it: { early: 'turno del mattino', late: 'turno serale', free: 'libero', all: 'ogni giorno' } };
+    return (n[this._lang()] || n.en)[v];
+  }
+  _setActive(on) {
+    if (this._gs) {
+      this._gs.enabled = on;
+      this._hass.callWS({ type: 'glow_schedules/enable', schedule_id: this._gs.id, enabled: on }).catch((e) => { this._error = e.message || String(e); });
+    } else if (this._hasSchedule()) this._hass.callService('input_boolean', on ? 'turn_on' : 'turn_off', { entity_id: this._ids().active });
+  }
+
   _ids() {
     const c = this._config;
     const obj = c.entity.split('.')[1];
+    if (this._gs) {
+      return {
+        schedule: null,
+        comfort: c.comfort || this._gEnt(this._gs.value) || 'input_number.' + obj + '_comfort',
+        eco: c.eco || this._gEnt(this._gs.outside_value) || 'input_number.' + obj + '_spaarstand',
+        active: null,
+      };
+    }
     return {
       schedule: c.schedule || 'schedule.' + obj + '_schema',
       comfort: c.comfort || 'input_number.' + obj + '_comfort',
@@ -284,7 +338,7 @@ class GlowThermostatCard extends HTMLElement {
       active: c.active || 'input_boolean.' + obj + '_schema_actief',
     };
   }
-  _hasSchedule() { const i = this._ids(); const st = this._hass.states; return !!(st[i.schedule] && st[i.comfort] && st[i.eco] && st[i.active]); }
+  _hasSchedule() { if (this._gs) return true; const i = this._ids(); const st = this._hass.states; return !!(st[i.schedule] && st[i.comfort] && st[i.eco] && st[i.active]); }
   _num(id) { const s = this._hass.states[id]; const v = s ? parseFloat(s.state) : NaN; return isNaN(v) ? null : v; }
 
   /* ---- kaart ---- */
@@ -403,6 +457,7 @@ class GlowThermostatCard extends HTMLElement {
 
   _schedOn() {
     const i = this._ids();
+    if (this._gs) return this._gs.enabled !== false;
     return this._hasSchedule() && this._hass.states[i.active].state === 'on';
   }
 
@@ -410,15 +465,15 @@ class GlowThermostatCard extends HTMLElement {
     const id = this._config.entity;
     const i = this._ids();
     if (m === 'off') {
-      if (this._hasSchedule()) this._hass.callService('input_boolean', 'turn_off', { entity_id: i.active });
+      this._setActive(false);
       this._hass.callService('climate', 'set_hvac_mode', { entity_id: id, hvac_mode: 'off' });
     } else if (m === 'heat') {
-      if (this._hasSchedule()) this._hass.callService('input_boolean', 'turn_off', { entity_id: i.active });
+      this._setActive(false);
       this._hass.callService('climate', 'set_hvac_mode', { entity_id: id, hvac_mode: this._heatMode() });
     } else if (m === 'auto') {
       if (!this._hasSchedule()) { if (!this._full()) this._openPopup(); return; }
       this._hass.callService('climate', 'set_hvac_mode', { entity_id: id, hvac_mode: this._heatMode() });
-      this._hass.callService('input_boolean', 'turn_on', { entity_id: i.active });
+      this._setActive(true);
     }
   }
 
@@ -510,9 +565,16 @@ class GlowThermostatCard extends HTMLElement {
 
   // het schema uit Home Assistant halen
   async _loadWeek() {
+    if (this._gLoading) return; // eerst kijken of Glow Schedules dit schema beheert
+    if (this._gs) {
+      this._week = GTH_DAYS.map((x, d) => (this._gs.blocks[this._gVariant(d)] || []).map((b) => [this._gMin(b.from) / 60, this._gMin(b.to, true) / 60]).filter((b) => b[1] > b[0]).sort((x2, y) => x2[0] - y[0]));
+      this._renderPopup(true);
+      return;
+    }
     try {
       const reg = await this._hass.callWS({ type: 'config/entity_registry/get', entity_id: this._ids().schedule });
       const list = await this._hass.callWS({ type: 'schedule/list' });
+      if (this._gs) return this._loadWeek();
       const item = list.find((x) => x.id === reg.unique_id);
       if (!item) throw new Error('schedule not found');
       this._schedItem = item;
@@ -543,6 +605,39 @@ class GlowThermostatCard extends HTMLElement {
 
   async _saveWeek() {
     this._saveTimer = null;
+    if (this._gs) {
+      const hm = (h) => (h >= 24 ? '24:00' : gthHM(h));
+      const blocks = { ...this._gs.blocks };
+      const done = new Set();
+      // de bewerkte dag bepaalt de blokken van zijn ploeg; andere dagen van dezelfde ploeg volgen
+      [this._gEditDay ?? this._day].concat(GTH_DAYS.map((x, d) => d)).forEach((d) => {
+        const v = this._gVariant(d);
+        if (done.has(v)) return;
+        done.add(v);
+        const old = this._gs.blocks[v] || [];
+        blocks[v] = this._clean(this._week[d]).map((b, j) => {
+          const o = old[j] || {};
+          const out = { from: hm(b[0]), to: hm(b[1]) };
+          if (o.value !== undefined && o.value !== null) out.value = o.value;
+          return out;
+        });
+      });
+      this._gs = { ...this._gs, blocks };
+      try {
+        const pay = { id: this._gs.id, name: this._gs.name, enabled: this._gs.enabled !== false, mode: this._gs.mode, targets: this._gs.targets, blocks, outside: this._gs.outside };
+        ['value', 'outside_value', 'icon'].forEach((k) => { if (this._gs[k] !== undefined && this._gs[k] !== null) pay[k] = this._gs[k]; });
+        await this._hass.callWS({ type: 'glow_schedules/save', schedule: pay });
+        this._msg = this._t('saved');
+        window.dispatchEvent(new CustomEvent('glow-schedule-changed', { detail: { from: this } }));
+      } catch (e) {
+        this._msg = '';
+        this._error = e && e.message ? e.message : String(e);
+      }
+      this._gEditDay = null;
+      this._week = null;
+      if (this._pop || this._full()) this._renderPopup(true);
+      return;
+    }
     if (!this._schedItem || !this._week) return;
     const data = { type: 'schedule/update', schedule_id: this._schedItem.id, name: this._schedItem.name };
     if (this._schedItem.icon) data.icon = this._schedItem.icon;
@@ -567,8 +662,9 @@ class GlowThermostatCard extends HTMLElement {
     if (act === 'close') { this._closePopup(); return; }
     if (act === 'setup') { this._setup(); return; }
     if (act === 'toggle') {
-      const on = this._hass.states[i.active].state === 'on';
-      if (!on) this._setMode('auto'); else this._hass.callService('input_boolean', 'turn_off', { entity_id: i.active });
+      const on = this._schedOn();
+      if (!on) this._setMode('auto'); else this._setActive(false);
+      this._renderPopup(true);
       return;
     }
     if (act === 'temp') {
@@ -595,6 +691,13 @@ class GlowThermostatCard extends HTMLElement {
       const src = this._clean(this._week[d]);
       (d < 5 ? [0, 1, 2, 3, 4] : [5, 6]).forEach((k) => { this._week[k] = src.map((x) => x.slice()); });
     } else return;
+    if (this._gs) {
+      // dagen met dezelfde ploeg tonen meteen dezelfde blokken
+      const v = this._gVariant(d);
+      const src = this._week[d].map((x) => x.slice());
+      GTH_DAYS.forEach((x, k) => { if (k !== d && this._gVariant(k) === v) this._week[k] = src.map((y) => y.slice()); });
+      this._gEditDay = d;
+    }
     this._queueSave();
     this._renderPopup(true);
   }
@@ -602,7 +705,7 @@ class GlowThermostatCard extends HTMLElement {
   // huidige toestand van het schema in één zin
   _schedText() {
     const i = this._ids();
-    if (this._hass.states[i.active].state !== 'on') return { text: this._t('sched_off'), on: false };
+    if (!this._schedOn()) return { text: this._t('sched_off'), on: false };
     const now = new Date();
     const h = now.getHours() + now.getMinutes() / 60;
     const blocks = this._week ? this._clean(this._week[(now.getDay() + 6) % 7]) : [];
@@ -661,14 +764,14 @@ class GlowThermostatCard extends HTMLElement {
         <button class="tog${st.on ? ' on' : ''}" type="button" data-a="toggle">${gthEsc(this._t(st.on ? 'on' : 'off'))}</button>
         ${close}
       </div>
-      <div class="temps">${temp('comfort', GTH_HEAT)}${temp('eco', GTH_COOL)}</div>`;
+      ${this._hass.states[i.comfort] && this._hass.states[i.eco] ? `<div class="temps">${temp('comfort', GTH_HEAT)}${temp('eco', GTH_COOL)}</div>` : ''}`;
     const rest = `
       <div class="week">
         <div class="scale"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></div>
         ${week.map((blocks, k) => `<button class="day${k === d ? ' sel' : ''}" type="button" data-a="day" data-i="${k}"><span class="dn">${gthEsc(days[k])}</span><span class="bar">${this._clean(blocks).map((b) => `<i style="left:${(b[0] / 24 * 100).toFixed(2)}%;width:${((b[1] - b[0]) / 24 * 100).toFixed(2)}%"></i>`).join('')}${k === today ? `<b style="left:${nowPct}%"></b>` : ''}</span></button>`).join('')}
       </div>
       <div class="edit">
-        <div class="eh"><span class="dn">${gthEsc(long[d])} · ${gthEsc(this._t('comfort').toLowerCase())}</span><button class="link" type="button" data-a="copy">${gthEsc(this._t(d < 5 ? 'copy_week' : 'copy_weekend'))}</button></div>
+        <div class="eh"><span class="dn">${gthEsc(long[d])} · ${gthEsc(this._gs ? this._gShiftName(d) : this._t('comfort').toLowerCase())}</span>${this._gs ? '' : `<button class="link" type="button" data-a="copy">${gthEsc(this._t(d < 5 ? 'copy_week' : 'copy_weekend'))}</button>`}</div>
         ${week[d].map((b, j) => `<div class="blk">
           <button class="mini" type="button" data-a="mv" data-j="${j}" data-k="0" data-d="-1">−</button><span class="tm">${gthHM(b[0])}</span><button class="mini" type="button" data-a="mv" data-j="${j}" data-k="0" data-d="1">+</button>
           <span class="to">${gthEsc(this._t('until'))}</span>

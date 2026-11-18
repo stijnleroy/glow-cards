@@ -29,4 +29,17 @@ type: custom:glow-schedule-card
 | `glow` | `15` | Glow strength in px. |
 | `language` | automatic | `nl`, `en`, `fr`, `de`, `es` or `it`. |
 
+## With Glow Schedules (shifts)
+
+With the [Glow Schedules](https://github.com/stijnleroy/glow-schedules) integration installed, the card shows **this week's shift** (early, late or day off) and next week at the top.
+
+- **Tap a day** to change it, e.g. after a swap. A dot shows the day was changed.
+- **Swap week** flips the pattern; **Vacation** runs every day as a day off.
+- Each schedule **follows the shift** (own blocks for early, late and day off) or is **the same every day**.
+- A value per block: temperature for a thermostat, brightness for a light, position for a blind.
+- **Outside the blocks**: eco (or another value), off, or do nothing.
+- New schedules are then created in Glow Schedules. Scheduler schedules and schedule helpers stay visible.
+
+The [Glow Thermostat Card](thermostat.md) then edits the Glow Schedules schedule of its thermostat: you change the blocks of that day's shift.
+
 Below 560 px wide (phones) the timeline moves under the name.

@@ -25,6 +25,7 @@ const GSD_I18N = {
     no_scheduler: 'Installeer Scheduler (via HACS) om zelf schema\'s te maken.', none: "Geen schema's gevonden.",
     nw_title: 'Nieuw schema', nw_name: 'Naam', nw_device: 'Wat moet het schema sturen?', nw_pick: 'Kies een toestel', nw_create: 'Aanmaken', nw_cancel: 'Annuleren',
     l_title: 'Titel', l_entities: "Alleen deze schema's (leeg = alle)", l_exclude: 'Niet tonen', l_helpers: 'Schema-helpers tonen', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)',
+    sh_early: "Vroeg", sh_late: "Laat", sh_free: "Vrij", shift_early: "Vroege ploeg", shift_late: "Late ploeg", shift_free: "Vrij", this_week: "Deze week", next_week: "Volgende week: {s}", swap: "Week omwisselen", vac: "Vakantie", vac_off: "Vakantie uit", vac_sub: "Alles loopt als een vrije dag tot je de vakantie uitzet", shift_hint: "Tik op een dag om die te wisselen (bv. bij een ruil). Elke maandag wisselt de ploeg vanzelf.", follows: "Volgt", m_shift: "De ploeg", m_fixed: "Elke dag hetzelfde", lab_outside: "Buiten de blokken", o_eco: "Spaarstand {v}", o_value: "Waarde", o_off: "Uit", o_none: "Niets doen", copy_from: "Kopieer van {s}", no_blocks: "geen blokken", src_glow: "Glow Schedules", blocks_of: "Blokken · {s}", every_day: "Blokken · elke dag",
     description: "Alle schema's in één kaart: Scheduler en schema-helpers, met tijdbalken en bewerken.",
   },
   en: {
@@ -45,6 +46,7 @@ const GSD_I18N = {
     no_scheduler: 'Install Scheduler (via HACS) to create schedules.', none: 'No schedules found.',
     nw_title: 'New schedule', nw_name: 'Name', nw_device: 'What should it control?', nw_pick: 'Pick a device', nw_create: 'Create', nw_cancel: 'Cancel',
     l_title: 'Title', l_entities: 'Only these schedules (empty = all)', l_exclude: 'Hide', l_helpers: 'Show schedule helpers', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)',
+    sh_early: "Early", sh_late: "Late", sh_free: "Off", shift_early: "Early shift", shift_late: "Late shift", shift_free: "Day off", this_week: "This week", next_week: "Next week: {s}", swap: "Swap week", vac: "Vacation", vac_off: "End vacation", vac_sub: "Every day runs as a day off until you end the vacation", shift_hint: "Tap a day to change it (e.g. after a swap). The shift changes by itself every Monday.", follows: "Follows", m_shift: "The shift", m_fixed: "Same every day", lab_outside: "Outside the blocks", o_eco: "Eco {v}", o_value: "Value", o_off: "Off", o_none: "Do nothing", copy_from: "Copy from {s}", no_blocks: "no blocks", src_glow: "Glow Schedules", blocks_of: "Blocks · {s}", every_day: "Blocks · every day",
     description: 'All schedules in one card: Scheduler and schedule helpers, with timelines and editing.',
   },
   fr: {
@@ -65,6 +67,7 @@ const GSD_I18N = {
     no_scheduler: 'Installez Scheduler (via HACS) pour créer des programmes.', none: 'Aucun programme trouvé.',
     nw_title: 'Nouveau programme', nw_name: 'Nom', nw_device: 'Que doit-il commander ?', nw_pick: 'Choisir un appareil', nw_create: 'Créer', nw_cancel: 'Annuler',
     l_title: 'Titre', l_entities: 'Seulement ces programmes (vide = tous)', l_exclude: 'Masquer', l_helpers: 'Afficher les programmes HA', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)',
+    sh_early: "Matin", sh_late: "Soir", sh_free: "Libre", shift_early: "Équipe du matin", shift_late: "Équipe du soir", shift_free: "Jour libre", this_week: "Cette semaine", next_week: "Semaine prochaine : {s}", swap: "Inverser la semaine", vac: "Vacances", vac_off: "Fin des vacances", vac_sub: "Chaque jour est un jour libre jusqu'à la fin des vacances", shift_hint: "Touchez un jour pour le changer (p. ex. après un échange). L'équipe change seule chaque lundi.", follows: "Suit", m_shift: "L'équipe", m_fixed: "Chaque jour pareil", lab_outside: "Hors plages", o_eco: "Éco {v}", o_value: "Valeur", o_off: "Arrêt", o_none: "Rien", copy_from: "Copier de {s}", no_blocks: "aucune plage", src_glow: "Glow Schedules", blocks_of: "Plages · {s}", every_day: "Plages · chaque jour",
     description: 'Tous les programmes dans une carte : Scheduler et programmes HA, avec frises et modification.',
   },
   de: {
@@ -85,6 +88,7 @@ const GSD_I18N = {
     no_scheduler: 'Installiere Scheduler (über HACS), um Zeitpläne anzulegen.', none: 'Keine Zeitpläne gefunden.',
     nw_title: 'Neuer Zeitplan', nw_name: 'Name', nw_device: 'Was soll er steuern?', nw_pick: 'Gerät wählen', nw_create: 'Anlegen', nw_cancel: 'Abbrechen',
     l_title: 'Titel', l_entities: 'Nur diese Zeitpläne (leer = alle)', l_exclude: 'Ausblenden', l_helpers: 'Zeitplan-Helfer zeigen', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)',
+    sh_early: "Früh", sh_late: "Spät", sh_free: "Frei", shift_early: "Frühschicht", shift_late: "Spätschicht", shift_free: "Frei", this_week: "Diese Woche", next_week: "Nächste Woche: {s}", swap: "Woche tauschen", vac: "Urlaub", vac_off: "Urlaub beenden", vac_sub: "Jeder Tag läuft wie ein freier Tag, bis du den Urlaub beendest", shift_hint: "Tippe auf einen Tag, um ihn zu ändern (z. B. nach einem Tausch). Jeden Montag wechselt die Schicht von selbst.", follows: "Folgt", m_shift: "Der Schicht", m_fixed: "Jeden Tag gleich", lab_outside: "Außerhalb der Blöcke", o_eco: "Spar {v}", o_value: "Wert", o_off: "Aus", o_none: "Nichts tun", copy_from: "Von {s} kopieren", no_blocks: "keine Blöcke", src_glow: "Glow Schedules", blocks_of: "Blöcke · {s}", every_day: "Blöcke · jeden Tag",
     description: 'Alle Zeitpläne in einer Karte: Scheduler und Zeitplan-Helfer, mit Zeitleisten und Bearbeiten.',
   },
   es: {
@@ -105,6 +109,7 @@ const GSD_I18N = {
     no_scheduler: 'Instala Scheduler (vía HACS) para crear horarios.', none: 'No se encontraron horarios.',
     nw_title: 'Nuevo horario', nw_name: 'Nombre', nw_device: '¿Qué debe controlar?', nw_pick: 'Elige un dispositivo', nw_create: 'Crear', nw_cancel: 'Cancelar',
     l_title: 'Título', l_entities: 'Solo estos horarios (vacío = todos)', l_exclude: 'Ocultar', l_helpers: 'Mostrar ayudantes de horario', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)',
+    sh_early: "Mañana", sh_late: "Tarde", sh_free: "Libre", shift_early: "Turno de mañana", shift_late: "Turno de tarde", shift_free: "Libre", this_week: "Esta semana", next_week: "Próxima semana: {s}", swap: "Cambiar semana", vac: "Vacaciones", vac_off: "Terminar vacaciones", vac_sub: "Cada día funciona como día libre hasta que termines las vacaciones", shift_hint: "Toca un día para cambiarlo (p. ej. tras un cambio). El turno cambia solo cada lunes.", follows: "Sigue", m_shift: "El turno", m_fixed: "Igual cada día", lab_outside: "Fuera de los bloques", o_eco: "Ahorro {v}", o_value: "Valor", o_off: "Apagado", o_none: "Nada", copy_from: "Copiar de {s}", no_blocks: "sin bloques", src_glow: "Glow Schedules", blocks_of: "Bloques · {s}", every_day: "Bloques · cada día",
     description: 'Todos los horarios en una tarjeta: Scheduler y ayudantes de horario, con líneas de tiempo y edición.',
   },
   it: {
@@ -125,6 +130,7 @@ const GSD_I18N = {
     no_scheduler: 'Installa Scheduler (tramite HACS) per creare programmi.', none: 'Nessun programma trovato.',
     nw_title: 'Nuovo programma', nw_name: 'Nome', nw_device: 'Cosa deve comandare?', nw_pick: 'Scegli un dispositivo', nw_create: 'Crea', nw_cancel: 'Annulla',
     l_title: 'Titolo', l_entities: 'Solo questi programmi (vuoto = tutti)', l_exclude: 'Nascondi', l_helpers: 'Mostra i programmi HA', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)',
+    sh_early: "Mattina", sh_late: "Sera", sh_free: "Libero", shift_early: "Turno del mattino", shift_late: "Turno serale", shift_free: "Libero", this_week: "Questa settimana", next_week: "Prossima settimana: {s}", swap: "Inverti settimana", vac: "Vacanza", vac_off: "Fine vacanza", vac_sub: "Ogni giorno vale come giorno libero finché non termini la vacanza", shift_hint: "Tocca un giorno per cambiarlo (es. dopo uno scambio). Il turno cambia da solo ogni lunedì.", follows: "Segue", m_shift: "Il turno", m_fixed: "Uguale ogni giorno", lab_outside: "Fuori dalle fasce", o_eco: "Eco {v}", o_value: "Valore", o_off: "Spento", o_none: "Niente", copy_from: "Copia da {s}", no_blocks: "nessuna fascia", src_glow: "Glow Schedules", blocks_of: "Fasce · {s}", every_day: "Fasce · ogni giorno",
     description: 'Tutti i programmi in una scheda: Scheduler e programmi HA, con linee temporali e modifica.',
   },
 };
@@ -152,6 +158,26 @@ const GSD_KIND = {
   other: { c: '201, 196, 221', p: 'M3 5h18v16H3zM3 10h18M8 3v4M16 3v4' },
 };
 const GSD_MINT = '143, 227, 184';
+const GSD_SHIFT = { early: '255, 214, 112', late: '185, 168, 255', free: '143, 227, 184' };
+const GSD_SHIFT_ICON = { early: 'M12 3v3M5.6 5.6l2.1 2.1M3 12h3M18 12h3M16.3 7.7l2.1-2.1M7 17a5 5 0 0 1 10 0M3 20h18', late: 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z', free: 'M4 20h16M6 20v-6a6 6 0 0 1 12 0v6M12 4v2', vac: 'M2 20h20M6 20l6-14 6 14M12 6V3' };
+// Glow Schedules-tijd ("06:30", "24:00", "sunset+30") naar minuten, en een tijd verschuiven
+function gsdGMin(t, sun, end) {
+  const s = String(t || '').trim().toLowerCase();
+  const m = /^(sunrise|sunset)\s*(?:([+-])\s*(\d+))?$/.exec(s);
+  if (m) { const base = (sun && sun[m[1]]) ?? (m[1] === 'sunset' ? 1080 : 450); return Math.max(0, Math.min(1440, base + (m[2] === '-' ? -1 : 1) * parseInt(m[3] || '0', 10))); }
+  const p = s.split(':').map((x) => parseInt(x, 10) || 0);
+  const v = p[0] * 60 + (p[1] || 0);
+  return end && v === 0 ? 1440 : Math.min(1440, v);
+}
+function gsdGStep(t, d) {
+  const s = String(t || '').trim().toLowerCase();
+  const m = /^(sunrise|sunset)\s*(?:([+-])\s*(\d+))?$/.exec(s);
+  if (m) { const o = Math.max(-240, Math.min(240, (m[2] === '-' ? -1 : 1) * parseInt(m[3] || '0', 10) + d)); return m[1] + (o ? (o > 0 ? '+' : '-') + Math.abs(o) : ''); }
+  const v = Math.max(0, Math.min(1440, gsdGMin(s, null, false) + d));
+  return v >= 1440 ? '24:00' : String(Math.floor(v / 60)).padStart(2, '0') + ':' + String(v % 60).padStart(2, '0');
+}
+const gsdIsSun = (t) => /^(sunrise|sunset)/.test(String(t || ''));
+
 const GSD_THEME_VARS = ['--glow-card-background', '--glow-text', '--glow-surface', '--glow-border', '--glow-ink-amount'];
 const GSD_NEW_DOMAINS = ['light', 'switch', 'fan', 'cover', 'climate', 'input_boolean'];
 
@@ -280,6 +306,42 @@ const GSD_STYLE = `
   .go { height: 44px; padding: 0 20px; border-radius: 22px; font-weight: 800; border: 0; color: #1C1730; background: rgb(${GSD_MINT}); }
   .go[disabled] { opacity: 0.5; }
   .cancel { height: 44px; padding: 0 18px; border-radius: 22px; font-weight: 800; background: transparent; border: 1px solid var(--glow-border, rgba(255,255,255,0.15)); }
+  .shift { position: relative; display: flex; flex-direction: column; gap: 14px; padding: 16px; border-radius: 22px; background: linear-gradient(rgba(var(--s), 0.10), rgba(var(--s), 0.10)), var(--glow-card-background, #1A1726); border: 1px solid rgba(var(--s), 0.5); box-shadow: 0 0 var(--glow) rgba(var(--s), 0.2); }
+  .sh { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .so { width: 50px; height: 50px; border-radius: 25px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #1C1730; background: rgb(var(--s)); box-shadow: 0 0 var(--glow) rgba(var(--s), 0.8); }
+  .st { flex: 1; min-width: 160px; display: flex; flex-direction: column; gap: 2px; }
+  .st b { font-size: 1.4rem; font-weight: 800; line-height: 1.15; color: color-mix(in srgb, rgb(var(--s)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .st > span:last-child { font-size: 0.88rem; font-weight: 700; opacity: 0.65; }
+  .sb { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ghost { height: 40px; padding: 0 14px; border-radius: 20px; font-size: 0.88rem; font-weight: 800; background: transparent; border: 1px solid var(--glow-border, rgba(255,255,255,0.12)); }
+  .ghost[disabled] { opacity: 0.4; }
+  .ghost.vac { border-color: rgba(255, 143, 143, 0.45); color: #FF8F8F; }
+  .ghost.vac.on { background: rgba(255, 143, 143, 0.2); border-color: rgba(255, 143, 143, 0.8); }
+  .sds { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+  .sd { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 0 8px; border-radius: 16px; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); min-width: 0; }
+  .sd.today { background: rgba(var(--s), 0.14); border-color: rgba(var(--s), 0.6); }
+  .sd .dn { font-size: 0.8rem; font-weight: 800; opacity: 0.7; }
+  .sd .sc { height: 28px; padding: 0 10px; border-radius: 14px; display: inline-flex; align-items: center; font-size: 0.8rem; font-weight: 800; color: #1C1730; background: rgb(var(--s)); box-shadow: 0 0 calc(var(--glow) * 0.6) rgba(var(--s), 0.5); max-width: calc(100% - 8px); box-sizing: border-box; overflow: hidden; }
+  .sd i { width: 6px; height: 6px; border-radius: 3px; }
+  .sd i.ov { background: var(--glow-text, #F3F1FA); }
+  .tag { font-style: normal; display: inline-flex; align-items: center; height: 20px; padding: 0 8px; margin-right: 6px; border-radius: 10px; font-size: 0.75rem; font-weight: 800; color: #1C1730; background: rgb(var(--s)); vertical-align: 1px; }
+  .vts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .vt { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 16px; text-align: left; min-width: 0; overflow: hidden; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
+  .vt.sel { background: rgba(var(--s), 0.18); border-color: rgba(var(--s), 0.7); box-shadow: 0 0 calc(var(--glow) * 0.6) rgba(var(--s), 0.3); }
+  .vt i { flex-shrink: 0; width: 12px; height: 12px; border-radius: 6px; background: rgb(var(--s)); box-shadow: 0 0 8px rgba(var(--s), 0.9); }
+  .vt > span { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .vt b { font-size: 0.92rem; font-weight: 800; }
+  .vt > span > span { font-size: 0.75rem; font-weight: 700; opacity: 0.65; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .wd .wv { font-size: 0.7rem; font-weight: 800; color: color-mix(in srgb, rgb(var(--s)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .wd.off .wv { opacity: 0.5; }
+  @container (max-width: 560px) {
+    .sds { gap: 4px; }
+    .sd { padding: 8px 0 6px; border-radius: 12px; }
+    .sd .sc { padding: 0 4px; height: 22px; font-size: 0.66rem; max-width: calc(100% - 4px); }
+    .vts { grid-template-columns: minmax(0, 1fr); }
+    .sb { width: 100%; }
+    .sb .ghost { flex: 1; }
+  }
   @container (max-width: 560px) {
     ha-card { padding: 16px; gap: 14px; }
     .scale { display: none; }
@@ -308,6 +370,8 @@ class GlowScheduleCard extends HTMLElement {
     this._sched = null; // ruwe Scheduler-lijst
     this._helpers = null; // schema-helpers: { entity_id: item }
     this._edits = {}; // lokaal aangepaste schema's die nog bewaard moeten worden
+    this._gtab = {}; // gekozen ploeg per Glow-schema in de editor
+    this._glow = null;
     this._onExt = (e) => { if (!e.detail || e.detail.from !== this) { this._helpers = null; this._fetch(true); } };
   }
   static getConfigElement() { return document.createElement('glow-schedule-card-editor'); }
@@ -337,7 +401,8 @@ class GlowScheduleCard extends HTMLElement {
   // verandert er iets aan een schema in Home Assistant, dan opnieuw ophalen
   _sig() {
     const st = this._hass.states;
-    return Object.keys(st).filter((e) => e.startsWith('switch.schedule_') || e.startsWith('schedule.')).sort()
+    const g = Object.keys(st).find((e) => e.startsWith('sensor.glow_schedules') && st[e].attributes.rotation);
+    return (g ? g + st[g].state + st[g].attributes.revision + JSON.stringify(st[g].attributes.week) : '') + Object.keys(st).filter((e) => e.startsWith('switch.schedule_') || e.startsWith('schedule.')).sort()
       .map((e) => e + st[e].state + JSON.stringify(st[e].attributes.timeslots || '') + (st[e].attributes.weekdays || '') + (st[e].attributes.entities || '') + (st[e].attributes.friendly_name || '')).join('|');
   }
 
@@ -345,6 +410,7 @@ class GlowScheduleCard extends HTMLElement {
     if (this._fetching) { this._refetch = true; return; }
     this._fetching = true;
     try {
+      try { this._glow = await this._hass.callWS({ type: 'glow_schedules/get' }); } catch (e) { this._glow = null; }
       if (this._sched === null || force) {
         try { this._sched = await this._hass.callWS({ type: 'scheduler' }); this._noScheduler = false; } catch (e) { this._sched = []; this._noScheduler = true; }
       }
@@ -429,6 +495,7 @@ class GlowScheduleCard extends HTMLElement {
   _items() {
     const c = this._config;
     const out = [];
+    ((this._glow && this._glow.schedules) || []).forEach((g) => { out.push(this._edits['glow:' + g.id] || this._fromGlow(g)); });
     (this._sched || []).forEach((r) => { out.push(this._edits[r.entity_id] || this._fromScheduler(r)); });
     if (c.helpers !== false) Object.keys(this._helpers || {}).forEach((eid) => { out.push(this._edits[eid] || this._fromHelper(eid, this._helpers[eid])); });
     const only = [].concat(c.entities || []).map((x) => (typeof x === 'string' ? x : x.entity));
@@ -437,11 +504,46 @@ class GlowScheduleCard extends HTMLElement {
       .sort((a, b) => (only.length ? only.indexOf(a.key) - only.indexOf(b.key) : 0) || (a.kind === b.kind ? 0 : a.kind === 'climate' ? -1 : b.kind === 'climate' ? 1 : a.kind.localeCompare(b.kind)) || a.name.localeCompare(b.name));
   }
 
+  _fromGlow(g) {
+    const dom = (g.targets[0] || 'x.x').split('.')[0];
+    return {
+      key: 'glow:' + g.id, src: 'glow', id: g.id, raw: g, name: g.name, targets: g.targets.slice(), dom, kind: gsdKind(dom),
+      enabled: g.enabled !== false, mode: g.mode, gb: JSON.parse(JSON.stringify(g.blocks || {})),
+      outside: g.outside || 'off', outside_value: g.outside_value ?? null, value: g.value ?? null, icon: g.icon,
+    };
+  }
+  _shiftOf(d) { const w = this._glow && this._glow.week && this._glow.week[d]; return w ? w.shift : 'free'; }
+  _variant(x, d) { return x.mode === 'shift' ? this._shiftOf(d) : 'all'; }
+  _gBlocks(x, v) {
+    const sun = this._glow && this._glow.sun;
+    return (x.gb[v] || []).map((b, j) => ({ j, a: gsdGMin(b.from, sun) / 60, b: gsdGMin(b.to, sun, true) / 60, v: b.value ?? null, from: b.from, to: b.to }))
+      .filter((b) => b.b > b.a).sort((p, q) => p.a - q.a);
+  }
+  _gVal(x, v) {
+    const val = v ?? x.value;
+    if (val === null || val === undefined || val === '') return null;
+    if (typeof val === 'string' && val.includes('.') && isNaN(Number(val))) return this._num(val);
+    return parseFloat(val);
+  }
+  _gAct(x, v) {
+    const raw = v ?? x.value;
+    const n = this._gVal(x, v);
+    if (x.dom === 'climate') {
+      if (n === null || isNaN(n)) return this._t('act_on');
+      return (typeof raw === 'string' && /comfort/.test(raw) ? this._t('comfort') + ' ' : '') + this._fmtTemp(n);
+    }
+    if (x.dom === 'cover') return n === null || isNaN(n) ? this._t('act_open') : n + ' %';
+    if (x.dom === 'light' && n !== null && !isNaN(n)) return this._t('act_on') + ' ' + Math.round(n) + ' %';
+    return this._t('act_on');
+  }
   _inc(x, d) {
+    if (x.src === 'glow') return true;
     if (x.src === 'helper') return x.week[d].length > 0;
+
     return x.days === 'daily' ? true : x.days === 'workday' ? d < 5 : x.days === 'weekend' ? d >= 5 : !!x.dset[d];
   }
   _dayBlocks(x, d) {
+    if (x.src === 'glow') return this._gBlocks(x, this._variant(x, d)).map((b) => ({ a: b.a, b: b.b, v: b.v, glow: true }));
     if (x.src === 'helper') return x.week[d].map((b) => ({ a: b[0], b: b[1] }));
     return this._inc(x, d) ? x.blocks : [];
   }
@@ -465,12 +567,12 @@ class GlowScheduleCard extends HTMLElement {
   _status(x, now) {
     const today = (now.getDay() + 6) % 7;
     const h = now.getHours() + now.getMinutes() / 60;
-    const dTxt = x.src === 'helper' ? '' : this._t('d_' + x.days);
+    const dTxt = x.src === 'glow' ? (x.mode === 'shift' ? this._t('shift_' + this._shiftOf(today)) : this._t('d_daily')) : x.src === 'helper' ? '' : this._t('d_' + x.days);
     if (x.enabled === false) return { text: this._t('st_disabled', { d: dTxt || this._t('d_custom') }).replace(/ · $/, ''), on: false };
     if (!this._inc(x, today)) return { text: this._t('st_notoday', { d: dTxt }), on: false };
-    const bl = this._dayBlocks(x, today).map((b) => ({ a: this._h(b.a), b: this._h(b.b), ra: b.a, acts: b.acts })).sort((p, q) => p.a - q.a);
+    const bl = this._dayBlocks(x, today).map((b) => ({ a: this._h(b.a), b: this._h(b.b), ra: b.a, acts: b.acts, v: b.v })).sort((p, q) => p.a - q.a);
     const cur = bl.find((b) => h >= b.a && h < b.b);
-    const act = (b) => { const l = this._actLabel(x, b && b.acts); return l.charAt(0).toLowerCase() + l.slice(1); };
+    const act = (b) => { const l = x.src === 'glow' ? this._gAct(x, b && b.v) : this._actLabel(x, b && b.acts); return l.charAt(0).toLowerCase() + l.slice(1); };
     if (cur) return { text: x.src === 'helper' && !x.thermo ? this._t('st_helper_on', { t: gsdHM(cur.b) }) : this._t('st_on_until', { a: act(cur), t: gsdHM(cur.b % 24) }), on: true };
     const nx = bl.find((b) => b.a > h);
     if (!nx) return { text: this._t('st_none'), on: false, next: null };
@@ -485,7 +587,7 @@ class GlowScheduleCard extends HTMLElement {
     const c = this._config;
     const now = new Date();
     const items = this._items();
-    const key = JSON.stringify([this._filter, this._open, this._day, this._new, this._sure, this._msg, this._lang(), now.getHours(), now.getMinutes(), items.map((x) => [x.key, x.enabled, x.name, x.targets, x.days, x.dset, x.blocks, x.week, x.thermo && [this._num(x.ids.comfort), this._num(x.ids.eco)]]), this._noScheduler, c]);
+    const key = JSON.stringify([this._filter, this._open, this._day, this._new, this._sure, this._msg, this._lang(), now.getHours(), now.getMinutes(), items.map((x) => [x.key, x.enabled, x.name, x.targets, x.days, x.dset, x.blocks, x.week, x.thermo && [this._num(x.ids.comfort), this._num(x.ids.eco)]]), this._noScheduler, this._glow && [this._glow.revision, this._glow.week, this._glow.next_week, this._glow.shifts], this._gtab, items.map((x) => x.src === 'glow' ? [x.mode, x.gb, x.outside, x.outside_value] : 0), c]);
     if (key === this._key) return;
     this._key = key;
     const today = (now.getDay() + 6) % 7;
@@ -518,22 +620,23 @@ class GlowScheduleCard extends HTMLElement {
       return `<div class="item${open ? ' open' : ''}${on ? ' on' : ''}" style="--c:${k.c}">
         <div class="top" data-a="open" data-k="${gsdEsc(x.key)}">
           <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${k.p}"/></svg></span>
-          <span class="tx"><b>${gsdEsc(x.name)}</b><span class="${s.on ? 'ink' : ''}">${gsdEsc(s.text)}</span></span>
+          <span class="tx"><b>${gsdEsc(x.name)}</b><span class="${s.on ? 'ink' : ''}">${x.src === 'glow' && x.mode === 'shift' ? `<em class="tag" style="--s:${GSD_SHIFT[this._shiftOf(today)]}">${gsdEsc(this._t('sh_' + this._shiftOf(today)))}</em>` : ''}${gsdEsc(s.text)}</span></span>
           <span class="bar${incToday ? '' : ' dim'}"><u style="left:25%"></u><u style="left:50%"></u><u style="left:75%"></u>${this._dayBlocks(x, today).map((b) => seg(b)).join('')}${incToday && on ? `<b style="left:${nowPct}%"></b>` : ''}</span>
           <button type="button" class="tog${on ? ' on' : ''}${x.enabled === null ? ' none' : ''}" data-a="toggle" data-k="${gsdEsc(x.key)}" aria-label="${gsdEsc(x.name)}"></button>
         </div>
-        ${open ? this._editor(x, seg, today) : ''}
+        ${open ? (x.src === 'glow' ? this._editorGlow(x, seg, today) : this._editor(x, seg, today)) : ''}
       </div>`;
     }).join('');
 
-    const empty = !items.length && this._sched !== null ? `<div class="empty">${gsdEsc(this._t(this._noScheduler ? 'no_scheduler' : 'none'))}</div>` : '';
+    const empty = !items.length && this._sched !== null ? `<div class="empty">${gsdEsc(this._t(this._noScheduler && !this._glow ? 'no_scheduler' : 'none'))}</div>` : '';
     this.shadowRoot.innerHTML = `<style>${GSD_STYLE}</style>
       <ha-card style="--glow:${parseInt(c.glow, 10) || 0}px">
         <div class="halo"></div>
         <div class="head"><span class="hi"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4M12 13v3l2 1"/></svg></span>
           <span class="ht"><b>${gsdEsc(c.title || this._t('title'))}</b><span class="ink" style="--c:${GSD_MINT}">${gsdEsc(sub)}</span></span>
-          ${this._noScheduler ? '' : `<button type="button" class="nb" data-a="new">${gsdEsc(this._t('new'))}</button>`}</div>
+          ${this._noScheduler && !this._glow ? '' : `<button type="button" class="nb" data-a="new">${gsdEsc(this._t('new'))}</button>`}</div>
         ${this._new ? this._newPanel() : ''}
+        ${this._glow && this._glow.week ? this._shiftPanel() : ''}
         ${items.length > 1 ? `<div class="pills">${pills}</div>` : ''}
         <div class="list">
           ${shown.length ? '<div class="scale"><span><em>0</em><em>6</em><em>12</em><em>18</em><em>24</em></span></div>' : ''}
@@ -621,12 +724,173 @@ class GlowScheduleCard extends HTMLElement {
     const t = this._t.bind(this);
     const n = this._new;
     const st = this._hass.states;
-    const ents = Object.keys(st).filter((e) => GSD_NEW_DOMAINS.includes(e.split('.')[0]) && !e.startsWith('switch.schedule_')).sort((a, b) => this._fn(a).localeCompare(this._fn(b)));
+    const ents = Object.keys(st).filter((e) => GSD_NEW_DOMAINS.includes(e.split('.')[0]) && !e.startsWith('switch.schedule_') && !e.startsWith('switch.glow_schedules')).sort((a, b) => this._fn(a).localeCompare(this._fn(b)));
     return `<div class="nw"><b>${gsdEsc(t('nw_title'))}</b>
       <label>${gsdEsc(t('nw_name'))}<input type="text" value="${gsdEsc(n.name)}" autocomplete="off"></label>
       <label>${gsdEsc(t('nw_device'))}<select><option value="">${gsdEsc(t('nw_pick'))}</option>${ents.map((e) => `<option value="${gsdEsc(e)}"${e === n.entity ? ' selected' : ''}>${gsdEsc(this._fn(e))}</option>`).join('')}</select></label>
       ${n.err ? `<span class="msg err" style="text-align:left">${gsdEsc(t('err', { e: n.err }))}</span>` : ''}
       <div class="nwb"><button type="button" class="cancel" data-a="nwcancel">${gsdEsc(t('nw_cancel'))}</button><button type="button" class="go" data-a="nwcreate"${n.name.trim() && n.entity && !n.busy ? '' : ' disabled'}>${gsdEsc(t('nw_create'))}</button></div></div>`;
+  }
+
+  /* ---------- Glow Schedules: ploegpaneel en editor ---------- */
+
+  _shiftPanel() {
+    const g = this._glow;
+    const t = this._t.bind(this);
+    const today = (new Date().getDay() + 6) % 7;
+    const vac = !!(g.shifts && g.shifts.vacation && g.shifts.vacation.on);
+    const base = (g.week[0] && g.week[0].base) || 'late';
+    const cur = vac ? 'vac' : base;
+    const col = vac ? '255, 143, 143' : GSD_SHIFT[base];
+    const days = t('days');
+    const chips = g.week.map((w, d) => `<button type="button" class="sd${d === today ? ' today' : ''}" style="--s:${GSD_SHIFT[w.shift]}" data-a="sday" data-d="${d}">
+        <span class="dn">${gsdEsc(days[d])}</span><span class="sc">${gsdEsc(t('sh_' + w.shift))}</span><i class="${w.override ? 'ov' : ''}"></i></button>`).join('');
+    return `<div class="shift" style="--s:${col}">
+      <div class="sh">
+        <span class="so"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${GSD_SHIFT_ICON[cur]}"/></svg></span>
+        <span class="st"><span class="lab">${gsdEsc(t('this_week'))}</span><b>${gsdEsc(vac ? t('vac') : t('shift_' + base))}</b><span>${gsdEsc(vac ? t('vac_sub') : t('next_week', { s: t('shift_' + g.next_week).toLowerCase() }))}</span></span>
+        <span class="sb"><button type="button" class="ghost" data-a="swap"${vac ? ' disabled' : ''}>${gsdEsc(t('swap'))}</button><button type="button" class="ghost vac${vac ? ' on' : ''}" data-a="vac">${gsdEsc(t(vac ? 'vac_off' : 'vac'))}</button></span>
+      </div>
+      <div class="sds">${chips}</div>
+      <span class="note">${gsdEsc(t('shift_hint'))}</span>
+    </div>`;
+  }
+
+  _editorGlow(x, seg, today) {
+    const t = this._t.bind(this);
+    const k = gsdEsc(x.key);
+    const days = t('days');
+    const tab = x.mode === 'shift' ? (this._gtab[x.key] || this._shiftOf(today)) : 'all';
+    let html = '<div class="ed">';
+    html += `<div class="chips"><span class="lab">${gsdEsc(t('follows'))}</span>` + ['shift', 'fixed'].map((m) => `<button type="button" class="ch${x.mode === m ? ' sel' : ''}" data-a="gmode" data-k="${k}" data-v="${m}">${gsdEsc(t('m_' + m))}</button>`).join('') + '</div>';
+    if (x.mode === 'shift') {
+      html += '<div class="vts">' + ['early', 'late', 'free'].map((v) => {
+        const sum = this._gBlocks(x, v).map((b) => gsdHM(b.a) + '–' + gsdHM(b.b % 24)).join(', ') || t('no_blocks');
+        return `<button type="button" class="vt${tab === v ? ' sel' : ''}" style="--s:${GSD_SHIFT[v]}" data-a="gtab" data-k="${k}" data-v="${v}"><i></i><span><b>${gsdEsc(t('shift_' + v))}</b><span>${gsdEsc(sum)}</span></span></button>`;
+      }).join('') + '</div>';
+    }
+    html += '<div class="week">' + days.map((n, d) => {
+      const v = this._variant(x, d);
+      const dim = x.mode === 'shift' && v !== tab;
+      return `<div class="wd${d === today ? ' today' : ''}${dim ? ' off' : ''}"><span>${gsdEsc(n)}</span><span class="col">${this._dayBlocks(x, d).map((b) => seg(b, true)).join('')}</span>${x.mode === 'shift' ? `<span class="wv" style="--s:${GSD_SHIFT[v]}">${gsdEsc(t('sh_' + v))}</span>` : ''}</div>`;
+    }).join('') + '</div>';
+    const list = x.gb[tab] || [];
+    html += `<div class="blks"><span class="lab">${gsdEsc(x.mode === 'shift' ? t('blocks_of', { s: t('shift_' + tab) }) : t('every_day'))}</span>`;
+    const sun = this._glow && this._glow.sun;
+    list.forEach((b, j) => {
+      const tp = (f) => {
+        const v = b[f];
+        const isSun = gsdIsSun(v);
+        const lbl = isSun ? (() => { const m = /([+-])(\d+)/.exec(v); return t(v.startsWith('sunrise') ? 'sunrise' : 'sunset') + (m ? (m[1] === '-' ? ' −' : ' +') + m[2] : ''); })() : gsdHM(gsdGMin(v, sun, f === 'to') / 60);
+        return `<span class="tp"><button type="button" class="mini" data-a="gmv" data-k="${k}" data-j="${j}" data-f="${f}" data-d="-15">−</button><span class="tm${isSun ? ' sun' : ''}">${gsdEsc(f === 'to' && !isSun && gsdGMin(v, sun, true) >= 1440 ? '24:00' : lbl)}</span><button type="button" class="mini" data-a="gmv" data-k="${k}" data-j="${j}" data-f="${f}" data-d="15">+</button></span>`;
+      };
+      const num = x.dom === 'climate' || x.dom === 'light' || x.dom === 'cover';
+      const chip = num
+        ? `<span class="tp"><button type="button" class="mini" data-a="gval" data-k="${k}" data-j="${j}" data-d="-1">−</button><span class="act">${gsdEsc(this._gAct(x, b.value))}</span><button type="button" class="mini" data-a="gval" data-k="${k}" data-j="${j}" data-d="1">+</button></span>`
+        : `<span class="act">${gsdEsc(this._gAct(x, b.value))}</span>`;
+      html += `<div class="blk">${tp('from')}<span class="to">${gsdEsc(t('until'))}</span>${tp('to')}<span class="gap"></span>${chip}<button type="button" class="mini" data-a="grm" data-k="${k}" data-j="${j}" aria-label="✕">✕</button></div>`;
+    });
+    const other = tab === 'early' ? 'late' : 'early';
+    html += `<div class="adds"><button type="button" class="add" data-a="gadd" data-k="${k}">${gsdEsc(t('add_block'))}</button><button type="button" class="add" data-a="gaddsun" data-k="${k}">${gsdEsc(t('add_sun'))}</button>${x.mode === 'shift' ? `<button type="button" class="add" data-a="gcopy" data-k="${k}" data-v="${other}">${gsdEsc(t('copy_from', { s: t('sh_' + other).toLowerCase() }))}</button>` : ''}</div></div>`;
+    // buiten de blokken
+    const outs = x.dom === 'climate' || x.dom === 'light' || x.dom === 'cover' ? ['value', 'off', 'none'] : ['off', 'none'];
+    const ov = this._gVal(x, x.outside_value ?? (x.dom === 'climate' ? 17 : null));
+    const ol = (o) => o === 'value' ? (x.dom === 'climate' ? t('o_eco', { v: this._fmtTemp(ov) }) : t('o_value') + (ov !== null && !isNaN(ov) ? ' ' + Math.round(ov) + ' %' : '')) : t('o_' + o);
+    html += `<div class="chips"><span class="lab">${gsdEsc(t('lab_outside'))}</span>` + outs.map((o) => `<button type="button" class="ch${x.outside === o ? ' sel' : ''}" data-a="gout" data-k="${k}" data-v="${o}">${gsdEsc(ol(o))}</button>`).join('');
+    if (x.outside === 'value' && typeof x.outside_value !== 'string') html += `<button type="button" class="mini" data-a="goval" data-k="${k}" data-d="-1">−</button><button type="button" class="mini" data-a="goval" data-k="${k}" data-d="1">+</button>`;
+    html += '</div>';
+    // stuurt + verwijderen
+    html += '<div class="foot">';
+    html += `<span class="lab">${gsdEsc(t('drives'))}</span>`;
+    if (x.targets.length === 1) {
+      const dom = x.targets[0].split('.')[0];
+      const st = this._hass.states;
+      const opts = Object.keys(st).filter((e) => e.split('.')[0] === dom).sort((a, b) => this._fn(a).localeCompare(this._fn(b)));
+      if (!st[x.targets[0]]) opts.unshift(x.targets[0]);
+      html += `<select class="tg" data-a="target" data-k="${k}">${opts.map((e) => `<option value="${gsdEsc(e)}"${e === x.targets[0] ? ' selected' : ''}>${gsdEsc(this._fn(e))}${st[e] ? '' : ' (?)'}</option>`).join('')}</select>`;
+    } else x.targets.forEach((e) => { html += `<span class="tg">${gsdEsc(this._fn(e))}</span>`; });
+    html += `<span class="gap"></span><span class="src">${gsdEsc(t('src_glow'))}</span><button type="button" class="del${this._sure === x.key ? ' sure' : ''}" data-a="del" data-k="${k}">${gsdEsc(t(this._sure === x.key ? 'del_sure' : 'del'))}</button></div>`;
+    const m = this._msg && this._msg.k === x.key ? this._msg : null;
+    html += `<span class="msg${m && m.err ? ' err' : ''}">${gsdEsc(m ? m.text : '')}</span></div>`;
+    return html;
+  }
+
+  // klikken binnen de Glow Schedules-delen; true als het afgehandeld is
+  _clickGlow(a, b, k) {
+    const ws = (m) => this._hass.callWS(m).then((r) => { if (r && r.week) this._glow = { ...this._glow, ...r }; this._fetch(true); }).catch((err) => this._setMsg(k || '', err));
+    if (a === 'sday') {
+      const d = +b.dataset.d;
+      const w = this._glow.week[d];
+      if (this._glow.shifts.vacation && this._glow.shifts.vacation.on) return true;
+      const cyc = ['early', 'late', 'free'];
+      const nx = cyc[(cyc.indexOf(w.shift) + 1) % 3];
+      w.shift = nx; w.override = nx === w.base ? null : nx;
+      this._rerender();
+      ws({ type: 'glow_schedules/shift', action: 'set_day', date: w.date, shift: nx === w.base ? 'auto' : nx });
+      return true;
+    }
+    if (a === 'swap') { ws({ type: 'glow_schedules/shift', action: 'swap_week' }); return true; }
+    if (a === 'vac') { ws({ type: 'glow_schedules/shift', action: 'vacation', on: !(this._glow.shifts.vacation && this._glow.shifts.vacation.on) }); return true; }
+    if (!a.startsWith('g')) return false;
+    if (a === 'gtab') { this._gtab[k] = b.dataset.v; this._rerender(); return true; }
+    const y = this._edit(k);
+    if (!y) return true;
+    const today = (new Date().getDay() + 6) % 7;
+    const tab = y.mode === 'shift' ? (this._gtab[k] || this._shiftOf(today)) : 'all';
+    const list = (y.gb[tab] = y.gb[tab] || []);
+    const j = +b.dataset.j;
+    const step = y.dom === 'climate' ? 0.5 : y.dom === 'light' || y.dom === 'cover' ? 10 : 1;
+    const def = y.dom === 'climate' ? 21 : y.dom === 'cover' ? 100 : 100;
+    if (a === 'gmode') {
+      const v = b.dataset.v;
+      if (v === y.mode) return true;
+      if (v === 'shift') { const src = (y.gb.all || []); y.gb = { early: JSON.parse(JSON.stringify(src)), late: JSON.parse(JSON.stringify(src)), free: JSON.parse(JSON.stringify(src)) }; }
+      else { y.gb = { all: JSON.parse(JSON.stringify(y.gb[this._shiftOf(today)] || [])) }; }
+      y.mode = v;
+    } else if (a === 'gmv') {
+      const f = b.dataset.f;
+      const blk = list[j];
+      const nv = gsdGStep(blk[f], +b.dataset.d);
+      const sun = this._glow && this._glow.sun;
+      const test = { ...blk, [f]: nv };
+      if (gsdGMin(test.to, sun, true) <= gsdGMin(test.from, sun)) return true;
+      blk[f] = nv;
+    } else if (a === 'gval') {
+      const blk = list[j];
+      let cur = this._gVal(y, blk.value);
+      if (cur === null || isNaN(cur)) cur = def;
+      cur = Math.round((cur + (+b.dataset.d) * step) * 10) / 10;
+      if (y.dom === 'climate') cur = Math.max(5, Math.min(30, cur)); else cur = Math.max(y.dom === 'cover' ? 0 : 1, Math.min(100, cur));
+      blk.value = cur;
+    } else if (a === 'grm') {
+      list.splice(j, 1);
+    } else if (a === 'gadd' || a === 'gaddsun') {
+      const last = list.map((x2) => gsdGMin(x2.to, this._glow.sun, true)).sort((p, q) => p - q).pop();
+      const st = last !== undefined ? Math.min(22 * 60, last + 60) : 7 * 60;
+      const hm = (mm) => (mm >= 1440 ? '24:00' : gsdHM(mm / 60));
+      list.push(a === 'gaddsun' ? { from: 'sunset', to: '23:00' } : { from: hm(st), to: hm(Math.min(1440, st + 120)) });
+      list.sort((p, q) => gsdGMin(p.from, this._glow.sun) - gsdGMin(q.from, this._glow.sun));
+    } else if (a === 'gcopy') {
+      y.gb[tab] = JSON.parse(JSON.stringify(y.gb[b.dataset.v] || []));
+    } else if (a === 'gout') {
+      y.outside = b.dataset.v;
+      if (y.outside === 'value' && (y.outside_value === null || y.outside_value === undefined)) y.outside_value = y.dom === 'climate' ? 17 : y.dom === 'cover' ? 0 : 20;
+    } else if (a === 'goval') {
+      let cur = parseFloat(y.outside_value);
+      if (isNaN(cur)) cur = y.dom === 'climate' ? 17 : 20;
+      cur = Math.round((cur + (+b.dataset.d) * step) * 10) / 10;
+      y.outside_value = y.dom === 'climate' ? Math.max(5, Math.min(30, cur)) : Math.max(0, Math.min(100, cur));
+    } else return true;
+    this._changed(k);
+    return true;
+  }
+
+  _glowPayload(y) {
+    const out = { id: y.id, name: y.name, enabled: y.enabled !== false, mode: y.mode, targets: y.targets, blocks: y.gb, outside: y.outside };
+    if (y.value !== null && y.value !== undefined && y.value !== '') out.value = y.value;
+    if (y.outside === 'value' && y.outside_value !== null && y.outside_value !== undefined) out.outside_value = y.outside_value;
+    if (y.icon) out.icon = y.icon;
+    return out;
   }
 
   /* ---------- bediening ---------- */
@@ -649,6 +913,7 @@ class GlowScheduleCard extends HTMLElement {
     if (a === 'nwcancel') { this._new = null; this._typing = false; return this._rerender(); }
     if (a === 'nwcreate') return this._create();
     e.stopPropagation();
+    if (this._glow && this._clickGlow(a, b, k)) return;
     const x = this._item(k);
     if (!x) return;
     if (a === 'toggle') return this._toggle(x);
@@ -663,7 +928,7 @@ class GlowScheduleCard extends HTMLElement {
     if (a === 'del') {
       if (this._sure !== k) { this._sure = k; return this._rerender(); }
       this._sure = null;
-      this._hass.callService('scheduler', 'remove', { entity_id: k }).then(() => { this._open = null; this._fetch(true); }).catch((err) => this._setMsg(k, err));
+      (x.src === 'glow' ? this._hass.callWS({ type: 'glow_schedules/delete', schedule_id: x.id }) : this._hass.callService('scheduler', 'remove', { entity_id: k })).then(() => { this._open = null; this._fetch(true); }).catch((err) => this._setMsg(k, err));
       return;
     }
     if (a === 'wd') {
@@ -733,7 +998,8 @@ class GlowScheduleCard extends HTMLElement {
   _setMsg(k, err) { this._msg = { k, text: err ? this._t('err', { e: (err && (err.message || err.body && err.body.message)) || String(err) }) : this._t('saved'), err: !!err }; this._rerender(); }
 
   _toggle(x) {
-    if (x.src === 'scheduler') this._hass.callService('switch', x.enabled ? 'turn_off' : 'turn_on', { entity_id: x.key });
+    if (x.src === 'glow') this._hass.callWS({ type: 'glow_schedules/enable', schedule_id: x.id, enabled: !x.enabled }).then(() => this._fetch(true)).catch((err) => this._setMsg(x.key, err));
+    else if (x.src === 'scheduler') this._hass.callService('switch', x.enabled ? 'turn_off' : 'turn_on', { entity_id: x.key });
     else if (x.ids && this._hass.states[x.ids.active]) this._hass.callService('input_boolean', x.enabled ? 'turn_off' : 'turn_on', { entity_id: x.ids.active });
   }
 
@@ -749,7 +1015,8 @@ class GlowScheduleCard extends HTMLElement {
     for (const k of keys) {
       const y = this._edits[k];
       try {
-        if (y.src === 'helper') await this._saveHelper(y);
+        if (y.src === 'glow') await this._hass.callWS({ type: 'glow_schedules/save', schedule: this._glowPayload(y) });
+        else if (y.src === 'helper') await this._saveHelper(y);
         else await this._saveScheduler(y);
         delete this._edits[k];
         this._setMsg(k, null);
@@ -811,6 +1078,7 @@ class GlowScheduleCard extends HTMLElement {
   _setTarget(k, ent) {
     const y = this._edit(k);
     if (!y || !ent) return;
+    if (y.src === 'glow') { y.targets = [ent]; this._changed(k); return; }
     const old = y.targets[0];
     const swap = (acts) => (acts || []).forEach((a) => { if (a.entity_id === old) a.entity_id = ent; });
     y.blocks.forEach((b) => swap(b.acts));
@@ -826,6 +1094,23 @@ class GlowScheduleCard extends HTMLElement {
     this._typing = false;
     this._rerender();
     const dom = n.entity.split('.')[0];
+    if (this._glow) {
+      const blk = dom === 'climate' ? [{ from: '07:00', to: '22:00' }] : dom === 'cover' ? [{ from: '08:00', to: '21:00' }] : [{ from: '18:00', to: '23:00' }];
+      const sched = { name: n.name.trim(), mode: dom === 'climate' ? 'shift' : 'fixed', targets: [n.entity], outside: dom === 'climate' ? 'value' : 'off', blocks: dom === 'climate' ? { early: JSON.parse(JSON.stringify(blk)), late: JSON.parse(JSON.stringify(blk)), free: JSON.parse(JSON.stringify(blk)) } : { all: blk } };
+      if (dom === 'climate') { sched.value = 21; sched.outside_value = 17; }
+      try {
+        const r = await this._hass.callWS({ type: 'glow_schedules/save', schedule: sched });
+        this._new = null;
+        await this._fetch(true);
+        this._open = 'glow:' + r.id;
+        this._rerender();
+      } catch (err) {
+        n.busy = false;
+        n.err = (err && (err.message || err.body && err.body.message)) || String(err);
+        this._rerender();
+      }
+      return;
+    }
     const on = this._defaultActs([n.entity], true);
     const off = this._defaultActs([n.entity], false);
     const blocks = dom === 'climate' ? [[7, 22]] : dom === 'cover' ? [[8, 21]] : [[18, 23]];
