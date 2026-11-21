@@ -26,6 +26,11 @@ A family of glowing Home Assistant dashboard cards, installed together through H
 | **Glow Home Card** – the whole house on one phone screen: rooms as glowing orbs, what is going on, scenes and energy. | ![](images/home.png) | [English](docs/home.md) · [Nederlands](docs/home.nl.md) |
 | **Glow Lights Card** – lights for phones: one row per room, drag brightness, expand the lights. | ![](images/lights.png) | [English](docs/lights.md) · [Nederlands](docs/lights.nl.md) |
 | **Glow Schedule Card** – all schedules in one card (Scheduler and schedule helpers): timelines, days, blocks and sunset. | ![](images/schedule.png) | [English](docs/schedule.md) · [Nederlands](docs/schedule.nl.md) |
+| **Glow Calendar Card** – the coming days from your calendars, with waste collection and shifts. | ![](images/calendar.png) | [English](docs/calendar.md) · [Nederlands](docs/calendar.nl.md) |
+| **Glow Indoor Card** – temperature and humidity of every room, with warnings and 24 h history. | ![](images/indoor.png) | [English](docs/indoor.md) · [Nederlands](docs/indoor.nl.md) |
+| **Glow Fridge Card** – fridge tile: temperatures, open doors and water filter. | ![](images/fridge.png) | [English](docs/fridge.md) · [Nederlands](docs/fridge.nl.md) |
+| **Glow System Card** – Home Assistant, backup, updates, internet, Zigbee, screens and printer ink. | ![](images/system.png) | [English](docs/system.md) · [Nederlands](docs/system.nl.md) |
+| **Glow People Card** – who is where, since when, and phone battery. | ![](images/people.png) | [English](docs/people.md) · [Nederlands](docs/people.nl.md) |
 | **Glow Scenes Card** – Scene presets scenes with their images, your own light selection, shared favourites and dynamic scenes. | ![](images/scenes.png) | [English](docs/scenes.md) · [Nederlands](docs/scenes.nl.md) |
 
 All cards share the same look, support six languages (English, Dutch, French, German, Spanish, Italian) and have a visual editor.
