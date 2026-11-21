@@ -1,4 +1,4 @@
-/*! Glow Cards v1.25.0 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.26.0 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- blinds.js ---- */
 {
@@ -6455,7 +6455,7 @@ const GTH_I18N = {
   nl: {
     off: 'Uit', heating: 'Verwarmt naar {t}', idle: 'Op temperatuur', cooling: 'Koelt naar {t}', unavailable: 'Niet beschikbaar', now: 'Nu {t}',
     m_off: 'Uit', m_heat: 'Verwarmen', m_auto: 'Schema', schedule: 'Schema', colder: 'Kouder', warmer: 'Warmer',
-    comfort: 'Comfort', eco: 'Spaarstand', on: 'Aan', sched_off: 'Schema staat uit', comfort_until: 'Nu comfort tot {t}, daarna {e}', eco_until: 'Nu spaarstand tot {t}, daarna {c}', eco_all: 'Vandaag geen comfortblokken',
+    comfort: 'Comfort', eco: 'Spaarstand', on: 'Aan', manual_until: 'Met de hand tot {t}, daarna het schema', manual: 'met de hand', sched_off: 'Schema staat uit', comfort_until: 'Nu comfort tot {t}, daarna {e}', eco_until: 'Nu spaarstand tot {t}, daarna {c}', eco_all: 'Vandaag geen comfortblokken',
     days: ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'], days_long: ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'],
     until: 'tot', add_block: '+ Blok toevoegen', remove: 'Verwijderen', copy_week: 'Kopieer naar alle weekdagen', copy_weekend: 'Kopieer naar het weekend', saved: 'Opgeslagen', saving: 'Opslaan…',
     setup_title: 'Schema nog niet ingesteld', setup_text: 'De kaart maakt in Home Assistant een schema, twee temperaturen (comfort en spaarstand), een schakelaar "schema actief" en één automatisering aan. Daarna loopt het schema ook als de tablet uit staat.', setup_btn: 'Schema instellen', setup_busy: 'Bezig met instellen…', setup_err: 'Dat lukte niet: {e}. Dit vraagt een beheerdersaccount.',
@@ -6467,7 +6467,7 @@ const GTH_I18N = {
   en: {
     off: 'Off', heating: 'Heating to {t}', idle: 'At temperature', cooling: 'Cooling to {t}', unavailable: 'Unavailable', now: 'Now {t}',
     m_off: 'Off', m_heat: 'Heat', m_auto: 'Schedule', schedule: 'Schedule', colder: 'Colder', warmer: 'Warmer',
-    comfort: 'Comfort', eco: 'Eco', on: 'On', sched_off: 'Schedule is off', comfort_until: 'Comfort until {t}, then {e}', eco_until: 'Eco until {t}, then {c}', eco_all: 'No comfort blocks today',
+    comfort: 'Comfort', eco: 'Eco', on: 'On', manual_until: 'Manual until {t}, then the schedule', manual: 'manual', sched_off: 'Schedule is off', comfort_until: 'Comfort until {t}, then {e}', eco_until: 'Eco until {t}, then {c}', eco_all: 'No comfort blocks today',
     days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], days_long: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     until: 'to', add_block: '+ Add block', remove: 'Remove', copy_week: 'Copy to all weekdays', copy_weekend: 'Copy to the weekend', saved: 'Saved', saving: 'Saving…',
     setup_title: 'Schedule not set up yet', setup_text: 'The card creates a schedule, two temperatures (comfort and eco), a "schedule active" switch and one automation in Home Assistant. The schedule then runs even when the tablet is off.', setup_btn: 'Set up schedule', setup_busy: 'Setting up…', setup_err: 'That did not work: {e}. This needs an administrator account.',
@@ -6479,7 +6479,7 @@ const GTH_I18N = {
   fr: {
     off: 'Arrêt', heating: 'Chauffe à {t}', idle: 'À température', cooling: 'Refroidit à {t}', unavailable: 'Indisponible', now: 'Actuel {t}',
     m_off: 'Arrêt', m_heat: 'Chauffer', m_auto: 'Programme', schedule: 'Programme', colder: 'Plus froid', warmer: 'Plus chaud',
-    comfort: 'Confort', eco: 'Éco', on: 'Activé', sched_off: 'Programme désactivé', comfort_until: 'Confort jusqu\'à {t}, puis {e}', eco_until: 'Éco jusqu\'à {t}, puis {c}', eco_all: 'Pas de confort aujourd\'hui',
+    comfort: 'Confort', eco: 'Éco', on: 'Activé', manual_until: "Manuel jusqu'à {t}, puis le programme", manual: "manuel", sched_off: 'Programme désactivé', comfort_until: 'Confort jusqu\'à {t}, puis {e}', eco_until: 'Éco jusqu\'à {t}, puis {c}', eco_all: 'Pas de confort aujourd\'hui',
     days: ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'], days_long: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
     until: 'à', add_block: '+ Ajouter un bloc', remove: 'Supprimer', copy_week: 'Copier sur la semaine', copy_weekend: 'Copier sur le week-end', saved: 'Enregistré', saving: 'Enregistrement…',
     setup_title: 'Programme pas encore configuré', setup_text: 'La carte crée dans Home Assistant un programme, deux températures (confort et éco), un interrupteur « programme actif » et une automatisation. Le programme tourne ensuite même si la tablette est éteinte.', setup_btn: 'Configurer le programme', setup_busy: 'Configuration…', setup_err: 'Échec : {e}. Un compte administrateur est nécessaire.',
@@ -6491,7 +6491,7 @@ const GTH_I18N = {
   de: {
     off: 'Aus', heating: 'Heizt auf {t}', idle: 'Temperatur erreicht', cooling: 'Kühlt auf {t}', unavailable: 'Nicht verfügbar', now: 'Jetzt {t}',
     m_off: 'Aus', m_heat: 'Heizen', m_auto: 'Zeitplan', schedule: 'Zeitplan', colder: 'Kälter', warmer: 'Wärmer',
-    comfort: 'Komfort', eco: 'Spar', on: 'An', sched_off: 'Zeitplan ist aus', comfort_until: 'Komfort bis {t}, dann {e}', eco_until: 'Spar bis {t}, dann {c}', eco_all: 'Heute keine Komfortblöcke',
+    comfort: 'Komfort', eco: 'Spar', on: 'An', manual_until: 'Manuell bis {t}, dann der Zeitplan', manual: 'manuell', sched_off: 'Zeitplan ist aus', comfort_until: 'Komfort bis {t}, dann {e}', eco_until: 'Spar bis {t}, dann {c}', eco_all: 'Heute keine Komfortblöcke',
     days: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'], days_long: ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'],
     until: 'bis', add_block: '+ Block hinzufügen', remove: 'Entfernen', copy_week: 'Auf alle Werktage kopieren', copy_weekend: 'Aufs Wochenende kopieren', saved: 'Gespeichert', saving: 'Speichern…',
     setup_title: 'Zeitplan noch nicht eingerichtet', setup_text: 'Die Karte legt in Home Assistant einen Zeitplan, zwei Temperaturen (Komfort und Spar), einen Schalter „Zeitplan aktiv“ und eine Automatisierung an. Der Zeitplan läuft dann auch, wenn das Tablet aus ist.', setup_btn: 'Zeitplan einrichten', setup_busy: 'Wird eingerichtet…', setup_err: 'Hat nicht geklappt: {e}. Dafür ist ein Administratorkonto nötig.',
@@ -6503,7 +6503,7 @@ const GTH_I18N = {
   es: {
     off: 'Apagado', heating: 'Calentando a {t}', idle: 'A temperatura', cooling: 'Enfriando a {t}', unavailable: 'No disponible', now: 'Ahora {t}',
     m_off: 'Apagado', m_heat: 'Calentar', m_auto: 'Horario', schedule: 'Horario', colder: 'Más frío', warmer: 'Más calor',
-    comfort: 'Confort', eco: 'Ahorro', on: 'Activo', sched_off: 'Horario desactivado', comfort_until: 'Confort hasta las {t}, luego {e}', eco_until: 'Ahorro hasta las {t}, luego {c}', eco_all: 'Hoy sin bloques de confort',
+    comfort: 'Confort', eco: 'Ahorro', on: 'Activo', manual_until: 'Manual hasta las {t}, luego el horario', manual: 'manual', sched_off: 'Horario desactivado', comfort_until: 'Confort hasta las {t}, luego {e}', eco_until: 'Ahorro hasta las {t}, luego {c}', eco_all: 'Hoy sin bloques de confort',
     days: ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Do'], days_long: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
     until: 'a', add_block: '+ Añadir bloque', remove: 'Eliminar', copy_week: 'Copiar a días laborables', copy_weekend: 'Copiar al fin de semana', saved: 'Guardado', saving: 'Guardando…',
     setup_title: 'Horario aún no configurado', setup_text: 'La tarjeta crea en Home Assistant un horario, dos temperaturas (confort y ahorro), un interruptor «horario activo» y una automatización. El horario funciona aunque la tableta esté apagada.', setup_btn: 'Configurar horario', setup_busy: 'Configurando…', setup_err: 'No ha funcionado: {e}. Hace falta una cuenta de administrador.',
@@ -6515,7 +6515,7 @@ const GTH_I18N = {
   it: {
     off: 'Spento', heating: 'Riscalda a {t}', idle: 'In temperatura', cooling: 'Raffredda a {t}', unavailable: 'Non disponibile', now: 'Ora {t}',
     m_off: 'Spento', m_heat: 'Riscalda', m_auto: 'Programma', schedule: 'Programma', colder: 'Più freddo', warmer: 'Più caldo',
-    comfort: 'Comfort', eco: 'Eco', on: 'Attivo', sched_off: 'Programma spento', comfort_until: 'Comfort fino alle {t}, poi {e}', eco_until: 'Eco fino alle {t}, poi {c}', eco_all: 'Oggi nessun blocco comfort',
+    comfort: 'Comfort', eco: 'Eco', on: 'Attivo', manual_until: 'Manuale fino alle {t}, poi il programma', manual: 'manuale', sched_off: 'Programma spento', comfort_until: 'Comfort fino alle {t}, poi {e}', eco_until: 'Eco fino alle {t}, poi {c}', eco_all: 'Oggi nessun blocco comfort',
     days: ['Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa', 'Do'], days_long: ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'],
     until: 'a', add_block: '+ Aggiungi blocco', remove: 'Rimuovi', copy_week: 'Copia sui giorni feriali', copy_weekend: 'Copia sul weekend', saved: 'Salvato', saving: 'Salvataggio…',
     setup_title: 'Programma non ancora configurato', setup_text: 'La scheda crea in Home Assistant un programma, due temperature (comfort ed eco), un interruttore «programma attivo» e un\'automazione. Il programma funziona anche a tablet spento.', setup_btn: 'Configura programma', setup_busy: 'Configurazione…', setup_err: 'Non è riuscito: {e}. Serve un account amministratore.',
@@ -6910,6 +6910,18 @@ class GlowThermostatCard extends HTMLElement {
   _setMode(m) {
     const id = this._config.entity;
     const i = this._ids();
+    if (this._gs) {
+      // met Glow Schedules geldt met de hand bijsturen tot het volgende blok; het schema blijft aan
+      if (m === 'off') this._hass.callService('climate', 'set_hvac_mode', { entity_id: id, hvac_mode: 'off' });
+      else if (m === 'heat') this._hass.callService('climate', 'set_hvac_mode', { entity_id: id, hvac_mode: this._heatMode() });
+      else if (this._gs.enabled === false) this._setActive(true);
+      else {
+        this._gs.manual = false;
+        this._hass.callWS({ type: 'glow_schedules/apply', schedule_id: this._gs.id }).catch((e) => { this._error = e.message || String(e); });
+      }
+      this._render();
+      return;
+    }
     if (m === 'off') {
       this._setActive(false);
       this._hass.callService('climate', 'set_hvac_mode', { entity_id: id, hvac_mode: 'off' });
@@ -6940,7 +6952,8 @@ class GlowThermostatCard extends HTMLElement {
     this._card.classList.toggle('hot', heating || cooling);
     this._card.classList.toggle('off', off || una);
     const target = una ? null : this._target();
-    const sched = !una && !off && this._schedOn();
+    const manual = !!(this._gs && this._gs.manual && this._schedOn());
+    const sched = !una && this._schedOn() && !manual && (!off || !!this._gs);
     r.querySelector('.ht .n').textContent = c.name || a.friendly_name || c.entity;
     let st;
     if (una) st = this._t('unavailable');
@@ -6949,6 +6962,7 @@ class GlowThermostatCard extends HTMLElement {
     else if (cooling) st = this._t('cooling', { t: this._fmt(target) });
     else st = this._t('idle');
     if (sched) st += ' · ' + this._t('schedule').toLowerCase();
+    else if (manual) st += ' · ' + this._t('manual');
     r.querySelector('.ht .s').textContent = st;
 
     // draaiknop
@@ -6974,7 +6988,7 @@ class GlowThermostatCard extends HTMLElement {
     r.querySelector('.now').textContent = cur === null ? '' : this._t('now', { t: this._fmt(cur) }) + (hum !== null ? ' · ' + Math.round(hum) + '%' : '');
 
     // standen
-    const mode = una ? '' : off ? 'off' : sched ? 'auto' : 'heat';
+    const mode = una ? '' : sched ? 'auto' : off ? 'off' : 'heat';
     const seg = ['off', 'heat', 'auto'].map((m) => `<button type="button" data-m="${m}" class="${mode === m ? 'sel' + (m === 'off' ? ' offsel' : '') : ''}">${gthEsc(this._t('m_' + m))}</button>`).join('');
     if (seg !== this._segKey) { this._segKey = seg; r.querySelector('.seg').innerHTML = seg; }
     if (this._full() && !una) this._renderPopup();
@@ -7152,6 +7166,7 @@ class GlowThermostatCard extends HTMLElement {
   _schedText() {
     const i = this._ids();
     if (!this._schedOn()) return { text: this._t('sched_off'), on: false };
+    if (this._gs && this._gs.manual && this._gs.now) return { text: this._t('manual_until', { t: gthHM((this._gs.now.end % 1440) / 60) }), on: true };
     const now = new Date();
     const h = now.getHours() + now.getMinutes() / 60;
     const blocks = this._week ? this._clean(this._week[(now.getDay() + 6) % 7]) : [];
@@ -12835,7 +12850,7 @@ const GSD_I18N = {
   nl: {
     title: "Schema's", n_active: '{n} van {t} actief', next: ' · volgende: {name} om {t}', new: '+ Nieuw', p_active: '{n} actief',
     k_climate: 'Verwarming', k_light: 'Verlichting', k_switch: 'Stopcontacten', k_fan: 'Ventilatie', k_cover: 'Rolluiken', k_other: 'Overige',
-    st_disabled: 'Staat uit · {d}', st_notoday: 'Vandaag niet · {d}', st_on_until: 'Nu {a} tot {t}', st_off_next: 'Uit · {a} om {t}', st_none: 'Vandaag niets meer', st_helper_on: 'Nu aan tot {t}', st_helper_off: 'Uit · aan om {t}',
+    st_disabled: 'Staat uit · {d}', st_notoday: 'Vandaag niet · {d}', st_on_until: 'Nu {a} tot {t}', st_off_next: 'Uit · {a} om {t}', st_manual: "Met de hand tot {t}", st_none: 'Vandaag niets meer', st_helper_on: 'Nu aan tot {t}', st_helper_off: 'Uit · aan om {t}',
     d_daily: 'elke dag', d_workday: 'werkdagen', d_weekend: 'weekend', d_custom: 'eigen dagen',
     c_daily: 'Elke dag', c_workday: 'Werkdagen', c_weekend: 'Weekend', c_custom: 'Zelf kiezen',
     days: ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'], days_long: ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'],
@@ -12856,7 +12871,7 @@ const GSD_I18N = {
   en: {
     title: 'Schedules', n_active: '{n} of {t} active', next: ' · next: {name} at {t}', new: '+ New', p_active: '{n} active',
     k_climate: 'Heating', k_light: 'Lights', k_switch: 'Plugs', k_fan: 'Ventilation', k_cover: 'Blinds', k_other: 'Other',
-    st_disabled: 'Off · {d}', st_notoday: 'Not today · {d}', st_on_until: 'Now {a} until {t}', st_off_next: 'Off · {a} at {t}', st_none: 'Nothing more today', st_helper_on: 'On until {t}', st_helper_off: 'Off · on at {t}',
+    st_disabled: 'Off · {d}', st_notoday: 'Not today · {d}', st_on_until: 'Now {a} until {t}', st_off_next: 'Off · {a} at {t}', st_manual: "Manual until {t}", st_none: 'Nothing more today', st_helper_on: 'On until {t}', st_helper_off: 'Off · on at {t}',
     d_daily: 'every day', d_workday: 'workdays', d_weekend: 'weekend', d_custom: 'own days',
     c_daily: 'Every day', c_workday: 'Workdays', c_weekend: 'Weekend', c_custom: 'Choose',
     days: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], days_long: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -12877,7 +12892,7 @@ const GSD_I18N = {
   fr: {
     title: 'Programmes', n_active: '{n} sur {t} actifs', next: ' · suivant : {name} à {t}', new: '+ Nouveau', p_active: '{n} actifs',
     k_climate: 'Chauffage', k_light: 'Éclairage', k_switch: 'Prises', k_fan: 'Ventilation', k_cover: 'Volets', k_other: 'Autres',
-    st_disabled: 'Désactivé · {d}', st_notoday: "Pas aujourd'hui · {d}", st_on_until: "{a} jusqu'à {t}", st_off_next: 'Arrêt · {a} à {t}', st_none: "Plus rien aujourd'hui", st_helper_on: "Actif jusqu'à {t}", st_helper_off: 'Arrêt · actif à {t}',
+    st_disabled: 'Désactivé · {d}', st_notoday: "Pas aujourd'hui · {d}", st_on_until: "{a} jusqu'à {t}", st_off_next: 'Arrêt · {a} à {t}', st_manual: "Manuel jusqu'à {t}", st_none: "Plus rien aujourd'hui", st_helper_on: "Actif jusqu'à {t}", st_helper_off: 'Arrêt · actif à {t}',
     d_daily: 'tous les jours', d_workday: 'jours ouvrables', d_weekend: 'week-end', d_custom: 'jours choisis',
     c_daily: 'Tous les jours', c_workday: 'Ouvrables', c_weekend: 'Week-end', c_custom: 'Choisir',
     days: ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'], days_long: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
@@ -12898,7 +12913,7 @@ const GSD_I18N = {
   de: {
     title: 'Zeitpläne', n_active: '{n} von {t} aktiv', next: ' · nächster: {name} um {t}', new: '+ Neu', p_active: '{n} aktiv',
     k_climate: 'Heizung', k_light: 'Licht', k_switch: 'Steckdosen', k_fan: 'Lüftung', k_cover: 'Rollos', k_other: 'Sonstige',
-    st_disabled: 'Aus · {d}', st_notoday: 'Heute nicht · {d}', st_on_until: 'Jetzt {a} bis {t}', st_off_next: 'Aus · {a} um {t}', st_none: 'Heute nichts mehr', st_helper_on: 'An bis {t}', st_helper_off: 'Aus · an um {t}',
+    st_disabled: 'Aus · {d}', st_notoday: 'Heute nicht · {d}', st_on_until: 'Jetzt {a} bis {t}', st_off_next: 'Aus · {a} um {t}', st_manual: "Manuell bis {t}", st_none: 'Heute nichts mehr', st_helper_on: 'An bis {t}', st_helper_off: 'Aus · an um {t}',
     d_daily: 'täglich', d_workday: 'Werktage', d_weekend: 'Wochenende', d_custom: 'eigene Tage',
     c_daily: 'Täglich', c_workday: 'Werktage', c_weekend: 'Wochenende', c_custom: 'Wählen',
     days: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'], days_long: ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'],
@@ -12919,7 +12934,7 @@ const GSD_I18N = {
   es: {
     title: 'Horarios', n_active: '{n} de {t} activos', next: ' · siguiente: {name} a las {t}', new: '+ Nuevo', p_active: '{n} activos',
     k_climate: 'Calefacción', k_light: 'Luces', k_switch: 'Enchufes', k_fan: 'Ventilación', k_cover: 'Persianas', k_other: 'Otros',
-    st_disabled: 'Apagado · {d}', st_notoday: 'Hoy no · {d}', st_on_until: 'Ahora {a} hasta {t}', st_off_next: 'Apagado · {a} a las {t}', st_none: 'Nada más hoy', st_helper_on: 'Activo hasta {t}', st_helper_off: 'Apagado · activo a las {t}',
+    st_disabled: 'Apagado · {d}', st_notoday: 'Hoy no · {d}', st_on_until: 'Ahora {a} hasta {t}', st_off_next: 'Apagado · {a} a las {t}', st_manual: "Manual hasta las {t}", st_none: 'Nada más hoy', st_helper_on: 'Activo hasta {t}', st_helper_off: 'Apagado · activo a las {t}',
     d_daily: 'cada día', d_workday: 'laborables', d_weekend: 'fin de semana', d_custom: 'días propios',
     c_daily: 'Cada día', c_workday: 'Laborables', c_weekend: 'Fin de semana', c_custom: 'Elegir',
     days: ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Do'], days_long: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
@@ -12940,7 +12955,7 @@ const GSD_I18N = {
   it: {
     title: 'Programmi', n_active: '{n} di {t} attivi', next: ' · prossimo: {name} alle {t}', new: '+ Nuovo', p_active: '{n} attivi',
     k_climate: 'Riscaldamento', k_light: 'Luci', k_switch: 'Prese', k_fan: 'Ventilazione', k_cover: 'Tapparelle', k_other: 'Altro',
-    st_disabled: 'Spento · {d}', st_notoday: 'Non oggi · {d}', st_on_until: 'Ora {a} fino alle {t}', st_off_next: 'Spento · {a} alle {t}', st_none: 'Niente più oggi', st_helper_on: 'Attivo fino alle {t}', st_helper_off: 'Spento · attivo alle {t}',
+    st_disabled: 'Spento · {d}', st_notoday: 'Non oggi · {d}', st_on_until: 'Ora {a} fino alle {t}', st_off_next: 'Spento · {a} alle {t}', st_manual: "Manuale fino alle {t}", st_none: 'Niente più oggi', st_helper_on: 'Attivo fino alle {t}', st_helper_off: 'Spento · attivo alle {t}',
     d_daily: 'ogni giorno', d_workday: 'feriali', d_weekend: 'fine settimana', d_custom: 'giorni scelti',
     c_daily: 'Ogni giorno', c_workday: 'Feriali', c_weekend: 'Weekend', c_custom: 'Scegli',
     days: ['Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa', 'Do'], days_long: ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'],
@@ -13394,6 +13409,7 @@ class GlowScheduleCard extends HTMLElement {
     const h = now.getHours() + now.getMinutes() / 60;
     const dTxt = x.src === 'glow' ? (x.mode === 'shift' ? this._t('shift_' + this._shiftOf(today)) : this._t('d_daily')) : x.src === 'helper' ? '' : this._t('d_' + x.days);
     if (x.enabled === false) return { text: this._t('st_disabled', { d: dTxt || this._t('d_custom') }).replace(/ · $/, ''), on: false };
+    if (x.src === 'glow' && x.raw.manual && x.raw.now) return { text: this._t('st_manual', { t: gsdHM((x.raw.now.end % 1440) / 60) }), on: true };
     if (!this._inc(x, today)) return { text: this._t('st_notoday', { d: dTxt }), on: false };
     const bl = this._dayBlocks(x, today).map((b) => ({ a: this._h(b.a), b: this._h(b.b), ra: b.a, acts: b.acts, v: b.v })).sort((p, q) => p.a - q.a);
     const cur = bl.find((b) => h >= b.a && h < b.b);
@@ -14007,4 +14023,4 @@ if (!window.customCards.some((x) => x.type === 'glow-schedule-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.25.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.26.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');

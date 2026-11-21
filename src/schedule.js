@@ -10,7 +10,7 @@ const GSD_I18N = {
   nl: {
     title: "Schema's", n_active: '{n} van {t} actief', next: ' · volgende: {name} om {t}', new: '+ Nieuw', p_active: '{n} actief',
     k_climate: 'Verwarming', k_light: 'Verlichting', k_switch: 'Stopcontacten', k_fan: 'Ventilatie', k_cover: 'Rolluiken', k_other: 'Overige',
-    st_disabled: 'Staat uit · {d}', st_notoday: 'Vandaag niet · {d}', st_on_until: 'Nu {a} tot {t}', st_off_next: 'Uit · {a} om {t}', st_none: 'Vandaag niets meer', st_helper_on: 'Nu aan tot {t}', st_helper_off: 'Uit · aan om {t}',
+    st_disabled: 'Staat uit · {d}', st_notoday: 'Vandaag niet · {d}', st_on_until: 'Nu {a} tot {t}', st_off_next: 'Uit · {a} om {t}', st_manual: "Met de hand tot {t}", st_none: 'Vandaag niets meer', st_helper_on: 'Nu aan tot {t}', st_helper_off: 'Uit · aan om {t}',
     d_daily: 'elke dag', d_workday: 'werkdagen', d_weekend: 'weekend', d_custom: 'eigen dagen',
     c_daily: 'Elke dag', c_workday: 'Werkdagen', c_weekend: 'Weekend', c_custom: 'Zelf kiezen',
     days: ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'], days_long: ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'],
@@ -31,7 +31,7 @@ const GSD_I18N = {
   en: {
     title: 'Schedules', n_active: '{n} of {t} active', next: ' · next: {name} at {t}', new: '+ New', p_active: '{n} active',
     k_climate: 'Heating', k_light: 'Lights', k_switch: 'Plugs', k_fan: 'Ventilation', k_cover: 'Blinds', k_other: 'Other',
-    st_disabled: 'Off · {d}', st_notoday: 'Not today · {d}', st_on_until: 'Now {a} until {t}', st_off_next: 'Off · {a} at {t}', st_none: 'Nothing more today', st_helper_on: 'On until {t}', st_helper_off: 'Off · on at {t}',
+    st_disabled: 'Off · {d}', st_notoday: 'Not today · {d}', st_on_until: 'Now {a} until {t}', st_off_next: 'Off · {a} at {t}', st_manual: "Manual until {t}", st_none: 'Nothing more today', st_helper_on: 'On until {t}', st_helper_off: 'Off · on at {t}',
     d_daily: 'every day', d_workday: 'workdays', d_weekend: 'weekend', d_custom: 'own days',
     c_daily: 'Every day', c_workday: 'Workdays', c_weekend: 'Weekend', c_custom: 'Choose',
     days: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], days_long: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -52,7 +52,7 @@ const GSD_I18N = {
   fr: {
     title: 'Programmes', n_active: '{n} sur {t} actifs', next: ' · suivant : {name} à {t}', new: '+ Nouveau', p_active: '{n} actifs',
     k_climate: 'Chauffage', k_light: 'Éclairage', k_switch: 'Prises', k_fan: 'Ventilation', k_cover: 'Volets', k_other: 'Autres',
-    st_disabled: 'Désactivé · {d}', st_notoday: "Pas aujourd'hui · {d}", st_on_until: "{a} jusqu'à {t}", st_off_next: 'Arrêt · {a} à {t}', st_none: "Plus rien aujourd'hui", st_helper_on: "Actif jusqu'à {t}", st_helper_off: 'Arrêt · actif à {t}',
+    st_disabled: 'Désactivé · {d}', st_notoday: "Pas aujourd'hui · {d}", st_on_until: "{a} jusqu'à {t}", st_off_next: 'Arrêt · {a} à {t}', st_manual: "Manuel jusqu'à {t}", st_none: "Plus rien aujourd'hui", st_helper_on: "Actif jusqu'à {t}", st_helper_off: 'Arrêt · actif à {t}',
     d_daily: 'tous les jours', d_workday: 'jours ouvrables', d_weekend: 'week-end', d_custom: 'jours choisis',
     c_daily: 'Tous les jours', c_workday: 'Ouvrables', c_weekend: 'Week-end', c_custom: 'Choisir',
     days: ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'], days_long: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
@@ -73,7 +73,7 @@ const GSD_I18N = {
   de: {
     title: 'Zeitpläne', n_active: '{n} von {t} aktiv', next: ' · nächster: {name} um {t}', new: '+ Neu', p_active: '{n} aktiv',
     k_climate: 'Heizung', k_light: 'Licht', k_switch: 'Steckdosen', k_fan: 'Lüftung', k_cover: 'Rollos', k_other: 'Sonstige',
-    st_disabled: 'Aus · {d}', st_notoday: 'Heute nicht · {d}', st_on_until: 'Jetzt {a} bis {t}', st_off_next: 'Aus · {a} um {t}', st_none: 'Heute nichts mehr', st_helper_on: 'An bis {t}', st_helper_off: 'Aus · an um {t}',
+    st_disabled: 'Aus · {d}', st_notoday: 'Heute nicht · {d}', st_on_until: 'Jetzt {a} bis {t}', st_off_next: 'Aus · {a} um {t}', st_manual: "Manuell bis {t}", st_none: 'Heute nichts mehr', st_helper_on: 'An bis {t}', st_helper_off: 'Aus · an um {t}',
     d_daily: 'täglich', d_workday: 'Werktage', d_weekend: 'Wochenende', d_custom: 'eigene Tage',
     c_daily: 'Täglich', c_workday: 'Werktage', c_weekend: 'Wochenende', c_custom: 'Wählen',
     days: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'], days_long: ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'],
@@ -94,7 +94,7 @@ const GSD_I18N = {
   es: {
     title: 'Horarios', n_active: '{n} de {t} activos', next: ' · siguiente: {name} a las {t}', new: '+ Nuevo', p_active: '{n} activos',
     k_climate: 'Calefacción', k_light: 'Luces', k_switch: 'Enchufes', k_fan: 'Ventilación', k_cover: 'Persianas', k_other: 'Otros',
-    st_disabled: 'Apagado · {d}', st_notoday: 'Hoy no · {d}', st_on_until: 'Ahora {a} hasta {t}', st_off_next: 'Apagado · {a} a las {t}', st_none: 'Nada más hoy', st_helper_on: 'Activo hasta {t}', st_helper_off: 'Apagado · activo a las {t}',
+    st_disabled: 'Apagado · {d}', st_notoday: 'Hoy no · {d}', st_on_until: 'Ahora {a} hasta {t}', st_off_next: 'Apagado · {a} a las {t}', st_manual: "Manual hasta las {t}", st_none: 'Nada más hoy', st_helper_on: 'Activo hasta {t}', st_helper_off: 'Apagado · activo a las {t}',
     d_daily: 'cada día', d_workday: 'laborables', d_weekend: 'fin de semana', d_custom: 'días propios',
     c_daily: 'Cada día', c_workday: 'Laborables', c_weekend: 'Fin de semana', c_custom: 'Elegir',
     days: ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Do'], days_long: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
@@ -115,7 +115,7 @@ const GSD_I18N = {
   it: {
     title: 'Programmi', n_active: '{n} di {t} attivi', next: ' · prossimo: {name} alle {t}', new: '+ Nuovo', p_active: '{n} attivi',
     k_climate: 'Riscaldamento', k_light: 'Luci', k_switch: 'Prese', k_fan: 'Ventilazione', k_cover: 'Tapparelle', k_other: 'Altro',
-    st_disabled: 'Spento · {d}', st_notoday: 'Non oggi · {d}', st_on_until: 'Ora {a} fino alle {t}', st_off_next: 'Spento · {a} alle {t}', st_none: 'Niente più oggi', st_helper_on: 'Attivo fino alle {t}', st_helper_off: 'Spento · attivo alle {t}',
+    st_disabled: 'Spento · {d}', st_notoday: 'Non oggi · {d}', st_on_until: 'Ora {a} fino alle {t}', st_off_next: 'Spento · {a} alle {t}', st_manual: "Manuale fino alle {t}", st_none: 'Niente più oggi', st_helper_on: 'Attivo fino alle {t}', st_helper_off: 'Spento · attivo alle {t}',
     d_daily: 'ogni giorno', d_workday: 'feriali', d_weekend: 'fine settimana', d_custom: 'giorni scelti',
     c_daily: 'Ogni giorno', c_workday: 'Feriali', c_weekend: 'Weekend', c_custom: 'Scegli',
     days: ['Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa', 'Do'], days_long: ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'],
@@ -569,6 +569,7 @@ class GlowScheduleCard extends HTMLElement {
     const h = now.getHours() + now.getMinutes() / 60;
     const dTxt = x.src === 'glow' ? (x.mode === 'shift' ? this._t('shift_' + this._shiftOf(today)) : this._t('d_daily')) : x.src === 'helper' ? '' : this._t('d_' + x.days);
     if (x.enabled === false) return { text: this._t('st_disabled', { d: dTxt || this._t('d_custom') }).replace(/ · $/, ''), on: false };
+    if (x.src === 'glow' && x.raw.manual && x.raw.now) return { text: this._t('st_manual', { t: gsdHM((x.raw.now.end % 1440) / 60) }), on: true };
     if (!this._inc(x, today)) return { text: this._t('st_notoday', { d: dTxt }), on: false };
     const bl = this._dayBlocks(x, today).map((b) => ({ a: this._h(b.a), b: this._h(b.b), ra: b.a, acts: b.acts, v: b.v })).sort((p, q) => p.a - q.a);
     const cur = bl.find((b) => h >= b.a && h < b.b);
