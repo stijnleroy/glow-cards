@@ -1,4 +1,117 @@
-/*! Glow Cards v1.26.0 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.27.0 – https://github.com/stijnleroy/glow-cards – MIT */
+
+/* ---- kit.js ---- */
+{
+/*
+ * Glow Kit: gedeelde hulpjes voor de nieuwere Glow-kaarten (taal, escapen, kaarteditor, registratie).
+ * Elke kaart staat in een eigen blok, dus alles hier hangt aan window.GlowKit.
+ */
+window.GlowKit = window.GlowKit || (() => {
+  const LANGS = { nl: 'Nederlands', en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', it: 'Italiano' };
+  const lang = (hass, wanted, table) => {
+    let l = wanted && wanted !== 'auto' ? wanted : ((hass && ((hass.locale && hass.locale.language) || hass.language)) || (typeof navigator !== 'undefined' && navigator.language) || 'en');
+    l = String(l).toLowerCase().split(/[-_]/)[0];
+    return table[l] ? l : 'en';
+  };
+  const t = (table, l, key, vars) => {
+    let s = (table[l] && table[l][key]) ?? table.en[key] ?? key;
+    if (vars && typeof s === 'string') Object.keys(vars).forEach((k) => { s = s.split('{' + k + '}').join(vars[k]); });
+    return s;
+  };
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const num = (hass, id) => { const s = id && hass.states[id]; const v = s ? parseFloat(s.state) : NaN; return isNaN(v) ? null : v; };
+  const fmt = (l, v, d = 1) => (v === null || v === undefined || isNaN(v) ? '–' : Number(v).toLocaleString(l, { minimumFractionDigits: d, maximumFractionDigits: d }));
+  const name = (hass, id) => { const s = hass.states[id]; return (s && s.attributes.friendly_name) || id; };
+  const moreInfo = (el, id) => el.dispatchEvent(new CustomEvent('hass-more-info', { detail: { entityId: id }, bubbles: true, composed: true }));
+  const navigate = (path) => { history.pushState(null, '', path); window.dispatchEvent(new CustomEvent('location-changed', { detail: { replace: false } })); };
+  // tijd geleden in gewone taal
+  const ago = (l, iso, T) => {
+    const d = (Date.now() - new Date(iso).getTime()) / 60000;
+    if (d < 1) return T('just_now');
+    if (d < 60) return T('min_ago', { n: Math.round(d) });
+    if (d < 60 * 24) return T('h_ago', { n: Math.round(d / 60) });
+    return T('d_ago', { n: Math.round(d / 1440) });
+  };
+  const hm = (date) => String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+
+  // basis-CSS die alle nieuwe kaarten delen (zelfde stijl als de schemakaart)
+  const CSS = `
+  :host { display: block; }
+  ha-card { position: relative; overflow: hidden; box-sizing: border-box; padding: 22px; border-radius: var(--ha-card-border-radius, 26px); display: flex; flex-direction: column; gap: 16px;
+    background: var(--glow-card-background, #15121F); border: 1px solid var(--glow-card-border, rgba(255,255,255,0.08)); color: var(--glow-text, #F3F1FA); box-shadow: none; container-type: inline-size; height: 100%; }
+  button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .halo { position: absolute; left: -60px; top: -70px; width: 220px; height: 220px; border-radius: 50%; filter: blur(60px); opacity: 0.3; background: rgb(var(--a)); pointer-events: none; }
+  .ink { color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .head { position: relative; display: flex; align-items: center; gap: 16px; }
+  .hi { width: 56px; height: 56px; border-radius: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgb(var(--a)); color: #1C1730; box-shadow: 0 0 var(--glow) rgba(var(--a), 0.85); }
+  .ht { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .ht b { font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
+  .ht span { font-size: 1rem; font-weight: 700; color: color-mix(in srgb, rgb(var(--a)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .lab { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
+  .note { position: relative; font-size: 0.8rem; font-weight: 700; opacity: 0.5; }
+  .dot { width: 10px; height: 10px; border-radius: 5px; flex-shrink: 0; background: rgb(var(--c)); box-shadow: 0 0 8px rgba(var(--c), 0.9); }
+  .chip { height: 36px; padding: 0 14px; border-radius: 18px; display: inline-flex; align-items: center; gap: 8px; font-size: 0.88rem; font-weight: 800; background: transparent; border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
+  .chip.on { background: rgba(var(--c), 0.18); border-color: rgba(var(--c), 0.6); color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .empty { position: relative; font-weight: 700; opacity: 0.6; }
+  @container (max-width: 520px) { ha-card { padding: 16px; gap: 12px; } .hi { width: 46px; height: 46px; } .ht b { font-size: 1.35rem; } .ht span { font-size: 0.88rem; } }
+  `;
+  const head = (icon, title, sub) => `<div class="head"><span class="hi"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${icon}"/></svg></span><span class="ht"><b>${esc(title)}</b>${sub ? `<span>${esc(sub)}</span>` : ''}</span></div>`;
+
+  // kaarteditor op basis van ha-form; schema(hass, config, T) geeft de velden
+  const editor = (tag, table, schema, defaults = {}) => {
+    if (customElements.get(tag)) return;
+    customElements.define(tag, class extends HTMLElement {
+      setConfig(config) { this._config = { ...config }; this._render(); }
+      set hass(hass) { this._hass = hass; if (this._form) { this._form.hass = hass; } else this._render(); }
+      _render() {
+        if (!this._config || !this._hass) return;
+        const l = lang(this._hass, this._config.language, table);
+        const T = (k, v) => t(table, l, k, v);
+        if (!this._form || this._formLang !== l) {
+          this.innerHTML = '';
+          this._form = document.createElement('ha-form');
+          this._formLang = l;
+          this._form.computeLabel = (s) => T('l_' + s.name);
+          this._form.computeHelper = (s) => { const h = t(table, l, 'h_' + s.name); return h === 'h_' + s.name ? undefined : h; };
+          this._form.addEventListener('value-changed', (e) => {
+            const v = { ...e.detail.value };
+            Object.keys(v).forEach((k) => { if (v[k] === '' || v[k] === null || v[k] === undefined || (Array.isArray(v[k]) && !v[k].length) || defaults[k] === v[k]) delete v[k]; });
+            if (v.language === 'auto') delete v.language;
+            this._config = { type: this._config.type, ...v };
+            this.dispatchEvent(new CustomEvent('config-changed', { detail: { config: this._config }, bubbles: true, composed: true }));
+          });
+          this.appendChild(this._form);
+        }
+        this._form.hass = this._hass;
+        this._form.schema = schema(this._hass, this._config, T).concat([
+          { name: 'glow', selector: { number: { min: 0, max: 40, step: 1, mode: 'slider', unit_of_measurement: 'px' } } },
+          { name: 'language', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: T('lang_auto') }].concat(Object.keys(LANGS).map((k) => ({ value: k, label: LANGS[k] }))) } } },
+        ]);
+        this._form.data = { glow: 15, language: 'auto', ...defaults, ...this._config };
+      }
+    });
+  };
+  const register = (type, name, table, cls) => {
+    if (!customElements.get(type)) customElements.define(type, cls);
+    window.customCards = window.customCards || [];
+    if (!window.customCards.some((x) => x.type === type)) {
+      window.customCards.push({ type, name, description: t(table, lang(null, null, table), 'description'), preview: true, documentationURL: 'https://github.com/stijnleroy/glow-cards' });
+    }
+  };
+  // gedeelde vertalingen voor tijd en editor
+  const COMMON = {
+    nl: { just_now: 'net nu', min_ago: '{n} min geleden', h_ago: '{n} u geleden', d_ago: '{n} dagen geleden', l_glow: 'Sterkte van de gloed', l_language: 'Taal', lang_auto: 'Automatisch (taal van Home Assistant)', l_title: 'Titel' },
+    en: { just_now: 'just now', min_ago: '{n} min ago', h_ago: '{n} h ago', d_ago: '{n} days ago', l_glow: 'Glow strength', l_language: 'Language', lang_auto: 'Automatic (Home Assistant language)', l_title: 'Title' },
+    fr: { just_now: "à l'instant", min_ago: 'il y a {n} min', h_ago: 'il y a {n} h', d_ago: 'il y a {n} jours', l_glow: 'Intensité de la lueur', l_language: 'Langue', lang_auto: 'Automatique (langue de Home Assistant)', l_title: 'Titre' },
+    de: { just_now: 'gerade eben', min_ago: 'vor {n} Min.', h_ago: 'vor {n} Std.', d_ago: 'vor {n} Tagen', l_glow: 'Leuchtstärke', l_language: 'Sprache', lang_auto: 'Automatisch (Sprache von Home Assistant)', l_title: 'Titel' },
+    es: { just_now: 'ahora mismo', min_ago: 'hace {n} min', h_ago: 'hace {n} h', d_ago: 'hace {n} días', l_glow: 'Intensidad del brillo', l_language: 'Idioma', lang_auto: 'Automático (idioma de Home Assistant)', l_title: 'Título' },
+    it: { just_now: 'adesso', min_ago: '{n} min fa', h_ago: '{n} h fa', d_ago: '{n} giorni fa', l_glow: 'Intensità del bagliore', l_language: 'Lingua', lang_auto: 'Automatico (lingua di Home Assistant)', l_title: 'Titolo' },
+  };
+  const table = (own) => { const out = {}; Object.keys(COMMON).forEach((l) => { out[l] = { ...COMMON[l], ...(own[l] || {}) }; }); return out; };
+  return { LANGS, lang, t, esc, num, fmt, name, moreInfo, navigate, ago, hm, CSS, head, editor, register, table };
+})();
+
+}
 
 /* ---- blinds.js ---- */
 {
@@ -14023,4 +14136,841 @@ if (!window.customCards.some((x) => x.type === 'glow-schedule-card')) {
 
 }
 
-console.info('%c GLOW-CARDS %c v1.26.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+/* ---- calendar.js ---- */
+{
+/*
+ * Glow Calendar Card
+ * De komende dagen uit je agenda's in één overzicht: afspraken per dag, de afvalophaling als
+ * gekleurde tag en, met Glow Schedules, de ploeg van elke dag.
+ */
+const GCAL = window.GlowKit;
+const GCAL_T = GCAL.table({
+  nl: { title: 'Agenda', today: 'Vandaag', tomorrow: 'Morgen', allday: 'Hele dag', nothing: 'Niets gepland', loading: 'Agenda laden…', waste_on: '{w} {d}', waste_sub: '{w} buiten zetten', none_sub: 'Niets bijzonders de komende dagen', events_sub: '{n} afspraken deze week', sh_early: 'Vroeg', sh_late: 'Laat', sh_free: 'Vrij', more: '+{n} meer', err: 'Kon de agenda niet laden: {e}',
+    l_calendars: "Agenda's (leeg = alle)", l_waste: 'Agenda met afvalophaling', l_days: 'Aantal dagen', l_shifts: 'Ploeg van Glow Schedules tonen', l_max: 'Afspraken per dag', description: 'De komende dagen uit je agenda’s, met afvalophaling en ploeg.' },
+  en: { title: 'Calendar', today: 'Today', tomorrow: 'Tomorrow', allday: 'All day', nothing: 'Nothing planned', loading: 'Loading calendar…', waste_on: '{w} {d}', waste_sub: 'Put out {w}', none_sub: 'Nothing special in the coming days', events_sub: '{n} events this week', sh_early: 'Early', sh_late: 'Late', sh_free: 'Off', more: '+{n} more', err: 'Could not load the calendar: {e}',
+    l_calendars: 'Calendars (empty = all)', l_waste: 'Waste collection calendar', l_days: 'Number of days', l_shifts: 'Show Glow Schedules shift', l_max: 'Events per day', description: 'The coming days from your calendars, with waste collection and shifts.' },
+  fr: { title: 'Agenda', today: "Aujourd'hui", tomorrow: 'Demain', allday: 'Toute la journée', nothing: 'Rien de prévu', loading: "Chargement de l'agenda…", waste_on: '{w} {d}', waste_sub: 'Sortir : {w}', none_sub: 'Rien de spécial ces prochains jours', events_sub: '{n} rendez-vous cette semaine', sh_early: 'Matin', sh_late: 'Soir', sh_free: 'Libre', more: '+{n} de plus', err: "Impossible de charger l'agenda : {e}",
+    l_calendars: 'Agendas (vide = tous)', l_waste: 'Agenda des collectes', l_days: 'Nombre de jours', l_shifts: "Afficher l'équipe de Glow Schedules", l_max: 'Rendez-vous par jour', description: 'Les prochains jours de vos agendas, avec collectes et équipes.' },
+  de: { title: 'Kalender', today: 'Heute', tomorrow: 'Morgen', allday: 'Ganztägig', nothing: 'Nichts geplant', loading: 'Kalender wird geladen…', waste_on: '{w} {d}', waste_sub: '{w} rausstellen', none_sub: 'Nichts Besonderes in den nächsten Tagen', events_sub: '{n} Termine diese Woche', sh_early: 'Früh', sh_late: 'Spät', sh_free: 'Frei', more: '+{n} weitere', err: 'Kalender konnte nicht geladen werden: {e}',
+    l_calendars: 'Kalender (leer = alle)', l_waste: 'Müllabfuhr-Kalender', l_days: 'Anzahl Tage', l_shifts: 'Schicht von Glow Schedules zeigen', l_max: 'Termine pro Tag', description: 'Die nächsten Tage aus deinen Kalendern, mit Müllabfuhr und Schicht.' },
+  es: { title: 'Agenda', today: 'Hoy', tomorrow: 'Mañana', allday: 'Todo el día', nothing: 'Nada previsto', loading: 'Cargando agenda…', waste_on: '{w} {d}', waste_sub: 'Sacar {w}', none_sub: 'Nada especial en los próximos días', events_sub: '{n} citas esta semana', sh_early: 'Mañana', sh_late: 'Tarde', sh_free: 'Libre', more: '+{n} más', err: 'No se pudo cargar la agenda: {e}',
+    l_calendars: 'Calendarios (vacío = todos)', l_waste: 'Calendario de recogida', l_days: 'Número de días', l_shifts: 'Mostrar turno de Glow Schedules', l_max: 'Citas por día', description: 'Los próximos días de tus calendarios, con recogida de basura y turnos.' },
+  it: { title: 'Agenda', today: 'Oggi', tomorrow: 'Domani', allday: 'Tutto il giorno', nothing: 'Niente in programma', loading: 'Caricamento agenda…', waste_on: '{w} {d}', waste_sub: 'Portare fuori {w}', none_sub: 'Niente di speciale nei prossimi giorni', events_sub: '{n} appuntamenti questa settimana', sh_early: 'Mattina', sh_late: 'Sera', sh_free: 'Libero', more: '+{n} altri', err: "Impossibile caricare l'agenda: {e}",
+    l_calendars: 'Calendari (vuoto = tutti)', l_waste: 'Calendario raccolta rifiuti', l_days: 'Numero di giorni', l_shifts: 'Mostra turno di Glow Schedules', l_max: 'Appuntamenti al giorno', description: 'I prossimi giorni dai tuoi calendari, con raccolta rifiuti e turni.' },
+});
+const GCAL_ACC = '142, 197, 255';
+const GCAL_COLORS = ['255, 166, 107', '185, 168, 255', '142, 197, 255', '255, 143, 190', '255, 214, 112', '143, 227, 184'];
+const GCAL_SHIFT = { early: '255, 214, 112', late: '185, 168, 255', free: '143, 227, 184' };
+// kleur van een afvalsoort, op naam
+const gcalWaste = (s) => {
+  const n = String(s).toLowerCase();
+  if (/pmd|plastic|blik/.test(n)) return '142, 197, 255';
+  if (/gft|groen|tuin|bio|organic/.test(n)) return '143, 227, 184';
+  if (/papier|karton|paper/.test(n)) return '255, 214, 112';
+  if (/glas|glass/.test(n)) return '120, 220, 210';
+  if (/rest|huisvuil|general/.test(n)) return '201, 196, 221';
+  return '255, 166, 107';
+};
+// ploeg van een dag, zelfde regels als Glow Schedules
+const gcalMonday = (d) => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; };
+const gcalIso = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+function gcalShift(d, sh) {
+  if (!sh) return null;
+  const iso = gcalIso(d);
+  const v = sh.vacation || {};
+  if (v.on && (!v.from || iso >= v.from) && (!v.until || iso <= v.until)) return 'free';
+  const o = (sh.overrides || {})[iso];
+  if (o) return o;
+  if (sh.weekend_free !== false && (d.getDay() === 0 || d.getDay() === 6)) return 'free';
+  const rot = (sh.rotation && sh.rotation.length) ? sh.rotation : ['late', 'early'];
+  const a = sh.anchor ? new Date(sh.anchor + 'T12:00:00') : d;
+  const w = Math.round((gcalMonday(d) - gcalMonday(a)) / (7 * 864e5));
+  return rot[((w % rot.length) + rot.length) % rot.length];
+}
+
+const GCAL_CSS = GCAL.CSS + `
+  .cals { position: relative; display: flex; gap: 8px; flex-wrap: wrap; }
+  .days { position: relative; display: flex; flex-direction: column; gap: 10px; }
+  .day { display: flex; gap: 16px; padding: 14px 16px; border-radius: 20px; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
+  .day.today { background: rgba(var(--a), 0.12); border-color: rgba(var(--a), 0.5); }
+  .dl { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; flex-shrink: 0; }
+  .dl .wd { font-size: 0.8rem; font-weight: 800; opacity: 0.65; text-align: center; }
+  .day.today .dl .wd { opacity: 1; color: color-mix(in srgb, rgb(var(--a)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .dl .n { font-size: 1.75rem; font-weight: 800; line-height: 1; }
+  .sh { height: 22px; padding: 0 9px; border-radius: 11px; display: inline-flex; align-items: center; font-size: 0.75rem; font-weight: 800; color: #1C1730; background: rgb(var(--c)); }
+  .dr { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+  .ws { display: flex; gap: 8px; flex-wrap: wrap; }
+  .w { height: 30px; padding: 0 12px; border-radius: 15px; display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 800; color: #1C1730; background: rgb(var(--c)); box-shadow: 0 0 calc(var(--glow) * 0.6) rgba(var(--c), 0.6); }
+  .ev { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .ev i { width: 4px; height: 28px; border-radius: 2px; flex-shrink: 0; background: rgb(var(--c)); box-shadow: 0 0 8px rgba(var(--c), 0.7); }
+  .ev .tm { font-size: 0.92rem; font-weight: 800; font-variant-numeric: tabular-nums; min-width: 46px; opacity: 0.75; }
+  .ev .tm.ad { font-size: 0.75rem; min-width: 46px; }
+  .ev b { font-size: 1.05rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ev .gap { flex: 1; }
+  .ev .cn { font-size: 0.75rem; font-weight: 800; opacity: 0.85; white-space: nowrap; color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .nothing { font-size: 0.92rem; font-weight: 700; opacity: 0.45; }
+  .more { font-size: 0.8rem; font-weight: 800; opacity: 0.55; }
+  @container (max-width: 520px) {
+    .day { gap: 10px; padding: 10px 12px; }
+    .dl { width: 50px; }
+    .dl .n { font-size: 1.4rem; }
+    .ev { gap: 8px; }
+    .ev .cn { display: none; }
+    .ev b { font-size: 0.95rem; }
+  }
+`;
+
+class GlowCalendarCard extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); this._hide = {}; this._events = null; }
+  static getConfigElement() { return document.createElement('glow-calendar-card-editor'); }
+  static getStubConfig() { return {}; }
+  setConfig(config) { this._config = { glow: 15, days: 7, max: 4, shifts: true, ...(config || {}) }; this._events = null; this._key = null; if (this._hass) this._load(); }
+  set hass(hass) {
+    const first = !this._hass;
+    this._hass = hass;
+    const sig = this._cals().map((e) => e + (hass.states[e] ? hass.states[e].state + hass.states[e].attributes.message : '')).join('|') + this._glowSig();
+    if (first || sig !== this._sig) { this._sig = sig; this._load(); }
+    this._render();
+  }
+  connectedCallback() { this._timer = setInterval(() => this._load(), 15 * 60000); }
+  disconnectedCallback() { clearInterval(this._timer); }
+  getCardSize() { return 8; }
+  getGridOptions() { return { columns: 'full', rows: 'auto', min_columns: 6 }; }
+  _lang() { return GCAL.lang(this._hass, this._config.language, GCAL_T); }
+  _t(k, v) { return GCAL.t(GCAL_T, this._lang(), k, v); }
+  _cals() {
+    const c = [].concat(this._config.calendars || []).map((x) => (typeof x === 'string' ? x : x.entity));
+    return c.length ? c : Object.keys((this._hass && this._hass.states) || {}).filter((e) => e.startsWith('calendar.')).sort();
+  }
+  _wasteCals() {
+    const w = [].concat(this._config.waste || []);
+    if (w.length) return w;
+    return this._cals().filter((e) => /afval|waste|recycle|ophaling|garbage|trash/i.test(e + ' ' + GCAL.name(this._hass, e)));
+  }
+  _glowSig() { const st = this._hass.states; const g = Object.keys(st).find((e) => e.startsWith('sensor.glow_schedules') && st[e].attributes.rotation); return g ? String(st[g].attributes.revision) : ''; }
+
+  async _load() {
+    if (!this._hass || this._loading) return;
+    this._loading = true;
+    const days = Math.max(1, Math.min(14, parseInt(this._config.days, 10) || 7));
+    const start = new Date(); start.setHours(0, 0, 0, 0);
+    const end = new Date(start); end.setDate(end.getDate() + days);
+    try {
+      const r = await this._hass.callWS({ type: 'call_service', domain: 'calendar', service: 'get_events', service_data: { start_date_time: start.toISOString(), end_date_time: end.toISOString() }, target: { entity_id: this._cals() }, return_response: true });
+      this._events = (r && r.response) || {};
+      this._err = null;
+    } catch (e) { this._err = (e && e.message) || String(e); this._events = this._events || {}; }
+    if (this._config.shifts !== false && this._glowSig()) {
+      try { this._shifts = (await this._hass.callWS({ type: 'glow_schedules/get' })).shifts; } catch (e) { this._shifts = null; }
+    } else this._shifts = null;
+    this._loading = false;
+    this._key = null;
+    this._render();
+  }
+
+  _days() {
+    const n = Math.max(1, Math.min(14, parseInt(this._config.days, 10) || 7));
+    const start = new Date(); start.setHours(0, 0, 0, 0);
+    const cals = this._cals();
+    const waste = new Set(this._wasteCals());
+    const colorOf = {};
+    const own = [].concat(this._config.calendars || []).filter((x) => typeof x === 'object');
+    let ci = 0;
+    cals.forEach((e) => { const o = own.find((x) => x.entity === e); colorOf[e] = o && o.color ? o.color : waste.has(e) ? '143, 227, 184' : GCAL_COLORS[ci++ % GCAL_COLORS.length]; });
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const d = new Date(start); d.setDate(d.getDate() + i);
+      const dEnd = new Date(d); dEnd.setDate(dEnd.getDate() + 1);
+      const evs = [], ws = [];
+      cals.forEach((cal) => {
+        if (this._hide[cal]) return;
+        ((this._events && this._events[cal] && this._events[cal].events) || []).forEach((ev) => {
+          const allDay = !String(ev.start).includes('T');
+          const s = allDay ? new Date(ev.start + 'T00:00:00') : new Date(ev.start);
+          const e = allDay ? new Date(ev.end + 'T00:00:00') : new Date(ev.end);
+          if (!(s < dEnd && (e > d || (+e === +s && s >= d)))) return;
+          if (waste.has(cal)) ws.push(ev.summary);
+          else evs.push({ cal, title: ev.summary, allDay: allDay || (s <= d && e >= dEnd), t: s < d ? null : s, c: colorOf[cal] });
+        });
+      });
+      evs.sort((a, b) => (a.allDay === b.allDay ? (a.t || 0) - (b.t || 0) : a.allDay ? -1 : 1));
+      out.push({ d, evs, ws, shift: this._shifts ? gcalShift(d, this._shifts) : null });
+    }
+    return { out, colorOf };
+  }
+
+  _render() {
+    if (!this._hass || !this._config) return;
+    const c = this._config;
+    const { out, colorOf } = this._days();
+    const key = JSON.stringify([out.map((x) => [x.evs.map((e) => [e.title, e.t]), x.ws, x.shift]), this._hide, this._err, this._lang(), this._events === null, new Date().getDate(), c]);
+    if (key === this._key) return;
+    this._key = key;
+    const l = this._lang();
+    const E = GCAL.esc;
+    const wdFmt = new Intl.DateTimeFormat(l, { weekday: 'short' });
+    const longFmt = new Intl.DateTimeFormat(l, { weekday: 'long', day: 'numeric', month: 'long' });
+    // ondertitel: eerstvolgende afvalophaling, anders aantal afspraken
+    const nextW = out.findIndex((x) => x.ws.length);
+    const nEv = out.reduce((a, x) => a + x.evs.length, 0);
+    const dayName = (i) => (i === 0 ? this._t('today').toLowerCase() : i === 1 ? this._t('tomorrow').toLowerCase() : new Intl.DateTimeFormat(l, { weekday: 'long' }).format(out[i].d));
+    const sub = longFmt.format(new Date()).replace(/^./, (m) => m.toUpperCase()) + ' · ' + (nextW >= 0 ? this._t('waste_on', { w: out[nextW].ws.join(', '), d: dayName(nextW) }) : nEv ? this._t('events_sub', { n: nEv }) : this._t('none_sub'));
+    const max = Math.max(1, parseInt(c.max, 10) || 4);
+    const days = out.map((x, i) => {
+      const evs = x.evs.slice(0, max).map((e) => `<div class="ev" style="--c:${e.c}"><i></i>${e.allDay || !e.t ? `<span class="tm ad">${E(this._t('allday'))}</span>` : `<span class="tm">${GCAL.hm(e.t)}</span>`}<b>${E(e.title)}</b><span class="gap"></span><span class="cn">${E(GCAL.name(this._hass, e.cal))}</span></div>`).join('');
+      const more = x.evs.length > max ? `<span class="more">${E(this._t('more', { n: x.evs.length - max }))}</span>` : '';
+      const ws = x.ws.length ? `<div class="ws">${x.ws.map((w) => `<span class="w" style="--c:${gcalWaste(w)}">🗑 ${E(w)}</span>`).join('')}</div>` : '';
+      const wd = i === 0 ? this._t('today') : i === 1 ? this._t('tomorrow') : wdFmt.format(x.d).replace('.', '').replace(/^./, (m) => m.toUpperCase());
+      return `<div class="day${i === 0 ? ' today' : ''}"><div class="dl"><span class="wd">${E(wd)}</span><span class="n">${x.d.getDate()}</span>${x.shift ? `<span class="sh" style="--c:${GCAL_SHIFT[x.shift]}">${E(this._t('sh_' + x.shift))}</span>` : ''}</div>
+        <div class="dr">${ws}${evs}${more}${!x.evs.length && !x.ws.length ? `<span class="nothing">${E(this._t('nothing'))}</span>` : ''}</div></div>`;
+    }).join('');
+    const cals = this._cals();
+    const chips = cals.length > 1 ? `<div class="cals">${cals.map((e) => `<button type="button" class="chip${this._hide[e] ? '' : ' on'}" style="--c:${colorOf[e]}" data-c="${E(e)}"><span class="dot"></span>${E(((c.calendars || []).find((x) => x && x.entity === e) || {}).name || GCAL.name(this._hass, e))}</button>`).join('')}</div>` : '';
+    this.shadowRoot.innerHTML = `<style>${GCAL_CSS}</style><ha-card style="--a:${GCAL_ACC};--glow:${parseInt(c.glow, 10) || 0}px"><div class="halo"></div>
+      ${GCAL.head('M3 5h18v16H3zM3 10h18M8 3v4M16 3v4', c.title || this._t('title'), sub)}
+      ${chips}
+      ${this._events === null ? `<span class="empty">${E(this._t('loading'))}</span>` : `<div class="days">${days}</div>`}
+      ${this._err ? `<span class="note">${E(this._t('err', { e: this._err }))}</span>` : ''}</ha-card>`;
+    this.shadowRoot.querySelectorAll('[data-c]').forEach((b) => b.addEventListener('click', () => { this._hide[b.dataset.c] = !this._hide[b.dataset.c]; this._key = null; this._render(); }));
+  }
+}
+
+GCAL.editor('glow-calendar-card-editor', GCAL_T, () => [
+  { name: 'title', selector: { text: {} } },
+  { name: 'calendars', selector: { entity: { multiple: true, domain: 'calendar' } } },
+  { name: 'waste', selector: { entity: { multiple: true, domain: 'calendar' } } },
+  { type: 'grid', name: '', schema: [
+    { name: 'days', selector: { number: { min: 1, max: 14, step: 1, mode: 'box' } } },
+    { name: 'max', selector: { number: { min: 1, max: 10, step: 1, mode: 'box' } } },
+  ] },
+  { name: 'shifts', selector: { boolean: {} } },
+], { days: 7, max: 4, shifts: true, glow: 15 });
+GCAL.register('glow-calendar-card', 'Glow Calendar Card', GCAL_T, GlowCalendarCard);
+
+}
+
+/* ---- indoor.js ---- */
+{
+/*
+ * Glow Indoor Card
+ * Temperatuur en luchtvochtigheid van alle ruimtes in één kaart, gekleurd van koud naar warm,
+ * met waarschuwingen (vochtig, droog, bijna vorst) en het verloop van de laatste 24 uur.
+ */
+const GIN = window.GlowKit;
+const GIN_T = GIN.table({
+  nl: { title: 'Binnenklimaat', sub: 'Binnen gemiddeld {t} · buiten {o}', sub_in: 'Binnen gemiddeld {t}', alerts: '{n} aandachtspunten', alert1: '1 aandachtspunt', all_ok: 'alles in orde', wet: 'Vochtig — even verluchten', very_wet: 'Erg vochtig — verluchten', dry: 'Droge lucht', frost: 'Bijna vorst', cold: 'Koud', hot: 'Warm', range: 'min {a} · max {b} (24 u)', hint: 'Tik op een ruimte voor het verloop van de laatste 24 uur.', details: 'Details', err: 'Vul "rooms" in met minstens één ruimte.',
+    l_rooms: 'Ruimtes', l_humid_high: 'Vochtig vanaf', l_humid_low: 'Droog onder', l_frost: 'Vorstwaarschuwing onder', l_columns: 'Kolommen', description: 'Temperatuur en vochtigheid van alle ruimtes, met waarschuwingen.' },
+  en: { title: 'Indoor climate', sub: 'Indoors {t} on average · outside {o}', sub_in: 'Indoors {t} on average', alerts: '{n} things to check', alert1: '1 thing to check', all_ok: 'all fine', wet: 'Humid — air the room', very_wet: 'Very humid — air the room', dry: 'Dry air', frost: 'Near freezing', cold: 'Cold', hot: 'Warm', range: 'min {a} · max {b} (24 h)', hint: 'Tap a room for the last 24 hours.', details: 'Details', err: 'Add at least one room under "rooms".',
+    l_rooms: 'Rooms', l_humid_high: 'Humid from', l_humid_low: 'Dry below', l_frost: 'Frost warning below', l_columns: 'Columns', description: 'Temperature and humidity of every room, with warnings.' },
+  fr: { title: 'Climat intérieur', sub: 'Intérieur {t} en moyenne · extérieur {o}', sub_in: 'Intérieur {t} en moyenne', alerts: '{n} points d’attention', alert1: '1 point d’attention', all_ok: 'tout va bien', wet: 'Humide — aérer', very_wet: 'Très humide — aérer', dry: 'Air sec', frost: 'Proche du gel', cold: 'Froid', hot: 'Chaud', range: 'min {a} · max {b} (24 h)', hint: 'Touchez une pièce pour les dernières 24 heures.', details: 'Détails', err: 'Ajoutez au moins une pièce sous "rooms".',
+    l_rooms: 'Pièces', l_humid_high: 'Humide dès', l_humid_low: 'Sec sous', l_frost: 'Alerte gel sous', l_columns: 'Colonnes', description: 'Température et humidité de chaque pièce, avec alertes.' },
+  de: { title: 'Raumklima', sub: 'Innen im Schnitt {t} · außen {o}', sub_in: 'Innen im Schnitt {t}', alerts: '{n} Hinweise', alert1: '1 Hinweis', all_ok: 'alles in Ordnung', wet: 'Feucht — lüften', very_wet: 'Sehr feucht — lüften', dry: 'Trockene Luft', frost: 'Frostgefahr', cold: 'Kalt', hot: 'Warm', range: 'min {a} · max {b} (24 h)', hint: 'Tippe auf einen Raum für die letzten 24 Stunden.', details: 'Details', err: 'Trage unter "rooms" mindestens einen Raum ein.',
+    l_rooms: 'Räume', l_humid_high: 'Feucht ab', l_humid_low: 'Trocken unter', l_frost: 'Frostwarnung unter', l_columns: 'Spalten', description: 'Temperatur und Feuchte aller Räume, mit Warnungen.' },
+  es: { title: 'Clima interior', sub: 'Dentro {t} de media · fuera {o}', sub_in: 'Dentro {t} de media', alerts: '{n} avisos', alert1: '1 aviso', all_ok: 'todo bien', wet: 'Húmedo — ventilar', very_wet: 'Muy húmedo — ventilar', dry: 'Aire seco', frost: 'Casi helada', cold: 'Frío', hot: 'Calor', range: 'mín {a} · máx {b} (24 h)', hint: 'Toca una estancia para ver las últimas 24 horas.', details: 'Detalles', err: 'Añade al menos una estancia en "rooms".',
+    l_rooms: 'Estancias', l_humid_high: 'Húmedo desde', l_humid_low: 'Seco por debajo de', l_frost: 'Aviso de helada por debajo de', l_columns: 'Columnas', description: 'Temperatura y humedad de cada estancia, con avisos.' },
+  it: { title: 'Clima interno', sub: 'Dentro {t} in media · fuori {o}', sub_in: 'Dentro {t} in media', alerts: '{n} avvisi', alert1: '1 avviso', all_ok: 'tutto ok', wet: 'Umido — arieggiare', very_wet: 'Molto umido — arieggiare', dry: 'Aria secca', frost: 'Quasi gelo', cold: 'Freddo', hot: 'Caldo', range: 'min {a} · max {b} (24 h)', hint: 'Tocca una stanza per le ultime 24 ore.', details: 'Dettagli', err: 'Aggiungi almeno una stanza in "rooms".',
+    l_rooms: 'Stanze', l_humid_high: 'Umido da', l_humid_low: 'Secco sotto', l_frost: 'Avviso gelo sotto', l_columns: 'Colonne', description: 'Temperatura e umidità di ogni stanza, con avvisi.' },
+});
+const GIN_ACC = '255, 166, 107';
+const GIN_WET = '255, 166, 107', GIN_DRY = '255, 214, 112', GIN_ICE = '142, 197, 255';
+const ginCol = (t) => (t === null ? '201, 196, 221' : t < 8 ? '142, 197, 255' : t < 17 ? '160, 210, 235' : t < 20 ? '143, 227, 184' : t < 23 ? '255, 214, 112' : '255, 166, 107');
+
+const GIN_CSS = GIN.CSS + `
+  .alerts { position: relative; display: flex; flex-direction: column; gap: 8px; }
+  .al { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 16px; font-size: 0.95rem; font-weight: 700; background: rgba(var(--c), 0.12); border: 1px solid rgba(var(--c), 0.45); text-align: left; }
+  .al b { font-weight: 800; }
+  .al span:last-child { opacity: 0.8; }
+  .grid { position: relative; display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 12px; }
+  .rm { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px; border-radius: 20px; text-align: left; min-width: 0;
+    background: linear-gradient(160deg, rgba(var(--c), 0.22), rgba(var(--c), 0.05)); border: 1px solid rgba(var(--c), 0.35); }
+  .rm.warn { border-color: rgba(var(--w), 0.75); box-shadow: 0 0 var(--glow) rgba(var(--w), 0.3); }
+  .rm.out { border-style: dashed; }
+  .rm.open { grid-column: span 2; }
+  .rt { display: flex; align-items: center; justify-content: space-between; gap: 6px; width: 100%; }
+  .rt span:first-child { font-size: 0.95rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rt .dot { --c: var(--w); }
+  .tv { font-size: 2.1rem; font-weight: 800; line-height: 1; color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .hu { display: flex; align-items: center; gap: 8px; width: 100%; }
+  .hu span { font-size: 0.8rem; font-weight: 800; opacity: 0.75; min-width: 38px; }
+  .tr { flex: 1; height: 8px; border-radius: 4px; overflow: hidden; position: relative; background: var(--glow-surface, rgba(255,255,255,0.08)); }
+  .tr i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: rgb(var(--h)); }
+  .sp { width: 100%; height: 48px; }
+  .sp path { fill: none; stroke: rgb(var(--c)); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .rg { display: flex; justify-content: space-between; width: 100%; font-size: 0.75rem; font-weight: 700; opacity: 0.65; }
+  .rg a { font-weight: 800; text-decoration: underline; cursor: pointer; }
+  @container (max-width: 520px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } .tv { font-size: 1.7rem; } .rm { padding: 12px; } }
+`;
+
+class GlowIndoorCard extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); this._open = null; this._hist = {}; }
+  static getConfigElement() { return document.createElement('glow-indoor-card-editor'); }
+  static getStubConfig(hass) {
+    const st = (hass && hass.states) || {};
+    const temps = Object.keys(st).filter((e) => e.startsWith('sensor.') && st[e].attributes.device_class === 'temperature' && !/device_temperature|battery|batterij|cpu|processor|inverter|internal/.test(e)).slice(0, 6);
+    return { rooms: temps.map((t) => { const h = t.replace(/temperatu(re|ur)$/, 'humidity'); return st[h] ? { temperature: t, humidity: h } : { temperature: t }; }) };
+  }
+  setConfig(config) {
+    if (!config || !Array.isArray(config.rooms) || !config.rooms.length) throw new Error(GIN.t(GIN_T, GIN.lang(this._hass, config && config.language, GIN_T), 'err'));
+    this._config = { glow: 15, humid_high: 65, humid_low: 30, frost: 5, ...config };
+    this._key = null;
+    if (this._hass) this._render();
+  }
+  set hass(hass) { this._hass = hass; if (this._config) this._render(); }
+  getCardSize() { return 6; }
+  getGridOptions() { return { columns: 'full', rows: 'auto', min_columns: 6 }; }
+  _lang() { return GIN.lang(this._hass, this._config.language, GIN_T); }
+  _t(k, v) { return GIN.t(GIN_T, this._lang(), k, v); }
+
+  _rooms() {
+    const c = this._config;
+    return c.rooms.map((r, i) => {
+      const t = GIN.num(this._hass, r.temperature);
+      const h = GIN.num(this._hass, r.humidity);
+      const out = !!r.outside;
+      let w = null;
+      if (!out) {
+        if (t !== null && t < (r.frost ?? c.frost)) w = [this._t('frost'), GIN_ICE];
+        else if (h !== null && h >= (r.humid_high ?? c.humid_high) + 10) w = [this._t('very_wet'), GIN_WET];
+        else if (h !== null && h >= (r.humid_high ?? c.humid_high)) w = [this._t('wet'), GIN_WET];
+        else if (h !== null && h < (r.humid_low ?? c.humid_low)) w = [this._t('dry'), GIN_DRY];
+      }
+      const name = r.name || (r.temperature && GIN.name(this._hass, r.temperature).replace(/\s*(temperatu(re|ur)|temp)\s*$/i, '')) || '?';
+      return { i, r, t, h, out, w, name };
+    });
+  }
+
+  async _loadHist(i) {
+    const r = this._config.rooms[i];
+    if (!r || !r.temperature) return;
+    const start = new Date(Date.now() - 24 * 3600e3).toISOString();
+    try {
+      const res = await this._hass.callWS({ type: 'history/history_during_period', start_time: start, entity_ids: [r.temperature], minimal_response: true, no_attributes: true });
+      const rows = (res[r.temperature] || []).map((x) => parseFloat(x.s)).filter((v) => !isNaN(v));
+      this._hist[i] = { at: Date.now(), v: rows };
+    } catch (e) { this._hist[i] = { at: Date.now(), v: [] }; }
+    this._key = null;
+    this._render();
+  }
+
+  _render() {
+    if (!this._hass || !this._config) return;
+    const c = this._config;
+    const rooms = this._rooms();
+    const key = JSON.stringify([rooms.map((x) => [x.t, x.h, x.w]), this._open, this._hist[this._open] && this._hist[this._open].at, this._lang(), c]);
+    if (key === this._key) return;
+    this._key = key;
+    const l = this._lang();
+    const E = GIN.esc;
+    const deg = (v) => GIN.fmt(l, v, 1) + '°';
+    const ins = rooms.filter((x) => !x.out && x.t !== null && x.r.average !== false);
+    const avg = ins.length ? ins.reduce((a, x) => a + x.t, 0) / ins.length : null;
+    const outR = rooms.find((x) => x.out && x.t !== null);
+    const alerts = rooms.filter((x) => x.w);
+    let sub = avg === null ? '' : outR ? this._t('sub', { t: deg(avg), o: deg(outR.t) }) : this._t('sub_in', { t: deg(avg) });
+    sub += (sub ? ' · ' : '') + (alerts.length ? (alerts.length === 1 ? this._t('alert1') : this._t('alerts', { n: alerts.length })) : this._t('all_ok'));
+    const cols = parseInt(c.columns, 10) || 3;
+    const tiles = rooms.map((x) => {
+      const col = ginCol(x.t);
+      const open = this._open === x.i;
+      let extra = '';
+      if (open) {
+        const hv = this._hist[x.i];
+        if (hv && hv.v.length > 1) {
+          const v = hv.v;
+          const mn = Math.min(...v), mx = Math.max(...v);
+          const step = Math.max(1, Math.floor(v.length / 120));
+          const pts = v.filter((_, k) => k % step === 0 || k === v.length - 1);
+          const d = pts.map((p, k) => (k ? 'L' : 'M') + (k / (pts.length - 1) * 100).toFixed(2) + ' ' + (44 - (p - mn) / Math.max(0.1, mx - mn) * 40).toFixed(1)).join(' ');
+          extra = `<svg class="sp" viewBox="0 0 100 48" preserveAspectRatio="none"><path d="${d}"/></svg><span class="rg"><span>${E(this._t('range', { a: deg(mn), b: deg(mx) }))}</span><a data-more="${E(x.r.temperature)}">${E(this._t('details'))}</a></span>`;
+        } else extra = `<span class="rg"><span>…</span></span>`;
+      }
+      const hc = x.h === null ? '' : x.h >= c.humid_high ? GIN_WET : x.h < c.humid_low ? GIN_DRY : '142, 197, 255';
+      return `<button type="button" class="rm${x.w ? ' warn' : ''}${x.out ? ' out' : ''}${open ? ' open' : ''}" style="--c:${col}${x.w ? ';--w:' + x.w[1] : ''}" data-i="${x.i}">
+        <span class="rt"><span>${E(x.name)}</span>${x.w ? '<span class="dot"></span>' : ''}</span>
+        <span class="tv">${x.t === null ? '–' : deg(x.t)}</span>${extra}
+        ${x.h !== null ? `<span class="hu"><span>${Math.round(x.h)} %</span><span class="tr" style="--h:${hc}"><i style="width:${Math.max(0, Math.min(100, x.h))}%"></i></span></span>` : ''}</button>`;
+    }).join('');
+    const al = alerts.length ? `<div class="alerts">${alerts.map((x) => `<div class="al" style="--c:${x.w[1]}"><span class="dot"></span><b>${E(x.name)}</b><span>${E(x.w[0])}</span></div>`).join('')}</div>` : '';
+    this.shadowRoot.innerHTML = `<style>${GIN_CSS}</style><ha-card style="--a:${GIN_ACC};--glow:${parseInt(c.glow, 10) || 0}px;--cols:${cols}"><div class="halo"></div>
+      ${GIN.head('M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z', c.title || this._t('title'), sub)}${al}<div class="grid">${tiles}</div>
+      <span class="note">${E(this._t('hint'))}</span></ha-card>`;
+    this.shadowRoot.querySelectorAll('[data-i]').forEach((b) => b.addEventListener('click', (e) => {
+      const m = e.target.closest('[data-more]');
+      if (m) { e.stopPropagation(); GIN.moreInfo(this, m.dataset.more); return; }
+      const i = +b.dataset.i;
+      this._open = this._open === i ? null : i;
+      if (this._open !== null && (!this._hist[i] || Date.now() - this._hist[i].at > 10 * 60000)) this._loadHist(i);
+      this._key = null;
+      this._render();
+    }));
+  }
+}
+
+GIN.editor('glow-indoor-card-editor', GIN_T, () => [
+  { name: 'title', selector: { text: {} } },
+  { name: 'rooms', selector: { object: {} } },
+  { type: 'grid', name: '', schema: [
+    { name: 'humid_high', selector: { number: { min: 40, max: 90, step: 1, mode: 'box', unit_of_measurement: '%' } } },
+    { name: 'humid_low', selector: { number: { min: 10, max: 50, step: 1, mode: 'box', unit_of_measurement: '%' } } },
+    { name: 'frost', selector: { number: { min: -10, max: 15, step: 0.5, mode: 'box', unit_of_measurement: '°C' } } },
+    { name: 'columns', selector: { number: { min: 1, max: 4, step: 1, mode: 'box' } } },
+  ] },
+], { humid_high: 65, humid_low: 30, frost: 5, glow: 15 });
+GIN.register('glow-indoor-card', 'Glow Indoor Card', GIN_T, GlowIndoorCard);
+
+}
+
+/* ---- fridge.js ---- */
+{
+/*
+ * Glow Fridge Card
+ * Een tegel voor de koelkast: temperatuur van koel- en vriesvak in een getekende koelkast,
+ * waarschuwing als een deur te lang openstaat of het te warm wordt, en de waterfilter.
+ */
+const GFR = window.GlowKit;
+const GFR_T = GFR.table({
+  nl: { title: 'Koelkast', cool: 'KOEL', freeze: 'VRIES', open: 'OPEN', ok: 'Alles dicht · temperaturen goed', door_cool: 'Koelkastdeur staat al {m} open!', door_freeze: 'Diepvriesdeur staat al {m} open!', door_now: 'Deur staat open', warm_cool: 'Koelkast is te warm ({t})', warm_freeze: 'Diepvries is te warm ({t})', filter: 'Waterfilter', used: '{p} % gebruikt', left: 'nog {p} %', replace: 'Bijna op — nieuwe filter bestellen', replace_now: 'Filter vervangen', power: 'Nu {w} W', energy: '{k} kWh in totaal', min: '{n} min',
+    l_name: 'Naam', l_fridge: 'Temperatuur koelvak', l_freezer: 'Temperatuur vriesvak', l_fridge_door: 'Deur koelvak', l_freezer_door: 'Deur vriesvak', l_filter: 'Waterfilter (%)', l_filter_used: 'Filterwaarde is "gebruikt" (niet "over")', l_power: 'Vermogen', l_energy: 'Energie', l_door_minutes: 'Waarschuwen na (min open)', l_fridge_max: 'Koelvak te warm boven', l_freezer_max: 'Vriesvak te warm boven', description: 'Koelkast als tegel: temperaturen, deuren en waterfilter.' },
+  en: { title: 'Fridge', cool: 'FRIDGE', freeze: 'FREEZER', open: 'OPEN', ok: 'All closed · temperatures fine', door_cool: 'Fridge door open for {m}!', door_freeze: 'Freezer door open for {m}!', door_now: 'Door is open', warm_cool: 'Fridge is too warm ({t})', warm_freeze: 'Freezer is too warm ({t})', filter: 'Water filter', used: '{p} % used', left: '{p} % left', replace: 'Almost used up — order a new filter', replace_now: 'Replace the filter', power: 'Now {w} W', energy: '{k} kWh in total', min: '{n} min',
+    l_name: 'Name', l_fridge: 'Fridge temperature', l_freezer: 'Freezer temperature', l_fridge_door: 'Fridge door', l_freezer_door: 'Freezer door', l_filter: 'Water filter (%)', l_filter_used: 'Filter value is "used" (not "left")', l_power: 'Power', l_energy: 'Energy', l_door_minutes: 'Warn after (min open)', l_fridge_max: 'Fridge too warm above', l_freezer_max: 'Freezer too warm above', description: 'Fridge as a tile: temperatures, doors and water filter.' },
+  fr: { title: 'Frigo', cool: 'FRIGO', freeze: 'CONGÉL.', open: 'OUVERT', ok: 'Tout est fermé · températures OK', door_cool: 'Porte du frigo ouverte depuis {m} !', door_freeze: 'Porte du congélateur ouverte depuis {m} !', door_now: 'Porte ouverte', warm_cool: 'Frigo trop chaud ({t})', warm_freeze: 'Congélateur trop chaud ({t})', filter: 'Filtre à eau', used: '{p} % utilisé', left: '{p} % restant', replace: 'Presque usé — commander un filtre', replace_now: 'Remplacer le filtre', power: 'Maintenant {w} W', energy: '{k} kWh au total', min: '{n} min',
+    l_name: 'Nom', l_fridge: 'Température frigo', l_freezer: 'Température congélateur', l_fridge_door: 'Porte frigo', l_freezer_door: 'Porte congélateur', l_filter: 'Filtre à eau (%)', l_filter_used: 'Valeur du filtre = "utilisé"', l_power: 'Puissance', l_energy: 'Énergie', l_door_minutes: 'Alerter après (min ouvert)', l_fridge_max: 'Frigo trop chaud au-dessus de', l_freezer_max: 'Congélateur trop chaud au-dessus de', description: 'Frigo en tuile : températures, portes et filtre à eau.' },
+  de: { title: 'Kühlschrank', cool: 'KÜHL', freeze: 'GEFRIER', open: 'OFFEN', ok: 'Alles zu · Temperaturen gut', door_cool: 'Kühlschranktür seit {m} offen!', door_freeze: 'Gefriertür seit {m} offen!', door_now: 'Tür ist offen', warm_cool: 'Kühlschrank zu warm ({t})', warm_freeze: 'Gefrierfach zu warm ({t})', filter: 'Wasserfilter', used: '{p} % verbraucht', left: 'noch {p} %', replace: 'Fast verbraucht — neuen Filter bestellen', replace_now: 'Filter wechseln', power: 'Jetzt {w} W', energy: '{k} kWh insgesamt', min: '{n} Min.',
+    l_name: 'Name', l_fridge: 'Temperatur Kühlfach', l_freezer: 'Temperatur Gefrierfach', l_fridge_door: 'Tür Kühlfach', l_freezer_door: 'Tür Gefrierfach', l_filter: 'Wasserfilter (%)', l_filter_used: 'Filterwert ist "verbraucht"', l_power: 'Leistung', l_energy: 'Energie', l_door_minutes: 'Warnen nach (Min. offen)', l_fridge_max: 'Kühlfach zu warm über', l_freezer_max: 'Gefrierfach zu warm über', description: 'Kühlschrank als Kachel: Temperaturen, Türen und Wasserfilter.' },
+  es: { title: 'Nevera', cool: 'NEVERA', freeze: 'CONGEL.', open: 'ABIERTA', ok: 'Todo cerrado · temperaturas bien', door_cool: '¡Puerta de la nevera abierta hace {m}!', door_freeze: '¡Puerta del congelador abierta hace {m}!', door_now: 'Puerta abierta', warm_cool: 'Nevera demasiado caliente ({t})', warm_freeze: 'Congelador demasiado caliente ({t})', filter: 'Filtro de agua', used: '{p} % usado', left: 'queda {p} %', replace: 'Casi gastado — pedir filtro nuevo', replace_now: 'Cambiar el filtro', power: 'Ahora {w} W', energy: '{k} kWh en total', min: '{n} min',
+    l_name: 'Nombre', l_fridge: 'Temperatura nevera', l_freezer: 'Temperatura congelador', l_fridge_door: 'Puerta nevera', l_freezer_door: 'Puerta congelador', l_filter: 'Filtro de agua (%)', l_filter_used: 'El valor del filtro es "usado"', l_power: 'Potencia', l_energy: 'Energía', l_door_minutes: 'Avisar tras (min abierta)', l_fridge_max: 'Nevera caliente por encima de', l_freezer_max: 'Congelador caliente por encima de', description: 'Nevera como mosaico: temperaturas, puertas y filtro de agua.' },
+  it: { title: 'Frigorifero', cool: 'FRIGO', freeze: 'FREEZER', open: 'APERTO', ok: 'Tutto chiuso · temperature ok', door_cool: 'Porta del frigo aperta da {m}!', door_freeze: 'Porta del freezer aperta da {m}!', door_now: 'Porta aperta', warm_cool: 'Frigo troppo caldo ({t})', warm_freeze: 'Freezer troppo caldo ({t})', filter: 'Filtro acqua', used: '{p} % usato', left: '{p} % rimasto', replace: 'Quasi esaurito — ordina un filtro nuovo', replace_now: 'Sostituisci il filtro', power: 'Ora {w} W', energy: '{k} kWh in totale', min: '{n} min',
+    l_name: 'Nome', l_fridge: 'Temperatura frigo', l_freezer: 'Temperatura freezer', l_fridge_door: 'Porta frigo', l_freezer_door: 'Porta freezer', l_filter: 'Filtro acqua (%)', l_filter_used: 'Il valore del filtro è "usato"', l_power: 'Potenza', l_energy: 'Energia', l_door_minutes: 'Avvisa dopo (min aperta)', l_fridge_max: 'Frigo caldo sopra', l_freezer_max: 'Freezer caldo sopra', description: 'Frigorifero come riquadro: temperature, porte e filtro acqua.' },
+});
+const GFR_COOL = '142, 197, 255', GFR_FRZ = '185, 168, 255', GFR_WARN = '255, 143, 143', GFR_OK = '143, 227, 184', GFR_PEACH = '255, 166, 107';
+
+const GFR_CSS = GFR.CSS + `
+  ha-card { padding: 18px; }
+  .wrap { position: relative; display: flex; gap: 16px; align-items: stretch; height: 100%; }
+  .fr { width: 112px; flex-shrink: 0; border-radius: 20px; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; min-height: 200px;
+    background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
+  .door { flex: 1; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 0;
+    border: 2px solid rgba(var(--c), 0.5); background: linear-gradient(160deg, rgba(var(--c), 0.28), rgba(var(--c), 0.06)); box-shadow: inset 0 0 18px rgba(var(--c), 0.25); }
+  .door.big { flex: 1.4; }
+  .door.alarm { --c: ${GFR_WARN}; border-color: rgb(var(--c)); background: rgba(var(--c), 0.25); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.7); animation: gfr 1.6s ease-in-out infinite; }
+  @keyframes gfr { 50% { box-shadow: 0 0 calc(var(--glow) * 0.3) rgba(var(--c), 0.3); } }
+  .door b { font-size: 1.8rem; font-weight: 800; line-height: 1; color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .door:not(.big) b { font-size: 1.55rem; }
+  .door span { font-size: 0.7rem; font-weight: 800; opacity: 0.7; }
+  .info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+  .info > b { font-size: 1.25rem; font-weight: 800; }
+  .st { font-size: 0.95rem; font-weight: 800; }
+  .gap { flex: 1; }
+  .fl { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 800; }
+  .fl span:first-child { opacity: 0.7; }
+  .bar { height: 10px; border-radius: 5px; overflow: hidden; position: relative; background: var(--glow-surface, rgba(255,255,255,0.08)); }
+  .bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; background: rgb(var(--c)); box-shadow: 0 0 10px rgba(var(--c), 0.7); }
+  .fn { font-size: 0.75rem; font-weight: 800; }
+  .pw { font-size: 0.8rem; font-weight: 700; opacity: 0.6; }
+`;
+
+class GlowFridgeCard extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); }
+  static getConfigElement() { return document.createElement('glow-fridge-card-editor'); }
+  static getStubConfig(hass) {
+    const k = Object.keys((hass && hass.states) || {});
+    const f = (re) => k.find((e) => re.test(e)) || undefined;
+    return { fridge: f(/^sensor\..*(koelkast|fridge|cooler).*temp/), freezer: f(/^sensor\..*(freezer|diepvries|vries).*temp/), fridge_door: f(/^binary_sensor\..*(cooler|fridge|koel).*door/), freezer_door: f(/^binary_sensor\..*(freezer|vries).*door/), filter: f(/^sensor\..*water_filter/) };
+  }
+  setConfig(config) { this._config = { glow: 15, door_minutes: 2, fridge_max: 7, freezer_max: -15, filter_used: true, ...(config || {}) }; this._key = null; if (this._hass) this._render(); }
+  set hass(hass) { this._hass = hass; if (this._config) this._render(); }
+  connectedCallback() { this._timer = setInterval(() => { this._key = null; this._render(); }, 30000); }
+  disconnectedCallback() { clearInterval(this._timer); }
+  getCardSize() { return 3; }
+  getGridOptions() { return { columns: 6, rows: 3, min_columns: 6, min_rows: 3 }; }
+  _lang() { return GFR.lang(this._hass, this._config.language, GFR_T); }
+  _t(k, v) { return GFR.t(GFR_T, this._lang(), k, v); }
+  _door(id) {
+    const s = id && this._hass.states[id];
+    if (!s || s.state !== 'on') return null;
+    return (Date.now() - new Date(s.last_changed).getTime()) / 60000;
+  }
+
+  _render() {
+    if (!this._hass || !this._config) return;
+    const c = this._config;
+    const l = this._lang();
+    const E = GFR.esc;
+    const tc = GFR.num(this._hass, c.fridge), tf = GFR.num(this._hass, c.freezer);
+    const dc = this._door(c.fridge_door), df = this._door(c.freezer_door);
+    const fil = GFR.num(this._hass, c.filter);
+    const pw = GFR.num(this._hass, c.power), en = GFR.num(this._hass, c.energy);
+    const key = JSON.stringify([tc, tf, dc !== null && Math.floor(dc), df !== null && Math.floor(df), fil, pw, en, l, c]);
+    if (key === this._key) return;
+    this._key = key;
+    const lim = parseFloat(c.door_minutes) || 2;
+    const deg = (v) => (v === null ? '–' : GFR.fmt(l, v, Math.abs(v) < 10 && v % 1 ? 1 : 0).replace('-', '−') + '°');
+    const mins = (m) => this._t('min', { n: Math.max(1, Math.round(m)) });
+    const warmC = tc !== null && tc > c.fridge_max, warmF = tf !== null && tf > c.freezer_max;
+    let st = this._t('ok'), sc = GFR_OK;
+    if (dc !== null && dc >= lim) { st = this._t('door_cool', { m: mins(dc) }); sc = GFR_WARN; }
+    else if (df !== null && df >= lim) { st = this._t('door_freeze', { m: mins(df) }); sc = GFR_WARN; }
+    else if (warmF) { st = this._t('warm_freeze', { t: deg(tf) }); sc = GFR_WARN; }
+    else if (warmC) { st = this._t('warm_cool', { t: deg(tc) }); sc = GFR_WARN; }
+    else if (dc !== null || df !== null) { st = this._t('door_now'); sc = GFR_PEACH; }
+    let filter = '';
+    if (fil !== null) {
+      const used = c.filter_used !== false ? fil : 100 - fil;
+      const fc = used >= 95 ? GFR_WARN : used >= 85 ? GFR_PEACH : GFR_OK;
+      const note = used >= 100 ? this._t('replace_now') : used >= 85 ? this._t('replace') : '';
+      filter = `<div class="fl"><span>${E(this._t('filter'))}</span><span class="ink" style="--c:${fc}">${E(c.filter_used !== false ? this._t('used', { p: Math.round(fil) }) : this._t('left', { p: Math.round(fil) }))}</span></div>
+        <div class="bar" style="--c:${fc}"><i style="width:${Math.max(0, Math.min(100, used))}%"></i></div>${note ? `<span class="fn ink" style="--c:${fc}">${E(note)}</span>` : ''}`;
+    }
+    const pwTxt = [pw !== null ? this._t('power', { w: Math.round(pw) }) : '', en !== null ? this._t('energy', { k: GFR.fmt(l, en, 0) }) : ''].filter(Boolean).join(' · ');
+    const door = (cls, t, lab, d, id, col) => `<button type="button" class="door${cls}${d !== null && d >= lim ? ' alarm' : ''}" style="--c:${d !== null ? GFR_WARN : col}" data-e="${E(id || '')}"><b>${deg(t)}</b><span>${E(d !== null ? this._t('open') : lab)}</span></button>`;
+    this.shadowRoot.innerHTML = `<style>${GFR_CSS}</style><ha-card style="--a:${GFR_COOL};--glow:${parseInt(c.glow, 10) || 0}px"><div class="wrap">
+      <div class="fr">${c.fridge ? door(' big', tc, this._t('cool'), dc, c.fridge, GFR_COOL) : ''}${c.freezer ? door('', tf, this._t('freeze'), df, c.freezer, GFR_FRZ) : ''}</div>
+      <div class="info"><b>${E(c.name || this._t('title'))}</b><span class="st ink" style="--c:${sc}">${E(st)}</span><span class="gap"></span>${filter}${pwTxt ? `<span class="pw">${E(pwTxt)}</span>` : ''}</div></div></ha-card>`;
+    this.shadowRoot.querySelectorAll('[data-e]').forEach((b) => b.addEventListener('click', () => { if (b.dataset.e) GFR.moreInfo(this, b.dataset.e); }));
+  }
+}
+
+GFR.editor('glow-fridge-card-editor', GFR_T, () => [
+  { name: 'name', selector: { text: {} } },
+  { type: 'grid', name: '', schema: [
+    { name: 'fridge', selector: { entity: { domain: 'sensor' } } },
+    { name: 'freezer', selector: { entity: { domain: 'sensor' } } },
+    { name: 'fridge_door', selector: { entity: { domain: 'binary_sensor' } } },
+    { name: 'freezer_door', selector: { entity: { domain: 'binary_sensor' } } },
+  ] },
+  { name: 'filter', selector: { entity: { domain: 'sensor' } } },
+  { name: 'filter_used', selector: { boolean: {} } },
+  { type: 'grid', name: '', schema: [
+    { name: 'power', selector: { entity: { domain: 'sensor' } } },
+    { name: 'energy', selector: { entity: { domain: 'sensor' } } },
+    { name: 'door_minutes', selector: { number: { min: 1, max: 30, step: 1, mode: 'box' } } },
+    { name: 'fridge_max', selector: { number: { min: 0, max: 15, step: 0.5, mode: 'box', unit_of_measurement: '°C' } } },
+    { name: 'freezer_max', selector: { number: { min: -30, max: 0, step: 0.5, mode: 'box', unit_of_measurement: '°C' } } },
+  ] },
+], { door_minutes: 2, fridge_max: 7, freezer_max: -15, filter_used: true, glow: 15 });
+GFR.register('glow-fridge-card', 'Glow Fridge Card', GFR_T, GlowFridgeCard);
+
+}
+
+/* ---- system.js ---- */
+{
+/*
+ * Glow System Card
+ * Hoe gaat het met Home Assistant? Processor, geheugen en schijf als meters, daaronder
+ * back-up, updates, internet, Zigbee, je schermen en de inkt van de printer. Vindt alles zelf.
+ */
+const GSY = window.GlowKit;
+const GSY_T = GSY.table({
+  nl: { title: 'Systeem', all_ok: 'Alles in orde', n_upd: '{n} updates klaar', one_upd: '1 update klaar', n_warn: '{n} aandachtspunten', one_warn: '1 aandachtspunt', cpu: 'Processor', mem: 'Geheugen', disk: 'Schijf', mem_sub: '{a} van {b} GB', disk_sub: '{f} GB vrij',
+    ha: 'Home Assistant', ha_sub: 'Versie {v}', ha_boot: 'Versie {v} · draait sinds {d}', online: 'Online', offline: 'Offline', backup: 'Back-up', bk_sub: 'Laatst {a} · volgende {n}', bk_old: 'Laatste back-up is {a}', ok: 'OK', old: 'Te oud', updates: 'Updates', no_upd: 'Alles is bijgewerkt', upd_n: '{n} klaar', none: 'Geen',
+    internet: 'Internet', net_sub: '↓ {d} · ↑ {u}', up_days: '{n} dagen online', zigbee: 'Zigbee', connected: 'Verbonden', disconnected: 'Niet verbonden', devices: 'Schermen en toestellen', charging: 'laadt', printer: 'Printer', ink_low: 'Inkt bijna op', today: 'vandaag', tomorrow: 'morgen',
+    l_cpu: 'Processor (%)', l_memory: 'Geheugen (%)', l_disk: 'Schijf (%)', l_internet: 'Internet (verbonden)', l_download: 'Downloadsnelheid', l_upload: 'Uploadsnelheid', l_zigbee: 'Zigbee (verbonden)', l_devices: 'Toestellen met batterij', l_inks: 'Inktsensoren', l_printer_name: 'Naam printer', description: 'Home Assistant, back-up, updates, internet, Zigbee, schermen en printer.' },
+  en: { title: 'System', all_ok: 'All good', n_upd: '{n} updates ready', one_upd: '1 update ready', n_warn: '{n} things to check', one_warn: '1 thing to check', cpu: 'Processor', mem: 'Memory', disk: 'Disk', mem_sub: '{a} of {b} GB', disk_sub: '{f} GB free',
+    ha: 'Home Assistant', ha_sub: 'Version {v}', ha_boot: 'Version {v} · running since {d}', online: 'Online', offline: 'Offline', backup: 'Backup', bk_sub: 'Last {a} · next {n}', bk_old: 'Last backup was {a}', ok: 'OK', old: 'Too old', updates: 'Updates', no_upd: 'Everything is up to date', upd_n: '{n} ready', none: 'None',
+    internet: 'Internet', net_sub: '↓ {d} · ↑ {u}', up_days: 'online for {n} days', zigbee: 'Zigbee', connected: 'Connected', disconnected: 'Disconnected', devices: 'Screens and devices', charging: 'charging', printer: 'Printer', ink_low: 'Ink running low', today: 'today', tomorrow: 'tomorrow',
+    l_cpu: 'Processor (%)', l_memory: 'Memory (%)', l_disk: 'Disk (%)', l_internet: 'Internet (connected)', l_download: 'Download speed', l_upload: 'Upload speed', l_zigbee: 'Zigbee (connected)', l_devices: 'Devices with a battery', l_inks: 'Ink sensors', l_printer_name: 'Printer name', description: 'Home Assistant, backup, updates, internet, Zigbee, screens and printer.' },
+  fr: { title: 'Système', all_ok: 'Tout va bien', n_upd: '{n} mises à jour prêtes', one_upd: '1 mise à jour prête', n_warn: '{n} points d’attention', one_warn: '1 point d’attention', cpu: 'Processeur', mem: 'Mémoire', disk: 'Disque', mem_sub: '{a} sur {b} Go', disk_sub: '{f} Go libres',
+    ha: 'Home Assistant', ha_sub: 'Version {v}', ha_boot: 'Version {v} · actif depuis {d}', online: 'En ligne', offline: 'Hors ligne', backup: 'Sauvegarde', bk_sub: 'Dernière {a} · prochaine {n}', bk_old: 'Dernière sauvegarde {a}', ok: 'OK', old: 'Trop ancienne', updates: 'Mises à jour', no_upd: 'Tout est à jour', upd_n: '{n} prêtes', none: 'Aucune',
+    internet: 'Internet', net_sub: '↓ {d} · ↑ {u}', up_days: 'en ligne depuis {n} jours', zigbee: 'Zigbee', connected: 'Connecté', disconnected: 'Déconnecté', devices: 'Écrans et appareils', charging: 'en charge', printer: 'Imprimante', ink_low: 'Encre presque vide', today: "aujourd'hui", tomorrow: 'demain',
+    l_cpu: 'Processeur (%)', l_memory: 'Mémoire (%)', l_disk: 'Disque (%)', l_internet: 'Internet (connecté)', l_download: 'Débit descendant', l_upload: 'Débit montant', l_zigbee: 'Zigbee (connecté)', l_devices: 'Appareils avec batterie', l_inks: "Capteurs d'encre", l_printer_name: "Nom de l'imprimante", description: 'Home Assistant, sauvegarde, mises à jour, internet, Zigbee, écrans et imprimante.' },
+  de: { title: 'System', all_ok: 'Alles in Ordnung', n_upd: '{n} Updates bereit', one_upd: '1 Update bereit', n_warn: '{n} Hinweise', one_warn: '1 Hinweis', cpu: 'Prozessor', mem: 'Speicher', disk: 'Festplatte', mem_sub: '{a} von {b} GB', disk_sub: '{f} GB frei',
+    ha: 'Home Assistant', ha_sub: 'Version {v}', ha_boot: 'Version {v} · läuft seit {d}', online: 'Online', offline: 'Offline', backup: 'Backup', bk_sub: 'Zuletzt {a} · nächstes {n}', bk_old: 'Letztes Backup {a}', ok: 'OK', old: 'Zu alt', updates: 'Updates', no_upd: 'Alles aktuell', upd_n: '{n} bereit', none: 'Keine',
+    internet: 'Internet', net_sub: '↓ {d} · ↑ {u}', up_days: 'seit {n} Tagen online', zigbee: 'Zigbee', connected: 'Verbunden', disconnected: 'Getrennt', devices: 'Bildschirme und Geräte', charging: 'lädt', printer: 'Drucker', ink_low: 'Tinte fast leer', today: 'heute', tomorrow: 'morgen',
+    l_cpu: 'Prozessor (%)', l_memory: 'Speicher (%)', l_disk: 'Festplatte (%)', l_internet: 'Internet (verbunden)', l_download: 'Download', l_upload: 'Upload', l_zigbee: 'Zigbee (verbunden)', l_devices: 'Geräte mit Akku', l_inks: 'Tintensensoren', l_printer_name: 'Druckername', description: 'Home Assistant, Backup, Updates, Internet, Zigbee, Bildschirme und Drucker.' },
+  es: { title: 'Sistema', all_ok: 'Todo bien', n_upd: '{n} actualizaciones listas', one_upd: '1 actualización lista', n_warn: '{n} avisos', one_warn: '1 aviso', cpu: 'Procesador', mem: 'Memoria', disk: 'Disco', mem_sub: '{a} de {b} GB', disk_sub: '{f} GB libres',
+    ha: 'Home Assistant', ha_sub: 'Versión {v}', ha_boot: 'Versión {v} · activo desde {d}', online: 'En línea', offline: 'Sin conexión', backup: 'Copia de seguridad', bk_sub: 'Última {a} · próxima {n}', bk_old: 'Última copia {a}', ok: 'OK', old: 'Demasiado antigua', updates: 'Actualizaciones', no_upd: 'Todo actualizado', upd_n: '{n} listas', none: 'Ninguna',
+    internet: 'Internet', net_sub: '↓ {d} · ↑ {u}', up_days: 'en línea hace {n} días', zigbee: 'Zigbee', connected: 'Conectado', disconnected: 'Desconectado', devices: 'Pantallas y dispositivos', charging: 'cargando', printer: 'Impresora', ink_low: 'Queda poca tinta', today: 'hoy', tomorrow: 'mañana',
+    l_cpu: 'Procesador (%)', l_memory: 'Memoria (%)', l_disk: 'Disco (%)', l_internet: 'Internet (conectado)', l_download: 'Velocidad de bajada', l_upload: 'Velocidad de subida', l_zigbee: 'Zigbee (conectado)', l_devices: 'Dispositivos con batería', l_inks: 'Sensores de tinta', l_printer_name: 'Nombre de la impresora', description: 'Home Assistant, copias, actualizaciones, internet, Zigbee, pantallas e impresora.' },
+  it: { title: 'Sistema', all_ok: 'Tutto ok', n_upd: '{n} aggiornamenti pronti', one_upd: '1 aggiornamento pronto', n_warn: '{n} avvisi', one_warn: '1 avviso', cpu: 'Processore', mem: 'Memoria', disk: 'Disco', mem_sub: '{a} di {b} GB', disk_sub: '{f} GB liberi',
+    ha: 'Home Assistant', ha_sub: 'Versione {v}', ha_boot: 'Versione {v} · attivo dal {d}', online: 'Online', offline: 'Offline', backup: 'Backup', bk_sub: 'Ultimo {a} · prossimo {n}', bk_old: 'Ultimo backup {a}', ok: 'OK', old: 'Troppo vecchio', updates: 'Aggiornamenti', no_upd: 'Tutto aggiornato', upd_n: '{n} pronti', none: 'Nessuno',
+    internet: 'Internet', net_sub: '↓ {d} · ↑ {u}', up_days: 'online da {n} giorni', zigbee: 'Zigbee', connected: 'Connesso', disconnected: 'Disconnesso', devices: 'Schermi e dispositivi', charging: 'in carica', printer: 'Stampante', ink_low: 'Inchiostro quasi finito', today: 'oggi', tomorrow: 'domani',
+    l_cpu: 'Processore (%)', l_memory: 'Memoria (%)', l_disk: 'Disco (%)', l_internet: 'Internet (connesso)', l_download: 'Velocità download', l_upload: 'Velocità upload', l_zigbee: 'Zigbee (connesso)', l_devices: 'Dispositivi con batteria', l_inks: 'Sensori inchiostro', l_printer_name: 'Nome stampante', description: 'Home Assistant, backup, aggiornamenti, internet, Zigbee, schermi e stampante.' },
+});
+const GSY_OK = '143, 227, 184', GSY_WARN = '255, 214, 112', GSY_BAD = '255, 143, 143', GSY_INFO = '142, 197, 255';
+const GSY_P = { ha: 'M3 11l9-7 9 7v9H3z', backup: 'M12 3v12M7 10l5 5 5-5M4 19h16', upd: 'M21 12a9 9 0 1 1-3-6.7M21 4v5h-5', net: 'M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M12 20h.01', zig: 'M4 6h16L4 18h16', dev: 'M6 3h12v18H6zM11 18h2', printer: 'M6 9V3h12v6M6 18H4v-7h16v7h-2M7 14h10v7H7z' };
+const gsyInk = (id) => (/black|zwart|_bk|_k\b/i.test(id) ? '90, 90, 105' : /cyan/i.test(id) ? '80, 200, 230' : /magenta/i.test(id) ? '230, 90, 170' : /yellow|geel/i.test(id) ? '245, 215, 70' : '201, 196, 221');
+
+const GSY_CSS = GSY.CSS + `
+  .gs { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .g { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 14px 8px; border-radius: 20px; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); text-align: center; }
+  .g svg { width: 120px; max-width: 100%; height: 72px; }
+  .g .tk { stroke: var(--glow-border, rgba(255,255,255,0.12)); }
+  .g .vl { stroke: rgb(var(--c)); filter: drop-shadow(0 0 4px rgba(var(--c), 0.6)); }
+  .g b { font-size: 1.5rem; font-weight: 800; margin-top: -26px; }
+  .g .n { font-size: 0.8rem; font-weight: 800; opacity: 0.65; }
+  .g .s { font-size: 0.75rem; font-weight: 700; opacity: 0.5; }
+  .rows { position: relative; display: flex; flex-direction: column; gap: 8px; }
+  .r { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 18px; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); text-align: left; width: 100%; box-sizing: border-box; }
+  .r .ic { width: 40px; height: 40px; border-radius: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #1C1730; background: rgb(var(--c)); box-shadow: 0 0 calc(var(--glow) * 0.7) rgba(var(--c), 0.6); }
+  .r .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .r .tx b { font-size: 1rem; font-weight: 800; }
+  .r .tx span { font-size: 0.8rem; font-weight: 700; opacity: 0.65; }
+  .r .bd { flex-shrink: 0; height: 30px; padding: 0 12px; border-radius: 15px; display: inline-flex; align-items: center; font-size: 0.8rem; font-weight: 800; background: rgba(var(--c), 0.15); border: 1px solid rgba(var(--c), 0.5); color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .inkb { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: 18px; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
+  .tanks { display: flex; gap: 14px; }
+  .tk2 { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .tank { position: relative; width: 100%; max-width: 64px; height: 46px; border-radius: 10px; overflow: hidden; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
+  .tank i { position: absolute; left: 0; right: 0; bottom: 0; background: rgb(var(--c)); }
+  .tank.low { border-color: rgb(${GSY_BAD}); }
+  .tk2 span { font-size: 0.75rem; font-weight: 800; opacity: 0.75; }
+  @container (max-width: 520px) { .gs { gap: 6px; } .g { padding: 10px 4px; } .g svg { height: 56px; } .g b { font-size: 1.15rem; margin-top: -20px; } .g .s { display: none; } .r .ic { width: 34px; height: 34px; } }
+`;
+
+class GlowSystemCard extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); }
+  static getConfigElement() { return document.createElement('glow-system-card-editor'); }
+  static getStubConfig() { return {}; }
+  setConfig(config) { this._config = { glow: 15, ...(config || {}) }; this._key = null; if (this._hass) this._render(); }
+  set hass(hass) { this._hass = hass; if (this._config) this._render(); }
+  getCardSize() { return 8; }
+  getGridOptions() { return { columns: 'full', rows: 'auto', min_columns: 6 }; }
+  _lang() { return GSY.lang(this._hass, this._config.language, GSY_T); }
+  _t(k, v) { return GSY.t(GSY_T, this._lang(), k, v); }
+  _find(key, re) { const c = this._config[key]; if (c) return c; return Object.keys(this._hass.states).find((e) => re.test(e)); }
+
+  _render() {
+    if (!this._hass || !this._config) return;
+    const c = this._config, h = this._hass, st = h.states, l = this._lang(), E = GSY.esc;
+    const ids = {
+      cpu: this._find('cpu', /^sensor\.system_monitor_processor_use$/), mem: this._find('memory', /^sensor\.system_monitor_memory_use_percent$/), disk: this._find('disk', /^sensor\.system_monitor_disk_use_percent$/),
+      memUse: 'sensor.system_monitor_memory_use', memFree: 'sensor.system_monitor_memory_free', diskFree: 'sensor.system_monitor_disk_free', boot: 'sensor.system_monitor_last_boot',
+      bkLast: 'sensor.backup_last_successful_automatic_backup', bkNext: 'sensor.backup_next_scheduled_automatic_backup',
+      net: this._find('internet', /^binary_sensor\..*(wan_status|internet|wan)(_|$)/), down: this._find('download', /^sensor\..*(downloadsnelheid|download_speed|download)$/), up: this._find('upload', /^sensor\..*(uploadsnelheid|upload_speed|upload)$/),
+      zig: this._find('zigbee', /^binary_sensor\.zigbee2mqtt_bridge_connection_state$/),
+    };
+    const inks = [].concat(c.inks || []).length ? [].concat(c.inks) : Object.keys(st).filter((e) => /^sensor\..*_ink$/.test(e)).sort((a, b) => ['black', 'cyan', 'magenta', 'yellow'].findIndex((x) => a.includes(x)) - ['black', 'cyan', 'magenta', 'yellow'].findIndex((x) => b.includes(x)));
+    const devs = [].concat(c.devices || []).map((d) => (typeof d === 'string' ? { entity: d } : d));
+    const upd = Object.keys(st).filter((e) => e.startsWith('update.') && st[e].state === 'on');
+    const key = JSON.stringify([Object.values(ids).map((e) => e && st[e] && st[e].state), inks.map((e) => st[e] && st[e].state), devs.map((d) => st[d.entity] && st[d.entity].state), upd, l, c, h.config && h.config.version]);
+    if (key === this._key) return;
+    this._key = key;
+    const n = (e) => GSY.num(h, e);
+    const when = (iso) => {
+      if (!iso || isNaN(new Date(iso))) return '–';
+      const d = new Date(iso), now = new Date();
+      const t0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const diff = Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - t0) / 864e5);
+      const tm = GSY.hm(d);
+      if (diff === 0) return this._t('today') + ' ' + tm;
+      if (diff === 1) return this._t('tomorrow') + ' ' + tm;
+      return new Intl.DateTimeFormat(l, { day: 'numeric', month: 'short' }).format(d) + ' ' + tm;
+    };
+    let warns = 0;
+    // meters
+    const gauge = (name, v, sub) => {
+      if (v === null) return '';
+      const col = v > 85 ? GSY_BAD : v > 70 ? GSY_WARN : GSY_OK;
+      if (v > 85) warns++;
+      return `<div class="g" style="--c:${col}"><svg viewBox="0 0 100 60"><path class="tk" d="M10 55 A40 40 0 0 1 90 55" fill="none" stroke-width="9" stroke-linecap="round"/><path class="vl" d="M10 55 A40 40 0 0 1 90 55" fill="none" stroke-width="9" stroke-linecap="round" pathLength="100" stroke-dasharray="${Math.max(0.5, Math.min(100, v))} 100"/></svg><b>${Math.round(v)} %</b><span class="n">${E(name)}</span><span class="s">${E(sub || '')}</span></div>`;
+    };
+    const mu = n(ids.memUse), mf = n(ids.memFree), df = n(ids.diskFree);
+    const gauges = [gauge(this._t('cpu'), n(ids.cpu), ''), gauge(this._t('mem'), n(ids.mem), mu !== null && mf !== null ? this._t('mem_sub', { a: GSY.fmt(l, mu / 1024, 1), b: GSY.fmt(l, (mu + mf) / 1024, 1) }) : ''), gauge(this._t('disk'), n(ids.disk), df !== null ? this._t('disk_sub', { f: GSY.fmt(l, df, 0) }) : '')].join('');
+    // rijen
+    const row = (p, name, sub, badge, col, act) => `<button type="button" class="r" style="--c:${col}" ${act}><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg></span><span class="tx"><b>${E(name)}</b><span>${E(sub)}</span></span><span class="bd">${E(badge)}</span></button>`;
+    const rows = [];
+    const ver = (h.config && h.config.version) || '';
+    const boot = st[ids.boot] ? new Intl.DateTimeFormat(l, { day: 'numeric', month: 'long' }).format(new Date(st[ids.boot].state)) : null;
+    rows.push(row(GSY_P.ha, this._t('ha'), boot ? this._t('ha_boot', { v: ver, d: boot }) : this._t('ha_sub', { v: ver }), this._t('online'), GSY_OK, 'data-nav="/config/system"'));
+    if (st[ids.bkLast]) {
+      const last = st[ids.bkLast].state;
+      const old = !last || isNaN(new Date(last)) || Date.now() - new Date(last).getTime() > 2 * 864e5;
+      if (old) warns++;
+      rows.push(row(GSY_P.backup, this._t('backup'), old ? this._t('bk_old', { a: when(last) }) : this._t('bk_sub', { a: when(last), n: st[ids.bkNext] ? when(st[ids.bkNext].state) : '–' }), old ? this._t('old') : this._t('ok'), old ? GSY_BAD : GSY_OK, 'data-nav="/config/backup"'));
+    }
+    const updNames = upd.map((e) => (st[e].attributes.title || st[e].attributes.friendly_name || e).replace(/\s*(update|firmware)$/i, ''));
+    rows.push(row(GSY_P.upd, this._t('updates'), upd.length ? updNames.slice(0, 4).join(', ') + (upd.length > 4 ? ' …' : '') : this._t('no_upd'), upd.length ? this._t('upd_n', { n: upd.length }) : this._t('none'), upd.length ? GSY_INFO : GSY_OK, 'data-nav="/config/updates"'));
+    if (ids.net && st[ids.net]) {
+      const on = st[ids.net].state === 'on';
+      if (!on) warns++;
+      const sp = (e) => { const v = n(e); if (v === null) return '–'; const u = (st[e].attributes.unit_of_measurement || '').toLowerCase(); const mbit = u.includes('kbit') ? v / 1000 : u.includes('byte') || u === 'mb/s' ? v * 8 : v; return GSY.fmt(l, mbit, mbit < 10 ? 1 : 0) + ' Mbit/s'; };
+      const upS = Object.keys(st).find((e) => e.startsWith(ids.net.replace('binary_sensor.', 'sensor.').replace(/_wan_status$/, '')) && /uptime$/.test(e));
+      let upTxt = '';
+      if (upS && n(upS) !== null) { const u = (st[upS].attributes.unit_of_measurement || 'h').toLowerCase(); const hrs = u.startsWith('d') ? n(upS) * 24 : u.startsWith('min') ? n(upS) / 60 : u === 's' ? n(upS) / 3600 : n(upS); if (hrs >= 24) upTxt = ' · ' + this._t('up_days', { n: Math.floor(hrs / 24) }); }
+      rows.push(row(GSY_P.net, this._t('internet'), (ids.down || ids.up ? this._t('net_sub', { d: sp(ids.down), u: sp(ids.up) }) : GSY.name(h, ids.net)) + upTxt, on ? this._t('online') : this._t('offline'), on ? GSY_OK : GSY_BAD, `data-more="${E(ids.net)}"`));
+    }
+    if (ids.zig && st[ids.zig]) {
+      const on = st[ids.zig].state === 'on';
+      if (!on) warns++;
+      rows.push(row(GSY_P.zig, this._t('zigbee'), GSY.name(h, ids.zig).replace(/\s*connection state$/i, ''), on ? this._t('connected') : this._t('disconnected'), on ? GSY_OK : GSY_BAD, `data-more="${E(ids.zig)}"`));
+    }
+    if (devs.length) {
+      let low = 100;
+      const parts = devs.map((d) => {
+        const v = n(d.entity); if (v === null) return null;
+        const chg = d.charging ? st[d.charging] && st[d.charging].state === 'on' : false;
+        if (!chg) low = Math.min(low, v);
+        return (d.name || GSY.name(h, d.entity).replace(/\s*(batterij|battery|batterijniveau|battery level)$/i, '')) + ' ' + Math.round(v) + ' %' + (chg ? ' (' + this._t('charging') + ')' : '');
+      }).filter(Boolean);
+      if (low < 20) warns++;
+      rows.push(row(GSY_P.dev, this._t('devices'), parts.join(' · '), low === 100 ? '100 %' : Math.round(low) + ' %', low < 20 ? GSY_BAD : low < 40 ? GSY_WARN : GSY_OK, devs[0] ? `data-more="${E(devs[0].entity)}"` : ''));
+    }
+    let ink = '';
+    if (inks.length) {
+      const vals = inks.map((e) => ({ e, v: n(e) })).filter((x) => x.v !== null);
+      const lowInk = vals.some((x) => x.v < 15);
+      if (lowInk) warns++;
+      const pn = c.printer_name || (GSY.name(h, inks[0]).replace(/\s*(black|zwart|cyan|magenta|yellow|geel)?\s*(ink|inkt)$/i, '').trim()) || this._t('printer');
+      ink = `<div class="inkb"><span class="lab">${E(this._t('printer'))} · ${E(pn)}${lowInk ? ' · ' + E(this._t('ink_low')) : ''}</span><div class="tanks">${vals.map((x) => `<div class="tk2"><div class="tank${x.v < 15 ? ' low' : ''}" style="--c:${gsyInk(x.e)}"><i style="height:${Math.max(0, Math.min(100, x.v))}%"></i></div><span>${E(({ black: 'K', cyan: 'C', magenta: 'M', yellow: 'Y' })[((x.e.match(/(black|cyan|magenta|yellow)/i) || ['', ''])[1]).toLowerCase()] || '•')} ${Math.round(x.v)}%</span></div>`).join('')}</div></div>`;
+    }
+    const sub = warns ? (warns === 1 ? this._t('one_warn') : this._t('n_warn', { n: warns })) : this._t('all_ok') + (upd.length ? ' · ' + (upd.length === 1 ? this._t('one_upd') : this._t('n_upd', { n: upd.length })) : '');
+    const acc = warns ? GSY_WARN : GSY_OK;
+    this.shadowRoot.innerHTML = `<style>${GSY_CSS}</style><ha-card style="--a:${acc};--glow:${parseInt(c.glow, 10) || 0}px"><div class="halo"></div>
+      ${GSY.head('M4 5h16v10H4zM8 19h8M12 15v4', c.title || this._t('title'), sub)}
+      ${gauges ? `<div class="gs">${gauges}</div>` : ''}<div class="rows">${rows.join('')}</div>${ink}</ha-card>`;
+    this.shadowRoot.querySelectorAll('[data-nav]').forEach((b) => b.addEventListener('click', () => GSY.navigate(b.dataset.nav)));
+    this.shadowRoot.querySelectorAll('[data-more]').forEach((b) => b.addEventListener('click', () => GSY.moreInfo(this, b.dataset.more)));
+  }
+}
+
+GSY.editor('glow-system-card-editor', GSY_T, () => [
+  { name: 'title', selector: { text: {} } },
+  { name: 'devices', selector: { entity: { multiple: true, domain: 'sensor', device_class: 'battery' } } },
+  { name: 'inks', selector: { entity: { multiple: true, domain: 'sensor' } } },
+  { name: 'printer_name', selector: { text: {} } },
+  { type: 'grid', name: '', schema: [
+    { name: 'cpu', selector: { entity: { domain: 'sensor' } } },
+    { name: 'memory', selector: { entity: { domain: 'sensor' } } },
+    { name: 'disk', selector: { entity: { domain: 'sensor' } } },
+    { name: 'internet', selector: { entity: { domain: 'binary_sensor' } } },
+    { name: 'download', selector: { entity: { domain: 'sensor' } } },
+    { name: 'upload', selector: { entity: { domain: 'sensor' } } },
+    { name: 'zigbee', selector: { entity: { domain: 'binary_sensor' } } },
+  ] },
+], { glow: 15 });
+GSY.register('glow-system-card', 'Glow System Card', GSY_T, GlowSystemCard);
+
+}
+
+/* ---- people.js ---- */
+{
+/*
+ * Glow People Card
+ * Wie is waar: per persoon thuis, in een zone of onderweg, sinds wanneer, en de batterij van de gsm.
+ */
+const GPE = window.GlowKit;
+const GPE_T = GPE.table({
+  nl: { title: 'Wie is waar', all_home: 'Iedereen is thuis', none_home: 'Niemand is thuis', n_home: '{n} van {t} thuis', home: 'Thuis', away: 'Onderweg', unknown: 'Onbekend', since: 'sinds {t}', since_day: 'sinds {d}', km: '{k} km van thuis', charge: 'opladen', charging: 'laadt', updated: 'gezien {a}',
+    l_entities: 'Personen (leeg = iedereen)', l_low: 'Batterij laag onder', description: 'Wie is waar: thuis, zone of onderweg, met de batterij van de gsm.' },
+  en: { title: 'Who is where', all_home: 'Everyone is home', none_home: 'Nobody is home', n_home: '{n} of {t} home', home: 'Home', away: 'Away', unknown: 'Unknown', since: 'since {t}', since_day: 'since {d}', km: '{k} km from home', charge: 'charge', charging: 'charging', updated: 'seen {a}',
+    l_entities: 'People (empty = everyone)', l_low: 'Battery low below', description: 'Who is where: home, zone or away, with phone battery.' },
+  fr: { title: 'Qui est où', all_home: 'Tout le monde est là', none_home: "Personne n'est là", n_home: '{n} sur {t} à la maison', home: 'Maison', away: 'En route', unknown: 'Inconnu', since: 'depuis {t}', since_day: 'depuis {d}', km: 'à {k} km', charge: 'à charger', charging: 'en charge', updated: 'vu {a}',
+    l_entities: 'Personnes (vide = tout le monde)', l_low: 'Batterie faible sous', description: 'Qui est où : maison, zone ou en route, avec la batterie du téléphone.' },
+  de: { title: 'Wer ist wo', all_home: 'Alle sind zu Hause', none_home: 'Niemand ist zu Hause', n_home: '{n} von {t} zu Hause', home: 'Zuhause', away: 'Unterwegs', unknown: 'Unbekannt', since: 'seit {t}', since_day: 'seit {d}', km: '{k} km von zu Hause', charge: 'laden', charging: 'lädt', updated: 'gesehen {a}',
+    l_entities: 'Personen (leer = alle)', l_low: 'Akku niedrig unter', description: 'Wer ist wo: zu Hause, Zone oder unterwegs, mit Handy-Akku.' },
+  es: { title: 'Quién está dónde', all_home: 'Todos están en casa', none_home: 'No hay nadie en casa', n_home: '{n} de {t} en casa', home: 'Casa', away: 'Fuera', unknown: 'Desconocido', since: 'desde {t}', since_day: 'desde {d}', km: 'a {k} km de casa', charge: 'cargar', charging: 'cargando', updated: 'visto {a}',
+    l_entities: 'Personas (vacío = todas)', l_low: 'Batería baja por debajo de', description: 'Quién está dónde: casa, zona o fuera, con la batería del móvil.' },
+  it: { title: 'Chi è dove', all_home: 'Tutti sono a casa', none_home: 'Nessuno è a casa', n_home: '{n} di {t} a casa', home: 'Casa', away: 'Fuori', unknown: 'Sconosciuto', since: 'dalle {t}', since_day: 'dal {d}', km: 'a {k} km da casa', charge: 'da caricare', charging: 'in carica', updated: 'visto {a}',
+    l_entities: 'Persone (vuoto = tutti)', l_low: 'Batteria bassa sotto', description: 'Chi è dove: casa, zona o fuori, con la batteria del telefono.' },
+});
+const GPE_ACC = '255, 214, 112';
+const GPE_COLORS = ['142, 197, 255', '255, 166, 107', '185, 168, 255', '143, 227, 184', '255, 143, 190', '255, 214, 112'];
+const GPE_HOME = '143, 227, 184', GPE_AWAY = '185, 168, 255', GPE_ZONE = '142, 197, 255', GPE_LOW = '255, 143, 143';
+
+const GPE_CSS = GPE.CSS + `
+  .ps { position: relative; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 12px; }
+  .p { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 18px 12px 14px; border-radius: 22px; text-align: center; min-width: 0;
+    background: linear-gradient(170deg, rgba(var(--c), 0.18), rgba(var(--c), 0.03)); border: 1px solid rgba(var(--c), 0.4); }
+  .av { position: relative; width: 74px; height: 74px; border-radius: 37px; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: #1C1730;
+    background: rgb(var(--c)) center / cover no-repeat; box-shadow: 0 0 var(--glow) rgba(var(--c), 0.7); }
+  .p.out .av { filter: saturate(0.6); opacity: 0.85; }
+  .av i { position: absolute; right: 0; bottom: 2px; width: 22px; height: 22px; border-radius: 50%; box-sizing: border-box; background: rgb(var(--z)); border: 3px solid var(--glow-card-background, #15121F); }
+  .p b { font-size: 1.25rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .wh { max-width: 100%; height: 28px; line-height: 28px; padding: 0 12px; border-radius: 14px; display: inline-block; font-size: 0.88rem; font-weight: 800; color: #1C1730; background: rgb(var(--z)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; }
+  .sn { font-size: 0.8rem; font-weight: 700; opacity: 0.6; }
+  .bt { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 4px; font-size: 0.8rem; font-weight: 800; opacity: 0.75; }
+  .bt.low { opacity: 1; color: color-mix(in srgb, rgb(${GPE_LOW}), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .bt svg rect.f { fill: rgb(var(--b)); }
+  @container (max-width: 520px) { .ps { gap: 8px; } .p { padding: 12px 6px 10px; } .av { width: 54px; height: 54px; font-size: 1.5rem; } .p b { font-size: 1rem; } .wh { font-size: 0.75rem; padding: 0 8px; height: 24px; line-height: 24px; } .bt { font-size: 0.72rem; gap: 4px; } .sn { font-size: 0.7rem; } }
+`;
+
+class GlowPeopleCard extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); }
+  static getConfigElement() { return document.createElement('glow-people-card-editor'); }
+  static getStubConfig() { return {}; }
+  setConfig(config) { this._config = { glow: 15, low: 20, ...(config || {}) }; this._key = null; if (this._hass) this._render(); }
+  set hass(hass) { this._hass = hass; if (this._config) this._render(); }
+  connectedCallback() { this._timer = setInterval(() => { this._key = null; this._render(); }, 60000); }
+  disconnectedCallback() { clearInterval(this._timer); }
+  getCardSize() { return 4; }
+  getGridOptions() { return { columns: 'full', rows: 'auto', min_columns: 6 }; }
+  _lang() { return GPE.lang(this._hass, this._config.language, GPE_T); }
+  _t(k, v) { return GPE.t(GPE_T, this._lang(), k, v); }
+  _people() {
+    const c = [].concat(this._config.entities || []).map((x) => (typeof x === 'string' ? { entity: x } : x));
+    return c.length ? c : Object.keys(this._hass.states).filter((e) => e.startsWith('person.')).sort().map((e) => ({ entity: e }));
+  }
+  // batterij, laden en adres van de gsm achter de persoon
+  _phone(p) {
+    const st = this._hass.states;
+    const s = st[p.entity];
+    const src = (s && s.attributes.source) || '';
+    const obj = src.split('.')[1] || '';
+    const find = (re) => Object.keys(st).find((e) => e.startsWith('sensor.' + obj + '_') && re.test(e));
+    const bat = p.battery || (obj && find(/_(battery_level|batterijniveau|batterij)$/));
+    const chg = p.charging || (obj && find(/_(battery_state|batterijstatus)$/));
+    const geo = obj && find(/_geocoded_location$/);
+    return { bat, chg, geo };
+  }
+
+  _render() {
+    if (!this._hass || !this._config) return;
+    const c = this._config, st = this._hass.states, l = this._lang(), E = GPE.esc;
+    const ppl = this._people().filter((p) => st[p.entity]);
+    const now = new Date();
+    const key = JSON.stringify([ppl.map((p) => { const s = st[p.entity]; const ph = this._phone(p); return [s.state, s.last_changed, s.attributes.latitude, ph.bat && st[ph.bat] && st[ph.bat].state, ph.chg && st[ph.chg] && st[ph.chg].state, ph.geo && st[ph.geo] && st[ph.geo].state]; }), now.getHours(), now.getMinutes(), l, c]);
+    if (key === this._key) return;
+    this._key = key;
+    const home = st['zone.home'];
+    const dist = (s) => {
+      if (!home || s.attributes.latitude === undefined) return null;
+      const R = 6371, rad = (x) => x * Math.PI / 180;
+      const a = rad(s.attributes.latitude - home.attributes.latitude), b = rad(s.attributes.longitude - home.attributes.longitude);
+      const q = Math.sin(a / 2) ** 2 + Math.cos(rad(home.attributes.latitude)) * Math.cos(rad(s.attributes.latitude)) * Math.sin(b / 2) ** 2;
+      return 2 * R * Math.asin(Math.sqrt(q));
+    };
+    let nHome = 0;
+    const cards = ppl.map((p, i) => {
+      const s = st[p.entity];
+      const col = p.color || GPE_COLORS[i % GPE_COLORS.length];
+      const isHome = s.state === 'home';
+      if (isHome) nHome++;
+      const zoneName = isHome ? this._t('home') : s.state === 'not_home' ? this._t('away') : s.state === 'unknown' || s.state === 'unavailable' ? this._t('unknown') : s.state;
+      const z = isHome ? GPE_HOME : s.state === 'not_home' ? GPE_AWAY : GPE_ZONE;
+      const ch = new Date(s.last_changed);
+      const sameDay = ch.toDateString() === now.toDateString();
+      let sub = sameDay ? this._t('since', { t: GPE.hm(ch) }) : this._t('since_day', { d: new Intl.DateTimeFormat(l, { weekday: 'short', day: 'numeric', month: 'short' }).format(ch) });
+      const ph = this._phone(p);
+      if (!isHome) {
+        const km = dist(s);
+        if (s.state === 'not_home' && ph.geo && st[ph.geo] && st[ph.geo].state && st[ph.geo].state !== 'unknown') sub = String(st[ph.geo].state).split('\n').slice(-2, -1)[0] || sub;
+        if (km !== null && km >= 1) sub += ' · ' + this._t('km', { k: GPE.fmt(l, km, km < 10 ? 1 : 0) });
+      }
+      const bv = GPE.num(this._hass, ph.bat);
+      const charging = ph.chg && st[ph.chg] && /charging|full|laden|opladen/i.test(st[ph.chg].state) && !/not/i.test(st[ph.chg].state);
+      const low = bv !== null && bv <= c.low && !charging;
+      const bc = low ? GPE_LOW : bv !== null && bv < 40 ? '255, 214, 112' : '143, 227, 184';
+      const bat = bv === null ? '' : `<span class="bt${low ? ' low' : ''}" style="--b:${bc}"><svg width="22" height="14" viewBox="0 0 22 14"><rect x="1" y="1" width="17" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.6"/><rect x="19" y="4.5" width="2" height="5" rx="1" fill="currentColor" opacity="0.6"/><rect class="f" x="3" y="3" width="${Math.max(1, Math.round(13 * bv / 100))}" height="8" rx="1.5"/></svg>${Math.round(bv)} %${charging ? ' · ' + E(this._t('charging')) : low ? ' — ' + E(this._t('charge')) : ''}</span>`;
+      const pic = p.picture || s.attributes.entity_picture;
+      const name = p.name || s.attributes.friendly_name || p.entity;
+      return `<button type="button" class="p${isHome ? '' : ' out'}" style="--c:${col};--z:${z}" data-e="${E(p.entity)}">
+        <span class="av"${pic ? ` style="background-image:url('${E(pic)}')"` : ''}>${pic ? '' : E(name.charAt(0).toUpperCase())}<i></i></span>
+        <b>${E(name)}</b><span class="wh">${E(zoneName)}</span><span class="sn">${E(sub)}</span>${bat}</button>`;
+    }).join('');
+    const tot = ppl.length;
+    const sub = nHome === tot ? this._t('all_home') : nHome === 0 ? this._t('none_home') : this._t('n_home', { n: nHome, t: tot });
+    this.shadowRoot.innerHTML = `<style>${GPE_CSS}</style><ha-card style="--a:${GPE_ACC};--glow:${parseInt(c.glow, 10) || 0}px;--n:${Math.min(Math.max(tot, 1), parseInt(c.columns, 10) || 4)}"><div class="halo"></div>
+      ${GPE.head('M16 11a4 4 0 1 0-8 0M4 21a8 8 0 0 1 16 0', c.title || this._t('title'), sub)}<div class="ps">${cards}</div></ha-card>`;
+    this.shadowRoot.querySelectorAll('[data-e]').forEach((b) => b.addEventListener('click', () => GPE.moreInfo(this, b.dataset.e)));
+  }
+}
+
+GPE.editor('glow-people-card-editor', GPE_T, () => [
+  { name: 'title', selector: { text: {} } },
+  { name: 'entities', selector: { entity: { multiple: true, domain: 'person' } } },
+  { name: 'low', selector: { number: { min: 5, max: 50, step: 5, mode: 'box', unit_of_measurement: '%' } } },
+], { low: 20, glow: 15 });
+GPE.register('glow-people-card', 'Glow People Card', GPE_T, GlowPeopleCard);
+
+}
+
+console.info('%c GLOW-CARDS %c v1.27.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
