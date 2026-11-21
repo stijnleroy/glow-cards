@@ -213,7 +213,7 @@ function gsdIsOff(a) {
 const GSD_STYLE = `
   :host { display: block; }
   ha-card { position: relative; overflow: hidden; box-sizing: border-box; padding: 22px; border-radius: var(--ha-card-border-radius, 26px); display: flex; flex-direction: column; gap: 18px;
-    background: var(--glow-card-background, #15121F); border: 1px solid var(--glow-card-border, rgba(255,255,255,0.08)); color: var(--glow-text, #F3F1FA); box-shadow: none; container-type: inline-size; user-select: none; -webkit-user-select: none; }
+    background: linear-gradient(rgba(${GSD_MINT}, 0.05), rgba(${GSD_MINT}, 0.05)), var(--glow-card-background, #15121F); border: 1px solid rgba(${GSD_MINT}, 0.35); color: var(--glow-text, #F3F1FA); box-shadow: 0 0 calc(var(--glow) * 0.8) rgba(${GSD_MINT}, 0.22); container-type: inline-size; user-select: none; -webkit-user-select: none; }
   button, select, input { font: inherit; color: inherit; -webkit-tap-highlight-color: transparent; }
   button { cursor: pointer; touch-action: manipulation; }
   .halo { position: absolute; left: -60px; top: -70px; width: 220px; height: 220px; border-radius: 50%; filter: blur(60px); opacity: 0.3; background: rgb(${GSD_MINT}); pointer-events: none; }

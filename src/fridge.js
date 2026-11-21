@@ -22,6 +22,7 @@ const GFR_COOL = '142, 197, 255', GFR_FRZ = '185, 168, 255', GFR_WARN = '255, 14
 
 const GFR_CSS = GFR.CSS + `
   ha-card { padding: 18px; }
+  .halo { left: auto; right: -50px; top: auto; bottom: -70px; width: 170px; height: 170px; filter: blur(46px); }
   .wrap { position: relative; display: flex; gap: 16px; align-items: stretch; height: 100%; }
   .fr { width: 112px; flex-shrink: 0; border-radius: 20px; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; min-height: 200px;
     background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
@@ -99,7 +100,7 @@ class GlowFridgeCard extends HTMLElement {
     }
     const pwTxt = [pw !== null ? this._t('power', { w: Math.round(pw) }) : '', en !== null ? this._t('energy', { k: GFR.fmt(l, en, 0) }) : ''].filter(Boolean).join(' · ');
     const door = (cls, t, lab, d, id, col) => `<button type="button" class="door${cls}${d !== null && d >= lim ? ' alarm' : ''}" style="--c:${d !== null ? GFR_WARN : col}" data-e="${E(id || '')}"><b>${deg(t)}</b><span>${E(d !== null ? this._t('open') : lab)}</span></button>`;
-    this.shadowRoot.innerHTML = `<style>${GFR_CSS}</style><ha-card style="--a:${GFR_COOL};--glow:${parseInt(c.glow, 10) || 0}px"><div class="wrap">
+    this.shadowRoot.innerHTML = `<style>${GFR_CSS}</style><ha-card style="--a:${sc === GFR_OK ? GFR_COOL : sc};--glow:${parseInt(c.glow, 10) || 0}px"><div class="halo"></div><div class="wrap">
       <div class="fr">${c.fridge ? door(' big', tc, this._t('cool'), dc, c.fridge, GFR_COOL) : ''}${c.freezer ? door('', tf, this._t('freeze'), df, c.freezer, GFR_FRZ) : ''}</div>
       <div class="info"><b>${E(c.name || this._t('title'))}</b><span class="st ink" style="--c:${sc}">${E(st)}</span><span class="gap"></span>${filter}${pwTxt ? `<span class="pw">${E(pwTxt)}</span>` : ''}</div></div></ha-card>`;
     this.shadowRoot.querySelectorAll('[data-e]').forEach((b) => b.addEventListener('click', () => { if (b.dataset.e) GFR.moreInfo(this, b.dataset.e); }));
