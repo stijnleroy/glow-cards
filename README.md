@@ -31,6 +31,7 @@ A family of glowing Home Assistant dashboard cards, installed together through H
 | **Glow Fridge Card** – fridge tile: temperatures, open doors and water filter. | ![](images/fridge.png) | [English](docs/fridge.md) · [Nederlands](docs/fridge.nl.md) |
 | **Glow System Card** – Home Assistant, backup, updates, internet, Zigbee, screens and printer ink. | ![](images/system.png) | [English](docs/system.md) · [Nederlands](docs/system.nl.md) |
 | **Glow People Card** – who is where, since when, and phone battery. | ![](images/people.png) | [English](docs/people.md) · [Nederlands](docs/people.nl.md) |
+| **Glow Deejay Card** – follow an UrDeejay party, vote and add songs for a guest. | ![](images/deejay.png) | [English](docs/deejay.md) · [Nederlands](docs/deejay.nl.md) |
 | **Glow Scenes Card** – Scene presets scenes with their images, your own light selection, shared favourites and dynamic scenes. | ![](images/scenes.png) | [English](docs/scenes.md) · [Nederlands](docs/scenes.nl.md) |
 
 All cards share the same look, support six languages (English, Dutch, French, German, Spanish, Italian) and have a visual editor.
