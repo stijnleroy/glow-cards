@@ -32,6 +32,7 @@ A family of glowing Home Assistant dashboard cards, installed together through H
 | **Glow System Card** – Home Assistant, backup, updates, internet, Zigbee, screens and printer ink. | ![](images/system.png) | [English](docs/system.md) · [Nederlands](docs/system.nl.md) |
 | **Glow People Card** – who is where, since when, and phone battery. | ![](images/people.png) | [English](docs/people.md) · [Nederlands](docs/people.nl.md) |
 | **Glow Deejay Card** – follow an UrDeejay party, vote and add songs for a guest. | ![](images/deejay.png) | [English](docs/deejay.md) · [Nederlands](docs/deejay.nl.md) |
+| **Glow Panel Card** – square wall panel (NSPanel Pro): light, scenes, colour, fan and radio, all buttons at the top. | ![](images/panel.png) | [English](docs/panel.md) · [Nederlands](docs/panel.nl.md) |
 | **Glow Scenes Card** – Scene presets scenes with their images, your own light selection, shared favourites and dynamic scenes. | ![](images/scenes.png) | [English](docs/scenes.md) · [Nederlands](docs/scenes.nl.md) |
 
 All cards share the same look, support six languages (English, Dutch, French, German, Spanish, Italian) and have a visual editor.
