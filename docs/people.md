@@ -14,8 +14,8 @@ Who is where, in the Glow style.
 ```yaml
 type: custom:glow-people-card
 entities:
-  - person.stijn
-  - entity: person.sandra
+  - person.tom
+  - entity: person.anna
     color: 255, 166, 107
 ```
 

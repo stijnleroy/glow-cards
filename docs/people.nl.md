@@ -14,8 +14,8 @@ Wie is waar, in de Glow-stijl.
 ```yaml
 type: custom:glow-people-card
 entities:
-  - person.stijn
-  - entity: person.sandra
+  - person.tom
+  - entity: person.anna
     color: 255, 166, 107
 ```
 

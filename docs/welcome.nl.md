@@ -22,7 +22,7 @@ mail: counter.post_in_de_brievenbus
 
 | Optie | Standaard | Uitleg |
 |---|---|---|
-| `name` | – | Naam achter de begroeting ("Goeiemorgen, Stijn"). |
+| `name` | – | Naam achter de begroeting ("Goeiemorgen, Tom"). |
 | `persons` | alle personen | Eigen lijst met `person.`-entiteiten. |
 | `weather` | eerste weer-entiteit | Weer-entiteit. |
 | `waste` | automatisch | Eigen lijst met afvalsensoren (sensoren met `days_until` of `sort_date`). |

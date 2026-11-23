@@ -22,7 +22,7 @@ mail: counter.mailbox
 
 | Option | Default | Description |
 |---|---|---|
-| `name` | – | Name after the greeting ("Good morning, Stijn"). |
+| `name` | – | Name after the greeting ("Good morning, Tom"). |
 | `persons` | everyone | Your own list of `person.` entities. |
 | `weather` | first weather entity | Weather entity. |
 | `waste` | automatic | Your own list of waste sensors (sensors with `days_until` or `sort_date`). |

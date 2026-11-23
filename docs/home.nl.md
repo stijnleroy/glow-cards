@@ -17,7 +17,7 @@ Het hele huis op één gsm-scherm, zonder opzij te vegen.
 
 ```yaml
 type: custom:glow-home-card
-name: Stijn
+name: Tom
 mail: counter.post_in_de_brievenbus
 openings: [binary_sensor.voordeur_contact, binary_sensor.schuifraam_contact]
 rooms:
