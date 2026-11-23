@@ -34,7 +34,7 @@ const GPN_CSS = `
   button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
   button:active { transform: scale(0.97); }
   ha-card { position: relative; overflow: hidden; height: var(--gpn-h, 100%); min-height: 420px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; border-radius: var(--gpn-r, 0);
-    background: radial-gradient(circle at 8% 4%, rgba(var(--l), 0.16), transparent 45%), radial-gradient(circle at 96% 70%, rgba(185, 168, 255, 0.12), transparent 50%), var(--glow-bg, #13111F);
+    background: radial-gradient(circle at 8% 4%, rgba(var(--l), 0.16), transparent 45%), var(--lovelace-background, var(--primary-background-color, #13111F));
     color: var(--primary-text-color, #F3F1FA); font-family: var(--glow-font, Nunito, system-ui, sans-serif); border: none; box-shadow: none; transition: background 0.6s; user-select: none; }
   .top { display: flex; align-items: center; justify-content: space-between; height: 48px; flex-shrink: 0; }
   .tabs { display: flex; gap: 8px; }
@@ -74,7 +74,7 @@ const GPN_CSS = `
   .ft { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .ft b { font-size: 18px; font-weight: 800; } .ft span { font-size: 13px; font-weight: 700; opacity: 0.65; }
   .fan.humid .ft span { opacity: 1; color: color-mix(in srgb, rgb(255, 143, 143), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
-  .tg { margin-left: auto; width: 64px; height: 36px; border-radius: 18px; flex-shrink: 0; position: relative; background: rgba(150, 150, 160, 0.35); }
+  .tg { margin-left: auto; width: 64px; height: 36px; border-radius: 18px; flex-shrink: 0; position: relative; background: rgba(150, 150, 160, 0.45); }
   .tg i { position: absolute; top: 4px; left: 4px; width: 28px; height: 28px; border-radius: 14px; background: #fff; transition: left 0.2s; }
   .fan.on .tg { background: rgb(143, 227, 184); } .fan.on .tg i { left: 32px; }
   .foot { margin-top: auto; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 6px; height: 40px; border-top: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
@@ -84,7 +84,7 @@ const GPN_CSS = `
   .foot .hm { color: color-mix(in srgb, rgb(var(--hc)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
   .foot small { font-size: 12px; font-weight: 700; opacity: 0.55; margin-left: 6px; }
   .sheet { position: absolute; left: 0; right: 0; top: 0; padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; z-index: 5;
-    background: var(--glow-sheet, rgba(19, 17, 31, 0.97)); border-bottom: 1px solid var(--glow-border, rgba(255,255,255,0.1)); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+    background: color-mix(in srgb, var(--primary-background-color, #13111F) 97%, transparent); border-bottom: 1px solid var(--glow-border, rgba(255,255,255,0.1)); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
   .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; }
   .sh > span { display: flex; align-items: center; gap: 12px; min-width: 0; }
   .cur { width: 44px; height: 44px; border-radius: 22px; flex-shrink: 0; background: rgb(var(--l)); box-shadow: 0 0 var(--glow) rgba(var(--l), 0.8); }
