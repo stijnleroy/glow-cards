@@ -36,17 +36,17 @@ const GPN_CSS = `
   button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
   button:active { transform: scale(0.97); }
   ha-card { position: relative; overflow: hidden; height: var(--gpn-h, 100%); min-height: 420px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; border-radius: var(--gpn-r, 0);
-    background: radial-gradient(circle at 8% 4%, rgba(var(--l), 0.16), transparent 45%), var(--lovelace-background, var(--primary-background-color, #13111F));
+    background: var(--lovelace-background, var(--primary-background-color, #13111F));
     color: var(--primary-text-color, #F3F1FA); font-family: var(--glow-font, Nunito, system-ui, sans-serif); border: none; box-shadow: none; transition: background 0.6s; user-select: none; }
   .top { display: flex; align-items: center; justify-content: space-between; height: 48px; flex-shrink: 0; }
   .tabs { display: flex; gap: 8px; }
   .tab { height: 48px; padding: 0 18px; border-radius: 24px; display: inline-flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 800; background: transparent; border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
-  .tab.on { border-color: rgba(var(--l), 0.6); background: rgba(var(--l), 0.2); color: color-mix(in srgb, rgb(var(--l)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .tab.on { border-color: rgba(var(--l), 0.6); background-color: rgba(var(--l), 0.2); color: color-mix(in srgb, rgb(var(--l)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
   .clock { display: flex; flex-direction: column; align-items: flex-end; line-height: 1; }
   .clock b { font-size: 26px; font-weight: 800; } .clock span { font-size: 12px; font-weight: 700; opacity: 0.55; margin-top: 3px; }
   .bar { position: relative; height: 150px; flex-shrink: 0; border-radius: 34px; overflow: hidden; display: flex; align-items: center; gap: 16px; padding: 0 22px 0 18px; touch-action: none;
     background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
-  .bar.on { border-color: rgba(var(--l), 0.55); box-shadow: 0 0 calc(var(--glow) * 1.6) rgba(var(--l), 0.35); }
+  
   .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: linear-gradient(90deg, rgba(var(--l), 0.55), rgba(var(--l), 0.3)); transition: width 0.25s; pointer-events: none; }
   .bar.drag .fill { transition: none; }
   .pw { position: relative; width: 104px; height: 104px; border-radius: 52px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
@@ -61,14 +61,14 @@ const GPN_CSS = `
   .p { height: 92px; border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font-size: 16px; font-weight: 800; min-width: 0;
     background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
   .p span:last-child { max-width: 100%; padding: 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .p.on { background: rgba(var(--c), 0.22); border-color: rgba(var(--c), 0.7); color: color-mix(in srgb, color-mix(in srgb, rgb(var(--c)) 70%, #fff), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .p.on { background-color: rgba(var(--c), 0.22); color: color-mix(in srgb, color-mix(in srgb, rgb(var(--c)) 70%, #fff), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
   .sw { width: 34px; height: 34px; border-radius: 17px; background: rgb(var(--c)); box-shadow: 0 0 4px rgba(var(--c), 0.8); }
   .p.on .sw { box-shadow: 0 0 var(--glow) rgba(var(--c), 0.8); }
   .sw.rb { background: conic-gradient(#ff6b6b, #ffd66b, #8fe3b8, #6bc8ff, #a78bff, #ff8fc8, #ff6b6b); }
   .fan { height: 72px; flex-shrink: 0; border-radius: 24px; display: flex; align-items: center; gap: 14px; padding: 0 16px 0 12px; text-align: left; width: 100%;
     background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
-  .fan.on { background: rgba(143, 227, 184, 0.16); border-color: rgba(143, 227, 184, 0.55); }
-  .fan.humid { border-color: rgba(255, 143, 143, 0.6); }
+  .fan.on { background-color: rgba(143, 227, 184, 0.16); }
+  
   .fi { width: 48px; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--glow-surface, rgba(255,255,255,0.07)); }
   .fan.on .fi { color: #1C1730; background: rgb(143, 227, 184); }
   .fan.on .fi svg { animation: gpnspin 2s linear infinite; }
@@ -113,7 +113,16 @@ const GPN_CSS = `
     background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid var(--glow-border, rgba(255,255,255,0.1)); }
   .s .logo { width: 44px; height: 44px; border-radius: 14px; font-size: 16px; }
   .s span:last-child { font-size: 14px; font-weight: 800; max-width: 100%; padding: 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .s.on { background: rgba(var(--c), 0.2); border-color: rgba(var(--c), 0.7); box-shadow: 0 0 var(--glow) rgba(var(--c), 0.4); color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  .s.on { background-color: rgba(var(--c), 0.2); color: color-mix(in srgb, rgb(var(--c)), var(--glow-ink, #24262B) var(--glow-ink-amount, 0%)); }
+  /* Glow: elk blok een gekleurde rand, een zachte gloed en een lichte tint in zijn eigen kleur */
+  .bar, .p, .fan, .play, .s, .tab { border-color: rgba(var(--g), 0.35); box-shadow: 0 0 calc(var(--glow) * 0.8) rgba(var(--g), 0.22);
+    background-image: linear-gradient(rgba(var(--g), 0.06), rgba(var(--g), 0.06)); transition: border-color 0.4s, box-shadow 0.4s, background-color 0.4s; }
+  .bar, .tab { --g: var(--l); } .p, .play, .s { --g: var(--c); } .fan { --g: 143, 227, 184; } .fan.humid { --g: 255, 143, 143; }
+  .bar.on, .p.on, .s.on, .play.on, .fan.on { box-shadow: 0 0 calc(var(--glow) * 1.4) rgba(var(--g), 0.4); border-color: rgba(var(--g), 0.65); }
+  .halo { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; }
+  .halo.a { left: -70px; top: -80px; width: 240px; height: 240px; opacity: 0.3; background: rgb(var(--l)); transition: background 0.6s; }
+  .halo.b { right: -90px; bottom: -90px; width: 240px; height: 240px; opacity: 0.18; background: rgb(185, 168, 255); }
+  ha-card > *:not(.halo):not(.sheet) { position: relative; }
   .warn { padding: 14px; border-radius: 18px; font-weight: 800; background: rgba(255, 143, 143, 0.12); border: 1px solid rgba(255, 143, 143, 0.45); }
 `;
 
@@ -235,7 +244,7 @@ class GlowPanelCard extends HTMLElement {
       ${temp ? `<b class="t">${E(fmt(temp, 1))}°</b>` : ''}
       ${hum ? `<span><b class="hm" style="--hc:${hc}">${E(fmt(hum, 1))} %</b><small>${E(this._t(humid ? 'humid' : 'hum'))}</small></span>` : ''}</div>` : '';
 
-    this.shadowRoot.innerHTML = `<style>${GPN_CSS}</style><ha-card style="--l:${lrgb};--glow:${parseInt(c.glow, 10) || 0}px${c.height ? ';--gpn-h:' + E(c.height) : ''}${c.radius != null ? ';--gpn-r:' + parseInt(c.radius, 10) + 'px' : ''}${c.dark ? ';' + GPN_DARK : ''}">
+    this.shadowRoot.innerHTML = `<style>${GPN_CSS}</style><ha-card style="--l:${lrgb};--glow:${parseInt(c.glow, 10) || 0}px${c.height ? ';--gpn-h:' + E(c.height) : ''}${c.radius != null ? ';--gpn-r:' + parseInt(c.radius, 10) + 'px' : ''}${c.dark ? ';' + GPN_DARK : ''}"><div class="halo a"></div><div class="halo b"></div>
       <div class="top"><div class="tabs">${hasRadio ? tab('light', this._t('light_tab'), GPN_BULB) + tab('radio', this._t('radio_tab'), GPN_RADIO) : ''}</div><div class="clock"><b>${E(time)}</b><span>${E(date)}</span></div></div>
       ${body}${sheet}${foot}</ha-card>`;
     this._wire();
