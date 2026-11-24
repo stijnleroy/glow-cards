@@ -1,4 +1,4 @@
-/*! Glow Cards v1.30.1 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.31.0 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- kit.js ---- */
 {
@@ -15373,25 +15373,40 @@ GDJ.register('glow-deejay-card', 'Glow Deejay Card', GDJ_T, GlowDeejayCard);
  */
 const GPN = window.GlowKit;
 const GPN_T = GPN.table({
-  nl: { light_tab: 'Licht', radio_tab: 'Radio', on: 'aan', off: 'Uit', hint_dim: 'Tik of veeg om te dimmen', hint_on: 'Tik op de lamp om aan te zetten', color: 'Kleur…', pick: 'Kleur kiezen', pick_sub: 'Tik een kleur, het licht volgt meteen', done: 'Klaar', white: 'Wit', colors: 'Kleur',
+  nl: { today_tab: 'Vandaag', wx_today: 'Weer vandaag', max: 'max', min: 'min', wind: 'Wind {v}', rain_now: 'Het regent', rain_from: 'Regen vanaf {h} u', dry: 'Droog', agenda: 'Agenda', tomorrow: 'Morgen', all_day: 'Hele dag', no_events: 'Geen afspraken vandaag of morgen.', waste_tomorrow: 'Morgen ophaling', waste_today: 'Vandaag ophaling', waste_out: 'Vanavond buiten zetten', waste_in: 'Wordt vandaag opgehaald', l_weather: 'Weer', l_calendars: 'Agenda\'s (leeg = alle)', l_waste: 'Afvalkalender', l_exclude: 'Afspraken verbergen (titels, met komma)', l_today: 'Tab Vandaag tonen',
+    light_tab: 'Licht', radio_tab: 'Radio', on: 'aan', off: 'Uit', hint_dim: 'Tik of veeg om te dimmen', hint_on: 'Tik op de lamp om aan te zetten', color: 'Kleur…', pick: 'Kleur kiezen', pick_sub: 'Tik een kleur, het licht volgt meteen', done: 'Klaar', white: 'Wit', colors: 'Kleur',
     w_candle: 'Kaars', w_warm: 'Warm', w_neutral: 'Neutraal', w_cool: 'Koel', w_day: 'Daglicht', fan_on: 'Aan', fan_off: 'Uit', fan_humid: 'Vochtig! Tik om aan te zetten', playing: 'Speelt nu', silent: 'Stil', choose: 'Kies een zender', humid: 'vochtig', hum: 'vocht',
     c_red: 'Rood', c_orange: 'Oranje', c_yellow: 'Geel', c_green: 'Groen', c_teal: 'Turkoois', c_sky: 'Lichtblauw', c_blue: 'Blauw', c_purple: 'Paars', c_lilac: 'Lila', c_pink: 'Roze', c_magenta: 'Magenta', c_salmon: 'Zalm', custom: 'Eigen kleur',
     l_light: 'Lamp', l_scenes: 'Scènes', l_fan: 'Ventilator', l_temperature: 'Temperatuursensor', l_humidity: 'Vochtsensor', l_media: 'Mediaspeler (radio)', l_area: 'Naam onderaan', l_threshold: 'Vochtig vanaf (%)', l_dark: 'Altijd donker (ook als het toestel licht staat)',
     description: 'Vierkant wandpaneel: licht met scènes en kleur, ventilatie en radio, met alle knoppen bovenaan.' },
-  en: { light_tab: 'Light', radio_tab: 'Radio', on: 'on', off: 'Off', hint_dim: 'Tap or swipe to dim', hint_on: 'Tap the lamp to turn it on', color: 'Colour…', pick: 'Pick a colour', pick_sub: 'Tap a colour, the light follows', done: 'Done', white: 'White', colors: 'Colour',
+  en: { today_tab: 'Today', wx_today: 'Weather today', max: 'max', min: 'min', wind: 'Wind {v}', rain_now: 'Raining', rain_from: 'Rain from {h}:00', dry: 'Dry', agenda: 'Agenda', tomorrow: 'Tomorrow', all_day: 'All day', no_events: 'No events today or tomorrow.', waste_tomorrow: 'Collection tomorrow', waste_today: 'Collection today', waste_out: 'Put it out tonight', waste_in: 'Collected today', l_weather: 'Weather', l_calendars: 'Calendars (empty = all)', l_waste: 'Waste calendar', l_exclude: 'Hide events (titles, comma separated)', l_today: 'Show Today tab',
+    light_tab: 'Light', radio_tab: 'Radio', on: 'on', off: 'Off', hint_dim: 'Tap or swipe to dim', hint_on: 'Tap the lamp to turn it on', color: 'Colour…', pick: 'Pick a colour', pick_sub: 'Tap a colour, the light follows', done: 'Done', white: 'White', colors: 'Colour',
     w_candle: 'Candle', w_warm: 'Warm', w_neutral: 'Neutral', w_cool: 'Cool', w_day: 'Daylight', fan_on: 'On', fan_off: 'Off', fan_humid: 'Humid! Tap to turn on', playing: 'Now playing', silent: 'Silent', choose: 'Pick a station', humid: 'humid', hum: 'humidity',
     c_red: 'Red', c_orange: 'Orange', c_yellow: 'Yellow', c_green: 'Green', c_teal: 'Turquoise', c_sky: 'Light blue', c_blue: 'Blue', c_purple: 'Purple', c_lilac: 'Lilac', c_pink: 'Pink', c_magenta: 'Magenta', c_salmon: 'Salmon', custom: 'Custom colour',
     l_light: 'Light', l_scenes: 'Scenes', l_fan: 'Fan', l_temperature: 'Temperature sensor', l_humidity: 'Humidity sensor', l_media: 'Media player (radio)', l_area: 'Name at the bottom', l_threshold: 'Humid from (%)', l_dark: 'Always dark (even when the device is in light mode)',
     description: 'Square wall panel: light with scenes and colour, fan and radio, with every button at the top.' },
-  fr: { light_tab: 'Lumière', radio_tab: 'Radio', off: 'Éteinte', color: 'Couleur…', done: 'OK', description: 'Panneau mural carré : lumière, scènes, couleur, ventilation et radio.' },
-  de: { light_tab: 'Licht', radio_tab: 'Radio', off: 'Aus', color: 'Farbe…', done: 'Fertig', description: 'Quadratisches Wandpanel: Licht mit Szenen und Farbe, Lüftung und Radio.' },
-  es: { light_tab: 'Luz', radio_tab: 'Radio', off: 'Apagada', color: 'Color…', done: 'Listo', description: 'Panel de pared cuadrado: luz con escenas y color, ventilación y radio.' },
-  it: { light_tab: 'Luce', radio_tab: 'Radio', off: 'Spenta', color: 'Colore…', done: 'Fatto', description: 'Pannello a parete quadrato: luce con scene e colore, ventilazione e radio.' },
+  fr: { today_tab: 'Aujourd’hui', light_tab: 'Lumière', radio_tab: 'Radio', off: 'Éteinte', color: 'Couleur…', done: 'OK', description: 'Panneau mural carré : lumière, scènes, couleur, ventilation et radio.' },
+  de: { today_tab: 'Heute', light_tab: 'Licht', radio_tab: 'Radio', off: 'Aus', color: 'Farbe…', done: 'Fertig', description: 'Quadratisches Wandpanel: Licht mit Szenen und Farbe, Lüftung und Radio.' },
+  es: { today_tab: 'Hoy', light_tab: 'Luz', radio_tab: 'Radio', off: 'Apagada', color: 'Color…', done: 'Listo', description: 'Panel de pared cuadrado: luz con escenas y color, ventilación y radio.' },
+  it: { today_tab: 'Oggi', light_tab: 'Luce', radio_tab: 'Radio', off: 'Spenta', color: 'Colore…', done: 'Fatto', description: 'Pannello a parete quadrato: luce con scene e colore, ventilazione e radio.' },
 });
 const GPN_WHITES = [['w_candle', 2200, '255, 160, 80'], ['w_warm', 2700, '255, 190, 130'], ['w_neutral', 3500, '255, 225, 190'], ['w_cool', 4500, '240, 240, 255'], ['w_day', 6000, '215, 230, 255']];
 const GPN_COLORS = [['c_red', '255, 70, 70'], ['c_orange', '255, 140, 50'], ['c_yellow', '255, 214, 70'], ['c_green', '90, 220, 120'], ['c_teal', '60, 220, 210'], ['c_sky', '90, 180, 255'],
   ['c_blue', '60, 100, 255'], ['c_purple', '120, 70, 255'], ['c_lilac', '200, 150, 255'], ['c_pink', '255, 120, 200'], ['c_magenta', '240, 60, 180'], ['c_salmon', '255, 150, 120']];
 const GPN_PALETTE = ['255, 143, 175', '142, 197, 255', '255, 110, 110', '143, 227, 184', '255, 214, 112', '185, 168, 255'];
+const GPN_TODAY = 'M4 6h16v14H4zM4 10h16M8 3v5M16 3v5';
+const GPN_CAL = ['255, 143, 175', '143, 227, 184', '255, 214, 112', '185, 168, 255', '142, 197, 255', '255, 166, 107'];
+const GPN_WX = { 'clear-night': '🌙', cloudy: '☁️', exceptional: '⚠️', fog: '🌫️', hail: '🌨️', lightning: '🌩️', 'lightning-rainy': '⛈️', partlycloudy: '⛅', pouring: '🌧️', rainy: '🌦️', snowy: '❄️', 'snowy-rainy': '🌨️', sunny: '☀️', windy: '💨', 'windy-variant': '💨' };
+const gpnWaste = (s) => {
+  const n = String(s).toLowerCase();
+  if (/pmd|plastic|blik/.test(n)) return '142, 197, 255';
+  if (/gft|groen|tuin|bio|organic/.test(n)) return '143, 227, 184';
+  if (/papier|karton|paper/.test(n)) return '255, 214, 112';
+  if (/glas|glass/.test(n)) return '120, 220, 210';
+  if (/rest|huisvuil|general/.test(n)) return '201, 196, 221';
+  return '255, 166, 107';
+};
+const gpnDay = (d) => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; };
 const GPN_BULB = 'M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z';
 const GPN_RADIO = 'M4 10h16v10H4zM8 10l9-5M8 15h.01M14 15h3';
 const GPN_FAN = 'M12 12c-3-5 0-9 3-8s2 5-3 8zM12 12c5-3 9 0 8 3s-5 2-8-3zM12 12c3 5 0 9-3 8s-2-5 3-8zM12 12c-5 3-9 0-8-3s5-2 8 3z';
@@ -15491,6 +15506,25 @@ const GPN_CSS = `
   .halo.a { left: -70px; top: -80px; width: 240px; height: 240px; opacity: 0.3; background: rgb(var(--l)); transition: background 0.6s; }
   .halo.b { right: -90px; bottom: -90px; width: 240px; height: 240px; opacity: 0.18; background: rgb(185, 168, 255); }
   ha-card > *:not(.halo):not(.sheet) { position: relative; }
+  .wx { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 24px; flex-shrink: 0; --g: 142, 197, 255; }
+  .wx em { font-style: normal; font-size: 48px; line-height: 1; }
+  .wx .tv { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .wx .tv b { font-size: 34px; font-weight: 800; line-height: 1.05; white-space: nowrap; } .wx .tv b small { font-size: 17px; font-weight: 700; opacity: 0.6; }
+  .wx .rt { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+  .wx .rt small { font-size: 13px; font-weight: 700; opacity: 0.6; }
+  .tag { height: 30px; padding: 0 12px; border-radius: 15px; display: inline-flex; align-items: center; font-size: 14px; font-weight: 800; color: #1C1730; background: rgb(var(--c)); white-space: nowrap; }
+  .ag { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 24px; flex-shrink: 0; min-height: 0; --g: 185, 168, 255; }
+  .ev { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .ev i { width: 4px; height: 22px; border-radius: 2px; flex-shrink: 0; background: rgb(var(--c)); }
+  .ev span { width: 74px; flex-shrink: 0; font-size: 14px; font-weight: 800; opacity: 0.7; }
+  .ev b { flex: 1; min-width: 0; font-size: 16px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ag .none { font-size: 15px; font-weight: 700; opacity: 0.6; }
+  .ws { display: flex; align-items: center; gap: 12px; padding: 7px 14px; border-radius: 22px; flex-shrink: 0; --g: var(--c); }
+  .ws em { font-style: normal; font-size: 26px; } .ws > span:not(.tag) { display: flex; flex-direction: column; min-width: 0; }
+  .ws b { font-size: 17px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ws small { font-size: 13px; font-weight: 700; opacity: 0.65; }
+  .ws .tag { margin-left: auto; }
+  .wx, .ag, .ws { background: var(--glow-surface, rgba(255,255,255,0.07)); border: 1px solid rgba(var(--g), 0.4); box-shadow: 0 0 calc(var(--glow) * 0.8) rgba(var(--g), 0.22); background-image: linear-gradient(rgba(var(--g), 0.07), rgba(var(--g), 0.07)); }
+  .tab { padding: 0 14px; gap: 6px; font-size: 16px; }
   .warn { padding: 14px; border-radius: 18px; font-weight: 800; background: rgba(255, 143, 143, 0.12); border: 1px solid rgba(255, 143, 143, 0.45); }
 `;
 
@@ -15508,8 +15542,85 @@ class GlowPanelCard extends HTMLElement {
     this._render();
   }
   set hass(hass) { this._hass = hass; this._render(); }
-  connectedCallback() { clearInterval(this._clock); this._clock = setInterval(() => { this._key = ''; this._render(); }, 30000); }
-  disconnectedCallback() { clearInterval(this._clock); }
+  connectedCallback() { clearInterval(this._clock); this._clock = setInterval(() => { this._key = ''; this._render(); }, 30000); this._todayStart(); }
+  disconnectedCallback() { clearInterval(this._clock); clearInterval(this._calTimer); this._unsub(); this._todayOn = false; }
+
+  // ---------- Vandaag: weer (forecast-abonnement), agenda en afval (calendar.get_events) ----------
+  _todayEnabled() { return this._config && this._config.today !== false && (this._wxId() || this._calIds().length); }
+  _wxId() { const c = this._config; if (c.weather) return c.weather; return Object.keys((this._hass && this._hass.states) || {}).find((e) => e.startsWith('weather.')); }
+  _wasteId() {
+    const c = this._config; if (c.waste) return c.waste;
+    return Object.keys((this._hass && this._hass.states) || {}).find((e) => e.startsWith('calendar.') && /afval|waste|recycl|ophaal/i.test(e + ' ' + (this._hass.states[e].attributes.friendly_name || '')));
+  }
+  _calIds() {
+    const c = this._config, w = this._wasteId();
+    if (Array.isArray(c.calendars) && c.calendars.length) return c.calendars;
+    return Object.keys((this._hass && this._hass.states) || {}).filter((e) => e.startsWith('calendar.') && e !== w);
+  }
+  _todayStart() {
+    if (this._todayOn || !this._hass || !this._todayEnabled()) return;
+    this._todayOn = true;
+    this._fc = this._fc || {}; this._subs = this._subs || {};
+    const conn = this._hass.connection, wx = this._wxId();
+    if (wx && conn && conn.subscribeMessage) ['hourly', 'daily'].forEach((type) => {
+      this._subs[type] = conn.subscribeMessage((msg) => { this._fc[type] = msg.forecast || []; this._key = ''; this._render(); }, { type: 'weather/subscribe_forecast', entity_id: wx, forecast_type: type }).catch(() => null);
+    });
+    this._loadCal();
+    clearInterval(this._calTimer);
+    this._calTimer = setInterval(() => this._loadCal(), 10 * 60 * 1000);
+  }
+  _unsub() { Object.values(this._subs || {}).forEach((p) => p && p.then && p.then((u) => typeof u === 'function' && u()).catch(() => {})); this._subs = {}; }
+  async _loadCal() {
+    const ids = this._calIds(), w = this._wasteId(), all = ids.concat(w && !ids.includes(w) ? [w] : []);
+    if (!all.length || !this._hass) return;
+    const start = new Date(), end = gpnDay(new Date()); end.setDate(end.getDate() + 2);
+    try {
+      const r = await this._hass.callWS({ type: 'call_service', domain: 'calendar', service: 'get_events', target: { entity_id: all }, service_data: { start_date_time: start.toISOString(), end_date_time: end.toISOString() }, return_response: true });
+      this._cal = (r && r.response) || {};
+    } catch (e) { this._cal = this._cal || {}; }
+    this._calAt = Date.now(); this._key = ''; this._render();
+  }
+
+  _todayHtml(loc) {
+    const c = this._config, E = GPN.esc, wx = this._st(this._wxId());
+    let html = '';
+    if (wx) {
+      const a = wx.attributes, d0 = (this._fc && this._fc.daily && this._fc.daily[0]) || {}, hourly = (this._fc && this._fc.hourly) || [];
+      const unit = a.temperature_unit || '°';
+      const fmt = (v) => (v == null || isNaN(v) ? '–' : Math.round(v) + '°');
+      const wet = (h) => /rain|pouring|lightning|hail|snow/.test(h.condition || '') || (h.precipitation_probability || 0) >= 50;
+      const endDay = gpnDay(new Date()); endDay.setDate(endDay.getDate() + 1);
+      let rain = '';
+      if (/rain|pouring|lightning|hail/.test(wx.state)) rain = this._t('rain_now');
+      else { const h = hourly.find((x) => new Date(x.datetime) < endDay && new Date(x.datetime) >= new Date(Date.now() - 3600000) && wet(x)); if (h) rain = this._t('rain_from', { h: new Date(h.datetime).getHours() }); }
+      const wind = a.wind_speed != null ? this._t('wind', { v: Math.round(a.wind_speed) + ' ' + (a.wind_speed_unit || 'km/h') }) : '';
+      html += `<div class="wx"><em>${GPN_WX[wx.state] || '🌡️'}</em><span class="tv"><span class="lab">${E(this._t('wx_today'))}</span><b>${fmt(a.temperature)} <small>${E(this._t('max'))} ${fmt(d0.temperature)} · ${E(this._t('min'))} ${fmt(d0.templow)}</small></b></span>
+        <span class="rt">${rain ? `<span class="tag" style="--c:142, 197, 255">${E(rain)}</span>` : `<span class="tag" style="--c:143, 227, 184">${E(this._t('dry'))}</span>`}${wind ? `<small>${E(wind)}</small>` : ''}</span></div>`;
+    }
+    const cal = this._cal || {}, wId = this._wasteId(), today = gpnDay(new Date()), tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
+    const hide = (Array.isArray(c.exclude) ? c.exclude : String(c.exclude || '').split(',')).map((x) => String(x).trim().toLowerCase()).filter(Boolean);
+    const evs = [];
+    this._calIds().forEach((id, i) => ((cal[id] && cal[id].events) || []).forEach((e) => {
+      if (hide.includes(String(e.summary || '').trim().toLowerCase())) return;
+      const allDay = !String(e.start).includes('T'), st = allDay ? new Date(e.start + 'T00:00:00') : new Date(e.start), en = allDay ? new Date(e.end + 'T00:00:00') : new Date(e.end);
+      if (en <= new Date()) return;
+      evs.push({ st, allDay, name: e.summary || '', rgb: GPN_CAL[i % GPN_CAL.length] });
+    }));
+    evs.sort((x, y) => (x.st - y.st) || (y.allDay - x.allDay));
+    const todays = evs.filter((e) => e.st < tomorrow), rest = evs.filter((e) => e.st >= tomorrow);
+    const show = todays.slice(0, 4).concat(rest.slice(0, Math.max(0, 4 - todays.length)));
+    if (this._calIds().length) {
+      html += `<div class="ag"><span class="lab">${E(this._t('agenda'))}</span>${show.length ? show.map((e) => `<div class="ev" style="--c:${e.rgb}"><i></i><span>${E(e.st >= tomorrow ? this._t('tomorrow') : e.allDay ? this._t('all_day') : e.st.toLocaleTimeString(loc, { hour: '2-digit', minute: '2-digit' }))}</span><b>${E(e.name)}</b></div>`).join('')
+        : `<span class="none">${E(this._calAt ? this._t('no_events') : '…')}</span>`}</div>`;
+    }
+    const wev = ((wId && cal[wId] && cal[wId].events) || []).map((e) => ({ st: new Date(String(e.start).includes('T') ? e.start : e.start + 'T00:00:00'), name: e.summary || '' }));
+    const wToday = wev.filter((e) => e.st < tomorrow && new Date().getHours() < 12), wTom = wev.filter((e) => e.st >= tomorrow);
+    const wl = wTom.length ? wTom : wToday;
+    if (wl.length) {
+            html += `<div class="ws" style="--c:${gpnWaste(wl[0].name)}"><em>♻️</em><span><b>${E(this._t(wTom.length ? 'waste_tomorrow' : 'waste_today'))}</b><small>${E(this._t(wTom.length ? 'waste_out' : 'waste_in'))}</small></span>${wl.map((e) => `<span class="tag" style="--c:${gpnWaste(e.name)}">${E(e.name.length > 14 ? e.name.slice(0, 13) + '…' : e.name)}</span>`).slice(0, 2).join('')}</div>`;
+    }
+    return html;
+  }
   getCardSize() { return 9; }
   getGridOptions() { return { columns: 'full', rows: 'auto', min_columns: 6 }; }
   _lang() { return GPN.lang(this._hass, this._config.language, GPN_T); }
@@ -15555,7 +15666,7 @@ class GlowPanelCard extends HTMLElement {
     const humid = !isNaN(humV) && humV >= (parseFloat(c.humidity_threshold) || 65);
     const fanOn = fan && fan.state === 'on';
     const now = new Date();
-    const key = JSON.stringify([this._tab, this._picker, light && [light.state, light.attributes.brightness, light.attributes.rgb_color, light.attributes.color_temp_kelvin], fan && fan.state, temp && temp.state, hum && hum.state, mp && [mp.state, mp.attributes.volume_level], scene, custom, this._store('station'), this._vol, now.getMinutes(), this._lang()]);
+    const key = JSON.stringify([this._tab, this._picker, light && [light.state, light.attributes.brightness, light.attributes.rgb_color, light.attributes.color_temp_kelvin], fan && fan.state, temp && temp.state, hum && hum.state, mp && [mp.state, mp.attributes.volume_level], scene, custom, this._store('station'), this._vol, now.getMinutes(), this._lang(), this._tab === 'today' && this._st(this._wxId()) && this._st(this._wxId()).last_updated]);
     if (key === this._key && !this._dragging) return;
     this._key = key;
 
@@ -15564,7 +15675,9 @@ class GlowPanelCard extends HTMLElement {
     const date = now.toLocaleDateString(loc, { weekday: 'long', day: 'numeric', month: 'short' });
     const scenes = this._scenes(), stations = this._stations();
     const hasRadio = !!c.media_player && stations.length;
-    if (!hasRadio) this._tab = 'light';
+    const hasToday = !!this._todayEnabled();
+    if (hasToday && !this._todayOn) this._todayStart();
+    if ((this._tab === 'radio' && !hasRadio) || (this._tab === 'today' && !hasToday)) this._tab = 'light';
     const tab = (k, label, icon) => `<button type="button" class="tab${this._tab === k ? ' on' : ''}" data-a="tab" data-v="${k}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="${icon}"/></svg>${E(label)}</button>`;
 
     let body = '';
@@ -15583,6 +15696,8 @@ class GlowPanelCard extends HTMLElement {
         <div class="pre">${pre}</div>
         ${fan ? `<button type="button" class="fan${fanOn ? ' on' : ''}${humid && !fanOn ? ' humid' : ''}" data-a="fan"><span class="fi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${GPN_FAN}"/></svg></span>
           <span class="ft"><b>${E(c.fan_name || fan.attributes.friendly_name || c.fan)}</b><span>${E(this._t(fanOn ? 'fan_on' : humid ? 'fan_humid' : 'fan_off'))}</span></span><span class="tg"><i></i></span></button>` : ''}`;
+    } else if (this._tab === 'today') {
+      body = this._todayHtml(loc);
     } else {
       const cur = stations.find((s) => s.name === this._store('station'));
       const playing = mp && (mp.state === 'playing' || mp.state === 'on' || mp.state === 'buffering');
@@ -15613,7 +15728,7 @@ class GlowPanelCard extends HTMLElement {
       ${hum ? `<span><b class="hm" style="--hc:${hc}">${E(fmt(hum, 1))} %</b><small>${E(this._t(humid ? 'humid' : 'hum'))}</small></span>` : ''}</div>` : '';
 
     this.shadowRoot.innerHTML = `<style>${GPN_CSS}</style><ha-card style="--l:${lrgb};--glow:${parseInt(c.glow, 10) || 0}px${c.height ? ';--gpn-h:' + E(c.height) : ''}${c.radius != null ? ';--gpn-r:' + parseInt(c.radius, 10) + 'px' : ''}${c.dark ? ';' + GPN_DARK : ''}"><div class="halo a"></div><div class="halo b"></div>
-      <div class="top"><div class="tabs">${hasRadio ? tab('light', this._t('light_tab'), GPN_BULB) + tab('radio', this._t('radio_tab'), GPN_RADIO) : ''}</div><div class="clock"><b>${E(time)}</b><span>${E(date)}</span></div></div>
+      <div class="top"><div class="tabs">${hasRadio || hasToday ? tab('light', this._t('light_tab'), GPN_BULB) + (hasRadio ? tab('radio', this._t('radio_tab'), GPN_RADIO) : '') + (hasToday ? tab('today', this._t('today_tab'), GPN_TODAY) : '') : ''}</div><div class="clock"><b>${E(time)}</b><span>${E(date)}</span></div></div>
       ${body}${sheet}${foot}</ha-card>`;
     this._wire();
   }
@@ -15697,9 +15812,14 @@ GPN.editor('glow-panel-card-editor', GPN_T, () => [
   { name: 'media_player', selector: { entity: { domain: 'media_player' } } },
   { name: 'area', selector: { text: {} } },
   { name: 'dark', selector: { boolean: {} } },
-], { glow: 15, humidity_threshold: 65 });
+  { name: 'today', selector: { boolean: {} } },
+  { name: 'weather', selector: { entity: { domain: 'weather' } } },
+  { name: 'calendars', selector: { entity: { domain: 'calendar', multiple: true } } },
+  { name: 'waste', selector: { entity: { domain: 'calendar' } } },
+  { name: 'exclude', selector: { text: {} } },
+], { glow: 15, humidity_threshold: 65, today: true });
 GPN.register('glow-panel-card', 'Glow Panel Card', GPN_T, GlowPanelCard);
 
 }
 
-console.info('%c GLOW-CARDS %c v1.30.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.31.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');

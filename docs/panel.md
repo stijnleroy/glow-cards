@@ -9,6 +9,7 @@ One square screen for a wall panel such as an NSPanel Pro (480×480). Everything
 - **Light:** a big bar. Tap the lamp to toggle, tap or swipe the bar to dim.
 - **Scenes:** big named buttons, plus **Colour…** to pick a white tone or colour. The light follows right away.
 - **Fan:** a wide switch, with a warning when it is humid.
+- **Today:** today's weather (with rain), the next events and tomorrow's waste collection.
 - **Radio** (optional): what is playing, volume, stop and up to 6 stations.
 - **Bottom:** temperature and humidity.
 
@@ -24,6 +25,11 @@ See the [Dutch page](panel.nl.md) for a full YAML example; all options are the s
 | `area` | Name at the bottom left. |
 | `media_player`, `stations` | Radio: per station `name`, optionally `image` or `color`, and `script` or `media_content_id` (+ `media_content_type`). |
 | `dark` | Always show dark, even when the device is in light mode. |
+| `today` | Show the **Today** tab (on by default when a weather or calendar entity exists). |
+| `weather` | Weather entity (default: the first one). |
+| `calendars` | Calendars (default: all except the waste calendar). |
+| `waste` | Waste calendar (found automatically by default). |
+| `exclude` | Hide events with these titles, comma separated (e.g. `Work`). |
 | `name` | Other name for the light. |
 | `height`, `radius` | Height (default 100 %) and rounded corners. |
 | `glow`, `language` | Glow and language. |
