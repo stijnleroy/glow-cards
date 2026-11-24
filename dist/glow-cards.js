@@ -1,4 +1,4 @@
-/*! Glow Cards v1.29.1 – https://github.com/stijnleroy/glow-cards – MIT */
+/*! Glow Cards v1.30.0 – https://github.com/stijnleroy/glow-cards – MIT */
 
 /* ---- kit.js ---- */
 {
@@ -15376,12 +15376,12 @@ const GPN_T = GPN.table({
   nl: { light_tab: 'Licht', radio_tab: 'Radio', on: 'aan', off: 'Uit', hint_dim: 'Tik of veeg om te dimmen', hint_on: 'Tik op de lamp om aan te zetten', color: 'Kleur…', pick: 'Kleur kiezen', pick_sub: 'Tik een kleur, het licht volgt meteen', done: 'Klaar', white: 'Wit', colors: 'Kleur',
     w_candle: 'Kaars', w_warm: 'Warm', w_neutral: 'Neutraal', w_cool: 'Koel', w_day: 'Daglicht', fan_on: 'Aan', fan_off: 'Uit', fan_humid: 'Vochtig! Tik om aan te zetten', playing: 'Speelt nu', silent: 'Stil', choose: 'Kies een zender', humid: 'vochtig', hum: 'vocht',
     c_red: 'Rood', c_orange: 'Oranje', c_yellow: 'Geel', c_green: 'Groen', c_teal: 'Turkoois', c_sky: 'Lichtblauw', c_blue: 'Blauw', c_purple: 'Paars', c_lilac: 'Lila', c_pink: 'Roze', c_magenta: 'Magenta', c_salmon: 'Zalm', custom: 'Eigen kleur',
-    l_light: 'Lamp', l_scenes: 'Scènes', l_fan: 'Ventilator', l_temperature: 'Temperatuursensor', l_humidity: 'Vochtsensor', l_media: 'Mediaspeler (radio)', l_area: 'Naam onderaan', l_threshold: 'Vochtig vanaf (%)',
+    l_light: 'Lamp', l_scenes: 'Scènes', l_fan: 'Ventilator', l_temperature: 'Temperatuursensor', l_humidity: 'Vochtsensor', l_media: 'Mediaspeler (radio)', l_area: 'Naam onderaan', l_threshold: 'Vochtig vanaf (%)', l_dark: 'Altijd donker (ook als het toestel licht staat)',
     description: 'Vierkant wandpaneel: licht met scènes en kleur, ventilatie en radio, met alle knoppen bovenaan.' },
   en: { light_tab: 'Light', radio_tab: 'Radio', on: 'on', off: 'Off', hint_dim: 'Tap or swipe to dim', hint_on: 'Tap the lamp to turn it on', color: 'Colour…', pick: 'Pick a colour', pick_sub: 'Tap a colour, the light follows', done: 'Done', white: 'White', colors: 'Colour',
     w_candle: 'Candle', w_warm: 'Warm', w_neutral: 'Neutral', w_cool: 'Cool', w_day: 'Daylight', fan_on: 'On', fan_off: 'Off', fan_humid: 'Humid! Tap to turn on', playing: 'Now playing', silent: 'Silent', choose: 'Pick a station', humid: 'humid', hum: 'humidity',
     c_red: 'Red', c_orange: 'Orange', c_yellow: 'Yellow', c_green: 'Green', c_teal: 'Turquoise', c_sky: 'Light blue', c_blue: 'Blue', c_purple: 'Purple', c_lilac: 'Lilac', c_pink: 'Pink', c_magenta: 'Magenta', c_salmon: 'Salmon', custom: 'Custom colour',
-    l_light: 'Light', l_scenes: 'Scenes', l_fan: 'Fan', l_temperature: 'Temperature sensor', l_humidity: 'Humidity sensor', l_media: 'Media player (radio)', l_area: 'Name at the bottom', l_threshold: 'Humid from (%)',
+    l_light: 'Light', l_scenes: 'Scenes', l_fan: 'Fan', l_temperature: 'Temperature sensor', l_humidity: 'Humidity sensor', l_media: 'Media player (radio)', l_area: 'Name at the bottom', l_threshold: 'Humid from (%)', l_dark: 'Always dark (even when the device is in light mode)',
     description: 'Square wall panel: light with scenes and colour, fan and radio, with every button at the top.' },
   fr: { light_tab: 'Lumière', radio_tab: 'Radio', off: 'Éteinte', color: 'Couleur…', done: 'OK', description: 'Panneau mural carré : lumière, scènes, couleur, ventilation et radio.' },
   de: { light_tab: 'Licht', radio_tab: 'Radio', off: 'Aus', color: 'Farbe…', done: 'Fertig', description: 'Quadratisches Wandpanel: Licht mit Szenen und Farbe, Lüftung und Radio.' },
@@ -15396,6 +15396,8 @@ const GPN_BULB = 'M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .
 const GPN_RADIO = 'M4 10h16v10H4zM8 10l9-5M8 15h.01M14 15h3';
 const GPN_FAN = 'M12 12c-3-5 0-9 3-8s2 5-3 8zM12 12c5-3 9 0 8 3s-5 2-8-3zM12 12c3 5 0 9-3 8s-2-5 3-8zM12 12c-5 3-9 0-8-3s5-2 8 3z';
 
+// Vaste donkere kleuren voor de optie dark: true, los van het thema van het toestel.
+const GPN_DARK = '--primary-background-color:#13111F;--lovelace-background:radial-gradient(circle at 96% 46%, rgba(185, 168, 255, 0.16), transparent 40%), #13111F;--primary-text-color:#F3F1FA;--glow-surface:rgba(255, 255, 255, 0.07);--glow-border:rgba(255, 255, 255, 0.12);--glow-ink-amount:0%;color-scheme:dark';
 const GPN_CSS = `
   :host { display: block; height: 100%; }
   * { box-sizing: border-box; }
@@ -15601,7 +15603,7 @@ class GlowPanelCard extends HTMLElement {
       ${temp ? `<b class="t">${E(fmt(temp, 1))}°</b>` : ''}
       ${hum ? `<span><b class="hm" style="--hc:${hc}">${E(fmt(hum, 1))} %</b><small>${E(this._t(humid ? 'humid' : 'hum'))}</small></span>` : ''}</div>` : '';
 
-    this.shadowRoot.innerHTML = `<style>${GPN_CSS}</style><ha-card style="--l:${lrgb};--glow:${parseInt(c.glow, 10) || 0}px${c.height ? ';--gpn-h:' + E(c.height) : ''}${c.radius != null ? ';--gpn-r:' + parseInt(c.radius, 10) + 'px' : ''}">
+    this.shadowRoot.innerHTML = `<style>${GPN_CSS}</style><ha-card style="--l:${lrgb};--glow:${parseInt(c.glow, 10) || 0}px${c.height ? ';--gpn-h:' + E(c.height) : ''}${c.radius != null ? ';--gpn-r:' + parseInt(c.radius, 10) + 'px' : ''}${c.dark ? ';' + GPN_DARK : ''}">
       <div class="top"><div class="tabs">${hasRadio ? tab('light', this._t('light_tab'), GPN_BULB) + tab('radio', this._t('radio_tab'), GPN_RADIO) : ''}</div><div class="clock"><b>${E(time)}</b><span>${E(date)}</span></div></div>
       ${body}${sheet}${foot}</ha-card>`;
     this._wire();
@@ -15685,9 +15687,10 @@ GPN.editor('glow-panel-card-editor', GPN_T, () => [
   { name: 'humidity_threshold', selector: { number: { min: 30, max: 100, step: 1, mode: 'box' } } },
   { name: 'media_player', selector: { entity: { domain: 'media_player' } } },
   { name: 'area', selector: { text: {} } },
+  { name: 'dark', selector: { boolean: {} } },
 ], { glow: 15, humidity_threshold: 65 });
 GPN.register('glow-panel-card', 'Glow Panel Card', GPN_T, GlowPanelCard);
 
 }
 
-console.info('%c GLOW-CARDS %c v1.29.1 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');
+console.info('%c GLOW-CARDS %c v1.30.0 ', 'color:#1C1730;background:#FFE08A;font-weight:700;border-radius:4px 0 0 4px;padding:2px 4px', 'color:#FFE08A;background:#1C1730;font-weight:700;border-radius:0 4px 4px 0;padding:2px 4px');

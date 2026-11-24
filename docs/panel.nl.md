@@ -45,6 +45,7 @@ Zet de kaart in een view van het type **Paneel** zodat ze het hele scherm vult.
 | `humidity_threshold` | Vanaf welk vochtpercentage de kaart waarschuwt (standaard 65). |
 | `area` | Naam links onderaan. |
 | `media_player`, `stations` | Radio: per zender `name`, eventueel `image` of `color`, en `script` of `media_content_id` (+ `media_content_type`). |
+| `dark` | Altijd donker tonen, ook als het toestel in lichte modus staat. |
 | `name` | Andere naam voor de lamp. |
 | `height`, `radius` | Hoogte (standaard 100 %) en afgeronde hoeken. |
 | `glow`, `language` | Gloed en taal. |

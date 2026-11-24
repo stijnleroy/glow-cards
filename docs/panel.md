@@ -23,6 +23,7 @@ See the [Dutch page](panel.nl.md) for a full YAML example; all options are the s
 | `humidity_threshold` | Humidity % from which the card warns (default 65). |
 | `area` | Name at the bottom left. |
 | `media_player`, `stations` | Radio: per station `name`, optionally `image` or `color`, and `script` or `media_content_id` (+ `media_content_type`). |
+| `dark` | Always show dark, even when the device is in light mode. |
 | `name` | Other name for the light. |
 | `height`, `radius` | Height (default 100 %) and rounded corners. |
 | `glow`, `language` | Glow and language. |
